@@ -3,14 +3,14 @@
 </script>
 
 <div class="bg-accent-light flex flex-col rounded-b-2xl">
-	<div class="flex w-full items-center justify-between p-6">
+	<div class="flex w-full items-center justify-between px-8 py-6">
 		<!-- Logo -->
 		<div class="flex items-center space-x-8">
 			<h1 class="text-4xl font-bold text-gray-800">
 				<span class="text-accent">Evo</span><span>Data</span>
 			</h1>
 
-			<span class="text-accent/10 text-4xl font-extralight">/</span>
+			<span class="text-accent/20 text-4xl font-extralight">/</span>
 
 			<!-- Navigation -->
 			<nav class="flex space-x-8">
@@ -45,9 +45,9 @@
 		</div>
 	</div>
 
-	<div class="bg-accent/10 h-[1px] w-full"></div>
+	<div class="bg-accent/20 h-[1px] w-full"></div>
 
-	<div class="p-6">
+	<div class="px-8 py-6">
 		{@render children()}
 	</div>
 </div>

@@ -24,7 +24,7 @@
 		<div class="flex flex-col gap-2 rounded-xl bg-white p-4">
 			<h3 class="text-sm font-bold">Authors</h3>
 			<p class="text-sm">
-				{data.authors.join(';')}
+				{data.authors.join('; ')}
 			</p>
 		</div>
 
