@@ -5,6 +5,8 @@
 	import { type Experiment } from './+page.server';
 
 	let { data }: PageProps = $props();
+
+	let currentExperimentIdx = $state(0);
 </script>
 
 <Header>
@@ -20,7 +22,51 @@
 </div>
 
 {#snippet sidebar()}
-	<div class="flex w-1/3 max-w-[330px] flex-col gap-8">
+	<div class="flex w-2/5 max-w-[330px] flex-col gap-8">
+		<div class="flex flex-col gap-3">
+			<button
+				class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold text-white hover:opacity-70"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="size-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75"
+					/>
+				</svg>
+
+				<span>Download all experiments</span>
+			</button>
+
+			<button
+				class="border-accent text-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold hover:opacity-70"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="size-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+					/>
+				</svg>
+
+				<span>Download citation</span>
+			</button>
+		</div>
+
 		<div class="flex flex-col gap-2 rounded-xl bg-white p-4">
 			<h3 class="text-sm font-bold">Authors</h3>
 			<p class="text-sm">
@@ -39,7 +85,10 @@
 	<div class="flex flex-col gap-8">
 		{@render paperOverview()}
 
-		{@render experiment(data.experiments[0])}
+		<div>
+			{@render tabs()}
+			{@render experiment(data.experiments[currentExperimentIdx])}
+		</div>
 	</div>
 {/snippet}
 
@@ -47,6 +96,32 @@
 	<div class="flex flex-wrap items-start gap-2">
 		<Tag label="DOI"><a href={data.doi}>{data.doi}</a></Tag>
 		{#if data.url}<Tag label="URL"><a href={data.url}>{data.url}</a></Tag>{/if}
+	</div>
+{/snippet}
+
+{#snippet tabs()}
+	<div class="flex items-center">
+		<span class="mr-8 ml-4 font-bold">Experiments:</span>
+
+		{#each data.experiments as experiment, idx (idx)}
+			<button
+				class="relative cursor-pointer rounded-t-xl px-6 py-3"
+				class:bg-white={idx === currentExperimentIdx}
+				class:text-accent={idx === currentExperimentIdx}
+				class:font-bold={idx === currentExperimentIdx}
+				onclick={() => (currentExperimentIdx = idx)}
+			>
+				{#if idx === currentExperimentIdx}
+					<!-- Make outer rounded corner of active tab -->
+					<div class="absolute -bottom-3 -left-3 size-6 rounded-full bg-white"></div>
+					<div class="bg-background absolute bottom-0 -left-6 size-6 rounded-full"></div>
+					<div class="absolute -right-3 -bottom-3 size-6 rounded-full bg-white"></div>
+					<div class="bg-background absolute -right-6 bottom-0 size-6 rounded-full"></div>
+				{/if}
+
+				{experiment.title}
+			</button>
+		{/each}
 	</div>
 {/snippet}
 
