@@ -21,7 +21,7 @@ type SampleData = {
 	data: string;
 };
 
-type Sample = {
+export type Sample = {
 	id: string;
 	scientific_name: string;
 	type: 'species' | 'cell' | 'language' | 'other';
@@ -29,7 +29,7 @@ type Sample = {
 	data: SampleData[];
 };
 
-type EvolutionaryModel = {
+export type EvolutionaryModel = {
 	id: number;
 	name: string;
 	model_type: 'substitutionModel' | 'clockModel' | 'treePrior' | 'treeLikelihood' | 'other';

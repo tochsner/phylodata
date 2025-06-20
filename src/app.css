@@ -9,6 +9,11 @@
 	--color-accent-light: #e5edc9;
 	--color-accent: #54763d;
 	--color-dark: #10100a;
+
+	--color-substitution-model: #e5edc9;
+	--color-clock-model: #f2f279;
+	--color-tree-prior: #b7ebf7;
+	--color-tree-likelihood: #fad2d2;
 }
 
 @theme {
