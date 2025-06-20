@@ -14,3 +14,19 @@
 @theme {
 	--font-display: 'Noto Sans', 'sans-serif';
 }
+
+/* Table styles */
+
+th strong {
+	font-weight: 600 !important;
+	color: var(--color-accent);
+}
+
+th {
+	border-bottom: 1px solid var(--color-accent-light) !important;
+}
+
+td {
+	border-right: none !important;
+	border-bottom: 1px solid var(--color-background) !important;
+}

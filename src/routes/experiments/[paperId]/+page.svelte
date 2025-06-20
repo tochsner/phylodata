@@ -1,8 +1,10 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
+	import { formatDate, formatNumber } from '$lib/formatter';
 	import type { PageProps } from './$types';
 	import { type Experiment } from './+page.server';
+	import Files from './files.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -16,7 +18,7 @@
 	</div>
 </Header>
 
-<div class="m-8 flex gap-8">
+<div class="flex gap-8 p-8">
 	{@render sidebar()}
 	{@render content()}
 </div>
@@ -82,7 +84,7 @@
 {/snippet}
 
 {#snippet content()}
-	<div class="flex flex-col gap-8">
+	<div class="flex flex-1 flex-col gap-8">
 		{@render paperOverview()}
 
 		<div>
@@ -105,7 +107,7 @@
 
 		{#each data.experiments as experiment, idx (idx)}
 			<button
-				class="relative cursor-pointer rounded-t-xl px-6 py-3"
+				class="relative cursor-pointer rounded-t-xl px-6 py-2"
 				class:bg-white={idx === currentExperimentIdx}
 				class:text-accent={idx === currentExperimentIdx}
 				class:font-bold={idx === currentExperimentIdx}
@@ -128,7 +130,7 @@
 {#snippet experiment(experiment: Experiment)}
 	<div class="divide-background flex flex-col divide-y divide-solid rounded-xl bg-white">
 		{@render experimentOverview(experiment)}
-		{@render files(experiment)}
+		<Files files={experiment.files} />
 		{@render samples(experiment)}
 		{@render trees(experiment)}
 		{@render leafSampleMapping(experiment)}
@@ -139,25 +141,10 @@
 
 {#snippet experimentOverview(experiment: Experiment)}
 	<div class="flex flex-wrap items-start gap-2 p-4">
-		<Tag label="Upload date">{experiment.upload_date}</Tag>
+		<Tag label="Upload date">{formatDate(experiment.upload_date)}</Tag>
 		<Tag label="Origin">{experiment.origin}</Tag>
 		<Tag label="DOI"><a href={experiment.doi}>{experiment.doi}</a></Tag>
 		<Tag label="License">{experiment.license}</Tag>
-	</div>
-{/snippet}
-
-{#snippet files(experiment: Experiment)}
-	{@const totalSize = experiment.files
-		.map((file) => file.size_bytes)
-		.reduce((acc, val) => acc + val, 0)}
-
-	<div class="flex flex-col gap-4 p-4">
-		<h3 class="text-lg font-bold">Files</h3>
-
-		<div class="flex flex-wrap items-start gap-2">
-			<Tag label="Number of files">{experiment.files.length}</Tag>
-			<Tag label="Total size">{totalSize} bytes</Tag>
-		</div>
 	</div>
 {/snippet}
 
@@ -166,7 +153,7 @@
 		<h3 class="text-lg font-bold">Samples</h3>
 
 		<div class="flex flex-wrap items-start gap-2">
-			<Tag label="Number of samples">{experiment.samples.length}</Tag>
+			<Tag label="Number of samples">{formatNumber(experiment.samples.length)}</Tag>
 		</div>
 	</div>
 {/snippet}
@@ -176,12 +163,12 @@
 		<h3 class="text-lg font-bold">Trees</h3>
 
 		<div class="flex flex-wrap items-start gap-2">
-			<Tag label="Number of trees">{experiment.number_of_trees}</Tag>
-			<Tag label="Number of tips">{experiment.number_of_tips}</Tag>
+			<Tag label="Number of trees">{formatNumber(experiment.number_of_trees)}</Tag>
+			<Tag label="Number of tips">{formatNumber(experiment.number_of_tips)}</Tag>
 			<Tag label="Ultrametric">{experiment.ultrametric ? 'Yes' : 'No'}</Tag>
 			<Tag label="Rooted">{experiment.rooted ? 'Yes' : 'No'}</Tag>
-			<Tag label="Tree ESS">{experiment.tree_ess}</Tag>
-			<Tag label="CCD1 entropy">{experiment.ccd1_entropy}</Tag>
+			<Tag label="Tree ESS">{formatNumber(experiment.tree_ess)}</Tag>
+			<Tag label="CCD1 entropy">{formatNumber(experiment.ccd1_entropy)}</Tag>
 		</div>
 	</div>
 {/snippet}

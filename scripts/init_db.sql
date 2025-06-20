@@ -18,7 +18,7 @@ CREATE TABLE experiments (
    doi TEXT NOT NULL,
    upload_date DATE NOT NULL,
    license VARCHAR(10) NOT NULL CHECK (license = 'CC0'),
-   number_of_trees TEXT NOT NULL,
+   number_of_trees INTEGER NOT NULL,
    number_of_tips INTEGER NOT NULL,
    ultrametric BOOLEAN NOT NULL,
    rooted BOOLEAN NOT NULL,

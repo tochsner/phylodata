@@ -1,6 +1,6 @@
 import { supabase } from '$lib/supabaseClient';
 import type { PageServerLoad } from './$types';
-type File = {
+export type File = {
 	id: number;
 	name: string;
 	type:
@@ -44,7 +44,7 @@ export type Experiment = {
 	doi: string;
 	upload_date: string;
 	license: string;
-	number_of_trees: string;
+	number_of_trees: number;
 	number_of_tips: number;
 	ultrametric: boolean;
 	rooted: boolean;
