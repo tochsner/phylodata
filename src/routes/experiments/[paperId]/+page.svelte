@@ -1,13 +1,14 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
-	import { formatDate, formatNumber } from '$lib/formatter';
+	import { formatDate } from '$lib/formatter';
 	import type { PageProps } from './$types';
 	import { type Experiment } from './+page.server';
 	import Files from './files.svelte';
 	import LeafToSampleMap from './leafToSampleMap.svelte';
 	import Samples from './samples.svelte';
 	import EvolutionaryModels from './evolutionaryModels.svelte';
+	import Trees from './trees.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -27,7 +28,7 @@
 </div>
 
 {#snippet sidebar()}
-	<div class="flex w-2/5 max-w-[330px] flex-col gap-8">
+	<div class="flex w-2/5 max-w-[300px] flex-col gap-8">
 		<div class="flex flex-col gap-3">
 			<button
 				class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold text-white hover:opacity-70"
@@ -135,7 +136,7 @@
 		{@render experimentOverview(experiment)}
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />
-		{@render trees(experiment)}
+		<Trees {experiment} />
 		<LeafToSampleMap leafToSampleMap={experiment.leaf_to_sample_map} />
 		<EvolutionaryModels evolutionaryModels={experiment.evolutionary_models} />
 		{@render metadata(experiment)}
@@ -148,21 +149,6 @@
 		<Tag label="Origin">{experiment.origin}</Tag>
 		<Tag label="DOI"><a href={experiment.doi}>{experiment.doi}</a></Tag>
 		<Tag label="License">{experiment.license}</Tag>
-	</div>
-{/snippet}
-
-{#snippet trees(experiment: Experiment)}
-	<div class="flex flex-col gap-4 p-4">
-		<h3 class="text-lg font-bold">Trees</h3>
-
-		<div class="flex flex-wrap items-start gap-2">
-			<Tag label="Number of trees">{formatNumber(experiment.number_of_trees)}</Tag>
-			<Tag label="Number of tips">{formatNumber(experiment.number_of_tips)}</Tag>
-			<Tag label="Ultrametric">{experiment.ultrametric ? 'Yes' : 'No'}</Tag>
-			<Tag label="Rooted">{experiment.rooted ? 'Yes' : 'No'}</Tag>
-			<Tag label="Tree ESS">{formatNumber(experiment.tree_ess)}</Tag>
-			<Tag label="CCD1 entropy">{formatNumber(experiment.ccd1_entropy)}</Tag>
-		</div>
 	</div>
 {/snippet}
 
