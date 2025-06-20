@@ -5,7 +5,6 @@
 	import type { PageProps } from './$types';
 	import { type Experiment } from './+page.server';
 	import Files from './files.svelte';
-	import LeafToSampleMap from './leafToSampleMap.svelte';
 	import Samples from './samples.svelte';
 	import EvolutionaryModels from './evolutionaryModels.svelte';
 	import Trees from './trees.svelte';
@@ -132,14 +131,12 @@
 {/snippet}
 
 {#snippet experiment(experiment: Experiment)}
-	<div class="divide-background flex flex-col divide-y divide-solid rounded-xl bg-white">
+	<div class="divide-background flex flex-col divide-y divide-solid rounded-xl bg-white text-sm">
 		{@render experimentOverview(experiment)}
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />
 		<Trees {experiment} />
-		<LeafToSampleMap leafToSampleMap={experiment.leaf_to_sample_map} />
 		<EvolutionaryModels evolutionaryModels={experiment.evolutionary_models} />
-		{@render metadata(experiment)}
 	</div>
 {/snippet}
 
@@ -149,22 +146,5 @@
 		<Tag label="Origin">{experiment.origin}</Tag>
 		<Tag label="DOI"><a href={experiment.doi}>{experiment.doi}</a></Tag>
 		<Tag label="License">{experiment.license}</Tag>
-	</div>
-{/snippet}
-
-{#snippet metadata(experiment: Experiment)}
-	<div class="flex flex-col gap-4 p-4">
-		<h3 class="text-lg font-bold">Other Metadata</h3>
-
-		<div class="grid-cols grid grid-cols-2 gap-8">
-			<div class="flex basis-full gap-2">
-				<span class="flex-1 font-semibold">PhyloData Hash</span>
-				<span>{experiment.pipeline_hash}</span>
-			</div>
-			<div class="flex basis-full gap-2">
-				<span class="flex-1 font-semibold">PhyloData Version</span>
-				<span>{experiment.pipeline_version}</span>
-			</div>
-		</div>
 	</div>
 {/snippet}

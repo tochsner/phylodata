@@ -27,8 +27,8 @@
 			<thead>
 				<tr>
 					<th></th>
-					<ThSort {table} field="name">Name</ThSort>
 					<ThSort {table} field="type">Type</ThSort>
+					<ThSort {table} field="name">Name</ThSort>
 					<ThSort {table} field="version">Version</ThSort>
 					<ThSort {table} field="size_bytes">Size</ThSort>
 					<th></th>
@@ -87,8 +87,8 @@
 								</svg>
 							{/if}
 						</td>
-						<td class="font-semibold">{row.name}</td>
-						<td>
+
+						<td class="font-semibold">
 							{#if row.type === 'beast2Configuration'}
 								Beast 2 XML Configuration
 							{:else if row.type === 'beast2PosteriorLogs'}
@@ -105,6 +105,7 @@
 								Other
 							{/if}
 						</td>
+						<td>{row.name}</td>
 						<td>{row.version}</td>
 						<td>{formatNumber(row.size_bytes)} bytes</td>
 						<td align="right">

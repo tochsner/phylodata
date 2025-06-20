@@ -2,7 +2,7 @@
 	let { children } = $props();
 </script>
 
-<div class="bg-accent-light flex flex-col rounded-b-2xl">
+<div class="bg-accent-light flex flex-col rounded-b-3xl">
 	<div class="flex w-full items-center justify-between px-8 py-6">
 		<!-- Logo -->
 		<div class="flex items-center space-x-8">

@@ -66,9 +66,10 @@ td {
 .internal-node circle,
 .internal-node ellipse,
 .internal-node rect {
-	fill: var(--color-accent-light);
+	fill: var(--color-accent);
 	stroke: var(--color-accent);
-	stroke-width: 0.5px;
+	stroke-width: 0px;
+	width: 0px;
 }
 
 .node {
