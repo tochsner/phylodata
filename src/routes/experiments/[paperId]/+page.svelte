@@ -3,7 +3,7 @@
 	import Tag from '$lib/components/tag.svelte';
 	import { formatDate } from '$lib/formatter';
 	import type { PageProps } from './$types';
-	import { type Experiment } from './+page.server';
+	import { type Experiment } from '$lib/types';
 	import Files from './files.svelte';
 	import Samples from './samples.svelte';
 	import EvolutionaryModels from './evolutionaryModels.svelte';
@@ -72,14 +72,14 @@
 			</button>
 		</div>
 
-		<div class="flex flex-col gap-2 rounded-xl bg-white p-4">
+		<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
 			<h3 class="text-sm font-bold">Authors</h3>
 			<p class="text-sm">
 				{data.authors.join('; ')}
 			</p>
 		</div>
 
-		<div class="flex flex-col gap-2 rounded-xl bg-white p-4">
+		<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
 			<h3 class="text-sm font-bold">Abstract</h3>
 			<p class="text-sm">{data.abstract}</p>
 		</div>
@@ -131,7 +131,9 @@
 {/snippet}
 
 {#snippet experiment(experiment: Experiment)}
-	<div class="divide-background flex flex-col divide-y divide-solid rounded-xl bg-white text-sm">
+	<div
+		class="divide-background flex flex-col divide-y divide-solid rounded-xl bg-white text-sm shadow-lg shadow-gray-400/5"
+	>
 		{@render experimentOverview(experiment)}
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />

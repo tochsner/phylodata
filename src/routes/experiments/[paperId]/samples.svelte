@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Datatable, TableHandler, Th, ThSort } from '@vincjo/datatables';
-	import { type Sample } from './+page.server';
+	import { type Sample } from '$lib/types';
 	import Tag from '$lib/components/tag.svelte';
 	import { formatNumber } from '$lib/formatter';
 	import Pagination from '$lib/components/pagination.svelte';
