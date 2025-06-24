@@ -14,7 +14,6 @@
 	<div class="flex items-center">
 		<h2 class="text-dark flex-1 text-2xl font-bold">Experiments</h2>
 
-		<!-- Search bar -->
 		<div class="flex items-center space-x-2">
 			<div class="relative">
 				<input
