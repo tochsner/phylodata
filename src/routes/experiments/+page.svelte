@@ -59,8 +59,7 @@
 				await update({ reset: false })}
 	>
 		{@render filesFilter()}
-		{@render filesFilter()}
-		{@render filesFilter()}
+		{@render samplesFilter()}
 	</form>
 {/snippet}
 
@@ -80,6 +79,23 @@
 			>BEAST2 log files</Checkbox
 		>
 		<Checkbox name="CodePhy model" value="CodePhy model" submitOnChange>CodePhy model</Checkbox>
+	</div>
+{/snippet}
+
+{#snippet samplesFilter()}
+	<div class="flex flex-col gap-2">
+		<span class="font-semibold">Samples</span>
+		<span class="italic">Samples correspond to...</span>
+
+		<Checkbox name="MCMC posterior trees" value="MCMC posterior trees" submitOnChange>
+			Species
+		</Checkbox>
+		<Checkbox name="Summary tree" value="Summary tree" submitOnChange>Genes</Checkbox>
+		<Checkbox name="BEAST2 configuration files" value="BEAST2 configuration files" submitOnChange>
+			Cell lineages
+		</Checkbox>
+		<Checkbox name="BEAST2 log files" value="BEAST2 log files" submitOnChange>Languages</Checkbox>
+		<Checkbox name="CodePhy model" value="CodePhy model" submitOnChange>Others</Checkbox>
 	</div>
 {/snippet}
 
