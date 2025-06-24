@@ -1,12 +1,19 @@
-node_modules
+cli/.venv
+cli/.ropeproject
+cli/.ropeproject
+
+*.egg-info
+__pycache__
+
+website/node_modules
 
 # Output
 .output
 .vercel
 .netlify
 .wrangler
-/.svelte-kit
-/build
+website/.svelte-kit
+website/build
 
 # OS
 .DS_Store
