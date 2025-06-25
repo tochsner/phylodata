@@ -29,7 +29,7 @@ def parse_trees(file: BytesIO) -> Trees:
         ccd0_map_tree="",  # TODO
         hipstr_tree="",  # TODO
         leaf_to_sample_map={},  # TODO
-        average_root_age_years=get_avg_tip_date(nexus.TREES.trees),
+        average_root_age=get_average_root_age(nexus.TREES.trees),
     )
 
 
@@ -55,12 +55,12 @@ def get_tip_dates(newick_node, accumulated_height):
         ]
 
 
-def get_avg_tip_date(trees):
-    avg_tip_dates = []
+def get_average_root_age(trees):
+    root_ages = []
 
     for tree in trees:
         tip_dates = get_tip_dates(tree.newick, 0.0)
-        avg_tip_date = sum(tip_dates) / len(tip_dates)
-        avg_tip_dates.append(avg_tip_date)
+        root_age = max(tip_dates) - tree.newick.length
+        root_ages.append(root_age)
 
-    return sum(avg_tip_dates) / len(avg_tip_dates)
+    return sum(root_ages) / len(root_ages)

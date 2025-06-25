@@ -20,10 +20,10 @@ def test_parse_trees():
             2;
     End;
     Begin trees;
-        tree STATE_1 = ((0: 1.5, 1: 1.5): 2.0, 2: 3.5);
-        tree STATE_2 = ((0: 1.5, 1: 1.5): 2.0, 2: 3.5);
-        tree STATE_3 = ((0: 1.5, 1: 1.5): 2.0, 2: 3.5);
-        tree STATE_4 = ((0: 1.5, 1: 1.5): 2.0, 2: 3.5);
+        tree STATE_1 = ((0: 1.5, 1: 1.5): 2.0, 2: 3.5):0.5;
+        tree STATE_2 = ((0: 1.5, 1: 1.5): 2.0, 2: 3.5):0.5;
+        tree STATE_3 = ((0: 1.5, 1: 1.5): 2.0, 2: 3.5):0.5;
+        tree STATE_4 = ((0: 1.5, 1: 1.5): 2.0, 2: 3.5):0.5;
     End;
     """
 
@@ -35,4 +35,4 @@ def test_parse_trees():
     assert parsed.time_tree
     assert parsed.ultrametric
     assert parsed.rooted
-    assert parsed.average_root_age_years == 3.5
+    assert parsed.average_root_age == 3.5

@@ -122,6 +122,8 @@ def parse_other_file(file: BytesIO) -> File:
     except Exception:
         ...
 
+    # otherwise we return an UNKNOWN file
+
     return File(
         name=file.name,
         type=FileType.UNKNOWN,

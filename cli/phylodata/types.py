@@ -97,7 +97,7 @@ class Trees(msgspec.Struct, rename="camel"):
     ccd0_map_tree: str
     hipstr_tree: str
     leaf_to_sample_map: Dict[str, str]
-    average_root_age_years: float
+    average_root_age: float
 
 
 class EvolutionaryModelComponent(msgspec.Struct, rename="camel"):
