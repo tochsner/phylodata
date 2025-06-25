@@ -1,6 +1,108 @@
 from io import BytesIO
 
-from phylodata.types import Sample
+from xml.etree import ElementTree
+
+from phylodata.types import Sample, SampleData
+from typing import Generator
+from phylodata.types import DataType
 
 
-def parse_samples(beast2_config: BytesIO) -> list[Sample]: ...
+def parse_samples(beast2_config: BytesIO) -> list[Sample]:
+    xml = ElementTree.parse(beast2_config)
+
+    collected_sample_data = collected_sample_data(xml)
+
+
+def collect_sample_data(xml: ElementTree.ElementTree) -> list[SampleData]:
+    """Collects all sample data found in the BEAST 2 XML.
+
+    All top-level <data> tags are traversed in order to find all
+    alignments in the file.
+
+    Note that this only works with basic BEAST XML files and will not
+    work for every possible configuration."""
+
+    sample_data: list[tuple[str, SampleData]] = []
+
+    root = xml.getroot()
+    for root_child in root:
+        if root_child.tag.lower() == "data":
+            sample_data += collect_sample_data_from_data_tag(root_child)
+
+    return sample_data
+
+
+def collect_sample_data_from_data_tag(
+    data_element: ElementTree.Element,
+) -> Generator[tuple[str, SampleData], None, None]:
+    """Yields all sample data found in the BEAST 2 XML <data> tag."""
+    data_type = data_element.attrib.get("dataType", "standard")
+
+    match data_type:
+        case "aminoacid":
+            data_type = DataType.AMINO_ACIDS
+        case "binary" | "integer":
+            data_type = DataType.TRAITS
+        case _:  # "nucleotide" | "standard" | "twoStateCovarion" | "user defined"
+            data_type = DataType.UNKNOWN
+
+    for sequence in data_element:
+        if sequence.tag.lower() != "sequence":
+            continue
+
+        sample_id = sequence.attrib["taxon"]
+        data = sequence.attrib.get("value") or sequence.text
+
+        if not data:
+            continue
+
+        # ignore whitespace
+        data = "".join(data.split())
+
+        # data can be comma-delimited or just a joined string
+        if "," in data:
+            data = data.split(",")
+        else:
+            data = list(data)
+
+        # if dataType was not given in the <data> tag, we try to infer it from
+        # the sequence itself
+        if data_type == DataType.UNKNOWN:
+            characters = {c.lower() for c in data}
+
+            if characters.issubset(DNA_CHARACTERS):
+                data_type = DataType.DNA
+            elif characters.issubset(RNA_CHARACTERS):
+                data_type = DataType.RNA
+            elif characters.issubset(AA_CHARACTERS):
+                data_type = DataType.AMINO_ACIDS
+
+        yield sample_id, SampleData(type=data_type, length=len(data), data=data)
+
+
+DNA_CHARACTERS = {"a", "t", "c", "g"}
+RNA_CHARACTERS = {"a", "u", "c", "g"}
+AA_CHARACTERS = {
+    "a",
+    "r",
+    "n",
+    "d",
+    "c",
+    "e",
+    "q",
+    "g",
+    "h",
+    "i",
+    "l",
+    "k",
+    "m",
+    "f",
+    "p",
+    "s",
+    "t",
+    "w",
+    "y",
+    "v",
+    "u",
+    "o",
+}

@@ -1,6 +1,6 @@
 from datetime import date
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Optional
 
 import msgspec
 
@@ -54,7 +54,7 @@ class Experiment(msgspec.Struct, rename="camel"):
 
 class Paper(msgspec.Struct, rename="camel"):
     title: str
-    authors: List[str]
+    authors: list[str]
     abstract: str
     bibtex: str
     doi: Optional[str] = None
@@ -75,15 +75,15 @@ class File(msgspec.Struct, rename="camel"):
 class SampleData(msgspec.Struct, rename="camel"):
     type: DataType
     length: int
-    data: str
+    data: list[str]
 
 
 class Sample(msgspec.Struct, rename="camel"):
     id: str
     scientific_name: str
     type: SampleType
-    classification: Dict[str, str]
-    data: List[SampleData]
+    classification: dict[str, str]
+    data: list[SampleData]
 
 
 class Trees(msgspec.Struct, rename="camel"):
@@ -96,7 +96,7 @@ class Trees(msgspec.Struct, rename="camel"):
     tree_ess: int
     ccd0_map_tree: str
     hipstr_tree: str
-    leaf_to_sample_map: Dict[str, str]
+    leaf_to_sample_map: dict[str, str]
     average_root_age: float
 
 
@@ -107,7 +107,7 @@ class EvolutionaryModelComponent(msgspec.Struct, rename="camel"):
 
 
 class EvolutionaryModel(msgspec.Struct, rename="camel"):
-    models: List[EvolutionaryModelComponent]
+    models: list[EvolutionaryModelComponent]
 
 
 class Metadata(msgspec.Struct, rename="camel"):
@@ -117,8 +117,8 @@ class Metadata(msgspec.Struct, rename="camel"):
 class PaperWithExperiment(msgspec.Struct, rename="camel"):
     experiment: Experiment
     paper: Paper
-    files: List[File]
-    samples: List[Sample]
+    files: list[File]
+    samples: list[Sample]
     trees: Trees
     evolutionary_model: EvolutionaryModel
     metadata: Metadata
