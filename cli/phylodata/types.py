@@ -66,9 +66,9 @@ class File(msgspec.Struct, rename="camel"):
     type: FileType
     version: int
     size_bytes: int
-    local_path: str
-    remote_path: Optional[str]
     md5: str
+    local_path: Optional[str] = None
+    remote_path: Optional[str] = None
 
 
 class SampleData(msgspec.Struct, rename="camel"):

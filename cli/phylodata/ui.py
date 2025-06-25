@@ -5,11 +5,16 @@ from datetime import date
 from phylodata.parse_evolutionary_model import parse_evolutionary_model
 from phylodata.version import __version__
 
-from phylodata.types import EvolutionaryModel, Experiment, ExperimentType, FileType, Metadata, Paper
+from phylodata.types import (
+    Experiment,
+    ExperimentType,
+    FileType,
+    Metadata,
+    Paper,
+)
 from phylodata.errors import ValidationError
 from phylodata.parse_files import parse_file
 from phylodata.types import PaperWithExperiment
-from phylodata.types import Trees
 from phylodata.parse_samples import parse_samples
 from phylodata.parse_trees import parse_trees
 
@@ -82,6 +87,10 @@ if st.session_state[STAGE] == Stage.INPUT:
             "Other files (optional)", type=["*"], accept_multiple_files=True
         )
 
+    if beast2_configuration:
+        print(beast2_configuration.name)
+        print(beast2_configuration.file_id)
+
     """
     Almost done!
     """
@@ -135,9 +144,7 @@ if st.session_state[STAGE] == Stage.INPUT:
                     parse_file(beast2_configuration, FileType.BEAST2_CONFIGURATION)
                 )
                 files.append(parse_file(beast2_logs, FileType.BEAST2_POSTERIOR_LOGS))
-                files.append(
-                    parse_file(beast2_trees, FileType.BEAST2_POSTERIOR_TREES)
-                )
+                files.append(parse_file(beast2_trees, FileType.BEAST2_POSTERIOR_TREES))
                 for other_file in other_files:
                     files.append(parse_file(other_file, FileType.UNKNOWN))
 
