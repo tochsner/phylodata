@@ -84,10 +84,10 @@ def parse_beast2_trees(file: BytesIO) -> File:
     except Exception:
         raise ValidationError("BEAST 2 trees file is no valid NEXUS file.")
 
-    if not nexus.TREES:
+    if not nexus.TREES or not nexus.TREES.trees:
         raise ValidationError("BEAST 2 trees contains no actual trees.")
 
-    if len(nexus.TREES) < MIN_NUM_SNAPSHOTS:
+    if len(nexus.TREES.trees) < MIN_NUM_SNAPSHOTS:
         raise ValidationError(
             f"BEAST 2 trees should contain at least {MIN_NUM_SNAPSHOTS} trees."
         )
@@ -102,4 +102,30 @@ def parse_beast2_trees(file: BytesIO) -> File:
     )
 
 
-def parse_other_file(file: BytesIO) -> File: ...
+def parse_other_file(file: BytesIO) -> File:
+    buffer = file.getbuffer()
+
+    # if the file contains a single tree => summary tree
+    try:
+        lines = itertools.chain.from_iterable(
+            (string_line.decode("utf-8") for string_line in file)
+        )
+        nexus = Nexus(lines)
+        if nexus.TREES and nexus.TREES.trees and len(nexus.TREES.trees) == 1:
+            return File(
+                name=file.name,
+                type=FileType.SUMMARY_TREE,
+                version=1,
+                size_bytes=buffer.nbytes,
+                md5=md5(buffer).hexdigest(),
+            )
+    except Exception:
+        ...
+
+    return File(
+        name=file.name,
+        type=FileType.UNKNOWN,
+        version=1,
+        size_bytes=buffer.nbytes,
+        md5=md5(buffer).hexdigest(),
+    )
