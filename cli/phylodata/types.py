@@ -90,6 +90,7 @@ class Trees(msgspec.Struct, rename="camel"):
     number_of_trees: int
     number_of_tips: int
     ultrametric: bool
+    time_tree: bool
     rooted: bool
     ccd1_entropy: float
     tree_ess: int

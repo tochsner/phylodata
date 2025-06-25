@@ -1,8 +1,5 @@
 from io import BytesIO
 
-import pytest
-
-from phylodata.errors import ValidationError
 from phylodata.parse_files import parse_other_file
 from phylodata.types import FileType
 
