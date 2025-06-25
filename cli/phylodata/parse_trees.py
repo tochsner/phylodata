@@ -44,29 +44,31 @@ def get_number_of_tips(newick_node):
 
 
 def is_ultrametric(newick_node):
-    tip_dates = get_tip_dates(newick_node, 0.0)
+    tip_dates = get_tip_times_since_origin(newick_node, 0.0)
     min_date = min(tip_dates)
     max_date = max(tip_dates)
     return (max_date - min_date) <= ULTRAMETRIC_REL_THRESHOLD * max_date
-
-
-def get_tip_dates(newick_node, accumulated_height):
-    if not newick_node._descendants:
-        return [accumulated_height + newick_node.length]
-    else:
-        return [
-            date
-            for child in newick_node._descendants
-            for date in get_tip_dates(child, accumulated_height + newick_node.length)
-        ]
 
 
 def get_average_root_age(trees):
     root_ages = []
 
     for tree in trees:
-        tip_dates = get_tip_dates(tree.newick, 0.0)
+        tip_dates = get_tip_times_since_origin(tree.newick, 0.0)
         root_age = max(tip_dates) - tree.newick.length
         root_ages.append(root_age)
 
     return sum(root_ages) / len(root_ages)
+
+
+def get_tip_times_since_origin(newick_node, accumulated_height):
+    if not newick_node._descendants:
+        return [accumulated_height + newick_node.length]
+    else:
+        return [
+            date
+            for child in newick_node._descendants
+            for date in get_tip_times_since_origin(
+                child, accumulated_height + newick_node.length
+            )
+        ]
