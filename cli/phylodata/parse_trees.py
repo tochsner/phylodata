@@ -10,9 +10,10 @@ from phylodata.types import Trees
 ULTRAMETRIC_REL_THRESHOLD = 1e-6
 
 
-def parse_trees(file: BytesIO) -> Trees:
+def parse_trees(beast2_trees_file: BytesIO) -> Trees:
+    """Parses a BEAST 2 trees file in the NEXUS format."""
     lines = itertools.chain.from_iterable(
-        (string_line.decode("utf-8") for string_line in file)
+        (string_line.decode("utf-8") for string_line in beast2_trees_file)
     )
     nexus = Nexus(lines)
 
@@ -37,6 +38,7 @@ def parse_trees(file: BytesIO) -> Trees:
 
 
 def get_number_of_tips(newick_node):
+    """Returns the number of tips for the given commonnexus newick tree."""
     if not newick_node._descendants:
         return 1
     else:
@@ -44,31 +46,37 @@ def get_number_of_tips(newick_node):
 
 
 def is_ultrametric(newick_node):
-    tip_dates = get_tip_times_since_origin(newick_node, 0.0)
+    """Returns if the given commonnexus newick tree is ultrametric
+    up to ULTRAMETRIC_REL_THRESHOLD."""
+    tip_dates = _get_tip_times_since_origin(newick_node, 0.0)
     min_date = min(tip_dates)
     max_date = max(tip_dates)
     return (max_date - min_date) <= ULTRAMETRIC_REL_THRESHOLD * max_date
 
 
 def get_average_root_age(trees):
+    """Returns the average age between the root and the most recent tip for
+    the given commonnexus trees."""
     root_ages = []
 
     for tree in trees:
-        tip_dates = get_tip_times_since_origin(tree.newick, 0.0)
+        tip_dates = _get_tip_times_since_origin(tree.newick, 0.0)
         root_age = max(tip_dates) - tree.newick.length
         root_ages.append(root_age)
 
     return sum(root_ages) / len(root_ages)
 
 
-def get_tip_times_since_origin(newick_node, accumulated_height):
+def _get_tip_times_since_origin(newick_node, accumulated_height):
+    """A helper function returning the time between the origin and the given
+    commonnexus newick node."""
     if not newick_node._descendants:
         return [accumulated_height + newick_node.length]
     else:
         return [
             date
             for child in newick_node._descendants
-            for date in get_tip_times_since_origin(
+            for date in _get_tip_times_since_origin(
                 child, accumulated_height + newick_node.length
             )
         ]

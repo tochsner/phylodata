@@ -26,6 +26,8 @@ def parse_file(file: BytesIO, file_type: Optional[FileType] = FileType.UNKNOWN) 
 
 
 def parse_beast2_config(file: BytesIO) -> File:
+    """Parses a BEAST 2 config file. If the file does not seem to be a valid
+    BEAST config, a ValidationError is raised."""
     try:
         xml = ElementTree.parse(file)
     except Exception:
@@ -53,6 +55,8 @@ def parse_beast2_config(file: BytesIO) -> File:
 
 
 def parse_beast2_logs(file: BytesIO) -> File:
+    """Parses a BEAST 2 log file. If the file does not seem to be a valid
+    BEAST log, a ValidationError is raised."""
     try:
         wrapper = TextIOWrapper(file)
         tsv_file = csv.DictReader(wrapper, delimiter="\t")
@@ -76,6 +80,8 @@ def parse_beast2_logs(file: BytesIO) -> File:
 
 
 def parse_beast2_trees(file: BytesIO) -> File:
+    """Parses a BEAST 2 trees file. If the file does not seem to be a valid
+    BEAST trees file, a ValidationError is raised."""
     try:
         lines = itertools.chain.from_iterable(
             (string_line.decode("utf-8") for string_line in file)
@@ -106,6 +112,7 @@ def parse_other_file(file: BytesIO) -> File:
     buffer = file.getbuffer()
 
     # if the file contains a single tree => summary tree
+
     try:
         lines = itertools.chain.from_iterable(
             (string_line.decode("utf-8") for string_line in file)
