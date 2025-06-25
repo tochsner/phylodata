@@ -19,7 +19,7 @@ def parse_trees(file: BytesIO) -> Trees:
     if not nexus.TREES or not nexus.TREES.trees:
         raise ValidationError("Invalid BEAST 2 trees file.")
 
-    example_tree = nexus.TREES.trees[0]
+    example_tree = nexus.TREES.trees[-1]
 
     return Trees(
         number_of_trees=len(nexus.TREES.trees),
