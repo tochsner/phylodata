@@ -1,7 +1,8 @@
-import msgspec
-from typing import List, Dict, Optional
 from datetime import date
 from enum import Enum
+from typing import Dict, List, Optional
+
+import msgspec
 
 
 class ExperimentType(Enum):

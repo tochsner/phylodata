@@ -1,7 +1,9 @@
+from io import BytesIO
+
 import pytest
+
 from phylodata.errors import ValidationError
 from phylodata.parse_files import parse_beast2_logs
-from io import BytesIO
 
 
 def to_bytes_io(text: str):

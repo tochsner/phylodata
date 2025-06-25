@@ -1,22 +1,23 @@
-from enum import Enum
-import streamlit as st
-import bibtexparser
 from datetime import date
-from phylodata.parse_evolutionary_model import parse_evolutionary_model
-from phylodata.version import __version__
+from enum import Enum
 
+import bibtexparser
+import streamlit as st
+
+from phylodata.errors import ValidationError
+from phylodata.parse_evolutionary_model import parse_evolutionary_model
+from phylodata.parse_files import parse_file
+from phylodata.parse_samples import parse_samples
+from phylodata.parse_trees import parse_trees
 from phylodata.types import (
     Experiment,
     ExperimentType,
     FileType,
     Metadata,
     Paper,
+    PaperWithExperiment,
 )
-from phylodata.errors import ValidationError
-from phylodata.parse_files import parse_file
-from phylodata.types import PaperWithExperiment
-from phylodata.parse_samples import parse_samples
-from phylodata.parse_trees import parse_trees
+from phylodata.version import __version__
 
 
 class Stage(str, Enum):
