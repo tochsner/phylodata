@@ -7,6 +7,9 @@ from phylodata.errors import ValidationError
 from phylodata.types import Trees
 
 
+ULTRAMETRIC_REL_THRESHOLD = 1e-6
+
+
 def parse_trees(file: BytesIO) -> Trees:
     lines = itertools.chain.from_iterable(
         (string_line.decode("utf-8") for string_line in file)
@@ -41,7 +44,10 @@ def get_number_of_tips(newick_node):
 
 
 def is_ultrametric(newick_node):
-    return len(set(get_tip_dates(newick_node, 0.0))) == 1
+    tip_dates = get_tip_dates(newick_node, 0.0)
+    min_date = min(tip_dates)
+    max_date = max(tip_dates)
+    return (max_date - min_date) <= ULTRAMETRIC_REL_THRESHOLD * max_date
 
 
 def get_tip_dates(newick_node, accumulated_height):
