@@ -4,6 +4,10 @@ from datetime import date
 from enum import Enum
 
 
+class ExperimentType(Enum):
+    BEAST2_Experiment = "beast2Experiment"
+
+
 class FileType(Enum):
     BEAST2_CONFIGURATION = "beast2Configuration"
     BEAST2_POSTERIOR_LOGS = "beast2PosteriorLogs"
@@ -11,6 +15,7 @@ class FileType(Enum):
     SUMMARY_TREE = "summaryTree"
     CODEPHY_MODEL = "codephyModel"
     EVO_DATA_EXPERIMENT = "evoDataExperiment"
+    UNKNOWN = "unknown"
 
 
 class SampleType(Enum):
@@ -37,21 +42,22 @@ class ModelType(Enum):
 
 
 class Experiment(msgspec.Struct, rename="camel"):
-    id: str
-    title: str
+    type: ExperimentType
     origin: str
-    doi: str
     upload_date: date
+    title: Optional[str] = None
+    description: Optional[str] = None
     license: str = "CC0"
+    id: Optional[str] = None
 
 
 class Paper(msgspec.Struct, rename="camel"):
-    id: str
     title: str
     authors: List[str]
     abstract: str
     bibtex: str
-    doi: str
+    doi: Optional[str] = None
+    id: Optional[str] = None
     url: Optional[str] = None
 
 
@@ -61,7 +67,7 @@ class File(msgspec.Struct, rename="camel"):
     version: int
     size_bytes: int
     local_path: str
-    remote_path: str
+    remote_path: Optional[str]
     md5: str
 
 
@@ -104,7 +110,6 @@ class EvolutionaryModel(msgspec.Struct, rename="camel"):
 
 class Metadata(msgspec.Struct, rename="camel"):
     evo_data_pipeline_version: str
-    evo_data_pipeline_hash: str
 
 
 class PaperWithExperiment(msgspec.Struct, rename="camel"):
