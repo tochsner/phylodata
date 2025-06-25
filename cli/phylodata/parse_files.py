@@ -1,10 +1,14 @@
 from phylodata.errors import ValidationError
 from phylodata.types import File, FileType
 from typing import Optional
-from io import BytesIO
+from io import BytesIO, TextIOWrapper
 from hashlib import md5
+import csv
 
 from xml.etree import ElementTree
+
+
+MIN_NUM_SNAPSHOTS = 50
 
 
 def parse_file(file: BytesIO, file_type: Optional[FileType] = FileType.UNKNOWN) -> File:
@@ -46,7 +50,27 @@ def parse_beast2_config(file: BytesIO) -> File:
     )
 
 
-def parse_beast2_logs(file: BytesIO) -> File: ...
+def parse_beast2_logs(file: BytesIO) -> File:
+    try:
+        wrapper = TextIOWrapper(file)
+        tsv_file = csv.DictReader(wrapper, delimiter="\t")
+    except:
+        raise ValidationError("BEAST 2 log file is not a tab-separated file.")
+
+    num_rows = sum(1 for _ in tsv_file)
+    if num_rows < MIN_NUM_SNAPSHOTS:
+        raise ValidationError(
+            f"BEAST 2 log file should contain at least {MIN_NUM_SNAPSHOTS} entries."
+        )
+
+    buffer = file.getbuffer()
+    return File(
+        name=file.name,
+        type=FileType.BEAST2_POSTERIOR_LOGS,
+        version=1,
+        size_bytes=buffer.nbytes,
+        md5=md5(buffer).hexdigest(),
+    )
 
 
 def parse_beast2_trees(file: BytesIO) -> File: ...
