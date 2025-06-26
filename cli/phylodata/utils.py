@@ -4,6 +4,7 @@ from commonnexus import Nexus
 from errors import ValidationError
 from xml.etree import ElementTree
 
+
 def get_nexus_from_bytesio(file: BytesIO) -> Nexus:
     try:
         lines = itertools.chain.from_iterable(
@@ -12,6 +13,7 @@ def get_nexus_from_bytesio(file: BytesIO) -> Nexus:
         return Nexus(lines)
     except Exception:
         raise ValidationError("BEAST 2 trees file is no valid NEXUS file.")
+
 
 def get_xml_from_bytesio(file: BytesIO) -> ElementTree.ElementTree:
     try:

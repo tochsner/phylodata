@@ -5,6 +5,8 @@ from phylodata.types import Trees
 from phylodata.utils import get_nexus_from_bytesio
 
 ULTRAMETRIC_REL_THRESHOLD = 1e-6
+"""The absolute relative differences of the tip ages for a tree to be ultrametric. We
+use an approximate check because of numerical precision issues."""
 
 
 def parse_trees(beast2_trees_file: BytesIO) -> Trees:

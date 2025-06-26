@@ -1,3 +1,5 @@
+"""This file contains all the types which are used to describe a PhyloData experiment."""
+
 from datetime import date
 from enum import Enum
 from typing import Any, Optional

@@ -13,7 +13,9 @@ def parse_beast2_samples(beast2_config: BytesIO) -> list[Sample]:
     collected_sample_data = collected_sample_data(xml)
 
 
-def collect_sample_data(xml: ElementTree.ElementTree, evolutionary_model: EvolutionaryModel) -> list[Sample]:
+def collect_sample_data(
+    xml: ElementTree.ElementTree, evolutionary_model: EvolutionaryModel
+) -> list[Sample]:
     """Collects all sample data found in the BEAST 2 XML.
 
     All top-level <data> tags are traversed in order to find all

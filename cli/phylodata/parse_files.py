@@ -9,6 +9,8 @@ from phylodata.utils import get_nexus_from_bytesio
 from phylodata.utils import get_xml_from_bytesio
 
 MIN_NUM_SNAPSHOTS = 50
+"""The minimum number of snapshots required for a valid BEAST 2 posterior log file.
+When the number of snapshots is less than this value, the log file is considered invalid."""
 
 
 def parse_file(file: BytesIO, file_type: Optional[FileType] = FileType.UNKNOWN) -> File:
