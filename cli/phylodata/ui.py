@@ -7,7 +7,7 @@ import streamlit as st
 from phylodata.errors import ValidationError
 from phylodata.parse_evolutionary_model import parse_evolutionary_model
 from phylodata.parse_files import parse_file
-from phylodata.parse_samples import parse_beast2_samples
+from phylodata.parse_beast2_samples import parse_beast2_samples
 from phylodata.parse_trees import parse_trees
 from phylodata.types import (
     Experiment,
@@ -140,18 +140,23 @@ if st.session_state[STAGE] == Stage.INPUT:
             metadata = Metadata(evo_data_pipeline_version=__version__)
 
             try:
-                files = []
-                files.append(
-                    parse_file(beast2_configuration, FileType.BEAST2_CONFIGURATION)
-                )
-                files.append(parse_file(beast2_logs, FileType.BEAST2_POSTERIOR_LOGS))
-                files.append(parse_file(beast2_trees, FileType.BEAST2_POSTERIOR_TREES))
-                for other_file in other_files:
-                    files.append(parse_file(other_file, FileType.UNKNOWN))
+                parsed_beast2_configuration = parse_file(beast2_configuration, FileType.BEAST2_CONFIGURATION)
+                parsed_beast2_logs = parse_file(beast2_logs, FileType.BEAST2_POSTERIOR_LOGS)
+                parsed_beast2_trees = parse_file(beast2_trees, FileType.BEAST2_POSTERIOR_TREES)
 
-                samples = parse_beast2_samples(beast2_configuration)
-                trees = parse_trees(beast2_trees)
-                evolutionary_model = parse_evolutionary_model(beast2_configuration)
+                files = [
+                    parsed_beast2_configuration,
+                    parsed_beast2_logs,
+                    parsed_beast2_trees,
+                ]
+
+                for other_file in other_files:
+                    parsed_other_file = parse_file(other_file, FileType.UNKNOWN)
+                    files.append(parsed_other_file)
+
+                parsed_samples = parse_beast2_samples(beast2_configuration)
+                parsed_ = parse_trees(beast2_trees)
+                parsed_evolutionary_model = parse_evolutionary_model(beast2_configuration)
             except ValidationError as error:
                 st.toast(error.message)
                 return
@@ -160,9 +165,9 @@ if st.session_state[STAGE] == Stage.INPUT:
                 experiment=experiment,
                 paper=paper,
                 files=files,
-                samples=samples,
-                trees=trees,
-                evolutionary_model=evolutionary_model,
+                samples=parsed_samples,
+                trees=parsed_,
+                evolutionary_model=parsed_evolutionary_model,
                 metadata=metadata,
             )
 
