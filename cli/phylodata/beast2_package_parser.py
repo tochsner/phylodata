@@ -7,6 +7,8 @@ from typing import Optional
 
 
 class Beast2PackageParser(ABC):
+    """An abstract base class for parsing BEAST 2 packages."""
+
     def is_used(self, beast2_xml: ElementTree) -> bool:
         """Returns true if the package is detected in the given BEAST2 xml.
         Checks the top-level namespaces and the spec attribute of all elements."""
