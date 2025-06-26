@@ -7,15 +7,7 @@ from phylodata.types import DataType, EvolutionaryModel, Sample, SampleData
 from phylodata.utils import get_xml_from_bytesio
 
 
-def parse_beast2_samples(beast2_config: BytesIO) -> list[Sample]:
-    xml = get_xml_from_bytesio(beast2_config)
-
-    collected_sample_data = collected_sample_data(xml)
-
-
-def collect_sample_data(
-    xml: ElementTree.ElementTree, evolutionary_model: EvolutionaryModel
-) -> list[Sample]:
+def parse_beast2_samples(beast2_config: BytesIO, evolutionary_model: EvolutionaryModel) -> list[Sample]:
     """Collects all sample data found in the BEAST 2 XML.
 
     All top-level <data> tags are traversed in order to find all
@@ -23,22 +15,29 @@ def collect_sample_data(
 
     Note that this only works with basic BEAST XML files and will not
     work for every possible configuration."""
+    xml = get_xml_from_bytesio(beast2_config)
+    xml_root = xml.getroot()
+
+    # we first look at all <data> tags to find any sequence
 
     sample_data: list[tuple[str, SampleData]] = []
-
-    root = xml.getroot()
-    for root_child in root:
+    for root_child in xml_root:
         if root_child.tag.lower() == "data":
             sample_data += collect_sample_data_from_data_tag(root_child)
+
+    # group the samples by their id (taxon)
 
     sample_data_per_id: dict[str, list[SampleData]] = defaultdict(list)
     for sample_id, data in sample_data:
         sample_data_per_id[sample_id].append(data)
 
-    for sample_id, data in sample_data_per_id.items():
-        ...
+    # construct the samples by adding additional metadata
 
-    return sample_data
+    samples_with_metadata = []
+    for sample_id, data in sample_data_per_id.items():
+        samples_with_metadata.append(construct_sample(sample_id, data, evolutionary_model))
+
+    return samples_with_metadata
 
 
 def collect_sample_data_from_data_tag(
@@ -88,6 +87,10 @@ def collect_sample_data_from_data_tag(
                 data_type = DataType.AMINO_ACIDS
 
         yield sample_id, SampleData(type=data_type, length=len(data), data=data)
+
+
+def construct_sample(sample_id: str, data: list[SampleData], evolutionary_model: EvolutionaryModel) -> Sample:
+    ...
 
 
 DNA_CHARACTERS = {"a", "t", "c", "g"}

@@ -154,9 +154,9 @@ if st.session_state[STAGE] == Stage.INPUT:
                     parsed_other_file = parse_file(other_file, FileType.UNKNOWN)
                     files.append(parsed_other_file)
 
-                parsed_samples = parse_beast2_samples(beast2_configuration)
-                parsed_ = parse_trees(beast2_trees)
                 parsed_evolutionary_model = parse_evolutionary_model(beast2_configuration)
+                parsed_samples = parse_beast2_samples(beast2_configuration, parsed_evolutionary_model)
+                parsed_trees = parse_trees(beast2_trees)
             except ValidationError as error:
                 st.toast(error.message)
                 return
@@ -165,9 +165,9 @@ if st.session_state[STAGE] == Stage.INPUT:
                 experiment=experiment,
                 paper=paper,
                 files=files,
-                samples=parsed_samples,
-                trees=parsed_,
                 evolutionary_model=parsed_evolutionary_model,
+                samples=parsed_samples,
+                trees=parsed_trees,
                 metadata=metadata,
             )
 
