@@ -3,16 +3,17 @@ from io import BytesIO
 from typing import Generator
 from xml.etree import ElementTree
 
-from phylodata.types import DataType, Sample, SampleData
+from phylodata.types import DataType, EvolutionaryModel, Sample, SampleData
+from phylodata.utils import get_xml_from_bytesio
 
 
 def parse_beast2_samples(beast2_config: BytesIO) -> list[Sample]:
-    xml = ElementTree.parse(beast2_config)
+    xml = get_xml_from_bytesio(beast2_config)
 
     collected_sample_data = collected_sample_data(xml)
 
 
-def collect_sample_data(xml: ElementTree.ElementTree) -> list[Sample]:
+def collect_sample_data(xml: ElementTree.ElementTree, evolutionary_model: EvolutionaryModel) -> list[Sample]:
     """Collects all sample data found in the BEAST 2 XML.
 
     All top-level <data> tags are traversed in order to find all

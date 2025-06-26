@@ -1,24 +1,22 @@
-import itertools
 from io import BytesIO
-
-from commonnexus import Nexus
 
 from phylodata.errors import ValidationError
 from phylodata.types import Trees
+from phylodata.utils import get_nexus_from_bytesio
 
 ULTRAMETRIC_REL_THRESHOLD = 1e-6
 
 
 def parse_trees(beast2_trees_file: BytesIO) -> Trees:
     """Parses a BEAST 2 trees file in the NEXUS format."""
-    lines = itertools.chain.from_iterable(
-        (string_line.decode("utf-8") for string_line in beast2_trees_file)
-    )
-    nexus = Nexus(lines)
+    nexus = get_nexus_from_bytesio(beast2_trees_file)
 
     if not nexus.TREES or not nexus.TREES.trees:
         raise ValidationError("Invalid BEAST 2 trees file.")
 
+    # we use the last tree as a representative
+    # (the first one could be biased due to initialization.
+    # optimally, we would check all trees though.)
     example_tree = nexus.TREES.trees[-1]
 
     return Trees(

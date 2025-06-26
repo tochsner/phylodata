@@ -1,14 +1,12 @@
 import csv
-import itertools
 from hashlib import md5
 from io import BytesIO, TextIOWrapper
 from typing import Optional
-from xml.etree import ElementTree
-
-from commonnexus import Nexus
 
 from phylodata.errors import ValidationError
 from phylodata.types import File, FileType
+from phylodata.utils import get_nexus_from_bytesio
+from phylodata.utils import get_xml_from_bytesio
 
 MIN_NUM_SNAPSHOTS = 50
 
@@ -28,11 +26,7 @@ def parse_file(file: BytesIO, file_type: Optional[FileType] = FileType.UNKNOWN) 
 def parse_beast2_config(file: BytesIO) -> File:
     """Parses a BEAST 2 config file. If the file does not seem to be a valid
     BEAST config, a ValidationError is raised."""
-    try:
-        xml = ElementTree.parse(file)
-    except Exception:
-        raise ValidationError("BEAST 2 configuration is no valid XML file.")
-
+    xml = get_xml_from_bytesio(file)
     root = xml.getroot()
 
     if root.tag.lower() != "beast":
@@ -82,13 +76,7 @@ def parse_beast2_logs(file: BytesIO) -> File:
 def parse_beast2_trees(file: BytesIO) -> File:
     """Parses a BEAST 2 trees file. If the file does not seem to be a valid
     BEAST trees file, a ValidationError is raised."""
-    try:
-        lines = itertools.chain.from_iterable(
-            (string_line.decode("utf-8") for string_line in file)
-        )
-        nexus = Nexus(lines)
-    except Exception:
-        raise ValidationError("BEAST 2 trees file is no valid NEXUS file.")
+    nexus = get_nexus_from_bytesio(file)
 
     if not nexus.TREES or not nexus.TREES.trees:
         raise ValidationError("BEAST 2 trees contains no actual trees.")
@@ -114,10 +102,7 @@ def parse_other_file(file: BytesIO) -> File:
     # if the file contains a single tree => summary tree
 
     try:
-        lines = itertools.chain.from_iterable(
-            (string_line.decode("utf-8") for string_line in file)
-        )
-        nexus = Nexus(lines)
+        nexus = get_nexus_from_bytesio(file)
         if nexus.TREES and nexus.TREES.trees and len(nexus.TREES.trees) == 1:
             return File(
                 name=file.name,
@@ -126,7 +111,8 @@ def parse_other_file(file: BytesIO) -> File:
                 size_bytes=buffer.nbytes,
                 md5=md5(buffer).hexdigest(),
             )
-    except Exception:
+    except ValidationError:
+        # file is not a valid trees file
         ...
 
     # otherwise we return an UNKNOWN file
