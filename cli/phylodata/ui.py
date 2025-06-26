@@ -7,7 +7,7 @@ import streamlit as st
 from phylodata.errors import ValidationError
 from phylodata.parse_evolutionary_model import parse_evolutionary_model
 from phylodata.parse_files import parse_file
-from phylodata.parse_samples import parse_samples
+from phylodata.parse_samples import parse_beast2_samples
 from phylodata.parse_trees import parse_trees
 from phylodata.types import (
     Experiment,
@@ -149,7 +149,7 @@ if st.session_state[STAGE] == Stage.INPUT:
                 for other_file in other_files:
                     files.append(parse_file(other_file, FileType.UNKNOWN))
 
-                samples = parse_samples(beast2_configuration)
+                samples = parse_beast2_samples(beast2_configuration)
                 trees = parse_trees(beast2_trees)
                 evolutionary_model = parse_evolutionary_model(beast2_configuration)
             except ValidationError as error:

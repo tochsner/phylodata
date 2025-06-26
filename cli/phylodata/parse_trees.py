@@ -6,7 +6,6 @@ from commonnexus import Nexus
 from phylodata.errors import ValidationError
 from phylodata.types import Trees
 
-
 ULTRAMETRIC_REL_THRESHOLD = 1e-6
 
 

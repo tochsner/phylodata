@@ -1,6 +1,6 @@
 from datetime import date
 from enum import Enum
-from typing import Optional
+from typing import Any, Optional
 
 import msgspec
 
@@ -32,6 +32,7 @@ class DataType(Enum):
     AMINO_ACIDS = "aminoAcids"
     PHASED_DIPLOID_DNA = "phasedDiploidDna"
     TRAITS = "traits"
+    UNKNOWN = "unknown"
 
 
 class ModelType(Enum):
@@ -102,8 +103,10 @@ class Trees(msgspec.Struct, rename="camel"):
 
 class EvolutionaryModelComponent(msgspec.Struct, rename="camel"):
     name: str
+    description: str
     type: ModelType
     documentation_url: str
+    parameters: dict[str, Any]
 
 
 class EvolutionaryModel(msgspec.Struct, rename="camel"):

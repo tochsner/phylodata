@@ -1,19 +1,18 @@
+from collections import defaultdict
 from io import BytesIO
-
+from typing import Generator
 from xml.etree import ElementTree
 
-from phylodata.types import Sample, SampleData
-from typing import Generator
-from phylodata.types import DataType
+from phylodata.types import DataType, Sample, SampleData
 
 
-def parse_samples(beast2_config: BytesIO) -> list[Sample]:
+def parse_beast2_samples(beast2_config: BytesIO) -> list[Sample]:
     xml = ElementTree.parse(beast2_config)
 
     collected_sample_data = collected_sample_data(xml)
 
 
-def collect_sample_data(xml: ElementTree.ElementTree) -> list[SampleData]:
+def collect_sample_data(xml: ElementTree.ElementTree) -> list[Sample]:
     """Collects all sample data found in the BEAST 2 XML.
 
     All top-level <data> tags are traversed in order to find all
@@ -29,13 +28,21 @@ def collect_sample_data(xml: ElementTree.ElementTree) -> list[SampleData]:
         if root_child.tag.lower() == "data":
             sample_data += collect_sample_data_from_data_tag(root_child)
 
+    sample_data_per_id: dict[str, list[SampleData]] = defaultdict(list)
+    for sample_id, data in sample_data:
+        sample_data_per_id[sample_id].append(data)
+
+    for sample_id, data in sample_data_per_id.items():
+        ...
+
     return sample_data
 
 
 def collect_sample_data_from_data_tag(
     data_element: ElementTree.Element,
 ) -> Generator[tuple[str, SampleData], None, None]:
-    """Yields all sample data found in the BEAST 2 XML <data> tag."""
+    """Yields all sample data found in BEAST 2 XML <sequence> tags within
+    a  given <data> tag."""
     data_type = data_element.attrib.get("dataType", "standard")
 
     match data_type:
