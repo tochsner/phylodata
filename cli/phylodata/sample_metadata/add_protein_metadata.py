@@ -2,14 +2,14 @@ import re
 
 import requests
 
-from phylodata.blast_utils import (
+from phylodata.utils.blast_utils import (
     BLAST_URL,
     build_fasta_data,
     extract_taxon_ids,
     fetch_results,
     wait_until_ready,
 )
-from phylodata.taxon_utils import look_up_taxon_classification
+from phylodata.utils.taxon_utils import look_up_taxon_classification
 from phylodata.types import ClassificationEntry, DataType, Sample, SampleType
 
 MAX_SEQ_LENGTH_CONSIDERED = 160

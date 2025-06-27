@@ -1,8 +1,8 @@
 from io import BytesIO
 
-from phylodata.beast2_package_parser import BEAST2_PACKAGE_PARSERS
+from phylodata.parsers.parse_beast2_packages import BEAST2_PACKAGE_PARSERS
 from phylodata.types import EvolutionaryModel, EvolutionaryModelComponent
-from phylodata.utils import get_xml_from_bytesio
+from phylodata.utils.bytesio_utils import get_xml_from_bytesio
 
 
 def parse_evolutionary_model(beast2_config: BytesIO) -> EvolutionaryModel:

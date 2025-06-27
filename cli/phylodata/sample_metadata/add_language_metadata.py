@@ -1,6 +1,6 @@
 from rapidfuzz import fuzz, process
 
-from phylodata.language_utils import (
+from phylodata.utils.language_utils import (
     clean_label,
     cleaned_language_names,
     id_to_language,
