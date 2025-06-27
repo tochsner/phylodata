@@ -1,12 +1,12 @@
 from rapidfuzz import fuzz, process
 
+from phylodata.types import ClassificationEntry, DataType, Sample, SampleType
 from phylodata.utils.language_utils import (
     clean_label,
     cleaned_language_names,
     id_to_language,
     languages,
 )
-from phylodata.types import ClassificationEntry, DataType, Sample, SampleType
 
 
 def add_language_metadata(samples: list[Sample]) -> list[Sample]:
@@ -28,7 +28,9 @@ def add_language_metadata(samples: list[Sample]) -> list[Sample]:
     return samples
 
 
-def fetch_language_classification(language_label: str) -> list[ClassificationEntry] | None:
+def fetch_language_classification(
+    language_label: str,
+) -> list[ClassificationEntry] | None:
     match = process.extractOne(
         clean_label(language_label),
         cleaned_language_names,

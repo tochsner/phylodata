@@ -2,6 +2,7 @@ import re
 
 import requests
 
+from phylodata.types import ClassificationEntry, DataType, Sample, SampleType
 from phylodata.utils.blast_utils import (
     BLAST_URL,
     build_fasta_data,
@@ -10,7 +11,6 @@ from phylodata.utils.blast_utils import (
     wait_until_ready,
 )
 from phylodata.utils.taxon_utils import look_up_taxon_classification
-from phylodata.types import ClassificationEntry, DataType, Sample, SampleType
 
 MAX_SEQ_LENGTH_CONSIDERED = 160
 
@@ -39,7 +39,13 @@ def add_protein_metadata(samples: list[Sample]) -> list[Sample]:
 
     # decide on the tree type
 
-    species = set([classification[0].scientific_name for classification in classification if classification])
+    species = set(
+        [
+            classification[0].scientific_name
+            for classification in classification
+            if classification
+        ]
+    )
     tree_type = SampleType.SPECIES if 1 < len(species) > 1 else SampleType.CELLS
 
     # add the classifications to the samples

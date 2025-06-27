@@ -3,11 +3,11 @@ from io import BytesIO
 from typing import Generator
 from xml.etree import ElementTree
 
+from phylodata.sample_metadata.add_language_metadata import add_language_metadata
 from phylodata.sample_metadata.add_nucleotide_metadata import add_nucleotide_metadata
 from phylodata.sample_metadata.add_protein_metadata import add_protein_metadata
 from phylodata.types import DataType, EvolutionaryModel, Sample, SampleData, SampleType
 from phylodata.utils.bytesio_utils import get_xml_from_bytesio
-from phylodata.sample_metadata.add_language_metadata import add_language_metadata
 
 
 def parse_beast2_samples(
