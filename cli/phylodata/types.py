@@ -82,11 +82,16 @@ class SampleData(msgspec.Struct, rename="camel"):
     data: list[str]
 
 
+class ClassificationEntry(msgspec.Struct, rename="camel"):
+    id: str
+    scientific_name: str
+
+
 class Sample(msgspec.Struct, rename="camel"):
     id: str
     scientific_name: str
     type: SampleType
-    classification: dict[str, str]
+    classification: list[ClassificationEntry]
     data: list[SampleData]
 
 

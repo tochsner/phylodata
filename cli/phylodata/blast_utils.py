@@ -1,6 +1,7 @@
-import requests
 import re
 from time import sleep
+
+import requests
 
 BLAST_URL = "https://blast.ncbi.nlm.nih.gov/blast/Blast.cgi"
 WAIT_TIME_S = 5

@@ -1,8 +1,9 @@
 import itertools
 from io import BytesIO
+from xml.etree import ElementTree
+
 from commonnexus import Nexus
 from errors import ValidationError
-from xml.etree import ElementTree
 
 
 def get_nexus_from_bytesio(file: BytesIO) -> Nexus:

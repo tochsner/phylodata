@@ -1,20 +1,23 @@
 import re
+
 import requests
+
 from phylodata.blast_utils import (
     BLAST_URL,
     build_fasta_data,
-    wait_until_ready,
-    fetch_results,
     extract_taxon_ids,
+    fetch_results,
+    wait_until_ready,
 )
 from phylodata.taxon_utils import look_up_taxon_metadata
-
+from phylodata.types import ClassificationEntry
 
 MAX_SEQ_LENGTH_CONSIDERED = 500
 
+
 def fetch_nucleotide_metadata(
     sequences: list[str],
-) -> list[tuple[str, list[str]] | None]:
+) -> list[list[ClassificationEntry] | None]:
     fasta_data = build_fasta_data(sequences, MAX_SEQ_LENGTH_CONSIDERED)
 
     request_id, _ = initiate_blast_request(fasta_data)
@@ -23,7 +26,7 @@ def fetch_nucleotide_metadata(
     blast_results = fetch_results(request_id)
     taxon_ids = extract_taxon_ids(blast_results)
 
-    metadata = []
+    metadata: list[list[ClassificationEntry] | None] = []
 
     for taxon_id in taxon_ids:
         if taxon_id:

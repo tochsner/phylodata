@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional
 from xml.etree.ElementTree import ElementTree
 
-from phylodata.types import SampleType, ModelType
-from typing import Optional
+from phylodata.types import ModelType, SampleType
 
 
 class Beast2PackageParser(ABC):

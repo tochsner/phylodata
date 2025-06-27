@@ -5,8 +5,7 @@ from typing import Optional
 
 from phylodata.errors import ValidationError
 from phylodata.types import File, FileType
-from phylodata.utils import get_nexus_from_bytesio
-from phylodata.utils import get_xml_from_bytesio
+from phylodata.utils import get_nexus_from_bytesio, get_xml_from_bytesio
 
 MIN_NUM_SNAPSHOTS = 50
 """The minimum number of snapshots required for a valid BEAST 2 posterior log file.

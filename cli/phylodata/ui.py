@@ -5,9 +5,9 @@ import bibtexparser
 import streamlit as st
 
 from phylodata.errors import ValidationError
+from phylodata.parse_beast2_samples import parse_beast2_samples
 from phylodata.parse_evolutionary_model import parse_evolutionary_model
 from phylodata.parse_files import parse_file
-from phylodata.parse_beast2_samples import parse_beast2_samples
 from phylodata.parse_trees import parse_trees
 from phylodata.types import (
     Experiment,
