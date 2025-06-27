@@ -19,7 +19,7 @@ def add_language_metadata(samples: list[Sample]) -> list[Sample]:
             if data.type != DataType.TRAITS:
                 continue
 
-            if classification := fetch_language_metadata(sample.id):
+            if classification := fetch_language_classification(sample.id):
                 sample.classification = classification
                 sample.scientific_name = classification[0].scientific_name
                 sample.type = SampleType.LANGUAGE
@@ -28,7 +28,7 @@ def add_language_metadata(samples: list[Sample]) -> list[Sample]:
     return samples
 
 
-def fetch_language_metadata(language_label: str) -> list[ClassificationEntry] | None:
+def fetch_language_classification(language_label: str) -> list[ClassificationEntry] | None:
     match = process.extractOne(
         clean_label(language_label),
         cleaned_language_names,

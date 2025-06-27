@@ -1,12 +1,7 @@
-- Samples parser
-- Evolutionary model parser
-
 => decide which BEAST 2 packages to support
 => write parser for the different samples
 => write parser for the different modules
 
-- Detect sample species
-- Run BLAST / gottolog
 - Leaf to sample mapping
 - CCD0 tree
 - Hipstr tree
