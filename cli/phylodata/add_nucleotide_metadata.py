@@ -37,13 +37,18 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
 
     classification = fetch_nucleotide_classifications(nucleotide_sequences)
 
+    # decide on the tree type
+
+    species = set([classification[0].scientific_name for classification in classification if classification])
+    tree_type = SampleType.SPECIES if 1 < len(species) > 1 else SampleType.CELLS
+
     # add the classifications to the samples
 
     for idx, classification in zip(nucleotide_sequence_idx, classification):
         if classification:
             samples[idx].classification = classification
             samples[idx].scientific_name = classification[0].scientific_name
-            samples[idx].type = SampleType.SPECIES
+            samples[idx].type = tree_type
 
     return samples
 

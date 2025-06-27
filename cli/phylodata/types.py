@@ -23,7 +23,7 @@ class FileType(Enum):
 
 class SampleType(Enum):
     SPECIES = "species"
-    GENE = "gene"
+    CELLS = "cells"
     LANGUAGE = "language"
     UNKNOWN = "unknown"
 
