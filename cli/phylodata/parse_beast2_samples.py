@@ -3,8 +3,11 @@ from io import BytesIO
 from typing import Generator
 from xml.etree import ElementTree
 
-from phylodata.types import DataType, EvolutionaryModel, Sample, SampleData
+from phylodata.add_nucleotide_metadata import add_nucleotide_metadata
+from phylodata.add_protein_metadata import add_protein_metadata
+from phylodata.types import DataType, EvolutionaryModel, Sample, SampleData, SampleType
 from phylodata.utils import get_xml_from_bytesio
+from phylodata.add_language_metadata import add_language_metadata
 
 
 def parse_beast2_samples(
@@ -35,13 +38,9 @@ def parse_beast2_samples(
 
     # construct the samples by adding additional metadata
 
-    samples_with_metadata = []
-    for sample_id, data in sample_data_per_id.items():
-        samples_with_metadata.append(
-            construct_sample(sample_id, data, evolutionary_model)
-        )
+    samples = construct_samples_from_data(sample_data_per_id, evolutionary_model)
 
-    return samples_with_metadata
+    return samples
 
 
 def collect_sample_data_from_data_tag(
@@ -93,22 +92,30 @@ def collect_sample_data_from_data_tag(
         yield sample_id, SampleData(type=data_type, length=len(data), data=data)
 
 
-def construct_sample(
-    sample_id: str, data: list[SampleData], evolutionary_model: EvolutionaryModel
-) -> Sample:
-    ...
+def construct_samples_from_data(
+    sample_data_per_id: dict[str, list[SampleData]],
+    evolutionary_model: EvolutionaryModel,
+) -> list[Sample]:
+    # generate all samples without any detailed metadata
 
-    # id: str
-    # scientific_name: str
-    # type: SampleType
-    # classification: dict[str, str]
-    # data: list[SampleData]
-    #
-    # SPECIES   (name, all seq from different species)
-    # CELL      (name, all seq from same species, same genes)
-    # GENE      (name, all seq from same species, different genes)
-    # LANGUAGE  (name, package)
-    # UNKNOWN
+    samples = [
+        Sample(
+            id=id,
+            scientific_name=id,
+            type=SampleType.UNKNOWN,
+            classification=[],
+            data=data,
+        )
+        for id, data in sample_data_per_id.items()
+    ]
+
+    # try to add metadata if applicable
+
+    add_nucleotide_metadata(samples)
+    add_protein_metadata(samples)
+    add_language_metadata(samples)
+
+    return samples
 
 
 DNA_CHARACTERS = {"a", "t", "c", "g"}

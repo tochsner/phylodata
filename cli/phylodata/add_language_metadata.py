@@ -1,0 +1,72 @@
+from rapidfuzz import fuzz, process
+
+from phylodata.language_utils import (
+    clean_label,
+    cleaned_language_names,
+    id_to_language,
+    languages,
+)
+from phylodata.types import ClassificationEntry, DataType, Sample, SampleType
+
+
+def add_language_metadata(samples: list[Sample]) -> list[Sample]:
+    """Tries to add metadata to all samples which correspond to a language."""
+    for sample in samples:
+        if sample.type != SampleType.UNKNOWN:
+            continue
+
+        for data in sample.data:
+            if data.type != DataType.TRAITS:
+                continue
+
+            if classification := fetch_language_metadata(sample.id):
+                sample.classification = classification
+                sample.scientific_name = classification[0].scientific_name
+                sample.type = SampleType.LANGUAGE
+                break  # we only need one match
+
+    return samples
+
+
+def fetch_language_metadata(language_label: str) -> list[ClassificationEntry] | None:
+    match = process.extractOne(
+        clean_label(language_label),
+        cleaned_language_names,
+        scorer=fuzz.WRatio,
+        score_cutoff=90,
+    )
+
+    if not match:
+        return None
+
+    match_idx = match[2]
+    matched_language = languages[match_idx]
+
+    classification = [
+        ClassificationEntry(
+            id=matched_language["language_id"],
+            scientific_name=matched_language["name"],
+        )
+    ]
+    classification = extend_classification(classification)
+
+    return classification
+
+
+def extend_classification(
+    classification: list[ClassificationEntry],
+) -> list[ClassificationEntry]:
+    highest_language = id_to_language[classification[-1].id]
+    next_parent_id = highest_language["parent_id"]
+    next_parent = id_to_language.get(next_parent_id)
+
+    if next_parent:
+        classification.append(
+            ClassificationEntry(
+                id=next_parent["language_id"],
+                scientific_name=next_parent["name"],
+            )
+        )
+        classification = extend_classification(classification)
+
+    return classification

@@ -71,7 +71,7 @@ class Beast2PackageParser(ABC):
         """Extracts potential package parameters from the BEAST 2 xml configuration."""
         raise NotImplementedError
 
-    def suggest_sample_type(self, beast2_xml: ElementTree) -> Optional[SampleType]:
+    def suggest_sample_type(self) -> Optional[SampleType]:
         """If the package usage suggests a specific sample type, returns it. For example,
         a model for phylogenetic language trees would return SampleType.LANGUAGE."""
         return None
@@ -96,8 +96,11 @@ class BabelParser(Beast2PackageParser):
     def get_parameters(self, beast2_xml: ElementTree) -> dict[str, Any]:
         return {}
 
-    def suggest_sample_type(self, beast2_xml: ElementTree) -> Optional[SampleType]:
+    def suggest_sample_type(self) -> Optional[SampleType]:
         return SampleType.LANGUAGE
 
 
 BEAST2_PACKAGE_PARSERS: list[Beast2PackageParser] = [BabelParser()]
+BEAST2_PACKAGE_PARSERS_PER_NAME: dict[str, Beast2PackageParser] = {
+    parser.get_name(): parser for parser in BEAST2_PACKAGE_PARSERS
+}

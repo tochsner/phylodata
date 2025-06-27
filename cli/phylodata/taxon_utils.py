@@ -3,7 +3,7 @@ import taxoniq
 from phylodata.types import ClassificationEntry
 
 
-def look_up_taxon_metadata(taxon_id: int) -> list[ClassificationEntry]:
+def look_up_taxon_classification(taxon_id: int) -> list[ClassificationEntry]:
     taxon = taxoniq.Taxon(taxon_id)
     return [
         ClassificationEntry(
