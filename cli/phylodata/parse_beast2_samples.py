@@ -7,7 +7,9 @@ from phylodata.types import DataType, EvolutionaryModel, Sample, SampleData
 from phylodata.utils import get_xml_from_bytesio
 
 
-def parse_beast2_samples(beast2_config: BytesIO, evolutionary_model: EvolutionaryModel) -> list[Sample]:
+def parse_beast2_samples(
+    beast2_config: BytesIO, evolutionary_model: EvolutionaryModel
+) -> list[Sample]:
     """Collects all sample data found in the BEAST 2 XML.
 
     All top-level <data> tags are traversed in order to find all
@@ -35,7 +37,9 @@ def parse_beast2_samples(beast2_config: BytesIO, evolutionary_model: Evolutionar
 
     samples_with_metadata = []
     for sample_id, data in sample_data_per_id.items():
-        samples_with_metadata.append(construct_sample(sample_id, data, evolutionary_model))
+        samples_with_metadata.append(
+            construct_sample(sample_id, data, evolutionary_model)
+        )
 
     return samples_with_metadata
 
@@ -89,8 +93,22 @@ def collect_sample_data_from_data_tag(
         yield sample_id, SampleData(type=data_type, length=len(data), data=data)
 
 
-def construct_sample(sample_id: str, data: list[SampleData], evolutionary_model: EvolutionaryModel) -> Sample:
+def construct_sample(
+    sample_id: str, data: list[SampleData], evolutionary_model: EvolutionaryModel
+) -> Sample:
     ...
+
+    # id: str
+    # scientific_name: str
+    # type: SampleType
+    # classification: dict[str, str]
+    # data: list[SampleData]
+    #
+    # SPECIES   (name, all seq from different species)
+    # CELL      (name, all seq from same species, same genes)
+    # GENE      (name, all seq from same species, different genes)
+    # LANGUAGE  (name, package)
+    # UNKNOWN
 
 
 DNA_CHARACTERS = {"a", "t", "c", "g"}

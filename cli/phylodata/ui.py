@@ -140,9 +140,15 @@ if st.session_state[STAGE] == Stage.INPUT:
             metadata = Metadata(evo_data_pipeline_version=__version__)
 
             try:
-                parsed_beast2_configuration = parse_file(beast2_configuration, FileType.BEAST2_CONFIGURATION)
-                parsed_beast2_logs = parse_file(beast2_logs, FileType.BEAST2_POSTERIOR_LOGS)
-                parsed_beast2_trees = parse_file(beast2_trees, FileType.BEAST2_POSTERIOR_TREES)
+                parsed_beast2_configuration = parse_file(
+                    beast2_configuration, FileType.BEAST2_CONFIGURATION
+                )
+                parsed_beast2_logs = parse_file(
+                    beast2_logs, FileType.BEAST2_POSTERIOR_LOGS
+                )
+                parsed_beast2_trees = parse_file(
+                    beast2_trees, FileType.BEAST2_POSTERIOR_TREES
+                )
 
                 files = [
                     parsed_beast2_configuration,
@@ -154,8 +160,12 @@ if st.session_state[STAGE] == Stage.INPUT:
                     parsed_other_file = parse_file(other_file, FileType.UNKNOWN)
                     files.append(parsed_other_file)
 
-                parsed_evolutionary_model = parse_evolutionary_model(beast2_configuration)
-                parsed_samples = parse_beast2_samples(beast2_configuration, parsed_evolutionary_model)
+                parsed_evolutionary_model = parse_evolutionary_model(
+                    beast2_configuration
+                )
+                parsed_samples = parse_beast2_samples(
+                    beast2_configuration, parsed_evolutionary_model
+                )
                 parsed_trees = parse_trees(beast2_trees)
             except ValidationError as error:
                 st.toast(error.message)

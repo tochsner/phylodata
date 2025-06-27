@@ -6,10 +6,12 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "bibtexparser>=2.0.0b1",
+    "biopython>=1.85",
     "commonnexus>=1.9.2",
     "msgspec>=0.19.0",
     "nicegui>=2.20.0",
     "streamlit>=1.46.0",
+    "taxoniq>=1.0.3",
 ]
 
 [project.scripts]
