@@ -78,7 +78,7 @@ class File(msgspec.Struct, rename="camel"):
 class SampleData(msgspec.Struct, rename="camel"):
     type: DataType
     length: int
-    data: list[str]
+    data: str
 
 
 class ClassificationEntry(msgspec.Struct, rename="camel"):

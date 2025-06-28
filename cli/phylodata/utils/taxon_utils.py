@@ -1,6 +1,6 @@
 import taxoniq
 
-from phylodata.types import ClassificationEntry
+from phylodata.data_types import ClassificationEntry
 
 
 def look_up_taxon_classification(taxon_id: int) -> list[ClassificationEntry]:

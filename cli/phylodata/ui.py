@@ -1,5 +1,6 @@
 from datetime import date
 from enum import Enum
+import msgspec
 
 import bibtexparser
 import streamlit as st
@@ -9,7 +10,7 @@ from phylodata.parsers.parse_beast2_samples import parse_beast2_samples
 from phylodata.parsers.parse_evolutionary_model import parse_evolutionary_model
 from phylodata.parsers.parse_files import parse_file
 from phylodata.parsers.parse_trees import parse_trees
-from phylodata.types import (
+from phylodata.data_types import (
     Experiment,
     ExperimentType,
     FileType,
@@ -180,6 +181,9 @@ if st.session_state[STAGE] == Stage.INPUT:
                 trees=parsed_trees,
                 metadata=metadata,
             )
+
+            with open("output.json", "wb") as f:
+                f.write(msgspec.json.encode(paper_with_experiment))
 
     process_experiment = st.button("Process experiment", type="primary")
     if process_experiment:

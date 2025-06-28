@@ -4,7 +4,7 @@ from io import BytesIO, TextIOWrapper
 from typing import Optional
 
 from phylodata.errors import ValidationError
-from phylodata.types import File, FileType
+from phylodata.data_types import File, FileType
 from phylodata.utils.bytesio_utils import get_nexus_from_bytesio, get_xml_from_bytesio
 
 MIN_NUM_SNAPSHOTS = 50

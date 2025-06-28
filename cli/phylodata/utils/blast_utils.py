@@ -5,6 +5,40 @@ import requests
 
 BLAST_URL = "https://blast.ncbi.nlm.nih.gov/blast/Blast.cgi"
 WAIT_TIME_S = 5
+MAX_BATCH_SIZE = 32
+
+def run_blast(sequences: list[str], parameters: dict, max_length_considered: int):
+    results = {}
+
+    for i in range(0, len(sequences), MAX_BATCH_SIZE):
+        batch = sequences[i:i+MAX_BATCH_SIZE]
+
+        fasta_data = build_fasta_data(batch, max_length_considered)
+        parameters["QUERY"] = fasta_data
+
+        request_id, _ = initiate_blast_request(fasta_data, parameters)
+        wait_until_ready(request_id)
+
+        results.update(fetch_results(request_id))
+
+    return results
+
+
+def initiate_blast_request(fasta_data: str, parameters: dict) -> tuple[str, int]:
+    response = requests.post(BLAST_URL, data=parameters)
+    if response.status_code != 200:
+        raise Exception(f"BLAST submission failed: {response.text}")
+
+    request_id = re.search(r"RID = (\S+)", response.text)
+    wait_time_s = re.search(r"RTOE = (\d+)", response.text)
+
+    if not request_id or not wait_time_s:
+        raise Exception("Failed to parse BLAST response." + response.text)
+
+    request_id = request_id.group(1)
+    wait_time_s = int(wait_time_s.group(1))
+
+    return request_id, wait_time_s
 
 
 def build_fasta_data(sequences: list[str], max_length_considered: int) -> str:
@@ -32,7 +66,7 @@ def wait_until_ready(request_id: str):
             sleep(WAIT_TIME_S)
             wait_until_ready(request_id)
         case _:
-            raise Exception(f"BLAST submission failed: {status}")
+            raise Exception(f"BLAST submission failed: {status}" + response.text)
 
 
 def fetch_results(request_id: str) -> dict:

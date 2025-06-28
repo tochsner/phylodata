@@ -6,7 +6,7 @@ from xml.etree import ElementTree
 from phylodata.sample_metadata.add_language_metadata import add_language_metadata
 from phylodata.sample_metadata.add_nucleotide_metadata import add_nucleotide_metadata
 from phylodata.sample_metadata.add_protein_metadata import add_protein_metadata
-from phylodata.types import DataType, EvolutionaryModel, Sample, SampleData, SampleType
+from phylodata.data_types import DataType, EvolutionaryModel, Sample, SampleData, SampleType
 from phylodata.utils.bytesio_utils import get_xml_from_bytesio
 
 
@@ -73,20 +73,22 @@ def collect_sample_data_from_data_tag(
 
         # data can be comma-delimited or just a joined string
         if "," in data:
-            data = data.split(",")
-        else:
-            data = list(data)
+            data = "".join(data.split(","))
 
         # if dataType was not given in the <data> tag, we try to infer it from
         # the sequence itself
         if data_type == DataType.UNKNOWN:
             characters = {c.lower() for c in data}
 
-            if characters.issubset(DNA_CHARACTERS):
+            if not {c for c in characters if c.isalpha()}:
+                # we don't have any actual useful characters
+                continue
+            elif characters.issubset(DNA_CHARACTERS):
                 data_type = DataType.DNA
             elif characters.issubset(RNA_CHARACTERS):
                 data_type = DataType.RNA
             elif characters.issubset(AA_CHARACTERS):
+                print(characters)
                 data_type = DataType.AMINO_ACIDS
 
         yield sample_id, SampleData(type=data_type, length=len(data), data=data)
@@ -118,8 +120,8 @@ def construct_samples_from_data(
     return samples
 
 
-DNA_CHARACTERS = {"a", "t", "c", "g"}
-RNA_CHARACTERS = {"a", "u", "c", "g"}
+DNA_CHARACTERS = {"a", "t", "c", "g", "*", "?", "-", "r", "y", "u", "n"}
+RNA_CHARACTERS = {"a", "u", "c", "g", "*", "?", "-", "r", "y", "t", "n"}
 AA_CHARACTERS = {
     "a",
     "r",
@@ -143,4 +145,7 @@ AA_CHARACTERS = {
     "v",
     "u",
     "o",
+    "?",
+    "*",
+    "-"
 }

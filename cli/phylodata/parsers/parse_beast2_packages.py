@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Optional
 from xml.etree.ElementTree import ElementTree
 
-from phylodata.types import ModelType, SampleType
+from phylodata.data_types import ModelType, SampleType
 
 
 class Beast2PackageParser(ABC):

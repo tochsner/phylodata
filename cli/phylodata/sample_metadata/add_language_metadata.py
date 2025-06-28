@@ -1,6 +1,6 @@
 from rapidfuzz import fuzz, process
 
-from phylodata.types import ClassificationEntry, DataType, Sample, SampleType
+from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
 from phylodata.utils.language_utils import (
     clean_label,
     cleaned_language_names,

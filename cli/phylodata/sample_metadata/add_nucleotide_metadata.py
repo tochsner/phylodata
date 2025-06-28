@@ -1,18 +1,12 @@
-import re
 
-import requests
-
-from phylodata.types import ClassificationEntry, DataType, Sample, SampleType
+from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
 from phylodata.utils.blast_utils import (
-    BLAST_URL,
-    build_fasta_data,
     extract_taxon_ids,
-    fetch_results,
-    wait_until_ready,
+    run_blast
 )
 from phylodata.utils.taxon_utils import look_up_taxon_classification
 
-MAX_SEQ_LENGTH_CONSIDERED = 500
+MAX_SEQ_LENGTH_CONSIDERED = 2500
 
 
 def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
@@ -29,7 +23,7 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
 
         for data in sample.data:
             if data.type in [DataType.RNA, DataType.DNA]:
-                nucleotide_sequences.append("".join(data.data))
+                nucleotide_sequences.append("".join(c for c in data.data if c.isalpha()))
                 nucleotide_sequence_idx.append(idx)
                 break  # we only need one sequence per sample
 
@@ -62,12 +56,17 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
 def fetch_nucleotide_classifications(
     sequences: list[str],
 ) -> list[list[ClassificationEntry] | None]:
-    fasta_data = build_fasta_data(sequences, MAX_SEQ_LENGTH_CONSIDERED)
+    if not sequences: return []
 
-    request_id, _ = initiate_blast_request(fasta_data)
-    wait_until_ready(request_id)
+    blast_params = {
+         "CMD": "Put",
+         "PROGRAM": "blastn",
+         "MEGABLAST": True,
+         "DATABASE": "core_nt",
+         "HITLIST_SIZE": 1,
+    }
 
-    blast_results = fetch_results(request_id)
+    blast_results = run_blast(sequences, blast_params, MAX_SEQ_LENGTH_CONSIDERED)
     taxon_ids = extract_taxon_ids(blast_results)
 
     classifications: list[list[ClassificationEntry] | None] = []
@@ -82,29 +81,3 @@ def fetch_nucleotide_classifications(
             classifications.append(None)
 
     return classifications
-
-
-def initiate_blast_request(fasta_data: str) -> tuple[str, int]:
-    params = {
-        "CMD": "Put",
-        "PROGRAM": "blastn",
-        "MEGABLAST": True,
-        "DATABASE": "core_nt",
-        "QUERY": fasta_data,
-        "HITLIST_SIZE": 1,
-    }
-
-    response = requests.post(BLAST_URL, data=params)
-    if response.status_code != 200:
-        raise Exception(f"BLAST submission failed: {response.text}")
-
-    request_id = re.search(r"RID = (\S+)", response.text)
-    wait_time_s = re.search(r"RTOE = (\d+)", response.text)
-
-    if not request_id or not wait_time_s:
-        raise Exception("Failed to parse BLAST response")
-
-    request_id = request_id.group(1)
-    wait_time_s = int(wait_time_s.group(1))
-
-    return request_id, wait_time_s
