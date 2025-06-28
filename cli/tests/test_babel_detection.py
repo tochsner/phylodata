@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from phylodata.parse_evolutionary_model import parse_evolutionary_model
+from phylodata.parsers.parse_evolutionary_model import parse_evolutionary_model
 
 
 def to_bytes_io(text: str):

@@ -3,7 +3,7 @@ from io import BytesIO
 from xml.etree import ElementTree
 
 from commonnexus import Nexus
-from errors import ValidationError
+from phylodata.errors import ValidationError
 
 
 def get_nexus_from_bytesio(file: BytesIO) -> Nexus:

@@ -1,13 +1,14 @@
-=> decide which BEAST 2 packages to support
-=> write parser for the different samples
-=> write parser for the different modules
-
-- Leaf to sample mapping
-- CCD0 tree
-- Hipstr tree
-- DRIAD import
-
-- Show results of process
-
-- Generate JSON file
-- Command to verify JSON file
+- Make beast parsing more robust
+- Add logging and feedback
+- Finish UI process
+- Set-up upload
+- Add simple tree ESS
+- Add more BEAST2 modules
+- Add CCD0 summary tree
+- Finish package CLI interface
+- Upload some datasets
+- Update schema
+- Update TS types
+- Add filters to search
+- Add upload instructions
+- Add popup with disclaimer
