@@ -1,7 +1,10 @@
+from re import error
 import re
 from time import sleep
-
+from loguru import logger
 import requests
+
+from phylodata.errors import BlastError
 
 BLAST_URL = "https://blast.ncbi.nlm.nih.gov/blast/Blast.cgi"
 WAIT_TIME_S = 5
@@ -28,13 +31,15 @@ def run_blast(sequences: list[str], parameters: dict, max_length_considered: int
 def initiate_blast_request(fasta_data: str, parameters: dict) -> tuple[str, int]:
     response = requests.post(BLAST_URL, data=parameters)
     if response.status_code != 200:
-        raise Exception(f"BLAST submission failed: {response.text}")
+        logger.error("BLAST submission failed: " + response.text)
+        raise BlastError("BLAST submission failed.")
 
     request_id = re.search(r"RID = (\S+)", response.text)
     wait_time_s = re.search(r"RTOE = (\d+)", response.text)
 
     if not request_id or not wait_time_s:
-        raise Exception("Failed to parse BLAST response." + response.text)
+        logger.error("Failed to parse BLAST response: " + response.text)
+        raise BlastError("Failed to parse BLAST response.")
 
     request_id = request_id.group(1)
     wait_time_s = int(wait_time_s.group(1))
@@ -64,10 +69,12 @@ def wait_until_ready(request_id: str):
         case "READY":
             return
         case "WAITING":
+            logger.info("Keep waiting for BLAST results...")
             sleep(WAIT_TIME_S)
             wait_until_ready(request_id)
         case _:
-            raise Exception(f"BLAST submission failed: {status}" + response.text)
+            logger.error(f"BLAST submission failed with status {status}: {response.text}")
+            raise Exception(f"BLAST submission failed: {status}")
 
 
 def fetch_results(request_id: str) -> dict:
@@ -81,7 +88,12 @@ def fetch_results(request_id: str) -> dict:
 
     response = requests.get(BLAST_URL, params=result_params)
 
-    result = response.json()
+    try:
+        result = response.json()
+    except Exception:
+        logger.error(f"Failed to parse BLAST results: {response.text}")
+        raise BlastError("Failed to parse BLAST results.")
+
     return result
 
 

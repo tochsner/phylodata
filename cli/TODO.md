@@ -1,4 +1,3 @@
-- Make beast parsing more robust
 - Add logging and feedback
 - Finish UI process
 - Set-up upload

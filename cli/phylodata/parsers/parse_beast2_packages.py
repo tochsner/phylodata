@@ -33,8 +33,6 @@ class Beast2PackageParser(ABC):
         elements_with_spec = root.findall(".//*[@spec]")
         spec_values = [get_attribute(elem, "spec") for elem in elements_with_spec]
 
-        print(spec_values)
-
         if spec_values and any(
             spec_value.startswith(f"{package_namespace}.")
             for spec_value in spec_values

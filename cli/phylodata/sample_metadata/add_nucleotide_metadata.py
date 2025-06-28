@@ -1,6 +1,7 @@
 from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
 from phylodata.utils.blast_utils import extract_taxon_ids, run_blast
 from phylodata.utils.taxon_utils import look_up_taxon_classification
+from phylodata.errors import BlastError
 
 MAX_SEQ_LENGTH_CONSIDERED = 2500
 
@@ -65,7 +66,11 @@ def fetch_nucleotide_classifications(
         "HITLIST_SIZE": 1,
     }
 
-    blast_results = run_blast(sequences, blast_params, MAX_SEQ_LENGTH_CONSIDERED)
+    try:
+        blast_results = run_blast(sequences, blast_params, MAX_SEQ_LENGTH_CONSIDERED)
+    except BlastError:
+        return [None] * len(sequences)
+
     taxon_ids = extract_taxon_ids(blast_results)
 
     classifications: list[list[ClassificationEntry] | None] = []
