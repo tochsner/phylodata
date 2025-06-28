@@ -3,6 +3,7 @@ from typing import Any, Optional
 from xml.etree.ElementTree import ElementTree
 
 from phylodata.data_types import ModelType, SampleType
+from phylodata.utils.beast2_xml_utils import get_attribute
 
 
 class Beast2PackageParser(ABC):
@@ -15,7 +16,7 @@ class Beast2PackageParser(ABC):
 
         # check namespaces
 
-        namespaces = root.attrib.get("namespace", "")
+        namespaces = get_attribute(root, "namespace", "")
         namespaces = namespaces.split(":")
 
         package_namespace = self.get_namespace()
@@ -30,7 +31,9 @@ class Beast2PackageParser(ABC):
         # check specs
 
         elements_with_spec = root.findall(".//*[@spec]")
-        spec_values = [elem.get("spec") for elem in elements_with_spec]
+        spec_values = [get_attribute(elem, "spec") for elem in elements_with_spec]
+
+        print(spec_values)
 
         if spec_values and any(
             spec_value.startswith(f"{package_namespace}.")
