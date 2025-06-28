@@ -1,9 +1,9 @@
 from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
 from phylodata.utils.blast_utils import (
     extract_taxon_ids,
+    run_blast,
 )
 from phylodata.utils.taxon_utils import look_up_taxon_classification
-from phylodata.utils.blast_utils import run_blast
 
 MAX_SEQ_LENGTH_CONSIDERED = 160
 
@@ -55,7 +55,8 @@ def add_protein_metadata(samples: list[Sample]) -> list[Sample]:
 def fetch_protein_classifications(
     sequences: list[str],
 ) -> list[list[ClassificationEntry] | None]:
-    if not sequences: return []
+    if not sequences:
+        return []
 
     blast_params = {
         "CMD": "Put",

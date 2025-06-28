@@ -1,7 +1,7 @@
 from io import BytesIO
 
-from phylodata.errors import ValidationError
 from phylodata.data_types import Trees
+from phylodata.errors import ValidationError
 from phylodata.utils.bytesio_utils import get_nexus_from_bytesio
 
 ULTRAMETRIC_REL_THRESHOLD = 1e-6

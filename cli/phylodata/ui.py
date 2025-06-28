@@ -1,15 +1,10 @@
 from datetime import date
 from enum import Enum
-import msgspec
 
 import bibtexparser
+import msgspec
 import streamlit as st
 
-from phylodata.errors import ValidationError
-from phylodata.parsers.parse_beast2_samples import parse_beast2_samples
-from phylodata.parsers.parse_evolutionary_model import parse_evolutionary_model
-from phylodata.parsers.parse_files import parse_file
-from phylodata.parsers.parse_trees import parse_trees
 from phylodata.data_types import (
     Experiment,
     ExperimentType,
@@ -18,6 +13,11 @@ from phylodata.data_types import (
     Paper,
     PaperWithExperiment,
 )
+from phylodata.errors import ValidationError
+from phylodata.parsers.parse_beast2_samples import parse_beast2_samples
+from phylodata.parsers.parse_evolutionary_model import parse_evolutionary_model
+from phylodata.parsers.parse_files import parse_file
+from phylodata.parsers.parse_trees import parse_trees
 from phylodata.version import __version__
 
 

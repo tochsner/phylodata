@@ -3,10 +3,16 @@ from io import BytesIO
 from typing import Generator
 from xml.etree import ElementTree
 
+from phylodata.data_types import (
+    DataType,
+    EvolutionaryModel,
+    Sample,
+    SampleData,
+    SampleType,
+)
 from phylodata.sample_metadata.add_language_metadata import add_language_metadata
 from phylodata.sample_metadata.add_nucleotide_metadata import add_nucleotide_metadata
 from phylodata.sample_metadata.add_protein_metadata import add_protein_metadata
-from phylodata.data_types import DataType, EvolutionaryModel, Sample, SampleData, SampleType
 from phylodata.utils.bytesio_utils import get_xml_from_bytesio
 
 
@@ -147,5 +153,5 @@ AA_CHARACTERS = {
     "o",
     "?",
     "*",
-    "-"
+    "-",
 }

@@ -1,6 +1,12 @@
 from rapidfuzz import fuzz, process
 
-from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
+from phylodata.data_types import (
+    ClassificationEntry,
+    ClassificationEntryType,
+    DataType,
+    Sample,
+    SampleType,
+)
 from phylodata.utils.language_utils import (
     clean_label,
     cleaned_language_names,
@@ -48,6 +54,7 @@ def fetch_language_classification(
         ClassificationEntry(
             id=matched_language["language_id"],
             scientific_name=matched_language["name"],
+            id_type=ClassificationEntryType.GLOTTOLOG_ID,
         )
     ]
     classification = extend_classification(classification)
@@ -67,6 +74,7 @@ def extend_classification(
             ClassificationEntry(
                 id=next_parent["language_id"],
                 scientific_name=next_parent["name"],
+                id_type=ClassificationEntryType.GLOTTOLOG_ID,
             )
         )
         classification = extend_classification(classification)

@@ -1,9 +1,5 @@
-
 from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
-from phylodata.utils.blast_utils import (
-    extract_taxon_ids,
-    run_blast
-)
+from phylodata.utils.blast_utils import extract_taxon_ids, run_blast
 from phylodata.utils.taxon_utils import look_up_taxon_classification
 
 MAX_SEQ_LENGTH_CONSIDERED = 2500
@@ -23,7 +19,9 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
 
         for data in sample.data:
             if data.type in [DataType.RNA, DataType.DNA]:
-                nucleotide_sequences.append("".join(c for c in data.data if c.isalpha()))
+                nucleotide_sequences.append(
+                    "".join(c for c in data.data if c.isalpha())
+                )
                 nucleotide_sequence_idx.append(idx)
                 break  # we only need one sequence per sample
 
@@ -56,14 +54,15 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
 def fetch_nucleotide_classifications(
     sequences: list[str],
 ) -> list[list[ClassificationEntry] | None]:
-    if not sequences: return []
+    if not sequences:
+        return []
 
     blast_params = {
-         "CMD": "Put",
-         "PROGRAM": "blastn",
-         "MEGABLAST": True,
-         "DATABASE": "core_nt",
-         "HITLIST_SIZE": 1,
+        "CMD": "Put",
+        "PROGRAM": "blastn",
+        "MEGABLAST": True,
+        "DATABASE": "core_nt",
+        "HITLIST_SIZE": 1,
     }
 
     blast_results = run_blast(sequences, blast_params, MAX_SEQ_LENGTH_CONSIDERED)

@@ -7,11 +7,12 @@ BLAST_URL = "https://blast.ncbi.nlm.nih.gov/blast/Blast.cgi"
 WAIT_TIME_S = 5
 MAX_BATCH_SIZE = 32
 
+
 def run_blast(sequences: list[str], parameters: dict, max_length_considered: int):
     results = {}
 
     for i in range(0, len(sequences), MAX_BATCH_SIZE):
-        batch = sequences[i:i+MAX_BATCH_SIZE]
+        batch = sequences[i : i + MAX_BATCH_SIZE]
 
         fasta_data = build_fasta_data(batch, max_length_considered)
         parameters["QUERY"] = fasta_data
@@ -93,7 +94,7 @@ def extract_taxon_ids(blast_json: dict) -> list[int | None]:
                 0
             ]["taxid"]
             taxon_id = int(taxon_id)
-        except:
+        except KeyError:
             taxon_id = None
 
         taxon_ids.append(taxon_id)

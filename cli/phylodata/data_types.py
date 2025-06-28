@@ -11,6 +11,11 @@ class ExperimentType(Enum):
     BEAST2_Experiment = "beast2Experiment"
 
 
+class ClassificationEntryType(Enum):
+    NCBI_TAXONOMY_ID = "ncibTaxonomyId"
+    GLOTTOLOG_ID = "glottologId"
+
+
 class FileType(Enum):
     BEAST2_CONFIGURATION = "beast2Configuration"
     BEAST2_POSTERIOR_LOGS = "beast2PosteriorLogs"
@@ -84,6 +89,7 @@ class SampleData(msgspec.Struct, rename="camel"):
 class ClassificationEntry(msgspec.Struct, rename="camel"):
     id: str
     scientific_name: str
+    id_type: ClassificationEntryType
 
 
 class Sample(msgspec.Struct, rename="camel"):
