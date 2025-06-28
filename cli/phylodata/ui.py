@@ -89,10 +89,6 @@ if st.session_state[STAGE] == Stage.INPUT:
             "Other files (optional)", type=["*"], accept_multiple_files=True
         )
 
-    if beast2_configuration:
-        print(beast2_configuration.name)
-        print(beast2_configuration.file_id)
-
     """
     Almost done!
     """
@@ -141,6 +137,7 @@ if st.session_state[STAGE] == Stage.INPUT:
             metadata = Metadata(evo_data_pipeline_version=__version__)
 
             try:
+                st.text("Processing the given files...")
                 parsed_beast2_configuration = parse_file(
                     beast2_configuration, FileType.BEAST2_CONFIGURATION
                 )
@@ -161,12 +158,18 @@ if st.session_state[STAGE] == Stage.INPUT:
                     parsed_other_file = parse_file(other_file, FileType.UNKNOWN)
                     files.append(parsed_other_file)
 
+                st.text("Detecting the evolutionary model...")
                 parsed_evolutionary_model = parse_evolutionary_model(
                     beast2_configuration
                 )
+
+
+                st.text("Detecting the samples (e.g. using BEAST2 or language lookup). This might take a while, especially for amino acid sequences...")
                 parsed_samples = parse_beast2_samples(
                     beast2_configuration, parsed_evolutionary_model
                 )
+
+                st.text("Processing the trees...")
                 parsed_trees = parse_trees(beast2_trees)
             except ValidationError as error:
                 st.toast(error.message)

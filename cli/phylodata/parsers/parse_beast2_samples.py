@@ -88,13 +88,12 @@ def collect_sample_data_from_data_tag(
 
             if not {c for c in characters if c.isalpha()}:
                 # we don't have any actual useful characters
-                continue
+                ...
             elif characters.issubset(DNA_CHARACTERS):
                 data_type = DataType.DNA
             elif characters.issubset(RNA_CHARACTERS):
                 data_type = DataType.RNA
             elif characters.issubset(AA_CHARACTERS):
-                print(characters)
                 data_type = DataType.AMINO_ACIDS
 
         yield sample_id, SampleData(type=data_type, length=len(data), data=data)

@@ -27,8 +27,6 @@ def test_simple_nexus_is_ok():
         raw_nexus += f"\ntree STATE_{s} = ((0, 1), 2);"
     raw_nexus += "\nEnd;"
 
-    print(raw_nexus)
-
     file = to_bytes_io(raw_nexus)
     parse_beast2_trees(file)
 

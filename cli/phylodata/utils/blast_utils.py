@@ -106,7 +106,7 @@ def extract_taxon_ids(blast_json: dict) -> list[int | None]:
                 0
             ]["taxid"]
             taxon_id = int(taxon_id)
-        except KeyError:
+        except (KeyError, IndexError):
             taxon_id = None
 
         taxon_ids.append(taxon_id)
