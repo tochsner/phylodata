@@ -1,8 +1,8 @@
 from datetime import date
+
 from enum import Enum
 
 import bibtexparser
-import msgspec
 import streamlit as st
 
 from phylodata.data_types import (
@@ -19,15 +19,16 @@ from phylodata.parsers.parse_evolutionary_model import parse_evolutionary_model
 from phylodata.parsers.parse_files import parse_file
 from phylodata.parsers.parse_trees import parse_trees
 from phylodata.version import __version__
+from phylodata.utils.output_utils import create_output_folder
 
 
 class Stage(str, Enum):
     INPUT = "Input"
-    VALIDATION = "Validation"
     NEXT_STEPS = "Next Steps"
 
 
 STAGE = "stage"
+OUTPUT_FOLDER = "output_folder"
 
 if STAGE not in st.session_state:
     st.session_state[STAGE] = Stage.INPUT
@@ -35,7 +36,7 @@ if STAGE not in st.session_state:
 
 if st.session_state[STAGE] == Stage.INPUT:
     """
-    # Process Experiment
+    # 🌴 Process Experiment
 
     Let's process your Bayesian Phylogenetics experiment to prepare it for upload to the PhyloData repository.
 
@@ -163,8 +164,9 @@ if st.session_state[STAGE] == Stage.INPUT:
                     beast2_configuration
                 )
 
-
-                st.text("Detecting the samples (e.g. using BEAST2 or language lookup). This might take a while, especially for amino acid sequences...")
+                st.text(
+                    "Detecting the samples (e.g. using BEAST2 or language lookup). This might take a while, especially for amino acid sequences..."
+                )
                 parsed_samples = parse_beast2_samples(
                     beast2_configuration, parsed_evolutionary_model
                 )
@@ -185,9 +187,33 @@ if st.session_state[STAGE] == Stage.INPUT:
                 metadata=metadata,
             )
 
-            with open("output.json", "wb") as f:
-                f.write(msgspec.json.encode(paper_with_experiment))
+            st.text("Creating PhyloData folder...")
 
-    process_experiment = st.button("Process experiment", type="primary")
-    if process_experiment:
+            output_folder = create_output_folder(
+                title,
+                beast2_configuration,
+                beast2_logs,
+                beast2_trees,
+                other_files,
+                paper_with_experiment,
+            )
+
+            st.session_state[STAGE] = Stage.NEXT_STEPS
+            st.session_state[OUTPUT_FOLDER] = output_folder
+            st.rerun()
+
+    process_experiment_button = st.button("Process experiment", type="primary")
+    if process_experiment_button:
         process_input()
+
+
+if st.session_state[STAGE] == Stage.NEXT_STEPS:
+    """
+    # 🚀 Next Steps
+
+    You successfully processed your experiment! These are your next steps:
+
+    1. Look at the folder created in this directory. It contains all the selected files and a JSON file with all the information that we extracted from your data.
+    2. Double-check the JSON file to make sure that all the information is correct.
+    3. If everything looks good, create a zip file of the folder and upload it to the PhyloData website.
+    """

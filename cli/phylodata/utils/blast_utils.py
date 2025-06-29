@@ -1,4 +1,3 @@
-from re import error
 import re
 from time import sleep
 from loguru import logger
@@ -73,7 +72,9 @@ def wait_until_ready(request_id: str):
             sleep(WAIT_TIME_S)
             wait_until_ready(request_id)
         case _:
-            logger.error(f"BLAST submission failed with status {status}: {response.text}")
+            logger.error(
+                f"BLAST submission failed with status {status}: {response.text}"
+            )
             raise Exception(f"BLAST submission failed: {status}")
 
 

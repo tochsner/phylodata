@@ -1,6 +1,9 @@
 from xml.etree.ElementTree import Element
 
-def get_attribute[T](xml_element: Element, attribute_name: str, default: T = None) -> str | T:
+
+def get_attribute[T](
+    xml_element: Element, attribute_name: str, default: T = None
+) -> str | T:
     """Returns the value of the attribute with the given name from the XML element,
     or the default value if not found.
 
@@ -15,7 +18,11 @@ def get_attribute[T](xml_element: Element, attribute_name: str, default: T = Non
         if child.tag == attribute_name and child.text:
             return child.text
 
-        if child.tag == 'input' and child.attrib.get('name') == attribute_name and child.text:
+        if (
+            child.tag == "input"
+            and child.attrib.get("name") == attribute_name
+            and child.text
+        ):
             return child.text
 
     return default
