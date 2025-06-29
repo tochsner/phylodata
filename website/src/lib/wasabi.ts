@@ -1,10 +1,35 @@
-import AWS from 'aws-sdk';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-import { WASABI_ACCESS_KEY, WASABI_SECRET_KEY } from '$env/static/private';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-var wasabiEndpoint = new AWS.Endpoint('s3.wasabisys.com');
-var s3 = new AWS.S3({
-	endpoint: wasabiEndpoint,
-	accessKeyId: WASABI_ACCESS_KEY,
-	secretAccessKey: WASABI_SECRET_KEY
+import { WASABI_ACCESS_KEY, WASABI_SECRET_KEY, WASABI_BUCKET } from '$env/static/private';
+
+var s3Client = new S3Client({
+	endpoint: 'https://s3.eu-central-2.wasabisys.com',
+	region: 'eu-central-2',
+	credentials: {
+		accessKeyId: WASABI_ACCESS_KEY,
+		secretAccessKey: WASABI_SECRET_KEY
+	}
 });
+
+export async function uploadFileToWasabi(file: File, key: string): Promise<void> {
+	const command = new PutObjectCommand({
+		Bucket: WASABI_BUCKET,
+		Key: key
+	});
+	const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+	console.log(uploadUrl);
+
+	const formData = new FormData();
+	formData.append('file', file);
+
+	const uploadResult = await fetch(uploadUrl, {
+		method: 'PUT',
+		body: formData
+	});
+
+	if (!uploadResult.ok) {
+		throw Error('Upload failed.');
+	}
+}

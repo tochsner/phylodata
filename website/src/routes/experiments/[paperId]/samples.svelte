@@ -24,7 +24,7 @@
 			<thead>
 				<tr>
 					<th></th>
-					<ThSort {table} field="scientific_name">Name</ThSort>
+					<ThSort {table} field="scientificName">Name</ThSort>
 					<Th>Data</Th>
 					<th></th>
 				</tr>
@@ -33,7 +33,7 @@
 				{#each table.rows as row (row.id)}
 					<tr>
 						<td>
-							{#if row.type === 'species' || row.type === 'cell'}
+							{#if row.type === 'species' || row.type === 'cells'}
 								<svg
 									width="20"
 									height="20"
@@ -123,7 +123,7 @@
 
 						<td>
 							<div class="flex flex-col gap-1">
-								<span class="font-semibold">{row.scientific_name}</span>
+								<span class="font-semibold">{row.scientificName}</span>
 								<span>{row.id}</span>
 							</div>
 						</td>

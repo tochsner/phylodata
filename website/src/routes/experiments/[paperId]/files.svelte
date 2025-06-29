@@ -11,7 +11,7 @@
 		rowsPerPage: 10
 	});
 
-	const totalSize = files.map((file) => file.size_bytes).reduce((acc, val) => acc + val, 0);
+	const totalSize = files.map((file) => file.sizeBytes).reduce((acc, val) => acc + val, 0);
 </script>
 
 <div class="flex flex-col gap-4 p-4">
@@ -30,12 +30,12 @@
 					<ThSort {table} field="type">Type</ThSort>
 					<ThSort {table} field="name">Name</ThSort>
 					<ThSort {table} field="version">Version</ThSort>
-					<ThSort {table} field="size_bytes">Size</ThSort>
+					<ThSort {table} field="sizeBytes">Size</ThSort>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				{#each table.rows as row (row.id)}
+				{#each table.rows as row (row.md5)}
 					<tr>
 						<td>
 							{#if row.type === 'beast2Configuration' || row.type === 'codephyModel' || row.type === 'evoDataExperiment'}
@@ -107,7 +107,7 @@
 						</td>
 						<td>{row.name}</td>
 						<td>{row.version}</td>
-						<td>{formatNumber(row.size_bytes)} bytes</td>
+						<td>{formatNumber(row.sizeBytes)} bytes</td>
 						<td align="right">
 							<button aria-label="download" class="cursor-pointer">
 								<svg

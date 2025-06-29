@@ -1,15 +1,19 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Header from '$lib/components/header.svelte';
-	import { supabase } from '$lib/supabaseClient';
-	import { convertSchemaToType } from '$lib/types';
+	import { convertSchemaToType, type PaperWithExperiments } from '$lib/types';
 	import { retrieveJSON } from '$lib/zip';
+	import EvolutionaryModels from '../experiments/[paperId]/evolutionaryModels.svelte';
+	import Files from '../experiments/[paperId]/files.svelte';
+	import Samples from '../experiments/[paperId]/samples.svelte';
+	import Trees from '../experiments/[paperId]/trees.svelte';
 
-	let currentStep = 1;
-	let files: File[] = [];
-	let uploading = false;
-	let uploadComplete = false;
-	let uploadError: string | undefined = undefined;
-	let progress = 0;
+	let currentStep = $state(1);
+	let files: File[] = $state([]);
+
+	let uploadedObject = $state<PaperWithExperiments>();
+
+	let isProcessing = $state(false);
 
 	function handleFileSelect(e: Event) {
 		const fileList = (<HTMLInputElement>e.target)?.files || [];
@@ -17,14 +21,8 @@
 	}
 
 	async function uploadFiles() {
-		if (files.length === 0) {
-			uploadError = 'Please select files to upload';
-			return;
-		}
-
 		const json = await retrieveJSON(files[0]);
-		console.log(json);
-		console.log(convertSchemaToType(json));
+		uploadedObject = convertSchemaToType(json);
 	}
 
 	function goToStep(step: number) {
@@ -32,7 +30,7 @@
 	}
 </script>
 
-<Header><h2 class="text-dark text-2xl font-bold">Add your experiment</h2></Header>
+<Header><h2 class="text-dark text-2xl font-bold">Add experiment</h2></Header>
 
 <div class="container mx-auto max-w-4xl px-4 py-8">
 	<div class="mb-8 rounded-lg bg-white p-6 shadow-md">
@@ -82,6 +80,21 @@
 					<div class="mt-2 text-center">Upload</div>
 				</div>
 			</div>
+			<div class="flex-1">
+				<div class="relative">
+					<div class="-mx-full absolute top-5 right-0 left-0 h-[2px] bg-gray-200">
+						<div
+							class={`bg-accent h-full ${currentStep >= 4 ? 'w-full' : 'w-0'} transition-all duration-500`}
+						></div>
+					</div>
+					<div
+						class={`relative z-10 mx-auto flex h-10 w-10 items-center justify-center rounded-full ${currentStep >= 3 ? 'bg-accent text-white' : 'bg-gray-200'}`}
+					>
+						4
+					</div>
+					<div class="mt-2 text-center">Validation</div>
+				</div>
+			</div>
 		</div>
 
 		{#if currentStep === 1}
@@ -97,7 +110,7 @@
 						<code class="font-mono text-sm">pip install phylodata</code>
 						<button
 							class="cursor-pointer p-1 text-gray-500 hover:text-gray-700"
-							on:click={() => navigator.clipboard.writeText('pip install phylodata')}
+							onclick={() => navigator.clipboard.writeText('pip install phylodata')}
 							aria-label="Copy command to clipboard"
 						>
 							<svg
@@ -121,8 +134,8 @@
 				<p class="mb-6 text-sm text-gray-600">Make sure you have Python 3.13 installed.</p>
 
 				<button
-					class="bg-accent rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
-					on:click={() => goToStep(2)}
+					class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
+					onclick={() => goToStep(2)}
 				>
 					Continue to Step 2
 				</button>
@@ -146,14 +159,14 @@
 
 				<div class="flex space-x-4">
 					<button
-						class="rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
-						on:click={() => goToStep(1)}
+						class="cursor-pointer rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+						onclick={() => goToStep(1)}
 					>
 						Back
 					</button>
 					<button
-						class="bg-accent rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
-						on:click={() => goToStep(3)}
+						class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
+						onclick={() => goToStep(3)}
 					>
 						Continue to Step 3
 					</button>
@@ -162,111 +175,135 @@
 		{:else if currentStep === 3}
 			<div class="step-content">
 				<h4 class="mb-3 text-lg font-medium">Step 3: Upload Experiment Files</h4>
-				<p class="mb-4">Finally, zip the folder created by the CLI tool and upload it here:</p>
+				<p class="mb-4">Zip the folder created by the CLI tool and upload it here:</p>
 
-				{#if !uploadComplete}
-					<div class="mb-6 rounded-lg border-2 border-dashed border-gray-300 p-8 text-center">
-						<input
-							type="file"
-							id="file-upload"
-							class="hidden"
-							accept=".zip"
-							on:change={handleFileSelect}
-						/>
-						<label for="file-upload" class="block cursor-pointer">
-							<div class="mx-auto mb-4">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke-width="1.5"
-									stroke="currentColor"
-									class="mx-auto h-12 w-12 text-gray-400"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
-									/>
-								</svg>
-							</div>
-							<p class="mb-2 text-sm text-gray-600">Click to select zip file or drag and drop</p>
-							<p class="text-xs text-gray-500">ZIP files only</p>
-						</label>
-					</div>
-
-					{#if files.length > 0}
-						<div class="mb-6">
-							<h5 class="mb-2 font-medium">Selected Files:</h5>
-							<ul class="text-sm">
-								{#each files as file}
-									<li class="mb-2 flex justify-between rounded bg-gray-50 px-3 py-2">
-										<span>{file.name}</span>
-										<span class="text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
-									</li>
-								{/each}
-							</ul>
+				<div class="mb-6 rounded-lg border-2 border-dashed border-gray-300 p-8 text-center">
+					<input
+						type="file"
+						id="file-upload"
+						class="hidden"
+						accept=".zip"
+						onchange={handleFileSelect}
+					/>
+					<label for="file-upload" class="block cursor-pointer">
+						<div class="mx-auto mb-4">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="mx-auto h-12 w-12 text-gray-400"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+								/>
+							</svg>
 						</div>
-					{/if}
+						<p class="mb-2 text-sm text-gray-600">Click to select zip file or drag and drop</p>
+						<p class="text-xs text-gray-500">ZIP files only</p>
+					</label>
+				</div>
 
-					{#if uploading}
-						<div class="mb-6">
-							<div class="h-2.5 w-full rounded-full bg-gray-200">
-								<div class="bg-accent h-2.5 rounded-full" style="width: {progress}%"></div>
-							</div>
-							<p class="mt-2 text-center text-sm">Uploading... {progress}%</p>
-						</div>
-					{/if}
-
-					{#if uploadError}
-						<div class="mb-6 rounded-md bg-red-50 p-3 text-red-700">
-							{uploadError}
-						</div>
-					{/if}
-
-					<div class="flex space-x-4">
-						<button
-							class="rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
-							on:click={() => goToStep(2)}
-						>
-							Back
-						</button>
-						<button
-							class="bg-accent rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-							on:click={uploadFiles}
-							disabled={files.length === 0 || uploading}
-						>
-							{uploading ? 'Uploading...' : 'Upload Files'}
-						</button>
-					</div>
-				{:else}
-					<div class="mb-6 rounded-lg bg-green-50 p-6 text-center">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="mx-auto mb-4 h-16 w-16 text-green-500"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-							/>
-						</svg>
-						<h5 class="mb-2 text-xl font-medium text-green-700">Upload Complete!</h5>
-						<p class="mb-4 text-green-600">
-							Your experiment files have been successfully uploaded.
-						</p>
-						<a
-							href="/experiments"
-							class="bg-accent inline-block rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
-						>
-							View All Experiments
-						</a>
+				{#if files.length > 0}
+					<div class="mb-6">
+						<h5 class="mb-2 font-medium">Selected Files:</h5>
+						<ul class="text-sm">
+							{#each files as file}
+								<li class="mb-2 flex justify-between rounded bg-gray-50 px-3 py-2">
+									<span>{file.name}</span>
+									<span class="text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+								</li>
+							{/each}
+						</ul>
 					</div>
 				{/if}
+
+				<div class="flex space-x-4">
+					<button
+						class="cursor-pointer rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+						onclick={() => goToStep(2)}
+					>
+						Back
+					</button>
+					<button
+						class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+						onclick={() => {
+							uploadFiles();
+							goToStep(4);
+						}}
+						disabled={files.length === 0}
+					>
+						{'Upload Files'}
+					</button>
+				</div>
+			</div>
+		{:else if currentStep === 4}
+			<div class="step-content mb-6">
+				<h4 class="mb-3 text-lg font-medium">Step 4: Validate experiment</h4>
+				<p class="mb-4">Check the following data and make sure it is correct.</p>
+
+				{#if uploadedObject}
+					<div class="divide-background my-6 flex flex-col divide-y divide-solid text-sm">
+						<Files files={uploadedObject.experiments[0].files} />
+						<Samples samples={uploadedObject.experiments[0].samples} />
+						<Trees experiment={uploadedObject.experiments[0]} />
+						<EvolutionaryModels
+							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModels}
+						/>
+					</div>
+				{/if}
+
+				<div class="mb-6 rounded-lg border border-gray-100 bg-gray-50 p-4">
+					<h5 class="mb-2 font-medium text-gray-700">If you find an error:</h5>
+					<ol class="list-decimal pl-5 text-sm text-gray-600">
+						<li class="mb-2">Open the JSON file in the created folder.</li>
+						<li class="mb-2">Make any necessary corrections.</li>
+						<li class="mb-2">
+							Validate if the JSON file is valid using <code class="font-mono text-sm"
+								>phylodata validate /path/to/file.json</code
+							>.
+						</li>
+						<li class="mb-2">Create a new zip file of the folder.</li>
+					</ol>
+					<button
+						class="rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+						onclick={() => {
+							files = [];
+							goToStep(3);
+						}}
+					>
+						Upload the ZIP file again
+					</button>
+				</div>
+
+				<form
+					class="flex space-x-4"
+					method="POST"
+					enctype="multipart/form-data"
+					use:enhance={({ formData }) => {
+						formData.append('file', files[0]);
+						formData.append('title', uploadedObject?.title || 'jgj');
+						return async ({ update }) => {
+							await update();
+						};
+					}}
+				>
+					<button
+						class="cursor-pointer rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+						onclick={() => goToStep(3)}
+					>
+						Back
+					</button>
+					<button
+						class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
+						type="submit"
+					>
+						Add experiment
+					</button>
+				</form>
 			</div>
 		{/if}
 	</div>

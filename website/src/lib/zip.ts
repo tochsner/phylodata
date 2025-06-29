@@ -1,11 +1,4 @@
-import {
-	BlobReader,
-	BlobWriter,
-	TextReader,
-	TextWriter,
-	ZipReader,
-	ZipWriter
-} from '@zip.js/zip.js';
+import { TextWriter, ZipReader } from '@zip.js/zip.js';
 import { validateSchema } from './validateSchema';
 
 /**
@@ -14,7 +7,7 @@ import { validateSchema } from './validateSchema';
  * @returns A Promise that resolves to the parsed JSON object or null if no JSON file is found
  */
 export async function retrieveJSON(blob: Blob): Promise<any | undefined> {
-	const zipReader = new ZipReader(new BlobReader(blob));
+	const zipReader = new ZipReader(blob.stream());
 
 	const entries = await zipReader.getEntries();
 
@@ -27,8 +20,12 @@ export async function retrieveJSON(blob: Blob): Promise<any | undefined> {
 
 		if (!validateSchema(jsonData)) continue;
 
+		zipReader.close();
+
 		return jsonData;
 	}
+
+	zipReader.close();
 
 	return undefined;
 }

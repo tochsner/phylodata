@@ -138,15 +138,14 @@
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />
 		<Trees {experiment} />
-		<EvolutionaryModels evolutionaryModels={experiment.evolutionary_models} />
+		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModels} />
 	</div>
 {/snippet}
 
 {#snippet experimentOverview(experiment: Experiment)}
 	<div class="flex flex-wrap items-start gap-2 p-4">
-		<Tag label="Upload date">{formatDate(experiment.upload_date)}</Tag>
+		<Tag label="Upload date">{formatDate(experiment.uploadDate)}</Tag>
 		<Tag label="Origin">{experiment.origin}</Tag>
-		<Tag label="DOI"><a href={experiment.doi}>{experiment.doi}</a></Tag>
 		<Tag label="License">{experiment.license}</Tag>
 	</div>
 {/snippet}
