@@ -1,13 +1,12 @@
-- Add logging and feedback
-- Finish UI process
-- Set-up upload
-- Add simple tree ESS
 - Add more BEAST2 modules
-- Add CCD0 summary tree
+- Add simple tree ESS
 - Finish package CLI interface
-- Upload some datasets
 - Update schema
 - Update TS types
+- Set-up upload
+- Upload some datasets
 - Add filters to search
 - Add upload instructions
 - Add popup with disclaimer
+
+- Add CCD0 summary tree
