@@ -6,35 +6,21 @@ export const load: PageServerLoad = async ({ params }) => {
 	const { paperId } = params;
 
 	const { data, error } = await supabase
-		.from('papers')
+		.from('PaperWithExperiments')
 		.select(
 			`
-    *,
-    experiments (
-      *,
-      files (
-        id,
-        name,
-        type,
-        version,
-        size_bytes,
-        md5
-      ),
-      samples (
-        id,
-        scientific_name,
-        type,
-        classification,
-        data
-      ),
-      evolutionary_models (
-        id,
-        name,
-        model_type,
-        documentation_url
-      )
-    )
-  `
+        *,
+        experiments:Experiment (
+          *,
+          files:File (*),
+          samples:Sample (
+            *,
+            data:SampleData (*),
+            classification:ClassificationEntry (*)
+          ),
+          evolutionaryModels:EvolutionaryModelComponent (*)
+        )
+      `
 		)
 		.eq('id', paperId)
 		.single();

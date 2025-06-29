@@ -7,7 +7,7 @@ def look_up_taxon_classification(taxon_id: int) -> list[ClassificationEntry]:
     taxon = taxoniq.Taxon(taxon_id)
     return [
         ClassificationEntry(
-            id=str(t.tax_id),
+            classification_id=str(t.tax_id),
             scientific_name=t.scientific_name,
             id_type=ClassificationEntryType.NCBI_TAXONOMY_ID,
         )

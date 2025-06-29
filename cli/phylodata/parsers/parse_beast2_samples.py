@@ -107,7 +107,7 @@ def construct_samples_from_data(
 
     samples = [
         Sample(
-            id=id,
+            sample_id=id,
             scientific_name=id,
             type=SampleType.UNKNOWN,
             classification=[],

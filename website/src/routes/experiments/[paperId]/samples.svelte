@@ -4,12 +4,15 @@
 	import Tag from '$lib/components/tag.svelte';
 	import { formatNumber } from '$lib/formatter';
 	import Pagination from '$lib/components/pagination.svelte';
+	import { getCommonClassifications } from '$lib/classifications';
 
 	let { samples }: { samples: Sample[] } = $props();
 
 	const table = new TableHandler(samples, {
 		rowsPerPage: 10
 	});
+
+	const commonClassifications = $derived(getCommonClassifications(samples));
 </script>
 
 <div class="flex flex-col gap-4 p-4">
@@ -17,6 +20,10 @@
 
 	<div class="flex flex-wrap items-start gap-2">
 		<Tag label="Number of samples">{formatNumber(samples.length)}</Tag>
+
+		{#each commonClassifications as classification}
+			<Tag label="Contains">{classification}</Tag>
+		{/each}
 	</div>
 
 	<Datatable {table}>
@@ -30,7 +37,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each table.rows as row (row.id)}
+				{#each table.rows as row (row.sampleId)}
 					<tr>
 						<td>
 							{#if row.type === 'species' || row.type === 'cells'}
@@ -124,7 +131,7 @@
 						<td>
 							<div class="flex flex-col gap-1">
 								<span class="font-semibold">{row.scientificName}</span>
-								<span>{row.id}</span>
+								<span>{row.sampleId}</span>
 							</div>
 						</td>
 
@@ -150,31 +157,31 @@
 							<div class="flex flex-col gap-1">
 								{#each row.data as data, idx (idx)}
 									<div class="flex justify-end gap-2">
-										{#if data.type === 'dna' || data.type === 'rna' || data.type === 'aminoAcids'}
-											<button
+										{#if (data.type === 'dna' || data.type === 'rna' || data.type === 'aminoAcids') && row.classification.at(0)?.classificationId}
+											<a
 												aria-label="download"
 												class="text-accent cursor-pointer p-2 font-semibold"
+												href={`https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=${row.classification.at(0)?.classificationId}`}
 											>
 												NCIB
-											</button>
-											<button
-												aria-label="download"
-												class="text-accent cursor-pointer p-2 font-semibold"
-											>
-												BLAST
-											</button>
+											</a>
 										{/if}
 
-										{#if row.type === 'language' && data.type === 'traits'}
-											<button
+										{#if row.type === 'language' && row.classification.at(0)?.classificationId}
+											<a
 												aria-label="download"
 												class="text-accent cursor-pointer p-2 font-semibold"
+												href={`https://glottolog.org/resource/languoid/id/${row.classification.at(0)?.classificationId}`}
 											>
 												GLOTTOLOG
-											</button>
+											</a>
 										{/if}
 
-										<button aria-label="download" class="cursor-pointer">
+										<button
+											aria-label="download"
+											class="cursor-pointer"
+											onclick={() => navigator.clipboard.writeText(data.data)}
+										>
 											<svg
 												width="20"
 												height="20"

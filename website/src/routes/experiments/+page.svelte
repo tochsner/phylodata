@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { getCommonClassifications } from '$lib/classifications';
 	import Checkbox from '$lib/components/checkbox.svelte';
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
@@ -107,6 +108,15 @@
 {/snippet}
 
 {#snippet paperOverview(paper: PaperWithExperiments)}
+	{@const treeTypes = [
+		...new Set(
+			paper.experiments.flatMap((exp) => exp.samples).map((sample) => sample.type.toUpperCase())
+		)
+	]}
+	{@const commonClassifications = getCommonClassifications(
+		paper.experiments.flatMap((exp) => exp.samples)
+	)}
+
 	<a
 		class="flex cursor-pointer flex-col rounded-xl bg-white p-3 shadow-lg shadow-gray-400/5 hover:opacity-70"
 		href={`/experiments/${paper.id}`}
@@ -118,7 +128,7 @@
 
 		<p class="text-dark pb-3 text-sm">{paper.authors.join('; ')}</p>
 
-		<div class="flex gap-2">
+		<div class="flex flex-wrap gap-2">
 			<Tag label="Number of Experiments">
 				{paper.experiments.length}
 			</Tag>
@@ -126,11 +136,23 @@
 			<Tag label="Total Size">
 				{Math.round(
 					paper.experiments.reduce(
-						(acc, exp) => acc + exp.files.reduce((acc, file) => acc + file.size_bytes, 0),
+						(acc, exp) => acc + exp.files.reduce((acc, file) => acc + file.sizeBytes, 0),
 						0
 					) / 1024
 				)} KB
 			</Tag>
+
+			{#each treeTypes as treeType}
+				<Tag label="Tree Type">
+					{treeType}
+				</Tag>
+			{/each}
+
+			{#each commonClassifications as classification}
+				<Tag label="Contains">
+					{classification}
+				</Tag>
+			{/each}
 		</div>
 	</a>
 {/snippet}

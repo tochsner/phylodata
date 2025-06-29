@@ -98,10 +98,12 @@
 {/snippet}
 
 {#snippet paperOverview()}
-	<div class="flex flex-wrap items-start gap-2">
-		<Tag label="DOI"><a href={data.doi}>{data.doi}</a></Tag>
-		{#if data.url}<Tag label="URL"><a href={data.url}>{data.url}</a></Tag>{/if}
-	</div>
+	{#if data.doi || data.url}
+		<div class="flex flex-wrap items-start gap-2">
+			{#if data.doi}<Tag label="DOI"><a href={data.doi}>{data.doi}</a></Tag>{/if}
+			{#if data.url}<Tag label="URL"><a href={data.url}>{data.url}</a></Tag>{/if}
+		</div>
+	{/if}
 {/snippet}
 
 {#snippet tabs()}
@@ -124,7 +126,7 @@
 					<div class="bg-background absolute -right-6 bottom-0 size-6 rounded-full"></div>
 				{/if}
 
-				{experiment.title}
+				{experiment.title || `Experiment ${idx + 1}`}
 			</button>
 		{/each}
 	</div>

@@ -4,34 +4,20 @@ import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 
 export const load: PageServerLoad = async () => {
-	const { data, error } = await supabase.from('papers').select(
+	const { data, error } = await supabase.from('PaperWithExperiments').select(
 		`
-    *,
-    experiments (
-      *,
-      files (
-        id,
-        name,
-        type,
-        version,
-        size_bytes,
-        md5
-      ),
-      samples (
-        id,
-        scientific_name,
-        type,
-        classification,
-        data
-      ),
-      evolutionary_models (
-        id,
-        name,
-        model_type,
-        documentation_url
-      )
-    )
-  `
+         *,
+         experiments:Experiment (
+           *,
+           files:File (*),
+           samples:Sample (
+             *,
+             data:SampleData (*),
+             classification:ClassificationEntry (*)
+           ),
+           evolutionaryModels: EvolutionaryModelComponent (*)
+         )
+       `
 	);
 
 	if (error) {
@@ -48,7 +34,6 @@ export const load: PageServerLoad = async () => {
 
 export const actions = {
 	filter: async () => {
-		console.log('Filter data');
 		return 200;
 	}
 } satisfies Actions;

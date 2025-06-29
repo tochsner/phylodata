@@ -13,23 +13,11 @@ var s3Client = new S3Client({
 	}
 });
 
-export async function uploadFileToWasabi(file: File, key: string): Promise<void> {
+export async function getWasabiUploadUrl(key: string): Promise<string> {
 	const command = new PutObjectCommand({
 		Bucket: WASABI_BUCKET,
 		Key: key
 	});
 	const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-	console.log(uploadUrl);
-
-	const formData = new FormData();
-	formData.append('file', file);
-
-	const uploadResult = await fetch(uploadUrl, {
-		method: 'PUT',
-		body: formData
-	});
-
-	if (!uploadResult.ok) {
-		throw Error('Upload failed.');
-	}
+	return uploadUrl;
 }

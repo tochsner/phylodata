@@ -25,7 +25,7 @@ def add_language_metadata(samples: list[Sample]) -> list[Sample]:
             if data.type != DataType.TRAITS:
                 continue
 
-            if classification := fetch_language_classification(sample.id):
+            if classification := fetch_language_classification(sample.sample_id):
                 sample.classification = classification
                 sample.scientific_name = classification[0].scientific_name
                 sample.type = SampleType.LANGUAGE
@@ -52,7 +52,7 @@ def fetch_language_classification(
 
     classification = [
         ClassificationEntry(
-            id=matched_language["language_id"],
+            classification_id=matched_language["language_id"],
             scientific_name=matched_language["name"],
             id_type=ClassificationEntryType.GLOTTOLOG_ID,
         )
@@ -65,14 +65,14 @@ def fetch_language_classification(
 def extend_classification(
     classification: list[ClassificationEntry],
 ) -> list[ClassificationEntry]:
-    highest_language = id_to_language[classification[-1].id]
+    highest_language = id_to_language[classification[-1].classification_id]
     next_parent_id = highest_language["parent_id"]
     next_parent = id_to_language.get(next_parent_id)
 
     if next_parent:
         classification.append(
             ClassificationEntry(
-                id=next_parent["language_id"],
+                classification_id=next_parent["language_id"],
                 scientific_name=next_parent["name"],
                 id_type=ClassificationEntryType.GLOTTOLOG_ID,
             )

@@ -1,9 +1,8 @@
 - Add more BEAST2 modules
 - Add simple tree ESS
 - Finish package CLI interface
-- Update schema
-- Update TS types
-- Set-up upload
+- Update DB
+- Downloader
 - Upload some datasets
 - Add filters to search
 - Add upload instructions

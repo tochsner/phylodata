@@ -22,13 +22,15 @@ type SampleData = {
 };
 
 type ClassificationEntry = {
-	id: string;
+	id?: string;
+	classificationId: string;
 	scientificName: string;
 	idType: 'glottologId' | 'ncibTaxonomyId';
 };
 
 export type Sample = {
-	id: string;
+	id?: string;
+	sampleId: string;
 	scientificName: string;
 	type: 'cells' | 'language' | 'species' | 'unknown';
 	classification: ClassificationEntry[];

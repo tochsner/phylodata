@@ -87,17 +87,19 @@ class SampleData(msgspec.Struct, rename="camel"):
 
 
 class ClassificationEntry(msgspec.Struct, rename="camel"):
-    id: str
+    classification_id: str
     scientific_name: str
     id_type: ClassificationEntryType
+    id: Optional[str] = None
 
 
 class Sample(msgspec.Struct, rename="camel"):
-    id: str
+    sample_id: str
     scientific_name: str
     type: SampleType
     classification: list[ClassificationEntry]
     data: list[SampleData]
+    id: Optional[str] = None
 
 
 class Trees(msgspec.Struct, rename="camel"):
