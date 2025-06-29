@@ -24,3 +24,9 @@ just test    # Run pytest tests with UV
 just check   # Run ruff linter with auto-fix
 just format  # Format code with ruff
 ```
+
+In order to run a script using the dependencies, just preface it with `uv python`:
+
+```bash
+uv python my_script.py
+```
