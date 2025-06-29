@@ -1,38 +1,47 @@
-# sv
+# 🧬 PhyloData Website
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## For Developers
 
-## Creating a project
+## 🔧 Tech Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **TypeScript**: Type-safe JavaScript
+- **Svelte 5**: Component-based frontend framework
+- **SvelteKit 2**: Full-stack framework for building web applications
+- **Tailwind CSS 4**: Utility-first CSS framework
+- **Vite 6**: Fast modern build tool
+- **Supabase**: Backend-as-a-Service for database functionality
+- **Wasabi**: Cloud object storage for data files
 
-```bash
-# create a new project in the current directory
-npx sv create
+### 📋 Prerequisites
 
-# create a new project in my-app
-npx sv create my-app
-```
+- Node.js (LTS version recommended)
+- npm or another package manager
 
-## Developing
+### 🛠️ Development Commands
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
+Run these commands with `npm run`:
 
 ```bash
-npm run build
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run preview    # Preview production build locally
+npm run check      # Run Svelte type checking
+npm run format     # Format code with Prettier
+npm run lint       # Check code style with Prettier and ESLint
 ```
 
-You can preview the production build with `npm run preview`.
+### 🚀 Getting Started
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Visit http://localhost:5173 in your browser
