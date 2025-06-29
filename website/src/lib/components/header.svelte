@@ -21,7 +21,6 @@
 
 		<!-- Right side buttons -->
 		<div class="flex items-center space-x-8">
-			<button class="hover:text-opacity font-semibold">Login</button>
 			<a
 				href="/new-experiment"
 				class="bg-accent flex cursor-pointer items-center space-x-2 rounded-md px-5 py-3 font-semibold text-white hover:opacity-70"

@@ -794,6 +794,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "bibtexparser" },
     { name = "biopython" },
+    { name = "click" },
     { name = "commonnexus" },
     { name = "loguru" },
     { name = "msgspec" },
@@ -815,6 +816,7 @@ dev = [
 requires-dist = [
     { name = "bibtexparser", specifier = ">=2.0.0b1" },
     { name = "biopython", specifier = ">=1.85" },
+    { name = "click", specifier = ">=8.2.1" },
     { name = "commonnexus", specifier = ">=1.9.2" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "msgspec", specifier = ">=0.19.0" },
