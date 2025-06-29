@@ -25,6 +25,8 @@
 		"@tailwindcss/typography": "^0.5.15",
 		"@tailwindcss/vite": "^4.0.0",
 		"@vincjo/datatables": "^2.5.0",
+		"ajv": "^8.17.1",
+		"ajv-formats": "^3.0.1",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^3.0.0",
@@ -41,5 +43,10 @@
 		"typescript-eslint": "^8.20.0",
 		"vite": "^6.2.6",
 		"vite-plugin-devtools-json": "^0.2.0"
+	},
+	"dependencies": {
+		"@zip.js/zip.js": "^2.7.62",
+		"aws-sdk": "^2.1692.0",
+		"jszip": "^3.10.1"
 	}
 }

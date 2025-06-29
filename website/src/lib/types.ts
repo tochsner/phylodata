@@ -1,71 +1,99 @@
 export type File = {
-	id: number;
 	name: string;
 	type:
 		| 'beast2Configuration'
 		| 'beast2PosteriorLogs'
 		| 'beast2PosteriorTrees'
-		| 'summaryTree'
 		| 'codephyModel'
-		| 'evoDataExperiment';
+		| 'evoDataExperiment'
+		| 'summaryTree'
+		| 'unknown';
 	version: number;
-	size_bytes: number;
+	sizeBytes: number;
 	md5: string;
+	localPath?: string | null;
+	remotePath?: string | null;
 };
 
 type SampleData = {
-	type: 'rna' | 'dna' | 'aminoAcids' | 'phasedDiploidDna' | 'traits';
+	type: 'aminoAcids' | 'dna' | 'phasedDiploidDna' | 'rna' | 'traits' | 'unknown';
 	length: number;
 	data: string;
 };
 
+type ClassificationEntry = {
+	id: string;
+	scientificName: string;
+	idType: 'glottologId' | 'ncibTaxonomyId';
+};
+
 export type Sample = {
 	id: string;
-	scientific_name: string;
-	type: 'species' | 'cell' | 'language' | 'other';
-	classification: Record<string, unknown>;
+	scientificName: string;
+	type: 'cells' | 'language' | 'species' | 'unknown';
+	classification: ClassificationEntry[];
 	data: SampleData[];
 };
 
-export type EvolutionaryModel = {
-	id: number;
+export type EvolutionaryModelComponent = {
 	name: string;
-	model_type: 'substitutionModel' | 'clockModel' | 'treePrior' | 'treeLikelihood' | 'other';
-	documentation_url: string;
+	description: string;
+	type: 'clockModel' | 'other' | 'substitutionModel' | 'treeLikelihood' | 'treePrior';
+	documentationUrl: string;
+	parameters: Record<string, any>;
 };
 
 export type Experiment = {
-	id: number;
-	paper_id: number;
-	title: string;
+	type: 'beast2Experiment';
 	origin: string;
-	doi: string;
-	upload_date: string;
+	uploadDate: string;
+	title?: string | null;
+	description?: string | null;
 	license: string;
-	number_of_trees: number;
-	number_of_tips: number;
-	ultrametric: boolean;
-	rooted: boolean;
-	ccd1_entropy: number;
-	tree_ess: number;
-	ccd0_map_tree: string;
-	hipstr_tree: string;
-	average_root_age_years: number;
-	leaf_to_sample_map: Record<string, string>;
-	pipeline_version: string;
-	pipeline_hash: string;
+	id?: string | null;
 	files: File[];
 	samples: Sample[];
-	evolutionary_models: EvolutionaryModel[];
+	evolutionaryModels: EvolutionaryModelComponent[];
+	// trees
+	numberOfTrees: number;
+	numberOfTips: number;
+	ultrametric: boolean;
+	timeTree: boolean;
+	rooted: boolean;
+	ccd1Entropy: number;
+	treeEss: number;
+	ccd0MapTree: string;
+	hipstrTree: string;
+	leafToSampleMap: Record<string, string>;
+	averageRootAge: number;
+	//metadata
+	evoDataPipelineVersion: string;
 };
 
 export type PaperWithExperiments = {
-	id: number;
 	title: string;
 	authors: string[];
 	abstract: string;
 	bibtex: string;
-	doi: string;
-	url: string | null;
+	doi?: string | null;
+	id?: string | null;
+	url?: string | null;
 	experiments: Experiment[];
 };
+
+export function convertSchemaToType(schemaData: any): PaperWithExperiments {
+	const { experiment, paper, files, samples, trees, evolutionaryModel, metadata } = schemaData;
+	return {
+		...paper,
+		experiments: [
+			{
+				...experiment,
+				files: files,
+				samples: samples,
+				evolutionaryModels: evolutionaryModel.models,
+				...trees,
+				...metadata
+			}
+		]
+	} as PaperWithExperiments;
+}
