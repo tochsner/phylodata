@@ -7,9 +7,12 @@
 	let { children } = $props();
 
 	onMount(() => {
-		toast('This website is in development. Not every feature will work.', {
-			duration: 10000
-		});
+		toast(
+			'This website is in development. Not every feature will work. The datasets are non-complete and intended for testing purposes.',
+			{
+				duration: 10000
+			}
+		);
 	});
 </script>
 

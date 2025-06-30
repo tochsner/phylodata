@@ -10,8 +10,8 @@ WAIT_TIME_S = 5
 MAX_BATCH_SIZE = 32
 
 
-def run_blast(sequences: list[str], parameters: dict, max_length_considered: int):
-    results = {}
+def run_blast(sequences: list[str], parameters: dict, max_length_considered:  int) -> list:
+    results = []
 
     for i in range(0, len(sequences), MAX_BATCH_SIZE):
         batch = sequences[i : i + MAX_BATCH_SIZE]
@@ -22,7 +22,7 @@ def run_blast(sequences: list[str], parameters: dict, max_length_considered: int
         request_id, _ = initiate_blast_request(fasta_data, parameters)
         wait_until_ready(request_id)
 
-        results.update(fetch_results(request_id))
+        results += fetch_results(request_id)["BlastOutput2"]
 
     return results
 
@@ -98,10 +98,10 @@ def fetch_results(request_id: str) -> dict:
     return result
 
 
-def extract_taxon_ids(blast_json: dict) -> list[int | None]:
+def extract_taxon_ids(blast_json: list) -> list[int | None]:
     taxon_ids = []
 
-    for result in blast_json["BlastOutput2"]:
+    for result in blast_json:
         try:
             taxon_id = result["report"]["results"]["search"]["hits"][0]["description"][
                 0

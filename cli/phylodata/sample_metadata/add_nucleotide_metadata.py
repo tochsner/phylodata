@@ -3,6 +3,8 @@ from phylodata.utils.blast_utils import extract_taxon_ids, run_blast
 from phylodata.utils.taxon_utils import look_up_taxon_classification
 from phylodata.errors import BlastError
 
+from loguru import logger
+
 MAX_SEQ_LENGTH_CONSIDERED = 2500
 
 
@@ -39,7 +41,7 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
             if classification
         ]
     )
-    tree_type = SampleType.SPECIES if 1 < len(species) > 1 else SampleType.CELLS
+    tree_type = SampleType.SPECIES if 1 < len(species) else SampleType.CELLS
 
     # add the classifications to the samples
 
