@@ -33,12 +33,31 @@ class Beast2PackageParser(ABC):
         elements_with_spec = root.findall(".//*[@spec]")
         spec_values = [get_attribute(elem, "spec") for elem in elements_with_spec]
 
-        if spec_values and any(
-            spec_value.startswith(f"{package_namespace}.")
-            for spec_value in spec_values
-            if spec_value
-        ):
-            return True
+        for spec in spec_values:
+            if not spec:
+                continue
+
+            # for the following cases: assume package_namespace = "babel.distribution"
+
+            if spec == package_namespace:
+                return True
+
+            if spec.startswith(f"{package_namespace}."):
+                # e.g. spec = "babel.distribution.Normal"
+                return True
+
+            if any(
+                f"{namespace}.{spec}" == package_namespace for namespace in namespaces
+            ):
+                # e.g. namespace = "babel" and spec = "distribution"
+                return True
+
+            if any(
+                f"{namespace}.{spec}".startswith(f"{package_namespace}.")
+                for namespace in namespaces
+            ):
+                # e.g. namespace = "babel" and spec = "distribution.Normal"
+                return True
 
         return False
 
@@ -204,7 +223,15 @@ class BabelParser(Beast2PackageParser):
         return SampleType.LANGUAGE
 
 
-BEAST2_PACKAGE_PARSERS: list[Beast2PackageParser] = [BabelParser()]
+BEAST2_PACKAGE_PARSERS: list[Beast2PackageParser] = [
+    GTRParser(),
+    HKYParser(),
+    StrictClockParser(),
+    RelaxedClockParser(),
+    TreeLikelihoodParser(),
+    BDMMPrimeParser(),
+    BabelParser(),
+]
 BEAST2_PACKAGE_PARSERS_PER_NAME: dict[str, Beast2PackageParser] = {
     parser.get_name(): parser for parser in BEAST2_PACKAGE_PARSERS
 }
