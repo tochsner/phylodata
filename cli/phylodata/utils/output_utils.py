@@ -29,7 +29,9 @@ def create_output_folder(
     os.mkdir(output_folder)
 
     with open(f"{output_folder}/phylodata_metadata.json", "wb") as f:
-        f.write(msgspec.json.encode(paper_with_experiment))
+        f.write(
+            msgspec.json.format(msgspec.json.encode(paper_with_experiment), indent=2)
+        )
 
     used_filenames = set("phylodata_metadata.json")
     all_files = [beast2_configuration, beast2_logs, beast2_trees] + other_files

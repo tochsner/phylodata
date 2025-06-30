@@ -3,6 +3,7 @@ from typing import TypeVar
 
 T = TypeVar("T")
 
+
 def get_attribute(
     xml_element: Element, attribute_name: str, default: T = None
 ) -> str | T:
