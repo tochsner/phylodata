@@ -1,18 +1,20 @@
+from pathlib import Path
 import click
 import subprocess
-from phylodata.data_types import validate_json, get_schema
+import phylodata
+from phylodata.data_types import get_schema, validate_json
 
 
 @click.group()
-def phylodata(): ...
+def cli(): ...
 
 
-@phylodata.command(help="Process an experiment before uploading it to PhyloData.")
+@cli.command(help="Process an experiment before uploading it to PhyloData.")
 def process():
-    subprocess.Popen(["streamlit", "run", "phylodata/ui.py"])
+    subprocess.run(["streamlit", "run", str(Path(phylodata.__path__[0]) / "ui.py")]) # type: ignore
 
 
-@phylodata.command(
+@cli.command(
     help="Validate if a given JSON file contains valid PhyloData metadata."
 )
 @click.argument("file_path", type=click.Path(exists=True))
@@ -21,6 +23,6 @@ def validate(file_path: str):
     print("File is valid!")
 
 
-@phylodata.command(help="Prints the JSON schema for valid PhyloData metadata files.")
+@cli.command(help="Prints the JSON schema for valid PhyloData metadata files.")
 def schema():
     print(get_schema())
