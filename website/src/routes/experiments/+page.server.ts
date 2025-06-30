@@ -3,9 +3,11 @@ import type { PaperWithExperiments } from '$lib/types';
 import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 
-export const load: PageServerLoad = async () => {
-	const { data, error } = await supabase.from('PaperWithExperiments').select(
-		`
+export const load: PageServerLoad = async () => ({
+	papers: supabase
+		.from('PaperWithExperiments')
+		.select(
+			`
          *,
          experiments:Experiment (
            *,
@@ -18,19 +20,20 @@ export const load: PageServerLoad = async () => {
            evolutionaryModels: EvolutionaryModelComponent (*)
          )
        `
-	);
+		)
+		.then(({ error, data }) => {
+			if (error) {
+				console.error(error);
+				throw new Error('No experiment found');
+			}
 
-	if (error) {
-		console.error(error);
-		throw new Error('No experiment found');
-	}
+			if (data === undefined) {
+				throw new Error('No experiment found');
+			}
 
-	if (data === undefined) {
-		throw new Error('No experiment found');
-	}
-
-	return { papers: data } as { papers: PaperWithExperiments[] };
-};
+			return data as PaperWithExperiments[];
+		})
+});
 
 export const actions = {
 	filter: async () => {

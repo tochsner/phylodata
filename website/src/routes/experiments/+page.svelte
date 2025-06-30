@@ -102,9 +102,15 @@
 
 {#snippet content()}
 	<div class="flex flex-1 flex-col gap-4">
-		{#each papers as paper (paper.id)}
-			{@render paperOverview(paper)}
-		{/each}
+		{#await papers}
+			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-50"></div>
+			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-50"></div>
+			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-50"></div>
+		{:then papers}
+			{#each papers as paper (paper.id)}
+				{@render paperOverview(paper)}
+			{/each}
+		{/await}
 	</div>
 {/snippet}
 
