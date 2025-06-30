@@ -4,7 +4,7 @@ PhyloData is a repository for Bayesian Phylogenetic experiments.
 
 ## 📋 Overview
 
-PhyloData helps you:
+PhyloData helps you to:
 
 - Make your BEAST 2 experiments available in a standardized way.
 - Discover experiments run by other researchers.
