@@ -140,3 +140,17 @@ class PaperWithExperiment(msgspec.Struct, rename="camel"):
     trees: Trees
     evolutionary_model: EvolutionaryModel
     metadata: Metadata
+
+
+def validate_json(file_path: str):
+    """Validates if the given file contains a valid PaperWithExperiment object.
+    Throws a msgspec.ValidationError if not."""
+    with open(file_path) as handle:
+        msgspec.json.decode(handle.read(), type=PaperWithExperiment)
+
+
+
+def get_schema():
+    """Returns the formatted JSON schema corresponding to PaperWithExperiment."""
+    schema = msgspec.json.schema(PaperWithExperiment)
+    return msgspec.json.format(msgspec.json.encode(schema).decode())

@@ -1,5 +1,29 @@
 # 🧬 PhyloData CLI
 
+## 📥 Installation
+
+### Using pip
+
+```bash
+pip install phylodata
+```
+
+## 📖 Usage
+
+```bash
+# Process an experiment before uploading it to PhyloData
+# (starts an interactive process in a web browser)
+phylodata process
+
+# Validate if a given JSON file contains valid PhyloData metadata
+phylodata validate path/to/metadata.json
+
+# Print the JSON schema for valid PhyloData metadata files
+# (Use this to debug the JSON file, e.g. using https://www.jsonschemavalidator.net/)
+phylodata schema
+```
+
+
 ## For Developers
 
 ## 🔧 Tech Stack

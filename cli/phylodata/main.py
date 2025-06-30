@@ -1,5 +1,6 @@
 import click
 import subprocess
+from phylodata.data_types import validate_json, get_schema
 
 
 @click.group()
@@ -16,4 +17,12 @@ def process():
 )
 @click.argument("file_path", type=click.Path(exists=True))
 def validate(file_path: str):
-    print(file_path)
+    validate_json(file_path)
+    print("File is valid!")
+
+
+@phylodata.command(
+    help="Prints the JSON schema for valid PhyloData metadata files."
+)
+def schema():
+    print(get_schema())
