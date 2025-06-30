@@ -21,8 +21,6 @@ def validate(file_path: str):
     print("File is valid!")
 
 
-@phylodata.command(
-    help="Prints the JSON schema for valid PhyloData metadata files."
-)
+@phylodata.command(help="Prints the JSON schema for valid PhyloData metadata files.")
 def schema():
     print(get_schema())

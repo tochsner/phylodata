@@ -149,7 +149,6 @@ def validate_json(file_path: str):
         msgspec.json.decode(handle.read(), type=PaperWithExperiment)
 
 
-
 def get_schema():
     """Returns the formatted JSON schema corresponding to PaperWithExperiment."""
     schema = msgspec.json.schema(PaperWithExperiment)
