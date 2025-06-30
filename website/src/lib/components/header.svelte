@@ -6,7 +6,7 @@
 	<div class="flex w-full items-center justify-between px-8 py-6">
 		<!-- Logo -->
 		<div class="flex items-center space-x-8">
-			<h1 class="text-4xl font-bold text-gray-800">
+			<h1 class="text-[2rem] font-bold text-gray-800">
 				<span class="text-accent">Phylo</span><span>Data</span>
 			</h1>
 
