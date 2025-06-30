@@ -5,6 +5,7 @@
 	import { formatNumber } from '$lib/formatter';
 	import Pagination from '$lib/components/pagination.svelte';
 	import { getCommonClassifications } from '$lib/classifications';
+	import toast from 'svelte-5-french-toast';
 
 	let { samples }: { samples: Sample[] } = $props();
 
@@ -162,6 +163,7 @@
 												aria-label="download"
 												class="text-accent cursor-pointer p-2 font-semibold"
 												href={`https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=${row.classification.at(0)?.classificationId}`}
+												target="_blank"
 											>
 												NCIB
 											</a>
@@ -172,6 +174,7 @@
 												aria-label="download"
 												class="text-accent cursor-pointer p-2 font-semibold"
 												href={`https://glottolog.org/resource/languoid/id/${row.classification.at(0)?.classificationId}`}
+												target="_blank"
 											>
 												GLOTTOLOG
 											</a>
@@ -180,7 +183,10 @@
 										<button
 											aria-label="download"
 											class="cursor-pointer"
-											onclick={() => navigator.clipboard.writeText(data.data)}
+											onclick={() => {
+												navigator.clipboard.writeText(data.data);
+												toast.success('Copied data to clipboard');
+											}}
 										>
 											<svg
 												width="20"

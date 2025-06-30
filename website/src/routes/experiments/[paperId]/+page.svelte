@@ -50,8 +50,10 @@
 				<span>Download all experiments</span>
 			</button>
 
-			<button
+			<a
 				class="border-accent text-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold hover:opacity-70"
+				href={`data:text/plain;charset=utf-8,${encodeURIComponent(data.bibtex)}`}
+				download={`${data.title}.bib`}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +71,7 @@
 				</svg>
 
 				<span>Download citation</span>
-			</button>
+			</a>
 		</div>
 
 		<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
