@@ -39,7 +39,7 @@
 				{#each table.rows as row (row.md5)}
 					<tr>
 						<td>
-							{#if row.type === 'beast2Configuration' || row.type === 'codephyModel' || row.type === 'evoDataExperiment'}
+							{#if row.type === 'beast2Configuration' || row.type === 'codephyModel' || row.type === 'phyloDataExperiment'}
 								<svg
 									width="20"
 									height="20"
@@ -100,8 +100,8 @@
 								Codephy Model
 							{:else if row.type === 'summaryTree'}
 								Summary Tree
-							{:else if row.type === 'evoDataExperiment'}
-								EvoData Experiment
+							{:else if row.type === 'phyloDataExperiment'}
+								PhyloData Experiment
 							{:else}
 								Other
 							{/if}

@@ -25,8 +25,14 @@
 	}
 
 	async function uploadFiles() {
-		const json = await retrieveJSON(files[0]);
-		uploadedObject = convertSchemaToType(json);
+		try {
+			const json = await retrieveJSON(files[0]);
+			uploadedObject = convertSchemaToType(json);
+
+			goToStep(4);
+		} catch {
+			toast.error('The ZIP file does not contain a valid JSON schema.');
+		}
 	}
 
 	function goToStep(step: number) {
@@ -105,8 +111,7 @@
 			<div class="step-content mb-6">
 				<h4 class="mb-3 text-lg font-medium">Step 1: Install the PhyloData CLI</h4>
 				<p class="mb-4">
-					First, you need to install the PhyloData CLI tool which will help you process your
-					experiment files.
+					Install the PhyloData CLI tool which will help you process your experiment files.
 				</p>
 
 				<div class="mb-4 rounded-md bg-gray-50 p-4">
@@ -114,7 +119,10 @@
 						<code class="font-mono text-sm">pip install phylodata</code>
 						<button
 							class="cursor-pointer p-1 text-gray-500 hover:text-gray-700"
-							onclick={() => navigator.clipboard.writeText('pip install phylodata')}
+							onclick={() => {
+								navigator.clipboard.writeText('pip install phylodata');
+								toast.success('Copied to clipboard.');
+							}}
 							aria-label="Copy command to clipboard"
 						>
 							<svg
@@ -135,7 +143,7 @@
 					</div>
 				</div>
 
-				<p class="mb-6 text-sm text-gray-600">Make sure you have Python 3.13 installed.</p>
+				<p class="mb-6 text-sm text-gray-600">Make sure you have Python 3.10 or newer installed.</p>
 
 				<button
 					class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
@@ -148,8 +156,7 @@
 			<div class="step-content mb-6">
 				<h4 class="mb-3 text-lg font-medium">Step 2: Process experiment files</h4>
 				<p class="mb-4">
-					Now, navigate to the directory where your experiment files are located and run the
-					following command:
+					Navigate to the directory with your experiment filee and run the following command:
 				</p>
 
 				<div class="mb-4 rounded-md bg-gray-50 p-4">
@@ -157,7 +164,10 @@
 						<code class="font-mono text-sm">phylodata process</code>
 						<button
 							class="cursor-pointer p-1 text-gray-500 hover:text-gray-700"
-							onclick={() => navigator.clipboard.writeText('phylodata process')}
+							onclick={() => {
+								navigator.clipboard.writeText('phylodata process');
+								toast.success('Copied to clipboard.');
+							}}
 							aria-label="Copy command to clipboard"
 						>
 							<svg
@@ -258,7 +268,6 @@
 						class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
 						onclick={() => {
 							uploadFiles();
-							goToStep(4);
 						}}
 						disabled={files.length === 0}
 					>
@@ -345,10 +354,10 @@
 						type="submit"
 						disabled={isProcessing}
 					>
+						Add experiment
 						{#if isProcessing}
 							<Spinner />
 						{/if}
-						Add experiment
 					</button>
 				</form>
 			</div>

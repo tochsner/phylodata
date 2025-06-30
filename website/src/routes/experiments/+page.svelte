@@ -4,6 +4,7 @@
 	import Checkbox from '$lib/components/checkbox.svelte';
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
+	import { formatNumber } from '$lib/formatter';
 	import { type PaperWithExperiments } from '$lib/types';
 	import type { PageProps } from './$types';
 
@@ -134,11 +135,13 @@
 			</Tag>
 
 			<Tag label="Total Size">
-				{Math.round(
-					paper.experiments.reduce(
-						(acc, exp) => acc + exp.files.reduce((acc, file) => acc + file.sizeBytes, 0),
-						0
-					) / 1024
+				{formatNumber(
+					Math.round(
+						paper.experiments.reduce(
+							(acc, exp) => acc + exp.files.reduce((acc, file) => acc + file.sizeBytes, 0),
+							0
+						) / 1024
+					)
 				)} KB
 			</Tag>
 

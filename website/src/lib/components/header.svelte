@@ -7,7 +7,7 @@
 		<!-- Logo -->
 		<div class="flex items-center space-x-8">
 			<h1 class="text-4xl font-bold text-gray-800">
-				<span class="text-accent">Evo</span><span>Data</span>
+				<span class="text-accent">Phylo</span><span>Data</span>
 			</h1>
 
 			<span class="text-accent/20 text-4xl font-extralight">/</span>

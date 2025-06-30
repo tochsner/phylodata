@@ -102,8 +102,8 @@
 {#snippet paperOverview()}
 	{#if data.doi || data.url}
 		<div class="flex flex-wrap items-start gap-2">
-			{#if data.doi}<Tag label="DOI"><a href={data.doi}>{data.doi}</a></Tag>{/if}
-			{#if data.url}<Tag label="URL"><a href={data.url}>{data.url}</a></Tag>{/if}
+			{#if data.doi}<Tag label="DOI"><a href={data.doi} target="_blank">{data.doi}</a></Tag>{/if}
+			{#if data.url}<Tag label="URL"><a href={data.url} target="_blank">{data.url}</a></Tag>{/if}
 		</div>
 	{/if}
 {/snippet}

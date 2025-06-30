@@ -22,7 +22,7 @@ class FileType(Enum):
     BEAST2_POSTERIOR_TREES = "beast2PosteriorTrees"
     SUMMARY_TREE = "summaryTree"
     CODEPHY_MODEL = "codephyModel"
-    EVO_DATA_EXPERIMENT = "evoDataExperiment"
+    EVO_DATA_EXPERIMENT = "phyloDataExperiment"
     UNKNOWN = "unknown"
 
 

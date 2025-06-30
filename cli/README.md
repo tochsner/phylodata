@@ -4,14 +4,14 @@
 
 ## 🔧 Tech Stack
 
-- **Python**: Requires Python 3.13+
+- **Python**: Requires Python 3.10+
 - **Streamlit**: Web interface for data processing
 - **UV**: Modern Python package manager and installer (no venv required)
 - **Just**: Command runner used for development workflows
 
 ### 📋 Prerequisites
 
-- Python 3.13+
+- Python 3.10+
 - [UV](https://github.com/astral-sh/uv) for dependency management
 - [Just](https://github.com/casey/just) for running commands
 

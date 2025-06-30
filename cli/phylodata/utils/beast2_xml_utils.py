@@ -1,7 +1,9 @@
 from xml.etree.ElementTree import Element
+from typing import TypeVar
 
+T = TypeVar("T")
 
-def get_attribute[T](
+def get_attribute(
     xml_element: Element, attribute_name: str, default: T = None
 ) -> str | T:
     """Returns the value of the attribute with the given name from the XML element,

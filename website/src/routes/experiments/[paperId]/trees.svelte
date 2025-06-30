@@ -45,8 +45,8 @@
 		<Tag label="Number of tips">{formatNumber(experiment.numberOfTips)}</Tag>
 		<Tag label="Ultrametric">{experiment.ultrametric ? 'Yes' : 'No'}</Tag>
 		<Tag label="Rooted">{experiment.rooted ? 'Yes' : 'No'}</Tag>
-		<Tag label="Tree ESS">{formatNumber(experiment.treeEss)}</Tag>
-		<Tag label="CCD1 entropy">{formatNumber(experiment.ccd1Entropy)}</Tag>
+		<!-- <Tag label="Tree ESS">{formatNumber(experiment.treeEss)}</Tag>
+		<Tag label="CCD1 entropy">{formatNumber(experiment.ccd1Entropy)}</Tag> -->
 	</div>
 
 	<!-- <div class="bg-background flex gap-2 self-start rounded-md p-1">

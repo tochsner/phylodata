@@ -5,7 +5,7 @@ export type File = {
 		| 'beast2PosteriorLogs'
 		| 'beast2PosteriorTrees'
 		| 'codephyModel'
-		| 'evoDataExperiment'
+		| 'phyloDataExperiment'
 		| 'summaryTree'
 		| 'unknown';
 	version: number;
@@ -69,7 +69,7 @@ export type Experiment = {
 	leafToSampleMap: Record<string, string>;
 	averageRootAge: number;
 	//metadata
-	evoDataPipelineVersion: string;
+	phyloDataPipelineVersion: string;
 };
 
 export type PaperWithExperiments = {

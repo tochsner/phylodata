@@ -149,6 +149,8 @@
 										<span>Phased Diploid DNA ({formatNumber(data.length)}nt)</span>
 									{:else if data.type === 'traits'}
 										<span>Traits ({formatNumber(data.length)})</span>
+									{:else if data.type === 'unknown'}
+										<span>Traits ({formatNumber(data.length)})</span>
 									{/if}
 								{/each}
 							</div>

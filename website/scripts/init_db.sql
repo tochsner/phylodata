@@ -32,7 +32,7 @@ CREATE TABLE "Experiment" (
     "leafToSampleMap" JSONB NOT NULL DEFAULT '{}',
     "averageRootAge" NUMERIC NOT NULL,
     -- Metadata
-    "evoDataPipelineVersion" TEXT NOT NULL,
+    "phyloDataPipelineVersion" TEXT NOT NULL,
     "paperId" INTEGER REFERENCES "PaperWithExperiments"(id) ON DELETE CASCADE,
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -46,7 +46,7 @@ CREATE TABLE "File" (
         'beast2PosteriorLogs',
         'beast2PosteriorTrees',
         'codephyModel',
-        'evoDataExperiment',
+        'phyloDataExperiment',
         'summaryTree',
         'unknown'
     )),
