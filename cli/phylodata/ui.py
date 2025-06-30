@@ -213,7 +213,6 @@ if st.session_state[STAGE] == Stage.NEXT_STEPS:
 
     You successfully processed your experiment! These are your next steps:
 
-    1. Look at the folder created in this directory. It contains the selected files and a JSON file with the information that we extracted from your data.
-    2. Double-check the JSON file to make sure that everything is correct.
-    3. If it looks good, create a zip file of the folder and upload it to the PhyloData website.
+    1. Create a ZIP file of the newly created folder.
+    2. Upload it on the [PhyloData website](http://phylodata.com/new-experiment).
     """

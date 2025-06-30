@@ -1,11 +1,7 @@
 - Add more BEAST2 modules
-- Add simple tree ESS
-- Finish package CLI interface
-- Update DB
-- Downloader
 - Upload some datasets
 - Add filters to search
-- Add upload instructions
 - Add popup with disclaimer
 
 - Add CCD0 summary tree
+- Add simple tree ESS
