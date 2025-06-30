@@ -19,6 +19,9 @@ dependencies = [
     "taxoniq>=1.0.3",
 ]
 
+[tool.setuptools]
+py-modules = []
+
 [project.scripts]
 phylodata = "phylodata.main:phylodata"
 
