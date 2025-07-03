@@ -1,4 +1,4 @@
-# Core principles of PhyloData
+# Core principles
 
 This document outlines PhyloData's vision and goals. It is a work in progress, a place to collect and organize my thoughts on the project.
 
