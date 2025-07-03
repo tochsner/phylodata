@@ -47,6 +47,4 @@ PhyloData aims to solve these challenges.
 
 - The code and the published data should be open-source.
 - There should be an active exchange of ideas between researchers, method developers, and platform developers.
-- Researchers should be able to publish their experiments.
-- Method developers should be able to publish their methods.
 - Community members may publish their own articles and recommendations.
