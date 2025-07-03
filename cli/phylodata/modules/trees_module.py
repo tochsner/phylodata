@@ -1,3 +1,5 @@
+from io import BytesIO
+
 import streamlit as st
 
 from phylodata.data_types import Trees
@@ -10,9 +12,6 @@ class TreesModule(Module[Trees]):
 
     def validate(self): ...
 
-    def set_dependencies(self, beast2_trees):
-        self.beast2_trees = beast2_trees
-
-    def parse(self) -> Trees:
+    def parse(self, beast2_trees: BytesIO) -> Trees:
         st.text("Processing the trees...")
-        return parse_trees(self.beast2_trees)
+        return parse_trees(beast2_trees)

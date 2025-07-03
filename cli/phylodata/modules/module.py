@@ -17,7 +17,7 @@ class Module(ABC, Generic[T]):
         pass
 
     @abstractmethod
-    def parse(self) -> T:
+    def parse(self, *args, **kwargs) -> T:
         """Parses the input and returns a valid object. Throws a ValidationError
         with a message if parsing fails."""
         pass

@@ -9,11 +9,11 @@ from phylodata.parsers.parse_files import parse_file
 class FilesModule(Module[list]):
     def ui(self):
         with st.container(border=True):
-            """
+            st.write("""
             ### Files
 
             Select the following files:
-            """
+            """)
 
             self.beast2_configuration = st.file_uploader(
                 "BEAST 2 XML configuration", type=["xml"]
@@ -23,9 +23,9 @@ class FilesModule(Module[list]):
                 "BEAST 2 posterior trees", type=["trees"]
             )
 
-            """
+            st.write("""
             Optionally, you can also select other files (like summary trees) which you consider an important part of your analysis.
-            """
+            """)
 
             self.other_files = st.file_uploader(
                 "Other files (optional)", type=["*"], accept_multiple_files=True
@@ -40,6 +40,7 @@ class FilesModule(Module[list]):
             raise ValidationError("Specify a BEAST 2 trees file.")
 
     def parse(self) -> list:
+        st.text("Processing the given files...")
         if not self.beast2_configuration:
             raise ValidationError("Specify a BEAST 2 configuration file.")
         if not self.beast2_logs:

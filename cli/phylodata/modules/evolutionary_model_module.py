@@ -1,3 +1,5 @@
+from io import BytesIO
+
 import streamlit as st
 
 from phylodata.data_types import EvolutionaryModel
@@ -10,9 +12,6 @@ class EvolutionaryModelModule(Module[EvolutionaryModel]):
 
     def validate(self): ...
 
-    def set_dependencies(self, beast2_configuration):
-        self.beast2_configuration = beast2_configuration
-
-    def parse(self) -> EvolutionaryModel:
+    def parse(self, beast2_configuration: BytesIO) -> EvolutionaryModel:
         st.text("Detecting the evolutionary model...")
-        return parse_evolutionary_model(self.beast2_configuration)
+        return parse_evolutionary_model(beast2_configuration)

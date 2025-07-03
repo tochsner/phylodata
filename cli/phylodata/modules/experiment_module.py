@@ -9,11 +9,11 @@ from phylodata.modules.module import Module
 class ExperimentModule(Module[Experiment]):
     def ui(self):
         with st.container(border=True):
-            """
+            st.write("""
             ### Experiment
 
             Optionally, enter some additional information about your experiment. This is useful if you want to register multiple experiments for the same paper.
-            """
+            """)
 
             self.title = st.text_input("Experiment title (optional)")
             self.description = st.text_area("Experiment description (optional)")

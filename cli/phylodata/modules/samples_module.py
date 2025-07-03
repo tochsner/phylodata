@@ -1,3 +1,5 @@
+from io import BytesIO
+
 import streamlit as st
 
 from phylodata.data_types import Sample
@@ -10,12 +12,9 @@ class SamplesModule(Module[list[Sample]]):
 
     def validate(self): ...
 
-    def set_dependencies(self, beast2_configuration):
-        self.beast2_configuration = beast2_configuration
-
-    def parse(self) -> list[Sample]:
+    def parse(self, beast2_configuration: BytesIO) -> list[Sample]:
         st.text(
             "Detecting the samples (e.g. using BEAST2 or language lookup). "
             "This might take a while, especially for amino acid sequences..."
         )
-        return parse_beast2_samples(self.beast2_configuration)
+        return parse_beast2_samples(beast2_configuration)

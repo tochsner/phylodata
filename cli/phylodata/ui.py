@@ -59,25 +59,20 @@ if st.session_state[STAGE] == Stage.INPUT:
         with st.spinner("Processing your analysis..."):
             try:
                 paper_module.validate()
+                experiment_module.validate()
                 files_module.validate()
+                experiment_module.validate()
+                samples_module.validate()
+                trees_module.validate()
 
                 paper = paper_module.parse()
                 experiment = experiment_module.parse()
-
-                st.text("Processing the given files...")
                 files = files_module.parse()
-
-                evolutionary_model_module.set_dependencies(
+                parsed_evolutionary_model = evolutionary_model_module.parse(
                     files_module.beast2_configuration
                 )
-                parsed_evolutionary_model = evolutionary_model_module.parse()
-
-                samples_module.set_dependencies(files_module.beast2_configuration)
-                parsed_samples = samples_module.parse()
-
-                trees_module.set_dependencies(files_module.beast2_trees)
-                parsed_trees = trees_module.parse()
-
+                parsed_samples = samples_module.parse(files_module.beast2_configuration)
+                parsed_trees = trees_module.parse(files_module.beast2_trees)
             except ValidationError as error:
                 st.toast(error.message)
                 return
