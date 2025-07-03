@@ -1,11 +1,11 @@
-from io import BytesIO
 import os
 import shutil
+from io import BytesIO
+
 import msgspec
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 from phylodata.data_types import PaperWithExperiment
-
 
 WASABI_BUCKET_NAME = "phylodata-experiments"
 

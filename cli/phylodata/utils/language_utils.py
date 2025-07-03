@@ -1,9 +1,9 @@
 import csv
 import re
-from typing import TypedDict
 from pathlib import Path
-import phylodata
+from typing import TypedDict
 
+import phylodata
 
 
 def clean_label(label: str) -> str:
@@ -25,7 +25,9 @@ cleaned_language_names: list[str] = []
 
 # the following is a hacky way to retrieve the glottolog languoid data file
 # should check if there is a better way to do this
-with open(Path(phylodata.__path__[0]) / "data" / "glottolog_languoid_5.2.csv") as csv_file: # type: ignore
+with open(
+    Path(phylodata.__path__[0]) / "data" / "glottolog_languoid_5.2.csv"
+) as csv_file:  # type: ignore
     glottolog_languages = csv.reader(csv_file)
 
     for row in glottolog_languages:

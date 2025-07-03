@@ -1,10 +1,10 @@
 from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
+from phylodata.errors import BlastError
 from phylodata.utils.blast_utils import (
     extract_taxon_ids,
     run_blast,
 )
 from phylodata.utils.taxon_utils import look_up_taxon_classification
-from phylodata.errors import BlastError
 
 MAX_SEQ_LENGTH_CONSIDERED = 160
 

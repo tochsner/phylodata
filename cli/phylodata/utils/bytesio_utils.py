@@ -3,6 +3,7 @@ from io import BytesIO
 from xml.etree import ElementTree
 
 from commonnexus import Nexus
+
 from phylodata.errors import ValidationError
 
 

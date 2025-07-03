@@ -1,5 +1,5 @@
-from xml.etree.ElementTree import Element
 from typing import TypeVar
+from xml.etree.ElementTree import Element
 
 T = TypeVar("T")
 

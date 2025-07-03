@@ -1,7 +1,8 @@
 import re
 from time import sleep
-from loguru import logger
+
 import requests
+from loguru import logger
 
 from phylodata.errors import BlastError
 
@@ -10,7 +11,9 @@ WAIT_TIME_S = 5
 MAX_BATCH_SIZE = 32
 
 
-def run_blast(sequences: list[str], parameters: dict, max_length_considered:  int) -> list:
+def run_blast(
+    sequences: list[str], parameters: dict, max_length_considered: int
+) -> list:
     results = []
 
     for i in range(0, len(sequences), MAX_BATCH_SIZE):

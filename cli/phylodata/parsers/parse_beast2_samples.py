@@ -5,7 +5,6 @@ from xml.etree import ElementTree
 
 from phylodata.data_types import (
     DataType,
-    EvolutionaryModel,
     Sample,
     SampleData,
     SampleType,
@@ -16,9 +15,7 @@ from phylodata.sample_metadata.add_protein_metadata import add_protein_metadata
 from phylodata.utils.bytesio_utils import get_xml_from_bytesio
 
 
-def parse_beast2_samples(
-    beast2_config: BytesIO, evolutionary_model: EvolutionaryModel
-) -> list[Sample]:
+def parse_beast2_samples(beast2_config: BytesIO) -> list[Sample]:
     """Collects all sample data found in the BEAST 2 XML.
 
     All top-level <data> tags are traversed in order to find all
@@ -44,7 +41,7 @@ def parse_beast2_samples(
 
     # construct the samples by adding additional metadata
 
-    samples = construct_samples_from_data(sample_data_per_id, evolutionary_model)
+    samples = construct_samples_from_data(sample_data_per_id)
 
     return samples
 
@@ -101,7 +98,6 @@ def collect_sample_data_from_data_tag(
 
 def construct_samples_from_data(
     sample_data_per_id: dict[str, list[SampleData]],
-    evolutionary_model: EvolutionaryModel,
 ) -> list[Sample]:
     # generate all samples without any detailed metadata
 
