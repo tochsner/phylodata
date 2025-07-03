@@ -54,6 +54,7 @@ def fetch_language_classification(
         ClassificationEntry(
             classification_id=matched_language["language_id"],
             scientific_name=matched_language["name"],
+            common_name=None,
             id_type=ClassificationEntryType.GLOTTOLOG_ID,
         )
     ]

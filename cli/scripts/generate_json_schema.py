@@ -7,4 +7,4 @@ from phylodata.data_types import PaperWithExperiment
 schema = msgspec.json.schema(PaperWithExperiment)
 
 with open("../website/src/lib/schema.json", "wb") as f:
-    f.write(msgspec.json.encode(schema))
+    f.write(msgspec.json.format(msgspec.json.encode(schema)))

@@ -9,6 +9,7 @@ def look_up_taxon_classification(taxon_id: int) -> list[ClassificationEntry]:
         ClassificationEntry(
             classification_id=str(t.tax_id),
             scientific_name=t.scientific_name,
+            common_name=t.common_name,
             id_type=ClassificationEntryType.NCBI_TAXONOMY_ID,
         )
         for t in taxon.ranked_lineage

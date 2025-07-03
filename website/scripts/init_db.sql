@@ -1,16 +1,14 @@
--- Papers table (created first since Experiment references it)
 CREATE TABLE "PaperWithExperiments" (
-    id SERIAL PRIMARY KEY,
+    doi TEXT PRIMARY KEY,
+    abbrevation TEXT NOT NULL,
     title TEXT NOT NULL,
     authors TEXT[] NOT NULL,
     abstract TEXT NOT NULL,
     bibtex TEXT NOT NULL,
-    doi TEXT,
     url TEXT,
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Experiments table (created second since other tables reference it)
 CREATE TABLE "Experiment" (
     id SERIAL PRIMARY KEY,
     type TEXT NOT NULL CHECK (type = 'beast2Experiment'),
@@ -33,11 +31,10 @@ CREATE TABLE "Experiment" (
     "averageRootAge" NUMERIC NOT NULL,
     -- Metadata
     "phyloDataPipelineVersion" TEXT NOT NULL,
-    "paperId" INTEGER REFERENCES "PaperWithExperiments"(id) ON DELETE CASCADE,
+    "paperDoi" TEXT REFERENCES "PaperWithExperiments"(doi) ON DELETE CASCADE,
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Files table
 CREATE TABLE "File" (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
@@ -59,17 +56,16 @@ CREATE TABLE "File" (
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Samples table
 CREATE TABLE "Sample" (
     id SERIAL PRIMARY KEY,
     "sampleId" TEXT NOT NULL,
     "scientificName" TEXT NOT NULL,
+    "commonName" TEXT,
     type TEXT NOT NULL CHECK (type IN ('cells', 'language', 'species', 'unknown')),
     "experimentId" INTEGER REFERENCES "Experiment"(id) ON DELETE CASCADE,
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Sample Data table (embedded within Sample, but separated for normalization)
 CREATE TABLE "SampleData" (
     id SERIAL PRIMARY KEY,
     type TEXT NOT NULL CHECK (type IN (
@@ -85,16 +81,15 @@ CREATE TABLE "SampleData" (
     "sampleId" INTEGER REFERENCES "Sample"(id) ON DELETE CASCADE
 );
 
--- Classification Entry table (embedded within Sample)
 CREATE TABLE "ClassificationEntry" (
     id SERIAL PRIMARY KEY,
     "classificationId" TEXT NOT NULL,
     "scientificName" TEXT NOT NULL,
+    "commonName" TEXT,
     "idType" TEXT NOT NULL CHECK ("idType" IN ('glottologId', 'ncibTaxonomyId')),
     "sampleId" INTEGER REFERENCES "Sample"(id) ON DELETE CASCADE
 );
 
--- Evolutionary Model Components table
 CREATE TABLE "EvolutionaryModelComponent" (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,

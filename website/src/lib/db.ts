@@ -2,7 +2,7 @@ import { supabase } from './supabaseClient';
 import type { PaperWithExperiments } from './types';
 
 type InsertedIDs = {
-	paperId?: string;
+	paperDoi?: string;
 	experimentIds: string[];
 	fileIds: string[];
 	sampleIds: string[];
@@ -17,7 +17,7 @@ type InsertedIDs = {
 export async function insertPaperWithExperiments(paperData: PaperWithExperiments) {
 	// we recall the ids of the new elements to be able to roll back if necessary
 	const insertedIds: InsertedIDs = {
-		paperId: undefined,
+		paperDoi: undefined,
 		experimentIds: [],
 		fileIds: [],
 		sampleIds: [],
@@ -32,14 +32,13 @@ export async function insertPaperWithExperiments(paperData: PaperWithExperiments
 			.from('PaperWithExperiments')
 			.insert({
 				...paperData,
-				id: undefined,
 				experiments: undefined
 			})
-			.select('id')
+			.select('doi')
 			.single();
 
 		if (paperError) throw new Error(`Failed to insert paper: ${paperError.message}`);
-		insertedIds.paperId = paper.id;
+		insertedIds.paperDoi = paper.doi;
 
 		for (const experimentData of paperData.experiments) {
 			const { files, samples, evolutionaryModels, ...experimentFields } = experimentData;
@@ -50,7 +49,7 @@ export async function insertPaperWithExperiments(paperData: PaperWithExperiments
 				.insert({
 					...experimentFields,
 					id: undefined,
-					paperId: paper.id
+					paperDoi: paper.doi
 				})
 				.select('id')
 				.single();
@@ -132,7 +131,11 @@ export async function insertPaperWithExperiments(paperData: PaperWithExperiments
 			}
 		}
 
-		return { success: true, paperId: insertedIds.paperId, experimentId: insertedIds.experimentIds };
+		return {
+			success: true,
+			paperDoi: insertedIds.paperDoi,
+			experimentId: insertedIds.experimentIds
+		};
 	} catch (error) {
 		console.error('Error inserting paper with experiments, rolling back...', error);
 
@@ -200,11 +203,11 @@ async function rollbackInserts(insertedIds: InsertedIDs) {
 		}
 
 		// Delete Paper (last)
-		if (insertedIds.paperId) {
+		if (insertedIds.paperDoi) {
 			const { error } = await supabase
 				.from('PaperWithExperiments')
 				.delete()
-				.eq('id', insertedIds.paperId);
+				.eq('doi', insertedIds.paperDoi);
 			if (error) rollbackErrors.push(`Failed to rollback paper: ${error.message}`);
 		}
 

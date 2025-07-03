@@ -48,6 +48,7 @@ def add_protein_metadata(samples: list[Sample]) -> list[Sample]:
         if classification:
             samples[idx].classification = classification
             samples[idx].scientific_name = classification[0].scientific_name
+            samples[idx].common_name = classification[0].common_name
             samples[idx].type = tree_type
 
     return samples

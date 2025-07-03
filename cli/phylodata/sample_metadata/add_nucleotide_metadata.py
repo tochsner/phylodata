@@ -3,8 +3,6 @@ from phylodata.utils.blast_utils import extract_taxon_ids, run_blast
 from phylodata.utils.taxon_utils import look_up_taxon_classification
 from phylodata.errors import BlastError
 
-from loguru import logger
-
 MAX_SEQ_LENGTH_CONSIDERED = 2500
 
 
@@ -49,6 +47,7 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
         if classification:
             samples[idx].classification = classification
             samples[idx].scientific_name = classification[0].scientific_name
+            samples[idx].common_name = classification[0].scientific_name  # Initially set common_name to scientific_name
             samples[idx].type = tree_type
 
     return samples

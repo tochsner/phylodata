@@ -61,12 +61,11 @@ class Experiment(msgspec.Struct, rename="camel"):
 
 
 class Paper(msgspec.Struct, rename="camel"):
+    doi: str
     title: str
     authors: list[str]
     abstract: str
     bibtex: str
-    doi: Optional[str] = None
-    id: Optional[str] = None
     url: Optional[str] = None
 
 
@@ -90,6 +89,7 @@ class ClassificationEntry(msgspec.Struct, rename="camel"):
     classification_id: str
     scientific_name: str
     id_type: ClassificationEntryType
+    common_name: Optional[str] = None
     id: Optional[str] = None
 
 
@@ -99,6 +99,7 @@ class Sample(msgspec.Struct, rename="camel"):
     type: SampleType
     classification: list[ClassificationEntry]
     data: list[SampleData]
+    common_name: Optional[str] = None
     id: Optional[str] = None
 
 

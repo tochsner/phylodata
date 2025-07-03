@@ -56,7 +56,8 @@ if st.session_state[STAGE] == Stage.INPUT:
         abstract = st.text_area("Abstract")
         authors = st.text_area("Authors (one per line)")
         bibtext = st.text_area("BibTex citation")
-        doi = st.text_input("DOI (optional)")
+        doi = st.text_input("DOI")
+        """Experiments with the same paper DOI will be linked to the same paper."""
         url = st.text_input("URL (optional)")
 
     with st.container(border=True):
@@ -107,6 +108,9 @@ if st.session_state[STAGE] == Stage.INPUT:
         if len(bibtexparser.parse_string(bibtext).entries) != 1:
             st.toast("Specify exactly one bibtex entry.")
             return
+        if not doi.strip():
+            st.toast("Specify a DOI.")
+            return
         if not beast2_configuration:
             st.toast("Specify a BEAST 2 configuration file.")
             return
@@ -123,7 +127,7 @@ if st.session_state[STAGE] == Stage.INPUT:
                 authors=[author.strip() for author in authors.split("\n")],
                 abstract=abstract.strip(),
                 bibtex=bibtext.strip(),
-                doi=doi.strip() or None,
+                doi=doi.strip(),
                 url=url.strip() or None,
             )
 

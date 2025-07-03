@@ -131,7 +131,12 @@
 
 						<td>
 							<div class="flex flex-col gap-1">
-								<span class="font-semibold">{row.scientificName}</span>
+								<span class="font-semibold">
+									{row.scientificName}
+									{#if row.commonName && row.commonName !== row.scientificName}
+										(<span class="italic">{row.commonName}</span>)
+									{/if}
+								</span>
 								<span>{row.sampleId}</span>
 							</div>
 						</td>

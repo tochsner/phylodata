@@ -3,7 +3,7 @@ import type { PaperWithExperiments } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
-	const { paperId } = params;
+	const { paperDoi } = params;
 
 	const { data, error } = await supabase
 		.from('PaperWithExperiments')
@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ params }) => {
         )
       `
 		)
-		.eq('id', paperId)
+		.eq('doi', paperDoi)
 		.single();
 
 	if (error) {

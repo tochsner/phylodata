@@ -32,6 +32,7 @@ export type Sample = {
 	id?: string;
 	sampleId: string;
 	scientificName: string;
+	commonName?: string;
 	type: 'cells' | 'language' | 'species' | 'unknown';
 	classification: ClassificationEntry[];
 	data: SampleData[];
@@ -77,8 +78,7 @@ export type PaperWithExperiments = {
 	authors: string[];
 	abstract: string;
 	bibtex: string;
-	doi?: string | null;
-	id?: string | null;
+	doi: string;
 	url?: string | null;
 	experiments: Experiment[];
 };
