@@ -27,22 +27,22 @@ These three points form the basic requirements of a first MVP of PhyloData. Howe
 
 **The platform supports method developers when validating and comparing new methods.**
 
-- There should be a large variety of published experiments available to enable the validation a wide range of methods.
-- The filtering and downloading of experiments should be easy and reproducible (potentially using high-quality libraries for data loading).
-- The metadata should be standardized, consistent, and easily accessible (e.g. using standardized JSON schemas or specific libraries).
-- It may be useful to track and visualize performance of developed methods on a set of benchmarks.
+- There should be a large variety of published experiments available to enable the validation of a wide range of methods.
+- The filtering and downloading of experiments should be easy and reproducible (potentially using custom-made libraries).
+- The metadata should be standardized, consistent, and easily accessible (e.g. using standardized JSON schemas or custom-made libraries).
+- It may be useful to track and visualize performance of methods on a set of benchmarks.
 
 **The platform supports researchers when conducting Bayesian Phylogenetics experiments.**
 
 - It should be easy to find experiments on specific subjects (e.g. species, genes, or languages).
 - It should be easy to find experiments using specific methods or models.
 - It should be easy to upload your own experiments to the platform.
-- There may be resources on how to select and use models.
+- There may be resources on how to select and use methods and models.
 
 **The platform documents and creates opinionated workflows and tooling related to the creation, organization, usage, and reproducability of Bayesian Phylogenetics data.**
 
 - There may be a opinionated guide for method developers on how to organize data on disk, load them into memory, process them using reproducible pipelines, and store results.
-- There may be library recommendations and custom-built libraries supporting method developers using the opinionated workflows. Examples are correct and fast NEXUS parsers in common languages and libraries to programatically load PhyloData experiments.
+- There may be library recommendations and custom-made libraries supporting method developers using the opinionated workflows. Examples are libraries to programatically load PhyloData experiments or correct and fast NEXUS parsers.
 - There may be guides for researchers on how to conduct experiments, make them reproducible, and upload them to PhyloData.
 
 **The platform is community driven.**
