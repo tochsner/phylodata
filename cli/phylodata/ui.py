@@ -72,7 +72,7 @@ if st.session_state[STAGE] == Stage.INPUT:
                 )
                 parsed_evolutionary_model = evolutionary_model_module.parse()
 
-                samples_module.set_dependencies(files_module.beast2_trees)
+                samples_module.set_dependencies(files_module.beast2_configuration)
                 parsed_samples = samples_module.parse()
 
                 trees_module.set_dependencies(files_module.beast2_trees)

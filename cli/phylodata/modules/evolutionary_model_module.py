@@ -1,7 +1,7 @@
 import streamlit as st
 
 from phylodata.data_types import EvolutionaryModel
-from phylodata.module import Module
+from phylodata.modules.module import Module
 from phylodata.parsers.parse_evolutionary_model import parse_evolutionary_model
 
 

@@ -1,7 +1,7 @@
 import streamlit as st
 
 from phylodata.data_types import Trees
-from phylodata.module import Module
+from phylodata.modules.module import Module
 from phylodata.parsers.parse_trees import parse_trees
 
 

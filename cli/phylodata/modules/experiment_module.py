@@ -3,7 +3,7 @@ from datetime import date
 import streamlit as st
 
 from phylodata.data_types import Experiment, ExperimentType
-from phylodata.module import Module
+from phylodata.modules.module import Module
 
 
 class ExperimentModule(Module[Experiment]):
