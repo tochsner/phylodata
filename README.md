@@ -2,6 +2,10 @@
 
 PhyloData is a repository for Bayesian Phylogenetic experiments.
 
+> [!NOTE]
+> [Check out](PRINCIPLES.md) the draft of the core pinciples and vision behind PhyloData.
+
+
 ## 📋 Overview
 
 PhyloData helps you to:
