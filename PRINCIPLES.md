@@ -5,7 +5,7 @@ This document outlines PhyloData's vision and goals. It is a work in progress, a
 > [!NOTE]
 > I'm new to Bayesian phylogenetics. I will try to reinvent the wheel. Ideas, feedback, or pointers to existing solutions are very much welcome! Start a GitHub issue or [send me an email](mailto:tobia.ochsner@hotmail.com).
 
-## Origin
+## Background
 
 I noticed two things when working on Bayesian phylogenetics methods:
 
@@ -21,7 +21,7 @@ PhyloData aims to solve these challenges.
 - It provides a standardized way to store and share data from these experiments.
 - For easy discovery, experiments are automatically decorated with metadata.
 
-## More general core principles
+## Core principles
 
 **The platform helps method developers validate and compare methods.**
 
