@@ -133,24 +133,33 @@ class Metadata(msgspec.Struct, rename="camel"):
     evo_data_pipeline_version: str
 
 
-class PaperWithExperiment(msgspec.Struct, rename="camel"):
-    experiment: Experiment
-    paper: Paper
+class NonEditablePaperWithExperiment(msgspec.Struct, rename="camel"):
+    """This structure contains all experiment data which is
+    computed by the pipeline and must not be changed manually."""
+
     files: list[File]
-    samples: list[Sample]
     trees: Trees
     evolutionary_model: EvolutionaryModel
     metadata: Metadata
 
 
-def validate_json(file_path: str):
-    """Validates if the given file contains a valid PaperWithExperiment object.
+class EditablePaperWithExperiment(msgspec.Struct, rename="camel"):
+    """This structure contains all experiment data computed by the pipeline
+    and may be changed manually."""
+
+    experiment: Experiment
+    paper: Paper
+    samples: list[Sample]
+
+
+def validate_editable_json(file_path: str):
+    """Validates if the given file contains a valid EditablePaperWithExperiment object.
     Throws a msgspec.ValidationError if not."""
     with open(file_path) as handle:
-        msgspec.json.decode(handle.read(), type=PaperWithExperiment)
+        msgspec.json.decode(handle.read(), type=EditablePaperWithExperiment)
 
 
 def get_schema():
-    """Returns the formatted JSON schema corresponding to PaperWithExperiment."""
-    schema = msgspec.json.schema(PaperWithExperiment)
+    """Returns the formatted JSON schema corresponding to EditablePaperWithExperiment."""
+    schema = msgspec.json.schema(EditablePaperWithExperiment)
     return msgspec.json.format(msgspec.json.encode(schema).decode())

@@ -4,7 +4,6 @@ import streamlit as st
 
 from phylodata.data_types import (
     Metadata,
-    PaperWithExperiment,
 )
 from phylodata.errors import ValidationError
 from phylodata.evolutionary_model.evolutionary_model_module import (
@@ -15,7 +14,7 @@ from phylodata.files.files_module import FilesModule
 from phylodata.paper.paper_module import PaperModule
 from phylodata.samples.samples_module import SamplesModule
 from phylodata.trees.trees_module import TreesModule
-from phylodata.utils.output_utils import create_output_folder
+from phylodata.utils.output_utils import store_output
 from phylodata.version import __version__
 
 
@@ -81,25 +80,21 @@ if st.session_state[STAGE] == Stage.INPUT:
 
             metadata = Metadata(evo_data_pipeline_version=__version__)
 
-            paper_with_experiment = PaperWithExperiment(
-                experiment=experiment,
-                paper=paper,
-                files=files,
-                evolutionary_model=parsed_evolutionary_model,
-                samples=parsed_samples,
-                trees=parsed_trees,
-                metadata=metadata,
-            )
-
             st.text("Creating PhyloData folder...")
 
-            output_folder = create_output_folder(
+            output_folder = store_output(
                 paper.title,
                 files_module.beast2_configuration,  # type: ignore
                 files_module.beast2_logs,  # type: ignore
                 files_module.beast2_trees,  # type: ignore
                 files_module.other_files,
-                paper_with_experiment,
+                experiment=experiment,
+                paper=paper,
+                samples=parsed_samples,
+                files=files,
+                evolutionary_model=parsed_evolutionary_model,
+                trees=parsed_trees,
+                metadata=metadata,
             )
 
             st.session_state[STAGE] = Stage.NEXT_STEPS
