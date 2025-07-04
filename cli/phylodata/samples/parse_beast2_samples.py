@@ -12,6 +12,12 @@ from phylodata.data_types import (
 from phylodata.samples.add_language_metadata import add_language_metadata
 from phylodata.samples.add_nucleotide_metadata import add_nucleotide_metadata
 from phylodata.samples.add_protein_metadata import add_protein_metadata
+from phylodata.samples.sequence_utils import (
+    contains_sequence,
+    is_amino_acid_sequence,
+    is_dna_sequence,
+    is_rna_sequence,
+)
 from phylodata.utils.bytesio_utils import get_xml_from_bytesio
 
 
@@ -87,16 +93,14 @@ def collect_sample_data_from_data_tag(
         # if dataType was not given in the <data> tag, we try to infer it from
         # the sequence itself
         if data_type == DataType.UNKNOWN:
-            characters = {c.lower() for c in data}
-
-            if not {c for c in characters if c.isalpha()}:
+            if not contains_sequence(data):
                 # we don't have any actual useful characters
                 ...
-            elif characters.issubset(DNA_CHARACTERS):
+            elif is_dna_sequence(data):
                 data_type = DataType.DNA
-            elif characters.issubset(RNA_CHARACTERS):
+            elif is_rna_sequence(data):
                 data_type = DataType.RNA
-            elif characters.issubset(AA_CHARACTERS):
+            elif is_amino_acid_sequence(data):
                 data_type = DataType.AMINO_ACIDS
 
         yield sample_id, SampleData(type=data_type, length=len(data), data=data)
@@ -126,34 +130,3 @@ def construct_samples_from_data(
     add_language_metadata(samples)
 
     return samples
-
-
-DNA_CHARACTERS = {"a", "t", "c", "g", "*", "?", "-", "r", "y", "u", "n"}
-RNA_CHARACTERS = {"a", "u", "c", "g", "*", "?", "-", "r", "y", "t", "n"}
-AA_CHARACTERS = {
-    "a",
-    "r",
-    "n",
-    "d",
-    "c",
-    "e",
-    "q",
-    "g",
-    "h",
-    "i",
-    "l",
-    "k",
-    "m",
-    "f",
-    "p",
-    "s",
-    "t",
-    "w",
-    "y",
-    "v",
-    "u",
-    "o",
-    "?",
-    "*",
-    "-",
-}

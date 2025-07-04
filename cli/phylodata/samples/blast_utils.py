@@ -14,6 +14,9 @@ MAX_BATCH_SIZE = 32
 def run_blast(
     sequences: list[str], parameters: dict, max_length_considered: int
 ) -> list:
+    """Runs BLAST for the given sequences and parameters.
+    Note that the QUERY parameter is added by this method.
+    Returns the BLAST API results."""
     results = []
 
     for i in range(0, len(sequences), MAX_BATCH_SIZE):
@@ -28,6 +31,15 @@ def run_blast(
         results += fetch_results(request_id)["BlastOutput2"]
 
     return results
+
+
+def build_fasta_data(sequences: list[str], max_length_considered: int) -> str:
+    fasta_data = ""
+
+    for i, seq in enumerate(sequences):
+        fasta_data += f">{i}\n{seq[:max_length_considered]}\n"
+
+    return fasta_data
 
 
 def initiate_blast_request(fasta_data: str, parameters: dict) -> tuple[str, int]:
@@ -47,15 +59,6 @@ def initiate_blast_request(fasta_data: str, parameters: dict) -> tuple[str, int]
     wait_time_s = int(wait_time_s.group(1))
 
     return request_id, wait_time_s
-
-
-def build_fasta_data(sequences: list[str], max_length_considered: int) -> str:
-    fasta_data = ""
-
-    for i, seq in enumerate(sequences):
-        fasta_data += f">{i}\n{seq[:max_length_considered]}\n"
-
-    return fasta_data
 
 
 def wait_until_ready(request_id: str):

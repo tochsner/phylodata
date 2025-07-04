@@ -24,7 +24,7 @@ id_to_language: dict[str, Language] = {}
 cleaned_language_names: list[str] = []
 
 # the following is a hacky way to retrieve the glottolog languoid data file
-# should check if there is a better way to do this
+# TODO: check if there is a better way to do this
 with open(
     Path(phylodata.__path__[0]) / "data" / "glottolog_languoid_5.2.csv"
 ) as csv_file:  # type: ignore

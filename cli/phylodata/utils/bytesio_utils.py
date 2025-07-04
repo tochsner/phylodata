@@ -21,9 +21,6 @@ def get_nexus_from_bytesio(file: BytesIO) -> Nexus:
 def get_xml_from_bytesio(file: BytesIO) -> ElementTree.ElementTree:
     file.seek(0)
     try:
-        print("AAAA")
-        print(file)
         return ElementTree.parse(file)
     except Exception as e:
-        print(e)
         raise ValidationError(f"BEAST 2 configuration is no valid XML file. ({e})")

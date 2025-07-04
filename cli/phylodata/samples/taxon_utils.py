@@ -3,8 +3,9 @@ import taxoniq
 from phylodata.data_types import ClassificationEntry, ClassificationEntryType
 
 
-def look_up_taxon_classification(taxon_id: int) -> list[ClassificationEntry]:
-    taxon = taxoniq.Taxon(taxon_id)
+def look_up_taxon_classification(ncbi_taxon_id: int) -> list[ClassificationEntry]:
+    """Returns the classification of the specified NCBI taxon."""
+    taxon = taxoniq.Taxon(ncbi_taxon_id)
     return [
         ClassificationEntry(
             classification_id=str(t.tax_id),
