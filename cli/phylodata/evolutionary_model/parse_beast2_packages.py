@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Any, Optional
-from xml.etree.ElementTree import ElementTree
+from xml.etree.ElementTree import Element, ElementTree
 
 from phylodata.data_types import ModelType, SampleType
 from phylodata.utils.beast2_xml_utils import get_attribute
@@ -9,7 +9,7 @@ from phylodata.utils.beast2_xml_utils import get_attribute
 class Beast2PackageParser(ABC):
     """An abstract base class for parsing BEAST 2 packages."""
 
-    def is_used(self, beast2_xml: ElementTree) -> bool:
+    def is_used(self, beast2_xml: ElementTree[Element[str]]) -> bool:
         """Returns true if the package is detected in the given BEAST2 xml.
         Checks the top-level namespaces and the spec attribute of all elements."""
         root = beast2_xml.getroot()
@@ -88,7 +88,7 @@ class Beast2PackageParser(ABC):
         """Returns the URL to the human-readable package website."""
         raise NotImplementedError
 
-    def get_parameters(self, beast2_xml: ElementTree) -> dict[str, Any]:
+    def get_parameters(self, beast2_xml: ElementTree[Element[str]]) -> dict[str, Any]:
         """Extracts potential package parameters from the BEAST 2 xml configuration."""
         return {}
 
@@ -218,7 +218,7 @@ class BabelParser(Beast2PackageParser):
     def get_documentation_url(self) -> str:
         return "https://github.com/rbouckaert/Babel"
 
-    def get_parameters(self, beast2_xml: ElementTree) -> dict[str, Any]:
+    def get_parameters(self, beast2_xml: ElementTree[Element[str]]) -> dict[str, Any]:
         return {}
 
     def suggest_sample_type(self) -> Optional[SampleType]:

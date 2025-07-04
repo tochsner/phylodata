@@ -3,6 +3,7 @@ test:
 
 check:
   ruff check --fix
+  pyright phylodata tests scripts
 
 format:
   ruff format
