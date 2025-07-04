@@ -3,8 +3,8 @@ from io import BytesIO
 import streamlit as st
 
 from phylodata.data_types import Trees
-from phylodata.modules.module import Module
-from phylodata.parsers.parse_trees import parse_trees
+from phylodata.module import Module
+from phylodata.trees.parse_trees import parse_trees
 
 
 class TreesModule(Module[Trees]):

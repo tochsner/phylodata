@@ -30,7 +30,7 @@ def parse_beast2_config(file: BytesIO) -> File:
     xml = get_xml_from_bytesio(file)
     root = xml.getroot()
 
-    if root.tag.lower() != "beast":
+    if root is None or root.tag.lower() != "beast":
         raise ValidationError("BEAST 2 configuration has no root BEAST tag.")
 
     if not any(child.tag.lower() == "data" for child in root):

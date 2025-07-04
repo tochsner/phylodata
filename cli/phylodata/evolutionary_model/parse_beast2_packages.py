@@ -13,6 +13,8 @@ class Beast2PackageParser(ABC):
         """Returns true if the package is detected in the given BEAST2 xml.
         Checks the top-level namespaces and the spec attribute of all elements."""
         root = beast2_xml.getroot()
+        if root is None:
+            return False
 
         # check namespaces
 

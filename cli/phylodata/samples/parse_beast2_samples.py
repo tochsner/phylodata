@@ -9,9 +9,9 @@ from phylodata.data_types import (
     SampleData,
     SampleType,
 )
-from phylodata.sample_metadata.add_language_metadata import add_language_metadata
-from phylodata.sample_metadata.add_nucleotide_metadata import add_nucleotide_metadata
-from phylodata.sample_metadata.add_protein_metadata import add_protein_metadata
+from phylodata.samples.add_language_metadata import add_language_metadata
+from phylodata.samples.add_nucleotide_metadata import add_nucleotide_metadata
+from phylodata.samples.add_protein_metadata import add_protein_metadata
 from phylodata.utils.bytesio_utils import get_xml_from_bytesio
 
 
@@ -23,8 +23,18 @@ def parse_beast2_samples(beast2_config: BytesIO) -> list[Sample]:
 
     Note that this only works with basic BEAST XML files and will not
     work for every possible configuration."""
+    sample_data_per_id: dict[str, list[SampleData]] = collect_sample_data(beast2_config)
+    samples = construct_samples_from_data(sample_data_per_id)
+    return samples
+
+
+def collect_sample_data(beast2_config: BytesIO) -> dict[str, list[SampleData]]:
+    """Collects all samples from the data tags in the given BEAST 2 XML."""
     xml = get_xml_from_bytesio(beast2_config)
     xml_root = xml.getroot()
+
+    if xml_root is None:
+        return {}
 
     # we first look at all <data> tags to find any sequence
 
@@ -39,11 +49,7 @@ def parse_beast2_samples(beast2_config: BytesIO) -> list[Sample]:
     for sample_id, data in sample_data:
         sample_data_per_id[sample_id].append(data)
 
-    # construct the samples by adding additional metadata
-
-    samples = construct_samples_from_data(sample_data_per_id)
-
-    return samples
+    return sample_data_per_id
 
 
 def collect_sample_data_from_data_tag(

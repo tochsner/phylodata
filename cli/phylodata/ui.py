@@ -7,12 +7,14 @@ from phylodata.data_types import (
     PaperWithExperiment,
 )
 from phylodata.errors import ValidationError
-from phylodata.modules.evolutionary_model_module import EvolutionaryModelModule
-from phylodata.modules.experiment_module import ExperimentModule
-from phylodata.modules.files_module import FilesModule
-from phylodata.modules.paper_module import PaperModule
-from phylodata.modules.samples_module import SamplesModule
-from phylodata.modules.trees_module import TreesModule
+from phylodata.evolutionary_model.evolutionary_model_module import (
+    EvolutionaryModelModule,
+)
+from phylodata.experiment.experiment_module import ExperimentModule
+from phylodata.files.files_module import FilesModule
+from phylodata.paper.paper_module import PaperModule
+from phylodata.samples.samples_module import SamplesModule
+from phylodata.trees.trees_module import TreesModule
 from phylodata.utils.output_utils import create_output_folder
 from phylodata.version import __version__
 
@@ -69,10 +71,10 @@ if st.session_state[STAGE] == Stage.INPUT:
                 experiment = experiment_module.parse()
                 files = files_module.parse()
                 parsed_evolutionary_model = evolutionary_model_module.parse(
-                    files_module.beast2_configuration
+                    files_module.beast2_configuration  # type: ignore
                 )
-                parsed_samples = samples_module.parse(files_module.beast2_configuration)
-                parsed_trees = trees_module.parse(files_module.beast2_trees)
+                parsed_samples = samples_module.parse(files_module.beast2_configuration)  # type: ignore
+                parsed_trees = trees_module.parse(files_module.beast2_trees)  # type: ignore
             except ValidationError as error:
                 st.toast(error.message)
                 return

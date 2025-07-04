@@ -3,7 +3,7 @@ import streamlit as st
 
 from phylodata.data_types import Paper
 from phylodata.errors import ValidationError
-from phylodata.modules.module import Module
+from phylodata.module import Module
 
 
 class PaperModule(Module[Paper]):
