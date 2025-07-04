@@ -4,6 +4,7 @@ import streamlit as st
 from phylodata.data_types import Paper
 from phylodata.errors import ValidationError
 from phylodata.module import Module
+from phylodata.paper.doi import is_doi
 
 
 class PaperModule(Module[Paper]):
@@ -21,7 +22,8 @@ class PaperModule(Module[Paper]):
             self.bibtext = st.text_area("BibTex citation")
             self.doi = st.text_input("DOI")
             st.write(
-                """Experiments with the same paper DOI will be linked to the same paper."""
+                """Use the URL format (like https://doi.org/10.1000/182).
+                Experiments with the same paper DOI will be linked to the same paper."""
             )
             self.url = st.text_input("URL (optional)")
 
@@ -35,8 +37,8 @@ class PaperModule(Module[Paper]):
         if len(bibtexparser.parse_string(self.bibtext).entries) != 1:
             st.toast("Specify exactly one bibtex entry.")
             return
-        if not self.doi.strip():
-            st.toast("Specify a DOI.")
+        if not is_doi(self.doi.strip()):
+            st.toast("Specify a DOI (like https://doi.org/10.1000/182).")
             return
 
     def parse(self) -> Paper:
