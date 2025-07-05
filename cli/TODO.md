@@ -1,5 +1,5 @@
-- Add division between changeable and non-changeable
 - Add nice s3 file name
+- Add hashes and metadata files
 - Handle multiple files with same name
 
 - Upload some datasets

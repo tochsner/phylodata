@@ -75,6 +75,7 @@ class NonEditableExperiment(msgspec.Struct, rename="camel"):
 
 class EditablePaper(msgspec.Struct, rename="camel"):
     title: str
+    year: int
     authors: list[str]
     abstract: str
     bibtex: str
@@ -82,6 +83,7 @@ class EditablePaper(msgspec.Struct, rename="camel"):
 
 
 class NonEditablePaper(msgspec.Struct, rename="camel"):
+    human_readable_id: str
     doi: str
 
 
