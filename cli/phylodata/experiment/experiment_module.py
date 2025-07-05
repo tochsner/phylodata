@@ -2,11 +2,15 @@ from datetime import date
 
 import streamlit as st
 
-from phylodata.data_types import Experiment, ExperimentType
+from phylodata.data_types import (
+    EditableExperiment,
+    ExperimentType,
+    NonEditableExperiment,
+)
 from phylodata.module import Module
 
 
-class ExperimentModule(Module[Experiment]):
+class ExperimentModule(Module[tuple[EditableExperiment, NonEditableExperiment]]):
     def ui(self):
         with st.container(border=True):
             st.write("""
@@ -20,11 +24,12 @@ class ExperimentModule(Module[Experiment]):
 
     def validate(self): ...
 
-    def parse(self) -> Experiment:
-        return Experiment(
+    def parse(self) -> tuple[EditableExperiment, NonEditableExperiment]:
+        return EditableExperiment(
             title=self.title.strip() or None,
             description=self.description.strip() or None,
+            type=ExperimentType.BEAST2_Experiment,
+        ), NonEditableExperiment(
             origin="manualUpload",
             upload_date=date.today(),
-            type=ExperimentType.BEAST2_Experiment,
         )

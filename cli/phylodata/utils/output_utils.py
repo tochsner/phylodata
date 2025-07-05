@@ -6,13 +6,15 @@ import msgspec
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 from phylodata.data_types import (
+    EditableExperiment,
+    EditablePaper,
     EditablePaperWithExperiment,
     EvolutionaryModel,
-    Experiment,
     File,
     Metadata,
+    NonEditableExperiment,
+    NonEditablePaper,
     NonEditablePaperWithExperiment,
-    Paper,
     Sample,
     Trees,
 )
@@ -21,13 +23,14 @@ WASABI_BUCKET_NAME = "phylodata-experiments"
 
 
 def store_output(
-    title: str,
     beast2_configuration: BytesIO,
     beast2_logs: BytesIO,
     beast2_trees: BytesIO,
     other_files: list[UploadedFile],
-    experiment: Experiment,
-    paper: Paper,
+    editable_experiment: EditableExperiment,
+    non_editable_experiment: NonEditableExperiment,
+    editable_paper: EditablePaper,
+    non_editable_paper: NonEditablePaper,
     samples: list[Sample],
     files: list[File],
     evolutionary_model: EvolutionaryModel,
@@ -38,19 +41,21 @@ def store_output(
     Creates a folder with a name based on the given title and writes the provided
     files and the PhyloData metadata into it.
     """
-    output_folder = f"{title}-phylodata"
+    output_folder = f"{editable_paper.title}-phylodata"
 
     if os.path.exists(output_folder):
         shutil.rmtree(output_folder)
     os.mkdir(output_folder)
 
     editable_metadata = EditablePaperWithExperiment(
-        experiment=experiment, paper=paper, samples=samples
+        experiment=editable_experiment, paper=editable_paper, samples=samples
     )
     with open(f"{output_folder}/editable_phylodata_metadata.json", "wb") as f:
         f.write(msgspec.json.format(msgspec.json.encode(editable_metadata), indent=2))
 
     non_editable_metadata = NonEditablePaperWithExperiment(
+        experiment=non_editable_experiment,
+        paper=non_editable_paper,
         files=files,
         evolutionary_model=evolutionary_model,
         trees=trees,

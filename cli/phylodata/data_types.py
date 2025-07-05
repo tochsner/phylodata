@@ -1,4 +1,14 @@
-"""This file contains all the types which are used to describe a PhyloData experiment."""
+"""This file contains all the types which are used to describe a PhyloData experiment.
+
+For some types, there is an *editable* and *non-editable* version. We make this distinction
+for the following reasons:
+
+-   We can create two metadata files, making it very obvious which information can be manually
+    corrected by the user and which information is an automated output of the pipeline.
+-   Given the pipeline version, the non-editable information should always be reproducible.
+-   When the pipeline changes (e.g. new features get added), the user-made corrections to
+    the editable metadata can easily be integrated again.
+"""
 
 from datetime import date
 from enum import Enum
@@ -50,23 +60,29 @@ class ModelType(Enum):
     OTHER = "other"
 
 
-class Experiment(msgspec.Struct, rename="camel"):
+class EditableExperiment(msgspec.Struct, rename="camel"):
     type: ExperimentType
-    origin: str
-    upload_date: date
     title: Optional[str] = None
     description: Optional[str] = None
+
+
+class NonEditableExperiment(msgspec.Struct, rename="camel"):
+    origin: str
+    upload_date: date
     license: str = "CC0"
     id: Optional[str] = None
 
 
-class Paper(msgspec.Struct, rename="camel"):
-    doi: str
+class EditablePaper(msgspec.Struct, rename="camel"):
     title: str
     authors: list[str]
     abstract: str
     bibtex: str
     url: Optional[str] = None
+
+
+class NonEditablePaper(msgspec.Struct, rename="camel"):
+    doi: str
 
 
 class File(msgspec.Struct, rename="camel"):
@@ -137,6 +153,8 @@ class NonEditablePaperWithExperiment(msgspec.Struct, rename="camel"):
     """This structure contains all experiment data which is
     computed by the pipeline and must not be changed manually."""
 
+    paper: NonEditablePaper
+    experiment: NonEditableExperiment
     files: list[File]
     trees: Trees
     evolutionary_model: EvolutionaryModel
@@ -147,8 +165,8 @@ class EditablePaperWithExperiment(msgspec.Struct, rename="camel"):
     """This structure contains all experiment data computed by the pipeline
     and may be changed manually."""
 
-    experiment: Experiment
-    paper: Paper
+    paper: EditablePaper
+    experiment: EditableExperiment
     samples: list[Sample]
 
 

@@ -1,7 +1,6 @@
 import itertools
 from io import BytesIO
 from xml.etree import ElementTree
-from xml.etree.ElementTree import Element
 
 from commonnexus import Nexus
 
@@ -19,9 +18,9 @@ def get_nexus_from_bytesio(file: BytesIO) -> Nexus:
         raise ValidationError("BEAST 2 trees file is no valid NEXUS file.")
 
 
-def get_xml_from_bytesio(file: BytesIO) -> ElementTree.ElementTree[Element[str]]:
+def get_xml_from_bytesio(file: BytesIO) -> ElementTree.ElementTree:
     file.seek(0)
     try:
-        return ElementTree.parse(file)
+        return ElementTree.parse(file)  # type: ignore
     except Exception as e:
         raise ValidationError(f"BEAST 2 configuration is no valid XML file. ({e})")

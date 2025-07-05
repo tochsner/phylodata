@@ -2,11 +2,11 @@ test:
     uv run pytest tests
 
 check:
-  ruff check --fix
-  pyright phylodata tests scripts
+  uv run ruff check --fix
+  uv run pyright phylodata tests scripts
 
 format:
-  ruff format
+  uv run ruff format
 
 build:
     rm -rf dist

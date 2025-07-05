@@ -1,13 +1,13 @@
 import bibtexparser
 import streamlit as st
 
-from phylodata.data_types import Paper
+from phylodata.data_types import EditablePaper, NonEditablePaper
 from phylodata.errors import ValidationError
 from phylodata.module import Module
 from phylodata.paper.doi import is_doi
 
 
-class PaperModule(Module[Paper]):
+class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
     def ui(self):
         with st.container(border=True):
             st.write("""
@@ -41,12 +41,13 @@ class PaperModule(Module[Paper]):
             st.toast("Specify a DOI (like https://doi.org/10.1000/182).")
             return
 
-    def parse(self) -> Paper:
-        return Paper(
+    def parse(self) -> tuple[EditablePaper, NonEditablePaper]:
+        return EditablePaper(
             title=self.title.strip(),
             authors=[author.strip() for author in self.authors.split("\n")],
             abstract=self.abstract.strip(),
             bibtex=self.bibtext.strip(),
-            doi=self.doi.strip(),
             url=self.url.strip() or None,
+        ), NonEditablePaper(
+            doi=self.doi.strip(),
         )

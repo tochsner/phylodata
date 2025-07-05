@@ -1,12 +1,12 @@
 import streamlit as st
 
-from phylodata.data_types import FileType
+from phylodata.data_types import File, FileType
 from phylodata.errors import ValidationError
 from phylodata.files.parse_files import parse_file
 from phylodata.module import Module
 
 
-class FilesModule(Module[list]):
+class FilesModule(Module[list[File]]):
     def ui(self):
         with st.container(border=True):
             st.write("""
@@ -39,7 +39,7 @@ class FilesModule(Module[list]):
         if not self.beast2_trees:
             raise ValidationError("Specify a BEAST 2 trees file.")
 
-    def parse(self) -> list:
+    def parse(self) -> list[File]:
         st.text("Processing the given files...")
         if not self.beast2_configuration:
             raise ValidationError("Specify a BEAST 2 configuration file.")
