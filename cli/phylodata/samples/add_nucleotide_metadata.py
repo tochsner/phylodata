@@ -1,3 +1,4 @@
+from loguru import logger
 from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
 from phylodata.errors import BlastError
 from phylodata.samples.run_blast import extract_taxon_ids, run_blast
@@ -82,7 +83,8 @@ def fetch_nucleotide_classifications(
         if taxon_id:
             try:
                 classifications.append(look_up_taxon_classification(taxon_id))
-            except Exception:
+            except Exception as e:
+                logger.error(f"Taxon look up faild: {e}")
                 classifications.append(None)
         else:
             classifications.append(None)

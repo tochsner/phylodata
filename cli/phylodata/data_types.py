@@ -12,6 +12,8 @@ for the following reasons:
 
 from datetime import date
 from enum import Enum
+from hashlib import md5
+from io import BytesIO
 from typing import Any, Optional
 
 import msgspec
@@ -32,7 +34,7 @@ class FileType(Enum):
     BEAST2_POSTERIOR_TREES = "beast2PosteriorTrees"
     SUMMARY_TREE = "summaryTree"
     CODEPHY_MODEL = "codephyModel"
-    EVO_DATA_EXPERIMENT = "phyloDataExperiment"
+    PHYLO_DATA_EXPERIMENT = "phyloDataExperiment"
     UNKNOWN = "unknown"
 
 
@@ -67,6 +69,7 @@ class EditableExperiment(msgspec.Struct, rename="camel"):
 
 
 class NonEditableExperiment(msgspec.Struct, rename="camel"):
+    human_readable_id: str
     origin: str
     upload_date: date
     license: str = "CC0"
@@ -83,11 +86,12 @@ class EditablePaper(msgspec.Struct, rename="camel"):
 
 
 class NonEditablePaper(msgspec.Struct, rename="camel"):
-    human_readable_id: str
     doi: str
 
 
-class File(msgspec.Struct, rename="camel"):
+class File(
+    msgspec.Struct, rename="camel", dict=True
+):  # dict is true to omit private values (https://github.com/jcrist/msgspec/issues/199#issuecomment-2840826792)
     name: str
     type: FileType
     version: int
@@ -95,6 +99,26 @@ class File(msgspec.Struct, rename="camel"):
     md5: str
     local_path: Optional[str] = None
     remote_path: Optional[str] = None
+
+    def __post_init__(self):
+        self.bytes: BytesIO | None = None
+
+    def set_bytes(self, bytes: BytesIO) -> "File":
+        self.bytes = bytes
+        return self
+
+    @classmethod
+    def from_bytes(
+        cls, bytes: BytesIO, name: str, type: FileType, version: int
+    ) -> "File":
+        buffer = bytes.getbuffer()
+        return File(
+            name=name,
+            type=type,
+            version=version,
+            size_bytes=buffer.nbytes,
+            md5=md5(buffer).hexdigest(),
+        ).set_bytes(bytes)
 
 
 class SampleData(msgspec.Struct, rename="camel"):

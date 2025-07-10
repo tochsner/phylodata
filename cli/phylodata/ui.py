@@ -67,7 +67,7 @@ if st.session_state[STAGE] == Stage.INPUT:
                 trees_module.validate()
 
                 editable_paper, non_editable_paper = paper_module.parse()
-                editable_experiment, non_editable_experiment = experiment_module.parse()
+                editable_experiment, non_editable_experiment = experiment_module.parse(editable_paper)
                 files = files_module.parse()
                 parsed_evolutionary_model = evolutionary_model_module.parse(
                     files_module.beast2_configuration  # type: ignore
@@ -83,10 +83,6 @@ if st.session_state[STAGE] == Stage.INPUT:
             st.text("Creating PhyloData folder...")
 
             output_folder = store_output(
-                files_module.beast2_configuration,  # type: ignore
-                files_module.beast2_logs,  # type: ignore
-                files_module.beast2_trees,  # type: ignore
-                files_module.other_files,
                 editable_experiment,
                 non_editable_experiment,
                 editable_paper,

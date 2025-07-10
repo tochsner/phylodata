@@ -4,9 +4,11 @@ import streamlit as st
 
 from phylodata.data_types import (
     EditableExperiment,
+    EditablePaper,
     ExperimentType,
     NonEditableExperiment,
 )
+from phylodata.experiment.human_readable_id import generate_human_readable_id
 from phylodata.module import Module
 
 
@@ -24,7 +26,9 @@ class ExperimentModule(Module[tuple[EditableExperiment, NonEditableExperiment]])
 
     def validate(self): ...
 
-    def parse(self) -> tuple[EditableExperiment, NonEditableExperiment]:
+    def parse(
+        self, paper: EditablePaper
+    ) -> tuple[EditableExperiment, NonEditableExperiment]:
         return EditableExperiment(
             title=self.title.strip() or None,
             description=self.description.strip() or None,
@@ -32,4 +36,9 @@ class ExperimentModule(Module[tuple[EditableExperiment, NonEditableExperiment]])
         ), NonEditableExperiment(
             origin="manualUpload",
             upload_date=date.today(),
+            human_readable_id=generate_human_readable_id(
+                paper.title.strip(),
+                paper.year,
+                [author.strip() for author in paper.authors],
+            ),
         )

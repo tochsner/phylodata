@@ -1,10 +1,13 @@
 import re
+
 import nanoid
 
 
-def generate_paper_id(title: str, year: int, authors: list[str]) -> str:
-    """Generates a human-readable ID for the paper. It is designed to be both
-    recognizable and sufficiently random to avoid collisions.
+def generate_human_readable_id(title: str, year: int, authors: list[str]) -> str:
+    """Generates a human-readable ID for the paper. Multiple calls with the same
+    metadata will generate different IDs, as a random suffix is added.
+
+    It is designed to be both recognizable and sufficiently random to avoid collisions.
 
     It generates IDs like 'felsenstein-1973-maximum-dsa6'."""
     author = replace_non_alpha(authors[0]).split()[-1].lower()

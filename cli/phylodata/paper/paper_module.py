@@ -1,4 +1,5 @@
 from datetime import datetime
+
 import bibtexparser
 import streamlit as st
 
@@ -6,7 +7,6 @@ from phylodata.data_types import EditablePaper, NonEditablePaper
 from phylodata.errors import ValidationError
 from phylodata.module import Module
 from phylodata.paper.doi import is_doi
-from phylodata.paper.paper_id import generate_paper_id
 
 
 class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
@@ -57,11 +57,4 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             abstract=self.abstract.strip(),
             bibtex=self.bibtext.strip(),
             url=self.url.strip() or None,
-        ), NonEditablePaper(
-            doi=self.doi.strip(),
-            human_readable_id=generate_paper_id(
-                self.title.strip(),
-                self.year,
-                [author.strip() for author in self.authors.split("\n")],
-            ),
-        )
+        ), NonEditablePaper(doi=self.doi.strip())

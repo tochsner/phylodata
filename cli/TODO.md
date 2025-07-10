@@ -1,6 +1,6 @@
-- Add nice s3 file name
 - Add hashes and metadata files
 - Handle multiple files with same name
+- Add preview files
 
 - Upload some datasets
 - Add filters to search
@@ -12,3 +12,15 @@
 
 - Add CCD0 summary tree
 - Add simple tree ESS
+
+
+
+Detected files (wo config files)
+
+Clean up file names
+
+Copy
+
+Add and create preview files
+
+Add config files (add hashes and change file name)

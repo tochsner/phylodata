@@ -1,5 +1,4 @@
 import csv
-from hashlib import md5
 from io import BytesIO, TextIOWrapper
 from typing import Optional
 
@@ -39,13 +38,11 @@ def parse_beast2_config(file: BytesIO) -> File:
     if not any(child.tag.lower() == "run" for child in root):
         raise ValidationError("BEAST 2 has no <run> tag.")
 
-    buffer = file.getbuffer()
-    return File(
+    return File.from_bytes(
+        file,
         name=file.name,
         type=FileType.BEAST2_CONFIGURATION,
         version=1,
-        size_bytes=buffer.nbytes,
-        md5=md5(buffer).hexdigest(),
     )
 
 
@@ -64,13 +61,13 @@ def parse_beast2_logs(file: BytesIO) -> File:
             f"BEAST 2 log file should contain at least {MIN_NUM_SNAPSHOTS} entries."
         )
 
-    buffer = file.getbuffer()
-    return File(
+    wrapper.detach()
+
+    return File.from_bytes(
+        file,
         name=file.name,
         type=FileType.BEAST2_POSTERIOR_LOGS,
         version=1,
-        size_bytes=buffer.nbytes,
-        md5=md5(buffer).hexdigest(),
     )
 
 
@@ -87,30 +84,25 @@ def parse_beast2_trees(file: BytesIO) -> File:
             f"BEAST 2 trees should contain at least {MIN_NUM_SNAPSHOTS} trees."
         )
 
-    buffer = file.getbuffer()
-    return File(
+    return File.from_bytes(
+        file,
         name=file.name,
         type=FileType.BEAST2_POSTERIOR_TREES,
         version=1,
-        size_bytes=buffer.nbytes,
-        md5=md5(buffer).hexdigest(),
     )
 
 
 def parse_other_file(file: BytesIO) -> File:
-    buffer = file.getbuffer()
-
     # if the file contains a single tree => summary tree
 
     try:
         nexus = get_nexus_from_bytesio(file)
         if nexus.TREES and nexus.TREES.trees and len(nexus.TREES.trees) == 1:
-            return File(
+            return File.from_bytes(
+                file,
                 name=file.name,
                 type=FileType.SUMMARY_TREE,
                 version=1,
-                size_bytes=buffer.nbytes,
-                md5=md5(buffer).hexdigest(),
             )
     except ValidationError:
         # file is not a valid trees file
@@ -118,10 +110,9 @@ def parse_other_file(file: BytesIO) -> File:
 
     # otherwise we return an UNKNOWN file
 
-    return File(
+    return File.from_bytes(
+        file,
         name=file.name,
         type=FileType.UNKNOWN,
         version=1,
-        size_bytes=buffer.nbytes,
-        md5=md5(buffer).hexdigest(),
     )
