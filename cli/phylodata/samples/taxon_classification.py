@@ -15,11 +15,13 @@ def look_up_taxon_classification(ncbi_taxon_id: int) -> list[ClassificationEntry
         except taxoniq.NoValue:
             ...
 
-        classification.append(ClassificationEntry(
-            classification_id=str(t.tax_id),
-            scientific_name=t.scientific_name,
-            common_name=common_name,
-            id_type=ClassificationEntryType.NCBI_TAXONOMY_ID,
-        ))
+        classification.append(
+            ClassificationEntry(
+                classification_id=str(t.tax_id),
+                scientific_name=t.scientific_name,
+                common_name=common_name,
+                id_type=ClassificationEntryType.NCBI_TAXONOMY_ID,
+            )
+        )
 
     return classification

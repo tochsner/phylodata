@@ -67,7 +67,9 @@ if st.session_state[STAGE] == Stage.INPUT:
                 trees_module.validate()
 
                 editable_paper, non_editable_paper = paper_module.parse()
-                editable_experiment, non_editable_experiment = experiment_module.parse(editable_paper)
+                editable_experiment, non_editable_experiment = experiment_module.parse(
+                    editable_paper
+                )
                 files = files_module.parse()
                 parsed_evolutionary_model = evolutionary_model_module.parse(
                     files_module.beast2_configuration  # type: ignore

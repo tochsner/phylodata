@@ -1,6 +1,5 @@
-- Add hashes and metadata files
-- Handle multiple files with same name
 - Add preview files
+- Use bibtx for auto completion
 
 - Upload some datasets
 - Add filters to search
