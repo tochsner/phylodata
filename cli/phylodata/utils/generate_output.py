@@ -26,7 +26,7 @@ EDITABLE_METADATA_FILE = "editable_phylodata_metadata.json"
 NON_EDITABLE_METADATA_FILE = "non_editable_phylodata_metadata"
 
 
-def store_output(
+def generate_output(
     editable_experiment: EditableExperiment,
     non_editable_experiment: NonEditableExperiment,
     editable_paper: EditablePaper,
@@ -37,10 +37,7 @@ def store_output(
     trees: Trees,
     metadata: Metadata,
 ) -> Path:
-    """
-    Creates a folder with a name based on the given title and writes the provided
-    files and the PhyloData metadata into it.
-    """
+    """Creates the output folder for the given experiment metadata."""
     files = clean_up_file_names(files)
     files = add_editable_metadata_file(
         files, editable_paper, editable_experiment, samples
@@ -61,6 +58,8 @@ def store_output(
 
 
 def clean_up_file_names(files: list[File]) -> list[File]:
+    """Makes sure all file names are unique and do not correspond to the
+    metadata file names."""
     filename_counter = {EDITABLE_METADATA_FILE: 1, NON_EDITABLE_METADATA_FILE: 1}
 
     for file in files:
@@ -81,6 +80,8 @@ def add_editable_metadata_file(
     editable_experiment: EditableExperiment,
     samples: list[Sample],
 ) -> list[File]:
+    """Adds a new File object to the files list corresponding to the
+    editable metadata json."""
     editable_metadata = EditablePaperWithExperiment(
         editable_paper, editable_experiment, samples
     )
@@ -108,6 +109,8 @@ def add_non_editable_metadata_file(
     trees: Trees,
     metadata: Metadata,
 ) -> list[File]:
+    """Adds a new File object to the files list corresponding to the
+    non-editable metadata json."""
     non_editable_metadata = NonEditablePaperWithExperiment(
         files=files,
         experiment=non_editable_experiment,
@@ -133,6 +136,8 @@ def add_non_editable_metadata_file(
 
 
 def create_output_folder(experiment: NonEditableExperiment) -> Path:
+    """Creates the output folder. If the folder already exists,
+    it gets deleted first."""
     output_folder = Path(experiment.human_readable_id)
 
     if os.path.exists(output_folder):
@@ -143,6 +148,7 @@ def create_output_folder(experiment: NonEditableExperiment) -> Path:
 
 
 def store_files(files: list[File], output_folder: Path):
+    """Stores the files in the output folder."""
     for file in files:
         if not file.bytes:
             raise ValueError(

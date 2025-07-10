@@ -14,7 +14,7 @@ from phylodata.files.files_module import FilesModule
 from phylodata.paper.paper_module import PaperModule
 from phylodata.samples.samples_module import SamplesModule
 from phylodata.trees.trees_module import TreesModule
-from phylodata.utils.output_utils import store_output
+from phylodata.utils.generate_output import generate_output
 from phylodata.version import __version__
 
 
@@ -84,7 +84,7 @@ if st.session_state[STAGE] == Stage.INPUT:
 
             st.text("Creating PhyloData folder...")
 
-            output_folder = store_output(
+            output_folder = generate_output(
                 editable_experiment,
                 non_editable_experiment,
                 editable_paper,

@@ -9,7 +9,7 @@ from phylodata.paper.doi import is_doi
 from phylodata.paper.bibtex import (
     is_valid_bibtex,
     get_bibtex_value,
-    clean_up_bibtex_authors,
+    yield_bibtex_authors,
 )
 
 
@@ -28,7 +28,7 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             st.session_state["paper_bibtex_year"] = int(year)
         if authors := get_bibtex_value(bibtex, "author"):
             st.session_state["paper_bibtex_authors"] = "\n".join(
-                clean_up_bibtex_authors(authors)
+                yield_bibtex_authors(authors)
             )
 
     def ui(self):

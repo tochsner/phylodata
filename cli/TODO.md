@@ -1,5 +1,4 @@
 - Add preview files
-- Use bibtx for auto completion
 
 - Upload some datasets
 - Add filters to search
@@ -11,8 +10,6 @@
 
 - Add CCD0 summary tree
 - Add simple tree ESS
-
-
 
 Detected files (wo config files)
 
