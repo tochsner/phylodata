@@ -15,7 +15,7 @@ from phylodata.paper.doi import is_doi
 
 class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
     def fill_using_bibtex(self):
-        if "paper_bibtex" in st.session_state:
+        if "paper_bibtex_title" in st.session_state:
             # we only set it the first time to avoid overwriting manual corrections
             return
 
@@ -33,7 +33,6 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
 
     def ui(self):
         with st.container(border=True):
-            print(st.session_state)
             st.write("""
             ### Paper
 
@@ -86,6 +85,9 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             return
 
     def parse(self) -> tuple[EditablePaper, NonEditablePaper]:
+        if not self.title or not self.year or not self.authors or not self.abstract:
+            raise ValidationError("Paper info missing.")
+
         return EditablePaper(
             title=self.title.strip(),
             year=int(self.year),
