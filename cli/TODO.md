@@ -1,5 +1,3 @@
-- Add preview files
-
 - Upload some datasets
 - Add filters to search
 
