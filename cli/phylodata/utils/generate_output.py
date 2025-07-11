@@ -19,6 +19,7 @@ from phylodata.data_types import (
     Sample,
     Trees,
 )
+from phylodata.utils.file_utils import add_file_name_suffix
 
 WASABI_BUCKET_NAME = "phylodata-experiments"
 
@@ -65,9 +66,9 @@ def clean_up_file_names(files: list[File]) -> list[File]:
     for file in files:
         if file.name in filename_counter:
             filename_counter[file.name] += 1
-
-            base, ext = os.path.splitext(file.name)
-            file.name = f"{base}_{filename_counter[file.name]}{ext}"
+            file.name = add_file_name_suffix(
+                file.name, str(filename_counter[file.name]), "_"
+            )
         else:
             filename_counter[file.name] = 1
 

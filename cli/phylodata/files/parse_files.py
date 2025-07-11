@@ -1,29 +1,36 @@
 import csv
 from io import BytesIO, TextIOWrapper
-from typing import Optional
+from math import floor
+from typing import Generator, Optional
 
 from phylodata.data_types import File, FileType
 from phylodata.errors import ValidationError
 from phylodata.utils.bytesio_utils import get_nexus_from_bytesio, get_xml_from_bytesio
+from phylodata.utils.file_utils import add_file_name_suffix
 
 MIN_NUM_SNAPSHOTS = 50
 """The minimum number of snapshots required for a valid BEAST 2 posterior log file.
 When the number of snapshots is less than this value, the log file is considered invalid."""
 
+PREVIEW_FRACTION = 0.1
+"""The fraction of state snapshots that are stored in the preview files."""
 
-def parse_file(file: BytesIO, file_type: Optional[FileType] = FileType.UNKNOWN) -> File:
+
+def parse_file(
+    file: BytesIO, file_type: Optional[FileType] = FileType.UNKNOWN
+) -> Generator[File, None, None]:
     match file_type:
         case FileType.BEAST2_CONFIGURATION:
-            return parse_beast2_config(file)
+            yield from parse_beast2_config(file)
         case FileType.BEAST2_POSTERIOR_LOGS:
-            return parse_beast2_logs(file)
+            yield from parse_beast2_logs(file)
         case FileType.BEAST2_POSTERIOR_TREES:
-            return parse_beast2_trees(file)
+            yield from parse_beast2_trees(file)
         case _:
-            return parse_other_file(file)
+            yield from parse_other_file(file)
 
 
-def parse_beast2_config(file: BytesIO) -> File:
+def parse_beast2_config(file: BytesIO) -> Generator[File, None, None]:
     """Parses a BEAST 2 config file. If the file does not seem to be a valid
     BEAST config, a ValidationError is raised."""
     xml = get_xml_from_bytesio(file)
@@ -38,7 +45,7 @@ def parse_beast2_config(file: BytesIO) -> File:
     if not any(child.tag.lower() == "run" for child in root):
         raise ValidationError("BEAST 2 has no <run> tag.")
 
-    return File.from_bytes(
+    yield File.from_bytes(
         file,
         name=file.name,
         type=FileType.BEAST2_CONFIGURATION,
@@ -46,7 +53,7 @@ def parse_beast2_config(file: BytesIO) -> File:
     )
 
 
-def parse_beast2_logs(file: BytesIO) -> File:
+def parse_beast2_logs(file: BytesIO) -> Generator[File, None, None]:
     """Parses a BEAST 2 log file. If the file does not seem to be a valid
     BEAST log, a ValidationError is raised."""
     try:
@@ -55,23 +62,55 @@ def parse_beast2_logs(file: BytesIO) -> File:
     except Exception:
         raise ValidationError("BEAST 2 log file is not a tab-separated file.")
 
-    num_rows = sum(1 for _ in tsv_file)
+    rows = list(tsv_file)
+    num_rows = len(rows)
+
     if num_rows < MIN_NUM_SNAPSHOTS:
         raise ValidationError(
             f"BEAST 2 log file should contain at least {MIN_NUM_SNAPSHOTS} entries."
         )
 
+    # detach wrapper to avoid closing the BytesIO when wrapper is garbage collected
     wrapper.detach()
 
-    return File.from_bytes(
+    # yield full file
+
+    yield File.from_bytes(
         file,
         name=file.name,
         type=FileType.BEAST2_POSTERIOR_LOGS,
         version=1,
     )
 
+    # generate preview file
 
-def parse_beast2_trees(file: BytesIO) -> File:
+    preview_lines = rows[: floor(len(rows) * PREVIEW_FRACTION)]
+
+    preview_file = BytesIO()
+    preview_wrapper = TextIOWrapper(preview_file, encoding="utf-8", newline="")
+
+    preview_writer = csv.DictWriter(
+        preview_wrapper, fieldnames=preview_lines[0].keys(), delimiter="\t"
+    )
+    preview_writer.writeheader()
+    preview_writer.writerows(preview_lines)
+
+    # detach wrapper to avoid closing the BytesIO when wrapper is garbage collected
+
+    preview_wrapper.detach()
+
+    # yield preview file
+
+    yield File.from_bytes(
+        preview_file,
+        name=add_file_name_suffix(file.name, " (preview)"),
+        type=FileType.BEAST2_POSTERIOR_LOGS,
+        version=1,
+        is_preview=True,
+    )
+
+
+def parse_beast2_trees(file: BytesIO) -> Generator[File, None, None]:
     """Parses a BEAST 2 trees file. If the file does not seem to be a valid
     BEAST trees file, a ValidationError is raised."""
     nexus = get_nexus_from_bytesio(file)
@@ -84,7 +123,7 @@ def parse_beast2_trees(file: BytesIO) -> File:
             f"BEAST 2 trees should contain at least {MIN_NUM_SNAPSHOTS} trees."
         )
 
-    return File.from_bytes(
+    yield File.from_bytes(
         file,
         name=file.name,
         type=FileType.BEAST2_POSTERIOR_TREES,
@@ -92,13 +131,13 @@ def parse_beast2_trees(file: BytesIO) -> File:
     )
 
 
-def parse_other_file(file: BytesIO) -> File:
+def parse_other_file(file: BytesIO) -> Generator[File, None, None]:
     # if the file contains a single tree => summary tree
 
     try:
         nexus = get_nexus_from_bytesio(file)
         if nexus.TREES and nexus.TREES.trees and len(nexus.TREES.trees) == 1:
-            return File.from_bytes(
+            yield File.from_bytes(
                 file,
                 name=file.name,
                 type=FileType.SUMMARY_TREE,
@@ -108,9 +147,9 @@ def parse_other_file(file: BytesIO) -> File:
         # file is not a valid trees file
         ...
 
-    # otherwise we return an UNKNOWN file
+    # otherwise we yield an UNKNOWN file
 
-    return File.from_bytes(
+    yield File.from_bytes(
         file,
         name=file.name,
         type=FileType.UNKNOWN,

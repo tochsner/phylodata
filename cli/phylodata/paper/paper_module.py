@@ -5,12 +5,12 @@ import streamlit as st
 from phylodata.data_types import EditablePaper, NonEditablePaper
 from phylodata.errors import ValidationError
 from phylodata.module import Module
-from phylodata.paper.doi import is_doi
 from phylodata.paper.bibtex import (
-    is_valid_bibtex,
     get_bibtex_value,
+    is_valid_bibtex,
     yield_bibtex_authors,
 )
+from phylodata.paper.doi import is_doi
 
 
 class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
@@ -40,8 +40,10 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             Enter the following general information about your paper:
             """)
             self.bibtext = st.text_area(
-                "BibTex citation", on_change=self.fill_using_bibtex, key="paper_bibtex",
-                height=200
+                "BibTex citation",
+                on_change=self.fill_using_bibtex,
+                key="paper_bibtex",
+                height=200,
             )
             self.title = st.text_input(
                 "Title", value=st.session_state.get("paper_bibtex_title")

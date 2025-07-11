@@ -1,3 +1,5 @@
+import itertools
+
 import streamlit as st
 
 from phylodata.data_types import File, FileType
@@ -58,14 +60,16 @@ class FilesModule(Module[list[File]]):
             self.beast2_trees, FileType.BEAST2_POSTERIOR_TREES
         )
 
-        files = [
-            parsed_beast2_configuration,
-            parsed_beast2_logs,
-            parsed_beast2_trees,
-        ]
+        files = list(
+            itertools.chain(
+                parsed_beast2_configuration,
+                parsed_beast2_logs,
+                parsed_beast2_trees,
+            )
+        )
 
         for other_file in self.other_files:
             parsed_other_file = parse_file(other_file, FileType.UNKNOWN)
-            files.append(parsed_other_file)
+            files += list(parsed_other_file)
 
         return files

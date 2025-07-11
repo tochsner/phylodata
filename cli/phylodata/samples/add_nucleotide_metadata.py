@@ -1,4 +1,5 @@
 from loguru import logger
+
 from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
 from phylodata.errors import BlastError
 from phylodata.samples.run_blast import extract_taxon_ids, run_blast

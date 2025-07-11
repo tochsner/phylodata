@@ -1,6 +1,7 @@
-from typing import Generator
-import bibtexparser
 import re
+from typing import Generator
+
+import bibtexparser
 
 
 def is_valid_bibtex(bibtex_str: str):

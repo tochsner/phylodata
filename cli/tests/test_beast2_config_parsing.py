@@ -18,7 +18,7 @@ def test_simple_beast_config_is_ok():
         <data></data>
         <run></run>
     </beast>""")
-    parse_beast2_config(file)
+    all(parse_beast2_config(file))
 
 
 def test_missing_data_tag_fails():
@@ -27,7 +27,7 @@ def test_missing_data_tag_fails():
         <beast namespace="beast.core" required="BEAST.base v2.7.7" version="2.7">
             <run></run>
         </beast>""")
-        parse_beast2_config(file)
+        all(parse_beast2_config(file))
 
 
 def test_missing_run_tag_fails():
@@ -36,13 +36,13 @@ def test_missing_run_tag_fails():
         <beast namespace="beast.core" required="BEAST.base v2.7.7" version="2.7">
             <data></data>
         </beast>""")
-        parse_beast2_config(file)
+        all(parse_beast2_config(file))
 
 
 def test_empty_file_fails():
     with pytest.raises(ValidationError):
         file = to_bytes_io("")
-        parse_beast2_config(file)
+        all(parse_beast2_config(file))
 
 
 def test_non_xml_file_fails():
@@ -51,11 +51,11 @@ def test_non_xml_file_fails():
         beast2_config:
             - "this is a YAML and no XML file"
         """)
-        parse_beast2_config(file)
+        all(parse_beast2_config(file))
 
 
 def test_missing_beast_tag_fails():
     with pytest.raises(ValidationError):
         file = to_bytes_io("""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
         <some-other-tag></some-other-tag>""")
-        parse_beast2_config(file)
+        all(parse_beast2_config(file))

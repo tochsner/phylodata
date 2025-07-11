@@ -3,6 +3,7 @@
 - Upload some datasets
 - Add filters to search
 
+- Upload folder, not zip
 - Think about download
 - Implement download endpoint
 - Add downlaod to python library
@@ -10,13 +11,3 @@
 
 - Add CCD0 summary tree
 - Add simple tree ESS
-
-Detected files (wo config files)
-
-Clean up file names
-
-Copy
-
-Add and create preview files
-
-Add config files (add hashes and change file name)

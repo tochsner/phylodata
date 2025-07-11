@@ -28,7 +28,7 @@ def test_simple_nexus_is_ok():
     raw_nexus += "\nEnd;"
 
     file = to_bytes_io(raw_nexus)
-    parse_beast2_trees(file)
+    list(parse_beast2_trees(file))
 
 
 def test_trees_file_with_few_lines_fails():
@@ -50,17 +50,17 @@ def test_trees_file_with_few_lines_fails():
         """
 
         file = to_bytes_io(raw_nexus)
-        parse_beast2_trees(file)
+        list(parse_beast2_trees(file))
 
 
 def test_empty_file_fails():
     with pytest.raises(ValidationError):
         file = to_bytes_io("")
-        parse_beast2_trees(file)
+        list(parse_beast2_trees(file))
 
 
 def test_no_nexus_fails():
     with pytest.raises(ValidationError):
         file = to_bytes_io("""This is some random file:khklhdsf
             asdfsadfsadf""")
-        parse_beast2_trees(file)
+        list(parse_beast2_trees(file))

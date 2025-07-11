@@ -18,7 +18,7 @@ def test_simple_log_is_ok():
         raw_logs += f"\n{s}   0"
 
     file = to_bytes_io(raw_logs)
-    parse_beast2_logs(file)
+    list(parse_beast2_logs(file))
 
 
 def test_log_file_with_few_lines_fails():
@@ -28,17 +28,43 @@ def test_log_file_with_few_lines_fails():
             raw_logs += f"\n{s} 0"
 
         file = to_bytes_io(raw_logs)
-        parse_beast2_logs(file)
+        list(parse_beast2_logs(file))
 
 
 def test_empty_file_fails():
     with pytest.raises(ValidationError):
         file = to_bytes_io("")
-        parse_beast2_logs(file)
+        list(parse_beast2_logs(file))
 
 
 def test_no_tsv_fails():
     with pytest.raises(ValidationError):
         file = to_bytes_io("""This is some random file:khklhdsf
             asdfsadfsadf""")
-        parse_beast2_logs(file)
+        list(parse_beast2_logs(file))
+
+
+def test_preview_file_is_returned():
+    raw_logs = "state   posterior"
+    for s in range(1000):
+        raw_logs += f"\n{s}   0"
+
+    file = to_bytes_io(raw_logs)
+    assert len(list(parse_beast2_logs(file))) == 2
+
+
+def test_size_of_preview_file():
+    raw_logs = "state   posterior"
+    for s in range(1000):
+        raw_logs += f"\n{s}   0"
+
+    file = to_bytes_io(raw_logs)
+    files = parse_beast2_logs(file)
+
+    full_file = next(files)
+    preview_file = next(files)
+
+    assert full_file.bytes and preview_file.bytes
+    assert (
+        0 < preview_file.bytes.getbuffer().nbytes < full_file.bytes.getbuffer().nbytes
+    )

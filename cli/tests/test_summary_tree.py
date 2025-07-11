@@ -26,6 +26,6 @@ def test_summary_tree_is_ok():
     """
 
     file = to_bytes_io(raw_nexus)
-    parsed = parse_other_file(file)
+    parsed = next(parse_other_file(file))
 
     assert parsed.type == FileType.SUMMARY_TREE

@@ -97,6 +97,7 @@ class File(
     version: int
     size_bytes: int
     md5: str
+    is_preview: bool = False
     local_path: Optional[str] = None
     remote_path: Optional[str] = None
 
@@ -109,13 +110,19 @@ class File(
 
     @classmethod
     def from_bytes(
-        cls, bytes: BytesIO, name: str, type: FileType, version: int
+        cls,
+        bytes: BytesIO,
+        name: str,
+        type: FileType,
+        version: int,
+        is_preview: bool = False,
     ) -> "File":
         buffer = bytes.getbuffer()
         return File(
             name=name,
             type=type,
             version=version,
+            is_preview=is_preview,
             size_bytes=buffer.nbytes,
             md5=md5(buffer).hexdigest(),
         ).set_bytes(bytes)
