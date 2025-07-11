@@ -3,6 +3,8 @@ from io import BytesIO, TextIOWrapper
 from math import floor
 from typing import Generator, Optional
 
+from commonnexus.blocks.trees import Trees
+
 from phylodata.data_types import File, FileType
 from phylodata.errors import ValidationError
 from phylodata.utils.bytesio_utils import get_nexus_from_bytesio, get_xml_from_bytesio
@@ -118,16 +120,51 @@ def parse_beast2_trees(file: BytesIO) -> Generator[File, None, None]:
     if not nexus.TREES or not nexus.TREES.trees:
         raise ValidationError("BEAST 2 trees contains no actual trees.")
 
-    if len(nexus.TREES.trees) < MIN_NUM_SNAPSHOTS:
+    num_trees = len(nexus.TREES.trees)
+
+    if num_trees < MIN_NUM_SNAPSHOTS:
         raise ValidationError(
             f"BEAST 2 trees should contain at least {MIN_NUM_SNAPSHOTS} trees."
         )
+
+    # yield full trees file
 
     yield File.from_bytes(
         file,
         name=file.name,
         type=FileType.BEAST2_POSTERIOR_TREES,
         version=1,
+    )
+
+    # generate preview file
+
+    preview_trees_commands = []
+    num_previewed_trees = 0
+
+    for command in nexus.TREES:
+        # test if it is a TREE command
+        if command.name.lower() == "tree":
+            if num_previewed_trees < num_trees * PREVIEW_FRACTION:
+                preview_trees_commands.append(command)
+                num_previewed_trees += 1
+        else:
+            # this is not a tree command
+            # we keep it
+            preview_trees_commands.append(command)
+
+    nexus.replace_block(nexus.TREES, Trees(nexus, preview_trees_commands))
+
+    preview_file = BytesIO()
+    preview_file.write(str(nexus).encode("utf-8"))
+
+    # yield preview file
+
+    yield File.from_bytes(
+        preview_file,
+        name=add_file_name_suffix(file.name, " (preview)"),
+        type=FileType.BEAST2_POSTERIOR_TREES,
+        version=1,
+        is_preview=True,
     )
 
 
