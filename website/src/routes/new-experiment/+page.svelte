@@ -5,10 +5,10 @@
 	import { convertSchemaToType, type PaperWithExperiments } from '$lib/types';
 	import { retrieveJSON } from '$lib/zip';
 	import type { PageProps } from './$types';
-	import EvolutionaryModels from '../experiments/[paperId]/evolutionaryModels.svelte';
-	import Files from '../experiments/[paperId]/files.svelte';
-	import Samples from '../experiments/[paperId]/samples.svelte';
-	import Trees from '../experiments/[paperId]/trees.svelte';
+	import EvolutionaryModels from '../experiments/[paperDoi]/evolutionaryModels.svelte';
+	import Files from '../experiments/[paperDoi]/files.svelte';
+	import Samples from '../experiments/[paperDoi]/samples.svelte';
+	import Trees from '../experiments/[paperDoi]/trees.svelte';
 	import { uploadToWasabi } from '$lib/wasabiClient';
 	import toast from 'svelte-5-french-toast';
 
