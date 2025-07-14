@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { insertPaperWithExperiments } from '$lib/db';
+import { insertPaperWithExperiments } from '$lib/db/insertPaperWithExperiments';
 import type { PaperWithExperiments } from '$lib/types';
 import { getWasabiUploadUrl } from '$lib/wasabi';
 import type { Actions } from './$types';
@@ -11,7 +11,6 @@ export const actions = {
 		const rawFileNames = formData.get('fileNames') as string;
 
 		if (!rawPaperData) {
-			console.log('A');
 			return fail(400);
 		}
 
@@ -19,8 +18,6 @@ export const actions = {
 		const result = await insertPaperWithExperiments(paperData);
 
 		if (!result.success || !result.insertedIds) {
-			console.log('B');
-			console.log(result);
 			return fail(400);
 		}
 
@@ -28,7 +25,9 @@ export const actions = {
 		const uploadUrls = await Promise.all(
 			fileNames.map(
 				async (name) =>
-					await getWasabiUploadUrl(`${paperData.experiments[0].experiment.humanReadableId}/${name}`)
+					await getWasabiUploadUrl(
+						`${paperData.experiments[0].experiment.humanReadableId}/${paperData.experiments[0].experiment.version}/${name}`
+					)
 			)
 		);
 

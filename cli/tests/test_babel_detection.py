@@ -35,9 +35,9 @@ def test_detect_babel_in_specs_with_attributes():
     </beast>""")
     model = parse_evolutionary_model(file)
 
-    assert model.models
-    assert len(model.models) == 1
-    assert model.models[0].name == "Babel"
+    assert model
+    assert len(model) == 1
+    assert model[0].name == "Babel"
 
 
 def test_detect_babel_in_specs_with_tags():
@@ -64,9 +64,9 @@ def test_detect_babel_in_specs_with_tags():
     </beast>""")
     model = parse_evolutionary_model(file)
 
-    assert model.models
-    assert len(model.models) == 1
-    assert model.models[0].name == "Babel"
+    assert model
+    assert len(model) == 1
+    assert model[0].name == "Babel"
 
 
 def test_detect_babel_in_specs_with_input_tag():
@@ -93,9 +93,9 @@ def test_detect_babel_in_specs_with_input_tag():
     </beast>""")
     model = parse_evolutionary_model(file)
 
-    assert model.models
-    assert len(model.models) == 1
-    assert model.models[0].name == "Babel"
+    assert model
+    assert len(model) == 1
+    assert model[0].name == "Babel"
 
 
 def test_detect_babel_in_namespace():
@@ -122,6 +122,6 @@ def test_detect_babel_in_namespace():
     </beast>""")
     model = parse_evolutionary_model(file)
 
-    assert model.models
-    assert len(model.models) == 1
-    assert model.models[0].name == "Babel"
+    assert model
+    assert len(model) == 1
+    assert model[0].name == "Babel"

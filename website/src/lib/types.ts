@@ -1,4 +1,5 @@
 export type Experiment = {
+	version: number;
 	type: 'beast2Experiment';
 	title?: string;
 	description?: string;
@@ -29,7 +30,6 @@ export type File = {
 		| 'codephyModel'
 		| 'phyloDataExperiment'
 		| 'unknown';
-	version: number;
 	sizeBytes: number;
 	md5: string;
 	isPreview?: boolean;

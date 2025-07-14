@@ -35,6 +35,7 @@ class ExperimentModule(Module[tuple[EditableExperiment, NonEditableExperiment]])
             type=ExperimentType.BEAST2_Experiment,
         ), NonEditableExperiment(
             origin="manualUpload",
+            version=1,
             upload_date=date.today(),
             human_readable_id=generate_human_readable_id(
                 paper.title.strip(),

@@ -1,15 +1,22 @@
 import { titleCase } from './titleCase';
 import type { ClassificationEntry, Sample } from './types';
 
+/**
+ * @returns a list of the main classification strings for the given samples.
+ * The main classifications are defined as the most specific classification entry
+ * describing at most half of the samples. Returned are the most specific scientific and
+ * most specific common names if found.
+ */
 export function getMainClassifications(samples: Sample[]) {
+	const mainClassifications = [];
+
 	const mainScientificClassification = getSpecificMainClassification(
 		samples,
 		(x) => x.scientificName
 	);
-	const mainCommonNameClassification = getSpecificMainClassification(samples, (x) => x.commonName);
-
-	const mainClassifications = [];
 	if (mainScientificClassification) mainClassifications.push(mainScientificClassification);
+
+	const mainCommonNameClassification = getSpecificMainClassification(samples, (x) => x.commonName);
 	if (mainCommonNameClassification) mainClassifications.push(mainCommonNameClassification);
 
 	return mainClassifications;

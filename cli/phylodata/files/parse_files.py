@@ -14,7 +14,7 @@ MIN_NUM_SNAPSHOTS = 50
 """The minimum number of snapshots required for a valid BEAST 2 posterior log file.
 When the number of snapshots is less than this value, the log file is considered invalid."""
 
-PREVIEW_FRACTION = 0.1
+PREVIEW_FRACTION = 0.05
 """The fraction of state snapshots that are stored in the preview files."""
 
 
@@ -51,7 +51,6 @@ def parse_beast2_config(file: BytesIO) -> Generator[File, None, None]:
         file,
         name=file.name,
         type=FileType.BEAST2_CONFIGURATION,
-        version=1,
     )
 
 
@@ -81,7 +80,6 @@ def parse_beast2_logs(file: BytesIO) -> Generator[File, None, None]:
         file,
         name=file.name,
         type=FileType.BEAST2_POSTERIOR_LOGS,
-        version=1,
     )
 
     # generate preview file
@@ -107,7 +105,6 @@ def parse_beast2_logs(file: BytesIO) -> Generator[File, None, None]:
         preview_file,
         name=add_file_name_suffix(file.name, " (preview)"),
         type=FileType.BEAST2_POSTERIOR_LOGS,
-        version=1,
         is_preview=True,
     )
 
@@ -133,7 +130,6 @@ def parse_beast2_trees(file: BytesIO) -> Generator[File, None, None]:
         file,
         name=file.name,
         type=FileType.BEAST2_POSTERIOR_TREES,
-        version=1,
     )
 
     # generate preview file
@@ -163,7 +159,6 @@ def parse_beast2_trees(file: BytesIO) -> Generator[File, None, None]:
         preview_file,
         name=add_file_name_suffix(file.name, " (preview)"),
         type=FileType.BEAST2_POSTERIOR_TREES,
-        version=1,
         is_preview=True,
     )
 
@@ -178,7 +173,6 @@ def parse_other_file(file: BytesIO) -> Generator[File, None, None]:
                 file,
                 name=file.name,
                 type=FileType.SUMMARY_TREE,
-                version=1,
             )
     except ValidationError:
         # file is not a valid trees file
@@ -190,5 +184,4 @@ def parse_other_file(file: BytesIO) -> Generator[File, None, None]:
         file,
         name=file.name,
         type=FileType.UNKNOWN,
-        version=1,
     )

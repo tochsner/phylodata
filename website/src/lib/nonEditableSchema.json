@@ -63,6 +63,9 @@
           "type": "string",
           "format": "date"
         },
+        "version": {
+          "type": "integer"
+        },
         "license": {
           "type": "string",
           "default": "CC0"
@@ -82,7 +85,8 @@
       "required": [
         "humanReadableId",
         "origin",
-        "uploadDate"
+        "uploadDate",
+        "version"
       ]
     },
     "File": {
@@ -94,9 +98,6 @@
         },
         "type": {
           "$ref": "#/$defs/FileType"
-        },
-        "version": {
-          "type": "integer"
         },
         "sizeBytes": {
           "type": "integer"
@@ -134,7 +135,6 @@
       "required": [
         "name",
         "type",
-        "version",
         "sizeBytes",
         "md5"
       ]

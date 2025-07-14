@@ -1,11 +1,13 @@
 from io import BytesIO
 
-from phylodata.data_types import EvolutionaryModel, EvolutionaryModelComponent
+from phylodata.data_types import EvolutionaryModelComponent
 from phylodata.evolutionary_model.parse_beast2_packages import BEAST2_PACKAGE_PARSERS
 from phylodata.utils.bytesio_utils import get_xml_from_bytesio
 
 
-def parse_evolutionary_model(beast2_config: BytesIO) -> EvolutionaryModel:
+def parse_evolutionary_model(
+    beast2_config: BytesIO,
+) -> list[EvolutionaryModelComponent]:
     xml = get_xml_from_bytesio(beast2_config)
 
     models = []
@@ -21,4 +23,4 @@ def parse_evolutionary_model(beast2_config: BytesIO) -> EvolutionaryModel:
             )
             models.append(model)
 
-    return EvolutionaryModel(models=models)
+    return models

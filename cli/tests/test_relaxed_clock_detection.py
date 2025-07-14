@@ -29,6 +29,6 @@ def test_detect_relaxed_clock_with_no_namespace():
     </beast>""")
     model = parse_evolutionary_model(file)
 
-    assert model.models
-    assert len(model.models) == 1
-    assert model.models[0].name == "Relaxed Clock Model"
+    assert model
+    assert len(model) == 1
+    assert model[0].name == "Relaxed Clock Model"

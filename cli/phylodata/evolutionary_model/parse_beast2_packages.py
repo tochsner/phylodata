@@ -112,7 +112,9 @@ class GTRParser(Beast2PackageParser):
         return ModelType.SUBSTITUTION_MODEL
 
     def get_documentation_url(self) -> str:
-        return "https://www.beast2.org/xml/beast.base.evolution.substitutionmodel.GTR.html"
+        return (
+            "https://www.beast2.org/xml/beast.base.evolution.substitutionmodel.GTR.html"
+        )
 
 
 class HKYParser(Beast2PackageParser):
@@ -129,7 +131,9 @@ class HKYParser(Beast2PackageParser):
         return ModelType.SUBSTITUTION_MODEL
 
     def get_documentation_url(self) -> str:
-        return "https://www.beast2.org/xml/beast.base.evolution.substitutionmodel.HKY.html"
+        return (
+            "https://www.beast2.org/xml/beast.base.evolution.substitutionmodel.HKY.html"
+        )
 
 
 class StrictClockParser(Beast2PackageParser):
@@ -180,9 +184,7 @@ class TreeLikelihoodParser(Beast2PackageParser):
         return ModelType.TREE_LIKELIHOOD
 
     def get_documentation_url(self) -> str:
-        return (
-            "https://www.beast2.org/xml/beast.base.evolution.likelihood.TreeLikelihood.html"
-        )
+        return "https://www.beast2.org/xml/beast.base.evolution.likelihood.TreeLikelihood.html"
 
 
 class BDMMPrimeParser(Beast2PackageParser):

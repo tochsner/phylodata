@@ -9,7 +9,7 @@ from phylodata.data_types import (
     EditableExperiment,
     EditablePaper,
     EditablePaperWithExperiment,
-    EvolutionaryModel,
+    EvolutionaryModelComponent,
     File,
     FileType,
     Metadata,
@@ -34,7 +34,7 @@ def generate_output(
     non_editable_paper: NonEditablePaper,
     samples: list[Sample],
     files: list[File],
-    evolutionary_model: EvolutionaryModel,
+    evolutionary_model: list[EvolutionaryModelComponent],
     trees: Trees,
     metadata: Metadata,
 ) -> Path:
@@ -95,7 +95,6 @@ def add_editable_metadata_file(
         data_bytes_io,
         name=EDITABLE_METADATA_FILE,
         type=FileType.PHYLO_DATA_EXPERIMENT,
-        version=1,
     )
     files.append(editable_metadata_file)
 
@@ -106,7 +105,7 @@ def add_non_editable_metadata_file(
     files: list[File],
     non_editable_paper: NonEditablePaper,
     non_editable_experiment: NonEditableExperiment,
-    evolutionary_model: EvolutionaryModel,
+    evolutionary_model: list[EvolutionaryModelComponent],
     trees: Trees,
     metadata: Metadata,
 ) -> list[File]:
@@ -129,7 +128,6 @@ def add_non_editable_metadata_file(
         data_bytes_io,
         name=NON_EDITABLE_METADATA_FILE,
         type=FileType.PHYLO_DATA_EXPERIMENT,
-        version=1,
     )
     files.append(non_editable_metadata_file)
 

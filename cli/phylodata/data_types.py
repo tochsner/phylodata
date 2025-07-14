@@ -72,6 +72,7 @@ class NonEditableExperiment(msgspec.Struct, rename="camel"):
     human_readable_id: str
     origin: str
     upload_date: date
+    version: int
     license: str = "CC0"
     id: Optional[str] = None
 
@@ -94,7 +95,6 @@ class File(
 ):  # dict is true to omit private values (https://github.com/jcrist/msgspec/issues/199#issuecomment-2840826792)
     name: str
     type: FileType
-    version: int
     size_bytes: int
     md5: str
     is_preview: bool = False
@@ -114,14 +114,12 @@ class File(
         bytes: BytesIO,
         name: str,
         type: FileType,
-        version: int,
         is_preview: bool = False,
     ) -> "File":
         buffer = bytes.getbuffer()
         return File(
             name=name,
             type=type,
-            version=version,
             is_preview=is_preview,
             size_bytes=buffer.nbytes,
             md5=md5(buffer).hexdigest(),
@@ -174,10 +172,6 @@ class EvolutionaryModelComponent(msgspec.Struct, rename="camel"):
     parameters: dict[str, Any]
 
 
-class EvolutionaryModel(msgspec.Struct, rename="camel"):
-    models: list[EvolutionaryModelComponent]
-
-
 class Metadata(msgspec.Struct, rename="camel"):
     evo_data_pipeline_version: str
 
@@ -190,7 +184,7 @@ class NonEditablePaperWithExperiment(msgspec.Struct, rename="camel"):
     experiment: NonEditableExperiment
     files: list[File]
     trees: Trees
-    evolutionary_model: EvolutionaryModel
+    evolutionary_model: list[EvolutionaryModelComponent]
     metadata: Metadata
 
 

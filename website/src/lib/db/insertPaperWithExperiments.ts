@@ -1,7 +1,6 @@
-import { supabase } from './supabase';
-import type { PaperWithExperiments } from './types';
+import { supabase } from '../supabase';
+import type { PaperWithExperiments } from '../types';
 
-// Define the return type for the insert operation
 interface InsertResult {
 	success: boolean;
 	error?: string;
@@ -23,7 +22,6 @@ export async function insertPaperWithExperiments(
 	const experimentIds: string[] = [];
 
 	try {
-		// Start by inserting the paper
 		const { data: paperData, error: paperError } = await supabase
 			.from('papers')
 			.insert({
@@ -35,15 +33,12 @@ export async function insertPaperWithExperiments(
 			throw new Error(`Failed to insert paper: ${paperError.message}`);
 		}
 
-		// Insert each experiment and its related data
 		for (const experimentData of paperWithExperiments.experiments) {
 			const experiment = experimentData.experiment;
 
-			// Generate ID if not provided
 			const experimentId = experiment.id || crypto.randomUUID();
 			experimentIds.push(experimentId);
 
-			// Insert experiment
 			const { error: experimentError } = await supabase.from('experiments').insert({
 				...experiment,
 				id: experimentId,
@@ -54,7 +49,6 @@ export async function insertPaperWithExperiments(
 				throw new Error(`Failed to insert experiment: ${experimentError.message}`);
 			}
 
-			// Insert files
 			if (experimentData.files && experimentData.files.length > 0) {
 				const filesData = experimentData.files.map((file) => ({
 					...file,
@@ -68,7 +62,6 @@ export async function insertPaperWithExperiments(
 				}
 			}
 
-			// Insert trees
 			if (experimentData.trees) {
 				const { error: treesError } = await supabase.from('trees').insert({
 					...experimentData.trees,
@@ -80,7 +73,6 @@ export async function insertPaperWithExperiments(
 				}
 			}
 
-			// Insert evolutionary model
 			if (experimentData.evolutionaryModel) {
 				const { data: evolutionaryModelData, error: evolutionaryModelError } = await supabase
 					.from('evolutionaryModels')
@@ -95,7 +87,6 @@ export async function insertPaperWithExperiments(
 
 				const evolutionaryModelId = evolutionaryModelData[0].id;
 
-				// Insert evolutionary model components
 				if (
 					experimentData.evolutionaryModel.models &&
 					experimentData.evolutionaryModel.models.length > 0
@@ -117,7 +108,6 @@ export async function insertPaperWithExperiments(
 				}
 			}
 
-			// Insert metadata
 			if (experimentData.metadata) {
 				const { error: metadataError } = await supabase.from('metadata').insert({
 					...experimentData.metadata,
@@ -129,12 +119,10 @@ export async function insertPaperWithExperiments(
 				}
 			}
 
-			// Insert samples and their related data
 			if (experimentData.samples && experimentData.samples.length > 0) {
 				for (const sample of experimentData.samples) {
 					const sampleId = sample.id || crypto.randomUUID();
 
-					// Insert sample (excluding classification and data arrays)
 					const { classification, data, ...sampleProps } = sample;
 					const { error: sampleError } = await supabase.from('samples').insert({
 						...sampleProps,
@@ -146,7 +134,6 @@ export async function insertPaperWithExperiments(
 						throw new Error(`Failed to insert sample: ${sampleError.message}`);
 					}
 
-					// Insert classification entries
 					if (classification && classification.length > 0) {
 						const classificationData = classification.map((classificationEntry) => ({
 							...classificationEntry,
@@ -155,7 +142,7 @@ export async function insertPaperWithExperiments(
 						}));
 
 						const { error: classificationError } = await supabase
-							.from('classificationEntries')
+							.from('classifications')
 							.insert(classificationData);
 
 						if (classificationError) {
@@ -165,7 +152,6 @@ export async function insertPaperWithExperiments(
 						}
 					}
 
-					// Insert sample data
 					if (data && data.length > 0) {
 						const sampleDataEntries = data.map((dataEntry) => ({
 							...dataEntry,
@@ -192,7 +178,6 @@ export async function insertPaperWithExperiments(
 			}
 		};
 	} catch (error) {
-		// Rollback: Delete all inserted data
 		await rollbackInsert(paperWithExperiments.paper.doi, experimentIds);
 
 		return {
@@ -264,7 +249,5 @@ async function rollbackInsert(paperDoi: string, experimentIds: string[]): Promis
 		await supabase.from('papers').delete().eq('doi', paperDoi);
 	} catch (rollbackError) {
 		console.error('Error during rollback:', rollbackError);
-		// In a production environment, you might want to log this error
-		// or implement additional error handling/notification
 	}
 }

@@ -30,7 +30,7 @@ class FilesModule(Module[list[File]]):
             """)
 
             self.other_files = st.file_uploader(
-                "Other files (optional)", type=["*"], accept_multiple_files=True
+                "Other files (optional)", accept_multiple_files=True
             )
 
     def validate(self):

@@ -27,9 +27,9 @@ def test_detect_hky_with_no_namespace():
     </beast>""")
     model = parse_evolutionary_model(file)
 
-    assert model.models
-    assert len(model.models) == 1
-    assert model.models[0].name == "HKY"
+    assert model
+    assert len(model) == 1
+    assert model[0].name == "HKY"
 
 
 def test_detect_hky_with_full_namespace():
@@ -48,6 +48,6 @@ def test_detect_hky_with_full_namespace():
     </beast>""")
     model = parse_evolutionary_model(file)
 
-    assert model.models
-    assert len(model.models) == 1
-    assert model.models[0].name == "HKY"
+    assert model
+    assert len(model) == 1
+    assert model[0].name == "HKY"
