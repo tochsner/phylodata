@@ -1,31 +1,33 @@
 import { TextWriter, ZipReader } from '@zip.js/zip.js';
-import { validateSchema } from './validateSchema';
+import { validateNonEditableSchema, validateEditableSchema } from './validateSchemas';
 
 /**
  * Extracts JSON files from a zip file and returns the first one as a parsed object
  * @param blob The zip file as a Blob
  * @returns A Promise that resolves to the parsed JSON object or null if no JSON file is found
  */
-export async function retrieveJSON(blob: Blob): Promise<any | undefined> {
-	const zipReader = new ZipReader(blob.stream());
+export async function retrieveMetadata(files: Blob[]) {
+	let editableMetadata;
+	let nonEditableMetadata;
 
-	const entries = await zipReader.getEntries();
+	for (const file of files) {
+		const jsonText = await file.text();
 
-	for (const entry of entries) {
-		if (!entry.filename.toLowerCase().endsWith('.json')) continue;
-		if (!entry.getData) continue;
-
-		const jsonText = await entry.getData(new TextWriter());
-		const jsonData = JSON.parse(jsonText);
-
-		if (!validateSchema(jsonData)) continue;
-
-		zipReader.close();
-
-		return jsonData;
+		try {
+			const jsonData = JSON.parse(jsonText);
+			if (validateEditableSchema(jsonData)) {
+				editableMetadata = jsonData;
+			} else if (validateNonEditableSchema(jsonData)) {
+				nonEditableMetadata = jsonData;
+			}
+		} catch {
+			continue;
+		}
 	}
 
-	zipReader.close();
+	if (!editableMetadata || !nonEditableMetadata) {
+		return undefined;
+	}
 
-	return undefined;
+	return { editableMetadata, nonEditableMetadata };
 }

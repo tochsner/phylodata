@@ -2,15 +2,15 @@
 	import { enhance } from '$app/forms';
 	import Header from '$lib/components/header.svelte';
 	import Spinner from '$lib/components/spinner.svelte';
-	import { convertSchemaToType, type PaperWithExperiments } from '$lib/types';
-	import { retrieveJSON } from '$lib/zip';
-	import type { PageProps } from './$types';
+	import { convertSchemasToType, type PaperWithExperiments } from '$lib/types';
+	import { retrieveMetadata } from '$lib/zip';
 	import EvolutionaryModels from '../experiments/[paperDoi]/evolutionaryModels.svelte';
 	import Files from '../experiments/[paperDoi]/files.svelte';
 	import Samples from '../experiments/[paperDoi]/samples.svelte';
 	import Trees from '../experiments/[paperDoi]/trees.svelte';
 	import { uploadToWasabi } from '$lib/wasabiClient';
 	import toast from 'svelte-5-french-toast';
+	import Paper from './paper.svelte';
 
 	let currentStep = $state(1);
 	let files: File[] = $state([]);
@@ -26,13 +26,18 @@
 
 	async function uploadFiles() {
 		try {
-			const json = await retrieveJSON(files[0]);
-			uploadedObject = convertSchemaToType(json);
+			const metadata = await retrieveMetadata(files);
+
+			if (!metadata) {
+				toast.error('The files do not contain valid JSON metadata files.');
+				return;
+			}
+
+			const { editableMetadata, nonEditableMetadata } = metadata;
+			uploadedObject = convertSchemasToType(editableMetadata, nonEditableMetadata);
 
 			goToStep(4);
-		} catch {
-			toast.error('The ZIP file does not contain a valid JSON schema.');
-		}
+		} catch {}
 	}
 
 	function goToStep(step: number) {
@@ -211,16 +216,10 @@
 		{:else if currentStep === 3}
 			<div class="step-content">
 				<h4 class="mb-3 text-lg font-medium">Step 3: Upload Experiment Files</h4>
-				<p class="mb-4">Zip the folder created by the CLI tool and upload it here:</p>
+				<p class="mb-4">Upload the files in the created folder:</p>
 
 				<div class="mb-6 rounded-lg border-2 border-dashed border-gray-300 p-8 text-center">
-					<input
-						type="file"
-						id="file-upload"
-						class="hidden"
-						accept=".zip"
-						onchange={handleFileSelect}
-					/>
+					<input type="file" id="file-upload" class="hidden" multiple onchange={handleFileSelect} />
 					<label for="file-upload" class="block cursor-pointer">
 						<div class="mx-auto mb-4">
 							<svg
@@ -238,8 +237,7 @@
 								/>
 							</svg>
 						</div>
-						<p class="mb-2 text-sm text-gray-600">Click to select zip file or drag and drop</p>
-						<p class="text-xs text-gray-500">ZIP files only</p>
+						<p class="mb-2 text-sm text-gray-600">Click to select the files</p>
 					</label>
 				</div>
 
@@ -250,7 +248,7 @@
 							{#each files as file}
 								<li class="mb-2 flex justify-between rounded bg-gray-50 px-3 py-2">
 									<span>{file.name}</span>
-									<span class="text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+									<span class="text-gray-500">{(file.size / 1000 / 1000).toFixed(2)} MB</span>
 								</li>
 							{/each}
 						</ul>
@@ -281,12 +279,13 @@
 				<p class="mb-4">Check the following data and make sure it is correct.</p>
 
 				{#if uploadedObject}
-					<div class="divide-background my-6 flex flex-col divide-y divide-solid text-sm">
-						<Files files={uploadedObject.experiments[0].files} />
+					<div class="divide-background -m-4 my-6 flex flex-col divide-y divide-solid text-sm">
+						<Paper paper={uploadedObject.paper} />
+						<Files files={uploadedObject.experiments[0].files} minimal />
 						<Samples samples={uploadedObject.experiments[0].samples} />
-						<Trees experiment={uploadedObject.experiments[0]} />
+						<Trees trees={uploadedObject.experiments[0].trees} />
 						<EvolutionaryModels
-							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModels}
+							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModel.models}
 						/>
 					</div>
 				{/if}
@@ -294,14 +293,17 @@
 				<div class="mb-6 rounded-lg border border-gray-100 bg-gray-50 p-4">
 					<h5 class="mb-2 font-medium text-gray-700">If you find an error:</h5>
 					<ol class="list-decimal pl-5 text-sm text-gray-600">
-						<li class="mb-2">Open the JSON file in the created folder.</li>
+						<li class="mb-2">
+							Open the <code class="font-mono text-sm">editable_phylodata_metadata.json</code> file in
+							the created folder.
+						</li>
 						<li class="mb-2">Make any necessary corrections.</li>
 						<li class="mb-2">
-							Validate if the JSON file is valid using <code class="font-mono text-sm"
-								>phylodata validate /path/to/file.json</code
-							>.
+							Validate if the JSON file is valid using <code class="font-mono text-sm">
+								phylodata validate /path/to/editable_phylodata_metadata.json
+							</code>.
 						</li>
-						<li class="mb-2">Create a new zip file of the folder.</li>
+						<li class="mb-2">Upload the files again.</li>
 					</ol>
 					<button
 						class="rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
@@ -310,7 +312,7 @@
 							goToStep(3);
 						}}
 					>
-						Upload the ZIP file again
+						Upload files again
 					</button>
 				</div>
 
@@ -320,6 +322,7 @@
 					enctype="multipart/form-data"
 					use:enhance={({ formData }) => {
 						formData.append('paperData', JSON.stringify(uploadedObject));
+						formData.append('fileNames', JSON.stringify(files.length));
 						isProcessing = true;
 						return async ({ update, result }) => {
 							if (result.type !== 'success') {
@@ -328,10 +331,10 @@
 								return await update();
 							}
 
-							const uploadUrl = result.data?.uploadUrl as string;
-							if (uploadUrl) {
+							const uploadUrls = result.data?.uploadUrls as string;
+							if (uploadUrls) {
 								try {
-									uploadToWasabi(files[0], uploadUrl);
+									await uploadToWasabi(files, uploadUrls);
 								} catch {
 									toast.error('Upload failed. Try again.');
 								}
@@ -365,9 +368,9 @@
 			<div class="step-content mb-6">
 				<h4 class="mb-3 text-lg font-medium">Successfully added experiment!</h4>
 				<p class="mb-4">
-					Congratulations! Check out <a href="/experiments" class="text-accent underline"
-						>all existing experiments</a
-					>.
+					Congratulations! Check out <a href="/experiments" class="text-accent underline">
+						all existing experiments
+					</a>.
 				</p>
 			</div>
 		{/if}

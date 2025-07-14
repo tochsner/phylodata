@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { getCommonClassifications } from '$lib/classifications';
+	import { getMainClassifications } from '$lib/classifications';
 	import Checkbox from '$lib/components/checkbox.svelte';
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
@@ -107,7 +107,7 @@
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-50"></div>
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-50"></div>
 		{:then papers}
-			{#each papers as paper (paper.id)}
+			{#each papers as paper (paper.paper.doi)}
 				{@render paperOverview(paper)}
 			{/each}
 		{/await}
@@ -120,20 +120,20 @@
 			paper.experiments.flatMap((exp) => exp.samples).map((sample) => sample.type.toUpperCase())
 		)
 	]}
-	{@const commonClassifications = getCommonClassifications(
+	{@const commonClassifications = getMainClassifications(
 		paper.experiments.flatMap((exp) => exp.samples)
 	)}
 
 	<a
 		class="flex cursor-pointer flex-col rounded-xl bg-white p-3 shadow-lg shadow-gray-400/5 hover:opacity-70"
-		href={`/experiments/${paper.id}`}
+		href={`/experiments/${paper.paper.doi}`}
 		data-sveltekit-preloadData
 	>
 		<h3 class="text-accent pb-2 text-xl font-bold">
-			{paper.title}
+			{paper.paper.title}
 		</h3>
 
-		<p class="text-dark pb-3 text-sm">{paper.authors.join('; ')}</p>
+		<p class="text-dark pb-3 text-sm">{paper.paper.authors.join('; ')}</p>
 
 		<div class="flex flex-wrap gap-2">
 			<Tag label="Number of Experiments">

@@ -5,13 +5,13 @@
 	import Tag from '$lib/components/tag.svelte';
 	import { formatNumber } from '$lib/formatter';
 	import { browser } from '$app/environment';
-	import type { Experiment } from '$lib/types';
+	import type { Trees } from '$lib/types';
 
-	let { experiment }: { experiment: Experiment } = $props();
+	let { trees, minimal }: { trees: Trees; minimal?: boolean } = $props();
 
-	let trees = {
-		'CCD0 MAP Tree': experiment.ccd0MapTree,
-		'Hipstr Tree': experiment.hipstrTree
+	let displayedTrees = {
+		'CCD0 MAP Tree': trees.ccd0MapTree,
+		'Hipstr Tree': trees.hipstrTree
 	};
 	let currentTree = $state('CCD0 MAP Tree' as keyof typeof trees);
 
@@ -41,15 +41,16 @@
 	<h3 class="text-lg font-bold">Trees</h3>
 
 	<div class="flex flex-wrap items-start gap-2">
-		<Tag label="Number of trees">{formatNumber(experiment.numberOfTrees)}</Tag>
-		<Tag label="Number of tips">{formatNumber(experiment.numberOfTips)}</Tag>
-		<Tag label="Ultrametric">{experiment.ultrametric ? 'Yes' : 'No'}</Tag>
-		<Tag label="Rooted">{experiment.rooted ? 'Yes' : 'No'}</Tag>
+		<Tag label="Number of trees">{formatNumber(trees.numberOfTrees)}</Tag>
+		<Tag label="Number of tips">{formatNumber(trees.numberOfTips)}</Tag>
+		<Tag label="Ultrametric">{trees.ultrametric ? 'Yes' : 'No'}</Tag>
+		<Tag label="Rooted">{trees.rooted ? 'Yes' : 'No'}</Tag>
 		<!-- <Tag label="Tree ESS">{formatNumber(experiment.treeEss)}</Tag>
 		<Tag label="CCD1 entropy">{formatNumber(experiment.ccd1Entropy)}</Tag> -->
 	</div>
 
-	<!-- <div class="bg-background flex gap-2 self-start rounded-md p-1">
+	{#if !minimal}
+		<!-- <div class="bg-background flex gap-2 self-start rounded-md p-1">
 		{#each Object.keys(trees) as tree (tree)}
 			{@const selected = tree === currentTree}
 
@@ -68,4 +69,5 @@
 	</div>
 
 	<div id="a" class="pointer-events-none h-[500px] w-full" bind:this={treeContainer}></div> -->
+	{/if}
 </div>

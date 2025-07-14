@@ -4,7 +4,7 @@
 	import Tag from '$lib/components/tag.svelte';
 	import { formatNumber } from '$lib/formatter';
 	import Pagination from '$lib/components/pagination.svelte';
-	import { getCommonClassifications } from '$lib/classifications';
+	import { getMainClassifications } from '$lib/classifications';
 	import toast from 'svelte-5-french-toast';
 
 	let { samples }: { samples: Sample[] } = $props();
@@ -13,7 +13,7 @@
 		rowsPerPage: 10
 	});
 
-	const commonClassifications = $derived(getCommonClassifications(samples));
+	const mainClassifications = $derived(getMainClassifications(samples));
 </script>
 
 <div class="flex flex-col gap-4 p-4">
@@ -22,7 +22,7 @@
 	<div class="flex flex-wrap items-start gap-2">
 		<Tag label="Number of samples">{formatNumber(samples.length)}</Tag>
 
-		{#each commonClassifications as classification}
+		{#each mainClassifications as classification}
 			<Tag label="Contains">{classification}</Tag>
 		{/each}
 	</div>
@@ -131,7 +131,7 @@
 
 						<td>
 							<div class="flex flex-col gap-1">
-								<span class="font-semibold">
+								<span class="font-semibold capitalize">
 									{row.scientificName}
 									{#if row.commonName && row.commonName !== row.scientificName}
 										(<span class="italic">{row.commonName}</span>)

@@ -2,9 +2,12 @@
 
 import msgspec
 
-from phylodata.data_types import EditablePaperWithExperiment
+from phylodata.data_types import EditablePaperWithExperiment, NonEditablePaperWithExperiment
 
-schema = msgspec.json.schema(EditablePaperWithExperiment)
+editable_schema = msgspec.json.schema(EditablePaperWithExperiment)
+with open("../website/src/lib/editableSchema.json", "wb") as f:
+    f.write(msgspec.json.format(msgspec.json.encode(editable_schema)))
 
-with open("../website/src/lib/schema.json", "wb") as f:
-    f.write(msgspec.json.format(msgspec.json.encode(schema)))
+non_editable_schema = msgspec.json.schema(NonEditablePaperWithExperiment)
+with open("../website/src/lib/nonEditableSchema.json", "wb") as f:
+    f.write(msgspec.json.format(msgspec.json.encode(non_editable_schema)))
