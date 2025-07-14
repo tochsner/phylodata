@@ -3,7 +3,7 @@
 	import Tag from '$lib/components/tag.svelte';
 	import { formatDate } from '$lib/formatter';
 	import type { PageProps } from './$types';
-	import { type Experiment } from '$lib/types';
+	import { type Experiment, type PaperWithExperiments } from '$lib/types';
 	import Files from './files.svelte';
 	import Samples from './samples.svelte';
 	import EvolutionaryModels from './evolutionaryModels.svelte';
@@ -17,7 +17,7 @@
 <Header>
 	<div class="flex items-baseline gap-4">
 		<h2 class="text-dark text-2xl font-bold text-nowrap">Experiments for</h2>
-		<h2 class="text-accent text-3xl font-bold">{data.title}</h2>
+		<h2 class="text-accent text-3xl font-bold">{data.paper.title}</h2>
 	</div>
 </Header>
 
@@ -52,8 +52,8 @@
 
 			<a
 				class="border-accent text-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold hover:opacity-70"
-				href={`data:text/plain;charset=utf-8,${encodeURIComponent(data.bibtex)}`}
-				download={`${data.title}.bib`}
+				href={`data:text/plain;charset=utf-8,${encodeURIComponent(data.paper.bibtex)}`}
+				download={`${data.paper.title}.bib`}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -77,13 +77,13 @@
 		<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
 			<h3 class="text-sm font-bold">Authors</h3>
 			<p class="text-sm">
-				{data.authors.join('; ')}
+				{data.paper.authors.join('; ')}
 			</p>
 		</div>
 
 		<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
 			<h3 class="text-sm font-bold">Abstract</h3>
-			<p class="text-sm">{data.abstract}</p>
+			<p class="text-sm">{data.paper.abstract}</p>
 		</div>
 	</div>
 {/snippet}
@@ -100,10 +100,14 @@
 {/snippet}
 
 {#snippet paperOverview()}
-	{#if data.doi || data.url}
+	{#if data.paper.doi || data.paper.url}
 		<div class="flex flex-wrap items-start gap-2">
-			{#if data.doi}<Tag label="DOI"><a href={data.doi} target="_blank">{data.doi}</a></Tag>{/if}
-			{#if data.url}<Tag label="URL"><a href={data.url} target="_blank">{data.url}</a></Tag>{/if}
+			{#if data.paper.doi}<Tag label="DOI"
+					><a href={data.paper.doi} target="_blank">{data.paper.doi}</a></Tag
+				>{/if}
+			{#if data.paper.url}<Tag label="URL"
+					><a href={data.paper.url} target="_blank">{data.paper.url}</a></Tag
+				>{/if}
 		</div>
 	{/if}
 {/snippet}
@@ -128,21 +132,21 @@
 					<div class="bg-background absolute -right-6 bottom-0 size-6 rounded-full"></div>
 				{/if}
 
-				{experiment.title || `Experiment ${idx + 1}`}
+				{experiment.experiment.title || `Experiment ${idx + 1}`}
 			</button>
 		{/each}
 	</div>
 {/snippet}
 
-{#snippet experiment(experiment: Experiment)}
+{#snippet experiment(experiment: PaperWithExperiments['experiments'][number])}
 	<div
 		class="divide-background flex flex-col divide-y divide-solid rounded-xl bg-white text-sm shadow-lg shadow-gray-400/5"
 	>
-		{@render experimentOverview(experiment)}
+		{@render experimentOverview(experiment.experiment)}
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />
-		<Trees {experiment} />
-		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModels} />
+		<Trees trees={experiment.trees} />
+		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModel.models} />
 	</div>
 {/snippet}
 

@@ -3,7 +3,7 @@
 	import Header from '$lib/components/header.svelte';
 	import Spinner from '$lib/components/spinner.svelte';
 	import { convertSchemasToType, type PaperWithExperiments } from '$lib/types';
-	import { retrieveMetadata } from '$lib/zip';
+	import { retrieveMetadata } from '$lib/retrieveMetadata';
 	import EvolutionaryModels from '../experiments/[paperDoi]/evolutionaryModels.svelte';
 	import Files from '../experiments/[paperDoi]/files.svelte';
 	import Samples from '../experiments/[paperDoi]/samples.svelte';
@@ -322,8 +322,9 @@
 					enctype="multipart/form-data"
 					use:enhance={({ formData }) => {
 						formData.append('paperData', JSON.stringify(uploadedObject));
-						formData.append('fileNames', JSON.stringify(files.length));
+						formData.append('fileNames', JSON.stringify(files.map((file) => file.name)));
 						isProcessing = true;
+
 						return async ({ update, result }) => {
 							if (result.type !== 'success') {
 								isProcessing = false;
@@ -331,10 +332,10 @@
 								return await update();
 							}
 
-							const uploadUrls = result.data?.uploadUrls as string;
+							const uploadUrls = result.data?.uploadUrls as string[];
 							if (uploadUrls) {
 								try {
-									await uploadToWasabi(files, uploadUrls);
+									files.map((file, idx) => uploadToWasabi(file, uploadUrls[idx]));
 								} catch {
 									toast.error('Upload failed. Try again.');
 								}

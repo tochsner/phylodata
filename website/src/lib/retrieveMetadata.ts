@@ -1,4 +1,3 @@
-import { TextWriter, ZipReader } from '@zip.js/zip.js';
 import { validateNonEditableSchema, validateEditableSchema } from './validateSchemas';
 
 /**

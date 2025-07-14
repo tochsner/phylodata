@@ -109,6 +109,10 @@
 							{:else}
 								Other
 							{/if}
+
+							{#if row.isPreview}
+								(Preview)
+							{/if}
 						</td>
 						<td>{row.name}</td>
 

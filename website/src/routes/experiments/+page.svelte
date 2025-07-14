@@ -126,7 +126,7 @@
 
 	<a
 		class="flex cursor-pointer flex-col rounded-xl bg-white p-3 shadow-lg shadow-gray-400/5 hover:opacity-70"
-		href={`/experiments/${paper.paper.doi}`}
+		href={`/experiments/${encodeURIComponent(paper.paper.doi)}`}
 		data-sveltekit-preloadData
 	>
 		<h3 class="text-accent pb-2 text-xl font-bold">

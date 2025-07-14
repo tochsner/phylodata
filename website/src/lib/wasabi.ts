@@ -18,6 +18,6 @@ export async function getWasabiUploadUrl(key: string): Promise<string> {
 		Bucket: WASABI_BUCKET,
 		Key: key
 	});
-	const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+	const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 600 });
 	return uploadUrl;
 }

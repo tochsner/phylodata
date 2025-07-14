@@ -1,24 +1,29 @@
-import { supabase } from '$lib/supabaseClient';
+import { supabase } from '$lib/supabase';
 import type { PaperWithExperiments } from '$lib/types';
 import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 
 export const load: PageServerLoad = async () => ({
 	papers: supabase
-		.from('PaperWithExperiments')
+		.from('papers')
 		.select(
 			`
-         *,
-         experiments:Experiment (
-           *,
-           files:File (*),
-           samples:Sample (
-             *,
-             data:SampleData (*),
-             classification:ClassificationEntry (*)
-           ),
-           evolutionaryModels: EvolutionaryModelComponent (*)
-         )
+			*,
+      experiments!experiments_paperDoi_fkey (
+        *,
+        files (*),
+        trees (*),
+        evolutionaryModels (
+          *,
+          evolutionaryModelComponents (*)
+        ),
+        metadata (*),
+        samples (
+          *,
+          classification:classificationEntries (*),
+          sampleData (*)
+        )
+      )
        `
 		)
 		.then(({ error, data }) => {
@@ -31,7 +36,13 @@ export const load: PageServerLoad = async () => ({
 				throw new Error('No experiment found');
 			}
 
-			return data as PaperWithExperiments[];
+			const transformedData = data.map((d) => ({
+				paper: d,
+				experiments: d.experiments
+			}));
+			transformedData.forEach((d) => delete d.paper.experiments);
+
+			return transformedData as PaperWithExperiments[];
 		})
 });
 

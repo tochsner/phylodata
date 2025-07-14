@@ -1,222 +1,270 @@
-import { supabase } from './supabaseClient';
+import { supabase } from './supabase';
 import type { PaperWithExperiments } from './types';
 
-type InsertedIDs = {
-	paperDoi?: string;
-	experimentIds: string[];
-	fileIds: string[];
-	sampleIds: string[];
-	sampleDataIds: string[];
-	classificationIds: string[];
-	modelIds: string[];
-};
+// Define the return type for the insert operation
+interface InsertResult {
+	success: boolean;
+	error?: string;
+	insertedIds?: {
+		paperDoi: string;
+		experimentIds: string[];
+	};
+}
 
 /**
- * Insert a PaperWithExperiments object into Supabase with rollback on failure
+ * Inserts a PaperWithExperiments object into the database with rollback support
+ * @param paperWithExperiments - The data to insert
+ * @returns Promise<InsertResult> - Result of the operation
  */
-export async function insertPaperWithExperiments(paperData: PaperWithExperiments) {
-	// we recall the ids of the new elements to be able to roll back if necessary
-	const insertedIds: InsertedIDs = {
-		paperDoi: undefined,
-		experimentIds: [],
-		fileIds: [],
-		sampleIds: [],
-		sampleDataIds: [],
-		classificationIds: [],
-		modelIds: []
-	};
+export async function insertPaperWithExperiments(
+	paperWithExperiments: PaperWithExperiments
+): Promise<InsertResult> {
+	const insertedIds: string[] = [];
+	const experimentIds: string[] = [];
 
 	try {
-		// insert the paper
-		const { data: paper, error: paperError } = await supabase
-			.from('PaperWithExperiments')
+		// Start by inserting the paper
+		const { data: paperData, error: paperError } = await supabase
+			.from('papers')
 			.insert({
-				...paperData,
-				experiments: undefined
+				...paperWithExperiments.paper
 			})
-			.select('doi')
-			.single();
+			.select();
 
-		if (paperError) throw new Error(`Failed to insert paper: ${paperError.message}`);
-		insertedIds.paperDoi = paper.doi;
+		if (paperError) {
+			throw new Error(`Failed to insert paper: ${paperError.message}`);
+		}
 
-		for (const experimentData of paperData.experiments) {
-			const { files, samples, evolutionaryModels, ...experimentFields } = experimentData;
+		// Insert each experiment and its related data
+		for (const experimentData of paperWithExperiments.experiments) {
+			const experiment = experimentData.experiment;
 
-			// insert experiment
-			const { data: experiment, error: experimentError } = await supabase
-				.from('Experiment')
-				.insert({
-					...experimentFields,
-					id: undefined,
-					paperDoi: paper.doi
-				})
-				.select('id')
-				.single();
+			// Generate ID if not provided
+			const experimentId = experiment.id || crypto.randomUUID();
+			experimentIds.push(experimentId);
 
-			if (experimentError)
+			// Insert experiment
+			const { error: experimentError } = await supabase.from('experiments').insert({
+				...experiment,
+				id: experimentId,
+				paperDoi: paperWithExperiments.paper.doi
+			});
+
+			if (experimentError) {
 				throw new Error(`Failed to insert experiment: ${experimentError.message}`);
-			insertedIds.experimentIds.push(experiment.id);
-
-			// insert files (bulk)
-			if (files?.length > 0) {
-				const { data: fileResults, error: filesError } = await supabase
-					.from('File')
-					.insert(files.map((file) => ({ ...file, experimentId: experiment.id })))
-					.select('id');
-
-				if (filesError) throw new Error(`Failed to insert files: ${filesError.message}`);
-				insertedIds.fileIds.push(...fileResults.map((f) => f.id));
 			}
 
-			// insert evolutionary models (bulk)
-			if (evolutionaryModels?.length > 0) {
-				const { data: modelResults, error: modelsError } = await supabase
-					.from('EvolutionaryModelComponent')
-					.insert(evolutionaryModels.map((model) => ({ ...model, experimentId: experiment.id })))
-					.select('id');
+			// Insert files
+			if (experimentData.files && experimentData.files.length > 0) {
+				const filesData = experimentData.files.map((file) => ({
+					...file,
+					experimentId: experimentId
+				}));
 
-				if (modelsError)
-					throw new Error(`Failed to insert evolutionary models: ${modelsError.message}`);
-				insertedIds.modelIds.push(...modelResults.map((m) => m.id));
+				const { error: filesError } = await supabase.from('files').insert(filesData);
+
+				if (filesError) {
+					throw new Error(`Failed to insert files: ${filesError.message}`);
+				}
 			}
 
-			for (const sampleData of samples || []) {
-				const { data: sampleDataArray, classification, ...sampleFields } = sampleData;
+			// Insert trees
+			if (experimentData.trees) {
+				const { error: treesError } = await supabase.from('trees').insert({
+					...experimentData.trees,
+					experimentId: experimentId
+				});
 
-				// insert sample
-				const { data: sample, error: sampleError } = await supabase
-					.from('Sample')
+				if (treesError) {
+					throw new Error(`Failed to insert trees: ${treesError.message}`);
+				}
+			}
+
+			// Insert evolutionary model
+			if (experimentData.evolutionaryModel) {
+				const { data: evolutionaryModelData, error: evolutionaryModelError } = await supabase
+					.from('evolutionaryModels')
 					.insert({
-						...sampleFields,
-						id: undefined,
-						experimentId: experiment.id
+						experimentId: experimentId
 					})
-					.select('id')
-					.single();
+					.select();
 
-				if (sampleError) throw new Error(`Failed to insert sample: ${sampleError.message}`);
-				insertedIds.sampleIds.push(sample.id);
-
-				// insert sample data (bulk)
-				if (sampleDataArray?.length > 0) {
-					const { data: sampleDataResults, error: sampleDataError } = await supabase
-						.from('SampleData')
-						.insert(sampleDataArray.map((data) => ({ ...data, sampleId: sample.id })))
-						.select('id');
-
-					if (sampleDataError)
-						throw new Error(`Failed to insert sample data: ${sampleDataError.message}`);
-					insertedIds.sampleDataIds.push(...sampleDataResults.map((sd) => sd.id));
+				if (evolutionaryModelError) {
+					throw new Error(`Failed to insert evolutionary model: ${evolutionaryModelError.message}`);
 				}
 
-				// Insert classification entries (bulk)
-				if (classification?.length > 0) {
-					const { data: classificationResults, error: classificationError } = await supabase
-						.from('ClassificationEntry')
-						.insert(
-							classification.map((entry) => ({
-								sampleId: sample.id,
-								classificationId: entry.classificationId,
-								idType: entry.idType,
-								scientificName: entry.scientificName
-							}))
-						)
-						.select('id');
+				const evolutionaryModelId = evolutionaryModelData[0].id;
 
-					if (classificationError)
-						throw new Error(`Failed to insert classifications: ${classificationError.message}`);
-					insertedIds.classificationIds.push(...classificationResults.map((c) => c.id));
+				// Insert evolutionary model components
+				if (
+					experimentData.evolutionaryModel.models &&
+					experimentData.evolutionaryModel.models.length > 0
+				) {
+					const componentsData = experimentData.evolutionaryModel.models.map((component) => ({
+						...component,
+						evolutionaryModelId: evolutionaryModelId
+					}));
+
+					const { error: componentsError } = await supabase
+						.from('evolutionaryModelComponents')
+						.insert(componentsData);
+
+					if (componentsError) {
+						throw new Error(
+							`Failed to insert evolutionary model components: ${componentsError.message}`
+						);
+					}
+				}
+			}
+
+			// Insert metadata
+			if (experimentData.metadata) {
+				const { error: metadataError } = await supabase.from('metadata').insert({
+					...experimentData.metadata,
+					experimentId: experimentId
+				});
+
+				if (metadataError) {
+					throw new Error(`Failed to insert metadata: ${metadataError.message}`);
+				}
+			}
+
+			// Insert samples and their related data
+			if (experimentData.samples && experimentData.samples.length > 0) {
+				for (const sample of experimentData.samples) {
+					const sampleId = sample.id || crypto.randomUUID();
+
+					// Insert sample (excluding classification and data arrays)
+					const { classification, data, ...sampleProps } = sample;
+					const { error: sampleError } = await supabase.from('samples').insert({
+						...sampleProps,
+						id: sampleId,
+						experimentId: experimentId
+					});
+
+					if (sampleError) {
+						throw new Error(`Failed to insert sample: ${sampleError.message}`);
+					}
+
+					// Insert classification entries
+					if (classification && classification.length > 0) {
+						const classificationData = classification.map((classificationEntry) => ({
+							...classificationEntry,
+							id: classificationEntry.id || crypto.randomUUID(),
+							sampleId: sampleId
+						}));
+
+						const { error: classificationError } = await supabase
+							.from('classificationEntries')
+							.insert(classificationData);
+
+						if (classificationError) {
+							throw new Error(
+								`Failed to insert classification entries: ${classificationError.message}`
+							);
+						}
+					}
+
+					// Insert sample data
+					if (data && data.length > 0) {
+						const sampleDataEntries = data.map((dataEntry) => ({
+							...dataEntry,
+							sampleId: sampleId
+						}));
+
+						const { error: sampleDataError } = await supabase
+							.from('sampleData')
+							.insert(sampleDataEntries);
+
+						if (sampleDataError) {
+							throw new Error(`Failed to insert sample data: ${sampleDataError.message}`);
+						}
+					}
 				}
 			}
 		}
 
 		return {
 			success: true,
-			paperDoi: insertedIds.paperDoi,
-			experimentId: insertedIds.experimentIds
+			insertedIds: {
+				paperDoi: paperWithExperiments.paper.doi,
+				experimentIds: experimentIds
+			}
 		};
 	} catch (error) {
-		console.error('Error inserting paper with experiments, rolling back...', error);
+		// Rollback: Delete all inserted data
+		await rollbackInsert(paperWithExperiments.paper.doi, experimentIds);
 
-		await rollbackInserts(insertedIds);
-
-		return { success: false };
+		return {
+			success: false,
+			error: error instanceof Error ? error.message : 'Unknown error occurred'
+		};
 	}
 }
 
 /**
- * Rollback function to delete all inserted records
+ * Rollback function to clean up inserted data on failure
+ * @param paperDoi - The DOI of the paper to rollback
+ * @param experimentIds - Array of experiment IDs to rollback
  */
-async function rollbackInserts(insertedIds: InsertedIDs) {
-	const rollbackErrors = [];
-
+async function rollbackInsert(paperDoi: string, experimentIds: string[]): Promise<void> {
 	try {
-		// Delete in reverse order of dependencies (children first)
+		// Delete in reverse dependency order
 
-		// Delete Classification Entries
-		if (insertedIds.classificationIds.length > 0) {
-			const { error } = await supabase
-				.from('ClassificationEntry')
-				.delete()
-				.in('id', insertedIds.classificationIds);
-			if (error) rollbackErrors.push(`Failed to rollback classifications: ${error.message}`);
+		// Delete all data related to experiments
+		for (const experimentId of experimentIds) {
+			// Get sample IDs for this experiment
+			const { data: samples } = await supabase
+				.from('samples')
+				.select('id')
+				.eq('experimentId', experimentId);
+
+			if (samples && samples.length > 0) {
+				const sampleIds = samples.map((sample) => sample.id);
+
+				// Delete sample data
+				await supabase.from('sampleData').delete().in('sampleId', sampleIds);
+
+				// Delete classification entries
+				await supabase.from('classificationEntries').delete().in('sampleId', sampleIds);
+
+				// Delete samples
+				await supabase.from('samples').delete().eq('experimentId', experimentId);
+			}
+
+			// Get evolutionary model IDs for this experiment
+			const { data: evolutionaryModels } = await supabase
+				.from('evolutionaryModels')
+				.select('id')
+				.eq('experimentId', experimentId);
+
+			if (evolutionaryModels && evolutionaryModels.length > 0) {
+				const evolutionaryModelIds = evolutionaryModels.map((model) => model.id);
+
+				// Delete evolutionary model components
+				await supabase
+					.from('evolutionaryModelComponents')
+					.delete()
+					.in('evolutionaryModelId', evolutionaryModelIds);
+
+				// Delete evolutionary models
+				await supabase.from('evolutionaryModels').delete().eq('experimentId', experimentId);
+			}
+
+			// Delete other experiment-related data
+			await supabase.from('metadata').delete().eq('experimentId', experimentId);
+			await supabase.from('trees').delete().eq('experimentId', experimentId);
+			await supabase.from('files').delete().eq('experimentId', experimentId);
+
+			// Delete the experiment itself
+			await supabase.from('experiments').delete().eq('id', experimentId);
 		}
 
-		// Delete Sample Data
-		if (insertedIds.sampleDataIds.length > 0) {
-			const { error } = await supabase
-				.from('SampleData')
-				.delete()
-				.in('id', insertedIds.sampleDataIds);
-			if (error) rollbackErrors.push(`Failed to rollback sample data: ${error.message}`);
-		}
-
-		// Delete Samples
-		if (insertedIds.sampleIds.length > 0) {
-			const { error } = await supabase.from('Sample').delete().in('id', insertedIds.sampleIds);
-			if (error) rollbackErrors.push(`Failed to rollback samples: ${error.message}`);
-		}
-
-		// Delete Evolutionary Model Components
-		if (insertedIds.modelIds.length > 0) {
-			const { error } = await supabase
-				.from('EvolutionaryModelComponent')
-				.delete()
-				.in('id', insertedIds.modelIds);
-			if (error) rollbackErrors.push(`Failed to rollback evolutionary models: ${error.message}`);
-		}
-
-		// Delete Files
-		if (insertedIds.fileIds.length > 0) {
-			const { error } = await supabase.from('File').delete().in('id', insertedIds.fileIds);
-			if (error) rollbackErrors.push(`Failed to rollback files: ${error.message}`);
-		}
-
-		// Delete Experiments
-		if (insertedIds.experimentIds.length > 0) {
-			const { error } = await supabase
-				.from('Experiment')
-				.delete()
-				.in('id', insertedIds.experimentIds);
-			if (error) rollbackErrors.push(`Failed to rollback experiments: ${error.message}`);
-		}
-
-		// Delete Paper (last)
-		if (insertedIds.paperDoi) {
-			const { error } = await supabase
-				.from('PaperWithExperiments')
-				.delete()
-				.eq('doi', insertedIds.paperDoi);
-			if (error) rollbackErrors.push(`Failed to rollback paper: ${error.message}`);
-		}
-
-		if (rollbackErrors.length > 0) {
-			console.error('Rollback completed with errors:', rollbackErrors);
-		} else {
-			console.log('Rollback completed successfully');
-		}
+		// Finally, delete the paper
+		await supabase.from('papers').delete().eq('doi', paperDoi);
 	} catch (rollbackError) {
-		console.error('Critical error during rollback:', rollbackError);
+		console.error('Error during rollback:', rollbackError);
+		// In a production environment, you might want to log this error
+		// or implement additional error handling/notification
 	}
 }

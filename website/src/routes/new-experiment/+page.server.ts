@@ -8,24 +8,28 @@ export const actions = {
 	default: async (event) => {
 		const formData = await event.request.formData();
 		const rawPaperData = formData.get('paperData') as string;
-		const numUploadFiles = Number(formData.get('numUploadFiles') as string);
+		const rawFileNames = formData.get('fileNames') as string;
 
 		if (!rawPaperData) {
+			console.log('A');
 			return fail(400);
 		}
 
-		// const paperData = JSON.parse(rawPaperData) as PaperWithExperiments;
-		// const result = await insertPaperWithExperiments(paperData);
+		const paperData = JSON.parse(rawPaperData) as PaperWithExperiments;
+		const result = await insertPaperWithExperiments(paperData);
 
-		// if (!result.success) {
-		// 	return fail(400);
-		// }
+		if (!result.success || !result.insertedIds) {
+			console.log('B');
+			console.log(result);
+			return fail(400);
+		}
 
-		// const { paperDoi, experimentId } = result;
-		// const key = `${paperDoi}/${experimentId}`;
-
+		const fileNames = JSON.parse(rawFileNames) as string[];
 		const uploadUrls = await Promise.all(
-			new Array(numUploadFiles).map(async () => await getWasabiUploadUrl(key))
+			fileNames.map(
+				async (name) =>
+					await getWasabiUploadUrl(`${paperData.experiments[0].experiment.humanReadableId}/${name}`)
+			)
 		);
 
 		return { uploadUrls };
