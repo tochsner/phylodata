@@ -17,7 +17,7 @@ export const load: PageServerLoad = async () => ({
         metadata (*),
         samples (
           *,
-          classifications (*),
+          classification:classifications (*),
           sampleData (*)
         )
       )

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
-	import { formatDate } from '$lib/utils/formatter';
+	import { formatDate, formatNumber } from '$lib/utils/formatter';
 	import type { PageProps } from './$types';
 	import { type Experiment, type PaperWithExperiments } from '$lib/types';
 	import Files from './files.svelte';
@@ -77,7 +77,7 @@
 		<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
 			<h3 class="text-sm font-bold">Authors</h3>
 			<p class="text-sm">
-				{data.paper.authors.join('; ')}
+				{data.paper.authors.join(', ')}
 			</p>
 		</div>
 
@@ -146,13 +146,14 @@
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />
 		<Trees trees={experiment.trees} />
-		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModel} />
+		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModels} />
 	</div>
 {/snippet}
 
 {#snippet experimentOverview(experiment: Experiment)}
 	<div class="flex flex-wrap items-start gap-2 p-4">
 		<Tag label="Upload date">{formatDate(experiment.uploadDate)}</Tag>
+		<Tag label="version">{formatNumber(experiment.version)}</Tag>
 		<Tag label="Origin">{experiment.origin}</Tag>
 		<Tag label="License">{experiment.license}</Tag>
 	</div>

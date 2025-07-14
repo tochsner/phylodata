@@ -285,7 +285,7 @@
 						<Samples samples={uploadedObject.experiments[0].samples} />
 						<Trees trees={uploadedObject.experiments[0].trees} />
 						<EvolutionaryModels
-							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModel}
+							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModels}
 						/>
 					</div>
 				{/if}

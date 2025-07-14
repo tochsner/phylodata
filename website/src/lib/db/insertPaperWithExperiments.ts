@@ -80,7 +80,7 @@ export async function insertPaperWithExperiments(
 				}
 			}
 
-			for (const evolutionaryModel of experimentData.evolutionaryModel) {
+			for (const evolutionaryModel of experimentData.evolutionaryModels) {
 				const { error: componentsError } = await supabase.from('evolutionaryModels').insert({
 					...evolutionaryModel,
 					experimentId

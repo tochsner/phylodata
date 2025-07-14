@@ -142,7 +142,7 @@
 						</td>
 
 						<td>
-							<div class="flex flex-col gap-1">
+							<div class="flex flex-col gap-2">
 								{#each row.sampleData as data, idx (idx)}
 									{#if data.type === 'dna'}
 										<span>DNA ({formatNumber(data.length)}nt)</span>

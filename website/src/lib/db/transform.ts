@@ -26,7 +26,7 @@ export function transformJoinedDataToPaperWithExperiment(joinedData: any): Paper
 			},
 			files: exp.files,
 			trees: exp.trees[0],
-			evolutionaryModel: exp.evolutionaryModel,
+			evolutionaryModels: exp.evolutionaryModels,
 			metadata: exp.metadata,
 			samples: exp.samples
 		}))

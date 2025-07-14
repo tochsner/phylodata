@@ -12,11 +12,11 @@ export async function getPaperWithExperiments(paperDoi: string): Promise<PaperWi
          *,
          files (*),
          trees (*),
-         evolutionaryModel (*),
+         evolutionaryModels (*),
          metadata (*),
          samples (
            *,
-           classification (*),
+           classification:classifications (*),
            sampleData (*)
          )
        )

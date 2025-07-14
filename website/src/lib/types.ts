@@ -91,7 +91,7 @@ export type PaperWithExperiments = {
 		experiment: Experiment;
 		files: File[];
 		trees: Trees;
-		evolutionaryModel: EvolutionaryModelComponent[];
+		evolutionaryModels: EvolutionaryModelComponent[];
 		metadata: Metadata;
 		samples: Sample[];
 	}[];
