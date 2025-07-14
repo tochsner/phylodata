@@ -1,4 +1,4 @@
-import { supabase } from '$lib/supabase';
+import { supabase } from '$lib/db/supabase';
 import type { PaperWithExperiments } from '$lib/types';
 import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';

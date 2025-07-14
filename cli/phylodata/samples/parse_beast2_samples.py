@@ -117,7 +117,7 @@ def construct_samples_from_data(
             scientific_name=id,
             type=SampleType.UNKNOWN,
             classification=[],
-            data=data,
+            sample_data=data,
             common_name=None,
         )
         for id, data in sample_data_per_id.items()

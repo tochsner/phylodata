@@ -8,7 +8,7 @@
 	import Files from '../experiments/[paperDoi]/files.svelte';
 	import Samples from '../experiments/[paperDoi]/samples.svelte';
 	import Trees from '../experiments/[paperDoi]/trees.svelte';
-	import { uploadToWasabi } from '$lib/wasabiClient';
+	import { uploadToWasabi } from '$lib/storage/wasabiClient';
 	import toast from 'svelte-5-french-toast';
 	import Paper from './paper.svelte';
 
@@ -285,7 +285,7 @@
 						<Samples samples={uploadedObject.experiments[0].samples} />
 						<Trees trees={uploadedObject.experiments[0].trees} />
 						<EvolutionaryModels
-							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModel.models}
+							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModel}
 						/>
 					</div>
 				{/if}

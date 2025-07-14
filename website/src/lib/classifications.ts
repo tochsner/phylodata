@@ -1,4 +1,4 @@
-import { titleCase } from './titleCase';
+import { titleCase } from './utils/titleCase';
 import type { ClassificationEntry, Sample } from './types';
 
 /**

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
-	import { formatDate } from '$lib/formatter';
+	import { formatDate } from '$lib/utils/formatter';
 	import type { PageProps } from './$types';
 	import { type Experiment, type PaperWithExperiments } from '$lib/types';
 	import Files from './files.svelte';
@@ -146,7 +146,7 @@
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />
 		<Trees trees={experiment.trees} />
-		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModel.models} />
+		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModel} />
 	</div>
 {/snippet}
 

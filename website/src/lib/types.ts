@@ -56,7 +56,7 @@ export type Sample = {
 	scientificName: string;
 	type: 'species' | 'cells' | 'language' | 'unknown';
 	classification: ClassificationEntry[];
-	data: SampleData[];
+	sampleData: SampleData[];
 	commonName?: string;
 	id?: string;
 };
@@ -83,10 +83,6 @@ export type EvolutionaryModelComponent = {
 	parameters: Record<string, any>;
 };
 
-export type EvolutionaryModel = {
-	models: EvolutionaryModelComponent[];
-};
-
 export type Metadata = {
 	evoDataPipelineVersion: string;
 };
@@ -97,7 +93,7 @@ export type PaperWithExperiments = {
 		experiment: Experiment;
 		files: File[];
 		trees: Trees;
-		evolutionaryModel: EvolutionaryModel;
+		evolutionaryModel: EvolutionaryModelComponent[];
 		metadata: Metadata;
 		samples: Sample[];
 	}[];

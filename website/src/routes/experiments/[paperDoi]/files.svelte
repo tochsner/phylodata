@@ -2,7 +2,7 @@
 	import { Datatable, TableHandler, ThSort } from '@vincjo/datatables';
 	import { type File } from '$lib/types';
 	import Tag from '$lib/components/tag.svelte';
-	import { formatNumber } from '$lib/formatter';
+	import { formatNumber } from '$lib/utils/formatter';
 	import Pagination from '$lib/components/pagination.svelte';
 	import toast from 'svelte-5-french-toast';
 
@@ -33,7 +33,6 @@
 					<ThSort {table} field="type">Type</ThSort>
 					<ThSort {table} field="name">Name</ThSort>
 					{#if !minimal}
-						<ThSort {table} field="version">Version</ThSort>
 						<ThSort {table} field="sizeBytes">Size</ThSort>
 						<th></th>
 					{/if}
@@ -117,7 +116,6 @@
 						<td>{row.name}</td>
 
 						{#if !minimal}
-							<td>{row.version}</td>
 							<td class="text-nowrap">{formatNumber(row.sizeBytes)} bytes</td>
 							<td align="right">
 								<button

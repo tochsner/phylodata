@@ -2,7 +2,7 @@
 	import { Datatable, TableHandler, Th, ThSort } from '@vincjo/datatables';
 	import { type Sample } from '$lib/types';
 	import Tag from '$lib/components/tag.svelte';
-	import { formatNumber } from '$lib/formatter';
+	import { formatNumber } from '$lib/utils/formatter';
 	import Pagination from '$lib/components/pagination.svelte';
 	import { getMainClassifications } from '$lib/classifications';
 	import toast from 'svelte-5-french-toast';
@@ -143,7 +143,7 @@
 
 						<td>
 							<div class="flex flex-col gap-1">
-								{#each row.data as data, idx (idx)}
+								{#each row.sampleData as data, idx (idx)}
 									{#if data.type === 'dna'}
 										<span>DNA ({formatNumber(data.length)}nt)</span>
 									{:else if data.type === 'rna'}
@@ -163,7 +163,7 @@
 
 						<td align="right">
 							<div class="flex flex-col gap-1">
-								{#each row.data as data, idx (idx)}
+								{#each row.sampleData as data, idx (idx)}
 									<div class="flex justify-end gap-2">
 										{#if (data.type === 'dna' || data.type === 'rna' || data.type === 'aminoAcids') && row.classification.at(0)?.classificationId}
 											<a

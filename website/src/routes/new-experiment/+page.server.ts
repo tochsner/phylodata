@@ -1,7 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { insertPaperWithExperiments } from '$lib/db/insertPaperWithExperiments';
 import type { PaperWithExperiments } from '$lib/types';
-import { getWasabiUploadUrl } from '$lib/wasabi';
+import { getWasabiUploadUrl } from '$lib/storage/wasabi';
 import type { Actions } from './$types';
 
 export const actions = {

@@ -1,4 +1,4 @@
-import { validateNonEditableSchema, validateEditableSchema } from './validateSchemas';
+import { validateNonEditableSchema, validateEditableSchema } from './schema/validateSchemas';
 
 /**
  * Extracts JSON files from a zip file and returns the first one as a parsed object

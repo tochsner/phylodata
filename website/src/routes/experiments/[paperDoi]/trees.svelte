@@ -3,7 +3,7 @@
 	import { phylotree } from 'phylotree';
 
 	import Tag from '$lib/components/tag.svelte';
-	import { formatNumber } from '$lib/formatter';
+	import { formatNumber } from '$lib/utils/formatter';
 	import { browser } from '$app/environment';
 	import type { Trees } from '$lib/types';
 

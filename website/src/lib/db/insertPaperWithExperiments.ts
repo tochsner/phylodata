@@ -1,4 +1,4 @@
-import { supabase } from '../supabase';
+import { supabase } from './supabase';
 import type { PaperWithExperiments } from '../types';
 
 interface InsertResult {
@@ -18,11 +18,10 @@ interface InsertResult {
 export async function insertPaperWithExperiments(
 	paperWithExperiments: PaperWithExperiments
 ): Promise<InsertResult> {
-	const insertedIds: string[] = [];
 	const experimentIds: string[] = [];
 
 	try {
-		const { data: paperData, error: paperError } = await supabase
+		const { error: paperError } = await supabase
 			.from('papers')
 			.insert({
 				...paperWithExperiments.paper
@@ -34,25 +33,26 @@ export async function insertPaperWithExperiments(
 		}
 
 		for (const experimentData of paperWithExperiments.experiments) {
-			const experiment = experimentData.experiment;
-
-			const experimentId = experiment.id || crypto.randomUUID();
-			experimentIds.push(experimentId);
-
-			const { error: experimentError } = await supabase.from('experiments').insert({
-				...experiment,
-				id: experimentId,
-				paperDoi: paperWithExperiments.paper.doi
-			});
+			const { data: insertedExperimentData, error: experimentError } = await supabase
+				.from('experiments')
+				.insert({
+					...experimentData.experiment,
+					paperDoi: paperWithExperiments.paper.doi
+				})
+				.select()
+				.single();
 
 			if (experimentError) {
 				throw new Error(`Failed to insert experiment: ${experimentError.message}`);
 			}
 
+			const experimentId = insertedExperimentData.id;
+			experimentIds.push(experimentId);
+
 			if (experimentData.files && experimentData.files.length > 0) {
 				const filesData = experimentData.files.map((file) => ({
 					...file,
-					experimentId: experimentId
+					experimentId
 				}));
 
 				const { error: filesError } = await supabase.from('files').insert(filesData);
@@ -65,7 +65,7 @@ export async function insertPaperWithExperiments(
 			if (experimentData.trees) {
 				const { error: treesError } = await supabase.from('trees').insert({
 					...experimentData.trees,
-					experimentId: experimentId
+					experimentId
 				});
 
 				if (treesError) {
@@ -73,45 +73,25 @@ export async function insertPaperWithExperiments(
 				}
 			}
 
-			if (experimentData.evolutionaryModel) {
-				const { data: evolutionaryModelData, error: evolutionaryModelError } = await supabase
-					.from('evolutionaryModels')
+			for (const evolutionaryModel of experimentData.evolutionaryModel) {
+				const { error: componentsError } = await supabase
+					.from('evolutionaryModelComponents')
 					.insert({
-						experimentId: experimentId
-					})
-					.select();
+						...evolutionaryModel,
+						experimentId
+					});
 
-				if (evolutionaryModelError) {
-					throw new Error(`Failed to insert evolutionary model: ${evolutionaryModelError.message}`);
-				}
-
-				const evolutionaryModelId = evolutionaryModelData[0].id;
-
-				if (
-					experimentData.evolutionaryModel.models &&
-					experimentData.evolutionaryModel.models.length > 0
-				) {
-					const componentsData = experimentData.evolutionaryModel.models.map((component) => ({
-						...component,
-						evolutionaryModelId: evolutionaryModelId
-					}));
-
-					const { error: componentsError } = await supabase
-						.from('evolutionaryModelComponents')
-						.insert(componentsData);
-
-					if (componentsError) {
-						throw new Error(
-							`Failed to insert evolutionary model components: ${componentsError.message}`
-						);
-					}
+				if (componentsError) {
+					throw new Error(
+						`Failed to insert evolutionary model components: ${componentsError.message}`
+					);
 				}
 			}
 
 			if (experimentData.metadata) {
 				const { error: metadataError } = await supabase.from('metadata').insert({
 					...experimentData.metadata,
-					experimentId: experimentId
+					experimentId
 				});
 
 				if (metadataError) {
@@ -121,24 +101,26 @@ export async function insertPaperWithExperiments(
 
 			if (experimentData.samples && experimentData.samples.length > 0) {
 				for (const sample of experimentData.samples) {
-					const sampleId = sample.id || crypto.randomUUID();
-
-					const { classification, data, ...sampleProps } = sample;
-					const { error: sampleError } = await supabase.from('samples').insert({
-						...sampleProps,
-						id: sampleId,
-						experimentId: experimentId
-					});
+					const { classification, sampleData, ...sampleProps } = sample;
+					const { data: insertedSampleData, error: sampleError } = await supabase
+						.from('samples')
+						.insert({
+							...sampleProps,
+							experimentId: experimentId
+						})
+						.select()
+						.single();
 
 					if (sampleError) {
 						throw new Error(`Failed to insert sample: ${sampleError.message}`);
 					}
 
+					const sampleId = insertedSampleData.id;
+
 					if (classification && classification.length > 0) {
 						const classificationData = classification.map((classificationEntry) => ({
 							...classificationEntry,
-							id: classificationEntry.id || crypto.randomUUID(),
-							sampleId: sampleId
+							sampleId
 						}));
 
 						const { error: classificationError } = await supabase
@@ -152,10 +134,10 @@ export async function insertPaperWithExperiments(
 						}
 					}
 
-					if (data && data.length > 0) {
-						const sampleDataEntries = data.map((dataEntry) => ({
+					if (sampleData.length > 0) {
+						const sampleDataEntries = sampleData.map((dataEntry) => ({
 							...dataEntry,
-							sampleId: sampleId
+							sampleId
 						}));
 
 						const { error: sampleDataError } = await supabase
@@ -211,30 +193,14 @@ async function rollbackInsert(paperDoi: string, experimentIds: string[]): Promis
 				await supabase.from('sampleData').delete().in('sampleId', sampleIds);
 
 				// Delete classification entries
-				await supabase.from('classificationEntries').delete().in('sampleId', sampleIds);
+				await supabase.from('classifications').delete().in('sampleId', sampleIds);
 
 				// Delete samples
 				await supabase.from('samples').delete().eq('experimentId', experimentId);
 			}
 
-			// Get evolutionary model IDs for this experiment
-			const { data: evolutionaryModels } = await supabase
-				.from('evolutionaryModels')
-				.select('id')
-				.eq('experimentId', experimentId);
-
-			if (evolutionaryModels && evolutionaryModels.length > 0) {
-				const evolutionaryModelIds = evolutionaryModels.map((model) => model.id);
-
-				// Delete evolutionary model components
-				await supabase
-					.from('evolutionaryModelComponents')
-					.delete()
-					.in('evolutionaryModelId', evolutionaryModelIds);
-
-				// Delete evolutionary models
-				await supabase.from('evolutionaryModels').delete().eq('experimentId', experimentId);
-			}
+			// Delete evolutionary model components
+			await supabase.from('evolutionaryModelComponents').delete().eq('epxerimentId', experimentId);
 
 			// Delete other experiment-related data
 			await supabase.from('metadata').delete().eq('experimentId', experimentId);

@@ -4,7 +4,7 @@
 	import Checkbox from '$lib/components/checkbox.svelte';
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
-	import { formatNumber } from '$lib/formatter';
+	import { formatNumber } from '$lib/utils/formatter';
 	import { type PaperWithExperiments } from '$lib/types';
 	import type { PageProps } from './$types';
 

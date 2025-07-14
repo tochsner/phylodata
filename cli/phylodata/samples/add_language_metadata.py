@@ -21,7 +21,7 @@ def add_language_metadata(samples: list[Sample]) -> list[Sample]:
         if sample.type != SampleType.UNKNOWN:
             continue
 
-        for data in sample.data:
+        for data in sample.sample_data:
             if data.type != DataType.TRAITS:
                 continue
 

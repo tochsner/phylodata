@@ -145,7 +145,7 @@ class Sample(msgspec.Struct, rename="camel"):
     scientific_name: str
     type: SampleType
     classification: list[ClassificationEntry]
-    data: list[SampleData]
+    sample_data: list[SampleData]
     common_name: Optional[str] = None
     id: Optional[str] = None
 

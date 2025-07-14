@@ -1,4 +1,4 @@
-import { supabase } from '$lib/supabase';
+import { supabase } from '$lib/db/supabase';
 import type { PaperWithExperiments } from '$lib/types';
 import { transformJoinedDataToPaperWithExperiment } from './transform';
 
@@ -8,19 +8,16 @@ export async function getPaperWithExperiments(paperDoi: string): Promise<PaperWi
 		.select(
 			`
 			*,
-       experiments!experiments_paperDoi_fkey (
+       experiments (
          *,
          files (*),
          trees (*),
-         evolutionaryModels (
-           *,
-           models:evolutionaryModelComponents (*)
-         ),
+         evolutionaryModel (*),
          metadata (*),
          samples (
            *,
-           classification:classificationEntries (*),
-           data:sampleData (*)
+           classification (*),
+           sampleData (*)
          )
        )
        `

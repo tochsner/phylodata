@@ -20,7 +20,7 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
         if sample.type != SampleType.UNKNOWN:
             continue
 
-        for data in sample.data:
+        for data in sample.sample_data:
             if data.type in [DataType.RNA, DataType.DNA]:
                 nucleotide_sequences.append(
                     "".join(c for c in data.data if c.isalpha())

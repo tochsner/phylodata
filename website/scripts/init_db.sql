@@ -62,7 +62,7 @@ CREATE TABLE "sampleData" (
         'unknown'
     )),
     "length" INTEGER NOT NULL,
-    "data" TEXT NOT NULL,
+    "sampleData" TEXT NOT NULL,
     "sampleId" INTEGER,
     FOREIGN KEY ("sampleId") REFERENCES "samples"("id")
 );
