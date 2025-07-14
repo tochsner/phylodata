@@ -48,7 +48,6 @@ export type ClassificationEntry = {
 	scientificName: string;
 	idType: 'ncibTaxonomyId' | 'glottologId';
 	commonName?: string;
-	id?: string;
 };
 
 export type Sample = {
@@ -58,7 +57,6 @@ export type Sample = {
 	classification: ClassificationEntry[];
 	sampleData: SampleData[];
 	commonName?: string;
-	id?: string;
 };
 
 export type Trees = {

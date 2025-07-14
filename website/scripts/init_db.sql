@@ -94,7 +94,7 @@ CREATE TABLE "trees" (
     FOREIGN KEY ("experimentId") REFERENCES "experiments"("id")
 );
 
-CREATE TABLE "evolutionaryModelComponents" (
+CREATE TABLE "evolutionaryModels" (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR(255) NOT NULL,
     "description" TEXT NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE "evolutionaryModelComponents" (
     )),
     "documentationUrl" TEXT NOT NULL,
     "parameters" JSONB NOT NULL, -- JSON for Record<string, any>
-    "experimentId" INTEGER,
+        "experimentId" INTEGER,
     FOREIGN KEY ("experimentId") REFERENCES "experiments"("id")
 );
 

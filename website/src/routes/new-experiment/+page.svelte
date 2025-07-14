@@ -218,9 +218,9 @@
 				<h4 class="mb-3 text-lg font-medium">Step 3: Upload Experiment Files</h4>
 				<p class="mb-4">Upload the files in the created folder:</p>
 
-				<div class="mb-6 rounded-lg border-2 border-dashed border-gray-300 p-8 text-center">
+				<div class="mb-6 rounded-lg border-2 border-dashed border-gray-300 text-center">
 					<input type="file" id="file-upload" class="hidden" multiple onchange={handleFileSelect} />
-					<label for="file-upload" class="block cursor-pointer">
+					<label for="file-upload" class="block size-full cursor-pointer">
 						<div class="mx-auto mb-4">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

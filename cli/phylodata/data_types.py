@@ -137,7 +137,6 @@ class ClassificationEntry(msgspec.Struct, rename="camel"):
     scientific_name: str
     id_type: ClassificationEntryType
     common_name: Optional[str] = None
-    id: Optional[str] = None
 
 
 class Sample(msgspec.Struct, rename="camel"):
@@ -147,7 +146,6 @@ class Sample(msgspec.Struct, rename="camel"):
     classification: list[ClassificationEntry]
     sample_data: list[SampleData]
     common_name: Optional[str] = None
-    id: Optional[str] = None
 
 
 class Trees(msgspec.Struct, rename="camel"):

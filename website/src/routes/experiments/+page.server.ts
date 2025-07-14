@@ -13,14 +13,11 @@ export const load: PageServerLoad = async () => ({
         *,
         files (*),
         trees (*),
-        evolutionaryModels (
-          *,
-          evolutionaryModelComponents (*)
-        ),
+        evolutionaryModels (*),
         metadata (*),
         samples (
           *,
-          classification:classificationEntries (*),
+          classifications (*),
           sampleData (*)
         )
       )

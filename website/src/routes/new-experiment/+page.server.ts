@@ -11,6 +11,7 @@ export const actions = {
 		const rawFileNames = formData.get('fileNames') as string;
 
 		if (!rawPaperData) {
+			console.log('A');
 			return fail(400);
 		}
 
@@ -18,6 +19,7 @@ export const actions = {
 		const result = await insertPaperWithExperiments(paperData);
 
 		if (!result.success || !result.insertedIds) {
+			console.log(result);
 			return fail(400);
 		}
 

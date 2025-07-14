@@ -33,6 +33,8 @@ export async function insertPaperWithExperiments(
 		}
 
 		for (const experimentData of paperWithExperiments.experiments) {
+			delete experimentData.experiment.id;
+
 			const { data: insertedExperimentData, error: experimentError } = await supabase
 				.from('experiments')
 				.insert({
@@ -50,10 +52,15 @@ export async function insertPaperWithExperiments(
 			experimentIds.push(experimentId);
 
 			if (experimentData.files && experimentData.files.length > 0) {
-				const filesData = experimentData.files.map((file) => ({
-					...file,
-					experimentId
-				}));
+				const filesData = [];
+				for (const file of experimentData.files) {
+					delete file.localPath;
+					delete file.remotePath;
+					filesData.push({
+						...file,
+						experimentId
+					});
+				}
 
 				const { error: filesError } = await supabase.from('files').insert(filesData);
 
@@ -74,12 +81,10 @@ export async function insertPaperWithExperiments(
 			}
 
 			for (const evolutionaryModel of experimentData.evolutionaryModel) {
-				const { error: componentsError } = await supabase
-					.from('evolutionaryModelComponents')
-					.insert({
-						...evolutionaryModel,
-						experimentId
-					});
+				const { error: componentsError } = await supabase.from('evolutionaryModels').insert({
+					...evolutionaryModel,
+					experimentId
+				});
 
 				if (componentsError) {
 					throw new Error(

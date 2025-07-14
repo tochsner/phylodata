@@ -19,10 +19,13 @@ export async function retrieveMetadata(files: Blob[]) {
 			} else if (validateNonEditableSchema(jsonData)) {
 				nonEditableMetadata = jsonData;
 			}
-		} catch {
+		} catch (e) {
 			continue;
 		}
 	}
+
+	console.log(editableMetadata);
+	console.log(nonEditableMetadata);
 
 	if (!editableMetadata || !nonEditableMetadata) {
 		return undefined;
