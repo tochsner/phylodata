@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from phylodata.trees.parse_trees import parse_trees
+from phylodata.process.trees.parse_trees import parse_trees
 
 
 def to_bytes_io(text: str):

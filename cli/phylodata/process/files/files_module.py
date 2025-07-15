@@ -4,8 +4,8 @@ import streamlit as st
 
 from phylodata.data_types import File, FileType
 from phylodata.errors import ValidationError
-from phylodata.files.parse_files import parse_file
-from phylodata.module import Module
+from phylodata.process.files.parse_files import parse_file
+from phylodata.process.module import Module
 
 
 class FilesModule(Module[list[File]]):

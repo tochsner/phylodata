@@ -8,8 +8,8 @@ from phylodata.data_types import (
     ExperimentType,
     NonEditableExperiment,
 )
-from phylodata.experiment.human_readable_id import generate_human_readable_id
-from phylodata.module import Module
+from phylodata.process.experiment.human_readable_id import generate_human_readable_id
+from phylodata.process.module import Module
 
 
 class ExperimentModule(Module[tuple[EditableExperiment, NonEditableExperiment]]):

@@ -3,7 +3,7 @@ from io import BytesIO
 import pytest
 
 from phylodata.errors import ValidationError
-from phylodata.files.parse_files import parse_beast2_config
+from phylodata.process.files.parse_files import parse_beast2_config
 
 
 def to_bytes_io(text: str):

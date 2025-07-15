@@ -3,7 +3,7 @@ from typing import Any, Optional
 from xml.etree.ElementTree import ElementTree
 
 from phylodata.data_types import ModelType, SampleType
-from phylodata.utils.beast2_xml_utils import get_attribute
+from phylodata.process.utils.beast2_xml_utils import get_attribute
 
 
 class Beast2PackageParser(ABC):

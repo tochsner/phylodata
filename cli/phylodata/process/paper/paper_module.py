@@ -4,13 +4,13 @@ import streamlit as st
 
 from phylodata.data_types import EditablePaper, NonEditablePaper
 from phylodata.errors import ValidationError
-from phylodata.module import Module
-from phylodata.paper.bibtex import (
+from phylodata.process.module import Module
+from phylodata.process.paper.bibtex import (
     get_bibtex_value,
     is_valid_bibtex,
     yield_bibtex_authors,
 )
-from phylodata.paper.doi import is_doi
+from phylodata.process.paper.doi import is_doi
 
 
 class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):

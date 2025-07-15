@@ -7,7 +7,7 @@ from phylodata.data_types import (
     Sample,
     SampleType,
 )
-from phylodata.samples.language_utils import (
+from phylodata.process.samples.language_utils import (
     clean_label,
     cleaned_language_names,
     id_to_language,

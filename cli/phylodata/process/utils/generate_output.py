@@ -19,7 +19,7 @@ from phylodata.data_types import (
     Sample,
     Trees,
 )
-from phylodata.utils.file_utils import add_file_name_suffix
+from phylodata.process.utils.file_utils import add_file_name_suffix
 
 WASABI_BUCKET_NAME = "phylodata-experiments"
 

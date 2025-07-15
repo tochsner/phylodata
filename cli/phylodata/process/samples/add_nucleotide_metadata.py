@@ -2,8 +2,8 @@ from loguru import logger
 
 from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
 from phylodata.errors import BlastError
-from phylodata.samples.run_blast import extract_taxon_ids, run_blast
-from phylodata.samples.taxon_classification import look_up_taxon_classification
+from phylodata.process.samples.run_blast import extract_taxon_ids, run_blast
+from phylodata.process.samples.taxon_classification import look_up_taxon_classification
 
 MAX_SEQ_LENGTH_CONSIDERED = 2500
 

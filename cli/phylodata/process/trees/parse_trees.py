@@ -2,7 +2,7 @@ from io import BytesIO
 
 from phylodata.data_types import Trees
 from phylodata.errors import ValidationError
-from phylodata.utils.bytesio_utils import get_nexus_from_bytesio
+from phylodata.process.utils.bytesio_utils import get_nexus_from_bytesio
 
 ULTRAMETRIC_REL_THRESHOLD = 1e-6
 """The absolute relative differences of the tip ages for a tree to be ultrametric. We

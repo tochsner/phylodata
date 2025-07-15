@@ -1,7 +1,7 @@
 from io import BytesIO
 
 from phylodata.data_types import FileType
-from phylodata.files.parse_files import parse_other_file
+from phylodata.process.files.parse_files import parse_other_file
 
 
 def to_bytes_io(text: str):

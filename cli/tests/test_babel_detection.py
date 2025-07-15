@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from phylodata.evolutionary_model.parse_evolutionary_model import (
+from phylodata.process.evolutionary_model.parse_evolutionary_model import (
     parse_evolutionary_model,
 )
 

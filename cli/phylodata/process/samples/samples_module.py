@@ -3,8 +3,8 @@ from io import BytesIO
 import streamlit as st
 
 from phylodata.data_types import Sample
-from phylodata.module import Module
-from phylodata.samples.parse_beast2_samples import parse_beast2_samples
+from phylodata.process.module import Module
+from phylodata.process.samples.parse_beast2_samples import parse_beast2_samples
 
 
 class SamplesModule(Module[list[Sample]]):

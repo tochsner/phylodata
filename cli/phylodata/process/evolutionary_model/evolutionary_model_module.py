@@ -3,10 +3,10 @@ from io import BytesIO
 import streamlit as st
 
 from phylodata.data_types import EvolutionaryModelComponent
-from phylodata.evolutionary_model.parse_evolutionary_model import (
+from phylodata.process.evolutionary_model.parse_evolutionary_model import (
     parse_evolutionary_model,
 )
-from phylodata.module import Module
+from phylodata.process.module import Module
 
 
 class EvolutionaryModelModule(Module[list[EvolutionaryModelComponent]]):

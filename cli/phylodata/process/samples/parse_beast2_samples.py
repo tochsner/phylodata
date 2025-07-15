@@ -9,16 +9,16 @@ from phylodata.data_types import (
     SampleData,
     SampleType,
 )
-from phylodata.samples.add_language_metadata import add_language_metadata
-from phylodata.samples.add_nucleotide_metadata import add_nucleotide_metadata
-from phylodata.samples.add_protein_metadata import add_protein_metadata
-from phylodata.samples.sequence_utils import (
+from phylodata.process.samples.add_language_metadata import add_language_metadata
+from phylodata.process.samples.add_nucleotide_metadata import add_nucleotide_metadata
+from phylodata.process.samples.add_protein_metadata import add_protein_metadata
+from phylodata.process.samples.sequence_utils import (
     contains_sequence,
     is_amino_acid_sequence,
     is_dna_sequence,
     is_rna_sequence,
 )
-from phylodata.utils.bytesio_utils import get_xml_from_bytesio
+from phylodata.process.utils.bytesio_utils import get_xml_from_bytesio
 
 
 def parse_beast2_samples(beast2_config: BytesIO) -> list[Sample]:

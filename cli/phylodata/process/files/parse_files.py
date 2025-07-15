@@ -7,8 +7,11 @@ from commonnexus.blocks.trees import Trees
 
 from phylodata.data_types import File, FileType
 from phylodata.errors import ValidationError
-from phylodata.utils.bytesio_utils import get_nexus_from_bytesio, get_xml_from_bytesio
-from phylodata.utils.file_utils import add_file_name_suffix
+from phylodata.process.utils.bytesio_utils import (
+    get_nexus_from_bytesio,
+    get_xml_from_bytesio,
+)
+from phylodata.process.utils.file_utils import add_file_name_suffix
 
 MIN_NUM_SNAPSHOTS = 50
 """The minimum number of snapshots required for a valid BEAST 2 posterior log file.

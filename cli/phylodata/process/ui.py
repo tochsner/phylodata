@@ -6,15 +6,15 @@ from phylodata.data_types import (
     Metadata,
 )
 from phylodata.errors import ValidationError
-from phylodata.evolutionary_model.evolutionary_model_module import (
+from phylodata.process.evolutionary_model.evolutionary_model_module import (
     EvolutionaryModelModule,
 )
-from phylodata.experiment.experiment_module import ExperimentModule
-from phylodata.files.files_module import FilesModule
-from phylodata.paper.paper_module import PaperModule
-from phylodata.samples.samples_module import SamplesModule
-from phylodata.trees.trees_module import TreesModule
-from phylodata.utils.generate_output import generate_output
+from phylodata.process.experiment.experiment_module import ExperimentModule
+from phylodata.process.files.files_module import FilesModule
+from phylodata.process.paper.paper_module import PaperModule
+from phylodata.process.samples.samples_module import SamplesModule
+from phylodata.process.trees.trees_module import TreesModule
+from phylodata.process.utils.generate_output import generate_output
 from phylodata.version import __version__
 
 
