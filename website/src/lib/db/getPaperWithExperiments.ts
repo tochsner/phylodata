@@ -2,6 +2,9 @@ import { supabase } from '$lib/db/supabase';
 import type { PaperWithExperiments } from '$lib/types';
 import { transformJoinedDataToPaperWithExperiment } from './transform';
 
+/**
+ * Fetches the paper with the given DOI with its experiments from the database.
+ */
 export async function getPaperWithExperiments(paperDoi: string): Promise<PaperWithExperiments> {
 	const { data, error } = await supabase
 		.from('papers')
@@ -25,12 +28,8 @@ export async function getPaperWithExperiments(paperDoi: string): Promise<PaperWi
 		.eq('doi', decodeURIComponent(paperDoi))
 		.single();
 
-	if (error) {
+	if (error || !data) {
 		console.error(error);
-		throw new Error('No experiment found');
-	}
-
-	if (!data) {
 		throw new Error('No experiment found');
 	}
 

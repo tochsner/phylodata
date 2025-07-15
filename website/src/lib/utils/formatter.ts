@@ -1,3 +1,7 @@
+/**
+ * This file contains a variety of handy formatter functions.
+ */
+
 const numberFormatter = new Intl.NumberFormat('de-CH');
 const currencyFormatter = new Intl.NumberFormat('de-CH', { style: 'currency', currency: 'CHF' });
 const dateTimeFormatter = new Intl.DateTimeFormat('de-CH', {

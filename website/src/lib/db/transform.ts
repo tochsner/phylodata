@@ -1,5 +1,8 @@
 import type { PaperWithExperiments } from '$lib/types';
 
+/**
+ * Transforms joined data retrieved from the database into a valid PaperWithExperiments object.
+ */
 export function transformJoinedDataToPaperWithExperiment(joinedData: any): PaperWithExperiments {
 	return {
 		paper: {

@@ -1,9 +1,8 @@
 import { validateNonEditableSchema, validateEditableSchema } from './schema/validateSchemas';
 
 /**
- * Extracts JSON files from a zip file and returns the first one as a parsed object
- * @param blob The zip file as a Blob
- * @returns A Promise that resolves to the parsed JSON object or null if no JSON file is found
+ * Extracts the JSON metadata from the given list of files. Resolves to undefined if the files
+ * do not contain both the editable and non-editable metadata.
  */
 export async function retrieveMetadata(files: Blob[]) {
 	let editableMetadata;
@@ -23,9 +22,6 @@ export async function retrieveMetadata(files: Blob[]) {
 			continue;
 		}
 	}
-
-	console.log(editableMetadata);
-	console.log(nonEditableMetadata);
 
 	if (!editableMetadata || !nonEditableMetadata) {
 		return undefined;

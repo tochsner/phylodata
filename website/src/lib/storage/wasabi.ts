@@ -13,6 +13,10 @@ var s3Client = new S3Client({
 	}
 });
 
+/**
+ * Creates a presigned Wasabi upload URL for the given key. This should not be called on the
+ * client side.
+ */
 export async function getWasabiUploadUrl(key: string): Promise<string> {
 	const command = new PutObjectCommand({
 		Bucket: WASABI_BUCKET,
