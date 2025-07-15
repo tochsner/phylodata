@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
@@ -12,6 +12,19 @@ var s3Client = new S3Client({
 		secretAccessKey: WASABI_SECRET_KEY
 	}
 });
+
+/**
+ * Creates a presigned Wasabi download URL for the given key. This should not be called on the
+ * client side.
+ */
+export async function getWasabiDownloadUrl(key: string): Promise<string> {
+	const command = new GetObjectCommand({
+		Bucket: WASABI_BUCKET,
+		Key: key
+	});
+	const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 600 });
+	return uploadUrl;
+}
 
 /**
  * Creates a presigned Wasabi upload URL for the given key. This should not be called on the
