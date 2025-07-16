@@ -1,4 +1,9 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import {
+	S3Client,
+	PutObjectCommand,
+	GetObjectCommand,
+	ListObjectsV2Command
+} from '@aws-sdk/client-s3';
 
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
@@ -37,4 +42,25 @@ export async function getWasabiUploadUrl(key: string): Promise<string> {
 	});
 	const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 600 });
 	return uploadUrl;
+}
+
+/**
+ * Returns the subfolders in the folder with the given key.
+ * (Note that like s3, Wasabi does not technically have folder but just prefixes.
+ * This returns all common prefixes delimited by an "/".)
+ */
+export async function getWasabiSubfolders(key: string): Promise<string[]> {
+	const command = new ListObjectsV2Command({
+		Bucket: WASABI_BUCKET,
+		Prefix: `${key}/`,
+		Delimiter: '/'
+	});
+	const response = await s3Client.send(command);
+	const keys =
+		response.CommonPrefixes?.map((obj) => {
+			let prefix = obj.Prefix;
+			// prefix is "key/name/". we only return "name"
+			return prefix?.substring(key.length + 1, prefix.length - 1);
+		}).filter((obj) => obj != undefined) || [];
+	return keys;
 }
