@@ -29,7 +29,12 @@ export async function insertPaperWithExperiments(
 			.select();
 
 		if (paperError) {
-			throw new Error(`Failed to insert paper: ${paperError.message}`);
+			if (paperError.code == '23505') {
+				// this is a duplicate key error, meaning this paper is already in the database
+				// we continue
+			} else {
+				throw new Error(`Failed to insert paper: ${paperError.message}`);
+			}
 		}
 
 		for (const experimentData of paperWithExperiments.experiments) {
@@ -80,7 +85,7 @@ export async function insertPaperWithExperiments(
 				}
 			}
 
-			for (const evolutionaryModel of experimentData.evolutionaryModels) {
+			for (const evolutionaryModel of experimentData.evolutionaryModel) {
 				const { error: componentsError } = await supabase.from('evolutionaryModels').insert({
 					...evolutionaryModel,
 					experimentId

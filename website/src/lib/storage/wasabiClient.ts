@@ -3,12 +3,12 @@
  * called on the client side.
  */
 export async function uploadToWasabi(file: File, presignedUploadUrl: string) {
-	const formData = new FormData();
-	formData.append('file', file);
-
 	const uploadResult = await fetch(presignedUploadUrl, {
 		method: 'PUT',
-		body: formData
+		body: file,
+		headers: {
+			'Content-Type': file.type
+		}
 	});
 
 	if (!uploadResult.ok) {

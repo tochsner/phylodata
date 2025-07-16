@@ -24,7 +24,7 @@
 		files = Array.from(fileList);
 	}
 
-	async function uploadFiles() {
+	async function selectFiles() {
 		try {
 			const metadata = await retrieveMetadata(files);
 
@@ -220,7 +220,7 @@
 
 				<div class="mb-6 rounded-lg border-2 border-dashed border-gray-300 text-center">
 					<input type="file" id="file-upload" class="hidden" multiple onchange={handleFileSelect} />
-					<label for="file-upload" class="block size-full cursor-pointer">
+					<label for="file-upload" class="block size-full cursor-pointer p-8">
 						<div class="mx-auto mb-4">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -265,7 +265,7 @@
 					<button
 						class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
 						onclick={() => {
-							uploadFiles();
+							selectFiles();
 						}}
 						disabled={files.length === 0}
 					>
@@ -285,7 +285,7 @@
 						<Samples samples={uploadedObject.experiments[0].samples} />
 						<Trees trees={uploadedObject.experiments[0].trees} />
 						<EvolutionaryModels
-							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModels}
+							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModel}
 						/>
 					</div>
 				{/if}
@@ -319,7 +319,6 @@
 				<form
 					class="flex space-x-4"
 					method="POST"
-					enctype="multipart/form-data"
 					use:enhance={({ formData }) => {
 						formData.append('paperData', JSON.stringify(uploadedObject));
 						formData.append('fileNames', JSON.stringify(files.map((file) => file.name)));
@@ -335,7 +334,9 @@
 							const uploadUrls = result.data?.uploadUrls as string[];
 							if (uploadUrls) {
 								try {
-									files.map((file, idx) => uploadToWasabi(file, uploadUrls[idx]));
+									Promise.all(
+										files.map(async (file, idx) => await uploadToWasabi(file, uploadUrls[idx]))
+									);
 								} catch {
 									toast.error('Upload failed. Try again.');
 								}

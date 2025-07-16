@@ -146,7 +146,7 @@
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />
 		<Trees trees={experiment.trees} />
-		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModels} />
+		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModel} />
 	</div>
 {/snippet}
 
