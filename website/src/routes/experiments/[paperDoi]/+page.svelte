@@ -8,6 +8,7 @@
 	import Samples from './samples.svelte';
 	import EvolutionaryModels from './evolutionaryModels.svelte';
 	import Trees from './trees.svelte';
+	import toast from 'svelte-5-french-toast';
 
 	let { data }: PageProps = $props();
 
@@ -47,13 +48,15 @@
 					/>
 				</svg>
 
-				<span>Download all experiments</span>
+				<span>Use all experiments</span>
 			</button>
 
-			<a
+			<button
 				class="border-accent text-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold hover:opacity-70"
-				href={`data:text/plain;charset=utf-8,${encodeURIComponent(data.paper.bibtex)}`}
-				download={`${data.paper.title}.bib`}
+				onclick={() => {
+					navigator.clipboard.writeText(data.paper.bibtex);
+					toast.success('Copied bibtex entry to clipboard');
+				}}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -66,12 +69,12 @@
 					<path
 						stroke-linecap="round"
 						stroke-linejoin="round"
-						d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+						d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
 					/>
 				</svg>
 
-				<span>Download citation</span>
-			</a>
+				<span>Copy citation</span>
+			</button>
 		</div>
 
 		<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
@@ -89,7 +92,7 @@
 {/snippet}
 
 {#snippet content()}
-	<div class="flex flex-1 flex-col gap-8">
+	<div class="flex flex-1 flex-col gap-8 overflow-x-clip">
 		{@render paperOverview()}
 
 		<div>
@@ -100,16 +103,15 @@
 {/snippet}
 
 {#snippet paperOverview()}
-	{#if data.paper.doi || data.paper.url}
-		<div class="flex flex-wrap items-start gap-2">
-			{#if data.paper.doi}<Tag label="DOI"
-					><a href={data.paper.doi} target="_blank">{data.paper.doi}</a></Tag
-				>{/if}
-			{#if data.paper.url}<Tag label="URL"
-					><a href={data.paper.url} target="_blank">{data.paper.url}</a></Tag
-				>{/if}
-		</div>
-	{/if}
+	<div class="flex flex-wrap items-start gap-2">
+		<Tag label="DOI"><a href={data.paper.doi} target="_blank">{data.paper.doi}</a></Tag>
+		{#if data.paper.url}
+			<Tag label="URL">
+				<a href={data.paper.url} target="_blank">{data.paper.url}</a>
+			</Tag>
+		{/if}
+		<Tag label="Year">{data.paper.year}</Tag>
+	</div>
 {/snippet}
 
 {#snippet tabs()}
@@ -118,10 +120,8 @@
 
 		{#each data.experiments as experiment, idx (idx)}
 			<button
-				class="relative cursor-pointer rounded-t-xl px-6 py-2"
+				class="relative cursor-pointer rounded-t-xl px-6 py-2 font-medium"
 				class:bg-white={idx === currentExperimentIdx}
-				class:text-accent={idx === currentExperimentIdx}
-				class:font-bold={idx === currentExperimentIdx}
 				onclick={() => (currentExperimentIdx = idx)}
 			>
 				{#if idx === currentExperimentIdx}
@@ -132,7 +132,9 @@
 					<div class="bg-background absolute -right-6 bottom-0 size-6 rounded-full"></div>
 				{/if}
 
-				{experiment.experiment.title || `Experiment ${idx + 1}`}
+				<span class:text-accent={idx === currentExperimentIdx}>
+					{experiment.experiment.title || `Experiment ${idx + 1}`}
+				</span>
 			</button>
 		{/each}
 	</div>
@@ -152,9 +154,9 @@
 
 {#snippet experimentOverview(experiment: Experiment)}
 	<div class="flex flex-wrap items-start gap-2 p-4">
+		<Tag label="License">{experiment.license}</Tag>
 		<Tag label="Upload date">{formatDate(experiment.uploadDate)}</Tag>
 		<Tag label="version">{formatNumber(experiment.version)}</Tag>
-		<Tag label="Origin">{experiment.origin}</Tag>
-		<Tag label="License">{experiment.license}</Tag>
+		<Tag label="Experiment ID">{experiment.humanReadableId}</Tag>
 	</div>
 {/snippet}

@@ -48,7 +48,7 @@
 <Header><h2 class="text-dark text-2xl font-bold">Add experiment</h2></Header>
 
 <div class="container mx-auto max-w-4xl px-4 py-8">
-	<div class="mb-8 rounded-lg bg-white p-6 shadow-md">
+	<div class="mb-8 rounded-xl bg-white p-6 shadow-md">
 		<div class="mb-8 flex">
 			<div class="flex-1">
 				<div class="relative">
@@ -116,7 +116,7 @@
 			<div class="step-content mb-6">
 				<h4 class="mb-3 text-lg font-medium">Step 1: Install the PhyloData CLI</h4>
 				<p class="mb-4">
-					Install the PhyloData CLI tool which will help you process your experiment files.
+					Install the PhyloData library which will help you process your experiment files.
 				</p>
 
 				<div class="mb-4 rounded-md bg-gray-50 p-4">
@@ -161,7 +161,7 @@
 			<div class="step-content mb-6">
 				<h4 class="mb-3 text-lg font-medium">Step 2: Process experiment files</h4>
 				<p class="mb-4">
-					Navigate to the directory with your experiment filee and run the following command:
+					Navigate to the directory with your experiment files and run the following command:
 				</p>
 
 				<div class="mb-4 rounded-md bg-gray-50 p-4">
