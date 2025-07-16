@@ -13,7 +13,9 @@ def cli(): ...
 
 @cli.command(help="Process an experiment before uploading it to PhyloData.")
 def process():
-    subprocess.run(["streamlit", "run", str(Path(phylodata.__path__[0]) / "process/ui.py")])  # type: ignore
+    subprocess.run(
+        ["streamlit", "run", str(Path(phylodata.__path__[0]) / "process/ui.py")]
+    )  # type: ignore
 
 
 @cli.command(

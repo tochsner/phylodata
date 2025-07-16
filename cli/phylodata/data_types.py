@@ -77,6 +77,34 @@ class NonEditableExperiment(msgspec.Struct, rename="camel"):
     id: Optional[str] = None
 
 
+class Experiment(msgspec.Struct, rename="camel"):
+    type: ExperimentType
+    human_readable_id: str
+    origin: str
+    upload_date: date
+    version: int
+    license: str = "CC0"
+    title: Optional[str] = None
+    description: Optional[str] = None
+    id: Optional[str] = None
+
+    @classmethod
+    def from_partial(
+        cls, editable: EditableExperiment, non_editable: NonEditableExperiment
+    ):
+        return cls(
+            type=editable.type,
+            human_readable_id=non_editable.human_readable_id,
+            origin=non_editable.origin,
+            upload_date=non_editable.upload_date,
+            version=non_editable.version,
+            license=non_editable.license,
+            title=editable.title,
+            description=editable.description,
+            id=non_editable.id,
+        )
+
+
 class EditablePaper(msgspec.Struct, rename="camel"):
     title: str
     year: int
@@ -88,6 +116,28 @@ class EditablePaper(msgspec.Struct, rename="camel"):
 
 class NonEditablePaper(msgspec.Struct, rename="camel"):
     doi: str
+
+
+class Paper(msgspec.Struct, rename="camel"):
+    doi: str
+    title: str
+    year: int
+    authors: list[str]
+    abstract: str
+    bibtex: str
+    url: Optional[str] = None
+
+    @classmethod
+    def from_partial(cls, editable: EditablePaper, non_editable: NonEditablePaper):
+        return cls(
+            doi=non_editable.doi,
+            title=editable.title,
+            year=editable.year,
+            authors=editable.authors,
+            abstract=editable.abstract,
+            bibtex=editable.bibtex,
+            url=editable.url,
+        )
 
 
 class File(
@@ -193,6 +243,34 @@ class EditablePaperWithExperiment(msgspec.Struct, rename="camel"):
     paper: EditablePaper
     experiment: EditableExperiment
     samples: list[Sample]
+
+
+class PaperWithExperiment(msgspec.Struct, rename="camel"):
+    paper: Paper
+    experiment: Experiment
+    files: list[File]
+    samples: list[Sample]
+    trees: Trees
+    evolutionary_model: list[EvolutionaryModelComponent]
+    metadata: Metadata
+
+    @classmethod
+    def from_partial(
+        cls,
+        editable: EditablePaperWithExperiment,
+        non_editable: NonEditablePaperWithExperiment,
+    ):
+        return cls(
+            paper=Paper.from_partial(editable.paper, non_editable.paper),
+            experiment=Experiment.from_partial(
+                editable.experiment, non_editable.experiment
+            ),
+            files=non_editable.files,
+            samples=editable.samples,
+            trees=non_editable.trees,
+            evolutionary_model=non_editable.evolutionary_model,
+            metadata=non_editable.metadata,
+        )
 
 
 def validate_editable_json(file_path: str):
