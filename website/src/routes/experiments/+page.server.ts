@@ -58,7 +58,12 @@ export const load: PageServerLoad = async () => ({
 export const actions = {
 	filter: async ({ request }) => {
 		const data = await request.formData();
-		console.log(data.getAll('samples'));
+
+		const fileTypes = data.getAll('fileType') as string[];
+		const sampleTypes = data.getAll('sampleType') as string[];
+		const samples = data.getAll('samples') as string[];
+		const treesTypes = data.getAll('treesType') as string[];
+		const evolutionaryModels = data.getAll('evolutionaryModel') as string[];
 
 		return 200;
 	}

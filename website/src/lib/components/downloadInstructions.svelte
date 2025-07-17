@@ -139,7 +139,7 @@
 				</div>
 			</div>
 
-			<div class="bg-accent-light flex flex-2 flex-col gap-8 rounded-2xl p-8">
+			<div class="bg-accent-light flex flex-2 flex-col gap-8 overflow-x-scroll rounded-2xl p-8">
 				<div class="flex flex-col gap-2">
 					<h3 class="font-bold">1. Install the PhyloData library</h3>
 					<Code code="pip install phylodata" />

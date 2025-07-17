@@ -120,7 +120,7 @@
 			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
 		{:then possibleEvolutionaryModels}
 			<ComboBox
-				name="evolutionaryModels"
+				name="evolutionaryModel"
 				possibleValues={possibleEvolutionaryModels.map((sample) => ({
 					label: sample,
 					value: sample
