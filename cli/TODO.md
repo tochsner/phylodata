@@ -1,6 +1,8 @@
 - Add filters to search
 - Think about model view
 
+- Set up proper migrations
+
 - Add python library documentation
 
 - Upload some datasets

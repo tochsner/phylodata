@@ -7,9 +7,10 @@
 	import { type PaperWithExperiments } from '$lib/types';
 	import type { PageProps } from './$types';
 	import ComboBox from '$lib/components/comboBox.svelte';
+	import { titleCase } from '$lib/utils/titleCase';
 
 	let { data }: PageProps = $props();
-	let { papers } = data;
+	let { papers, possibleSamples, possibleEvolutionaryModels } = data;
 </script>
 
 <Header>
@@ -87,17 +88,19 @@
 
 		<div></div>
 
-		<ComboBox
-			name="samples"
-			possibleValues={[
-				{ value: 'Penguins', label: 'Penguins' },
-				{ value: 'Animals', label: 'Animals' },
-				{ value: 'Eucariotes', label: 'Eucariotes' },
-				{ value: 'Virus', label: 'Virus' }
-			]}
-			submitOnChange
-			placeholder="Search for samples..."
-		/>
+		{#await possibleSamples}
+			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
+		{:then possibleSamples}
+			<ComboBox
+				name="samples"
+				possibleValues={possibleSamples.map((sample) => ({
+					label: titleCase(sample),
+					value: sample
+				}))}
+				submitOnChange
+				placeholder="Search for samples..."
+			/>
+		{/await}
 	</div>
 {/snippet}
 
@@ -113,26 +116,28 @@
 	<div class="flex flex-col gap-2">
 		<span class="text-base font-semibold">Evolutionary Model</span>
 
-		<ComboBox
-			name="samples"
-			possibleValues={[
-				{ value: 'Penguins', label: 'Penguins' },
-				{ value: 'Animals', label: 'Animals' },
-				{ value: 'Eucariotes', label: 'Eucariotes' },
-				{ value: 'Virus', label: 'Virus' }
-			]}
-			placeholder="Search for models..."
-			submitOnChange
-		/>
+		{#await possibleEvolutionaryModels}
+			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
+		{:then possibleEvolutionaryModels}
+			<ComboBox
+				name="evolutionaryModels"
+				possibleValues={possibleEvolutionaryModels.map((sample) => ({
+					label: sample,
+					value: sample
+				}))}
+				submitOnChange
+				placeholder="Search for models..."
+			/>
+		{/await}
 	</div>
 {/snippet}
 
 {#snippet content()}
 	<div class="flex flex-1 flex-col gap-4">
 		{#await papers}
-			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-50"></div>
-			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-50"></div>
-			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-50"></div>
+			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
+			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
+			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
 		{:then papers}
 			{#each papers as paper (paper.paper.doi)}
 				{@render paperOverview(paper)}

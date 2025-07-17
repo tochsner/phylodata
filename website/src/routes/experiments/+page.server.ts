@@ -4,6 +4,18 @@ import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 
 export const load: PageServerLoad = async () => ({
+	possibleSamples: supabase
+		.from('distinctSampleNames')
+		.select('name')
+		.order('name')
+		.then(({ data }) => data?.map((entry) => entry.name) || []),
+
+	possibleEvolutionaryModels: supabase
+		.from('distinctEvolutionaryModelNames')
+		.select('name')
+		.order('name')
+		.then(({ data }) => data?.map((entry) => entry.name) || []),
+
 	papers: supabase
 		.from('papers')
 		.select(
