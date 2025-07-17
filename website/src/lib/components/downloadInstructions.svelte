@@ -68,7 +68,10 @@
 </script>
 
 {#if experimentsToDownload}
-	<div class="fixed inset-0 z-10 flex items-center justify-center bg-black/50" transition:fade>
+	<div
+		class="fixed inset-0 z-10 flex items-center justify-center bg-black/50"
+		transition:fade={{ duration: 100 }}
+	>
 		<dialog
 			open
 			class="relative flex max-h-4/5 max-w-4/5 overflow-y-scroll rounded-2xl bg-white shadow-xl"
