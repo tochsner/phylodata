@@ -4,9 +4,9 @@
 	import Checkbox from '$lib/components/checkbox.svelte';
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
-	import { formatNumber } from '$lib/utils/formatter';
 	import { type PaperWithExperiments } from '$lib/types';
 	import type { PageProps } from './$types';
+	import ComboBox from '$lib/components/comboBox.svelte';
 
 	let { data }: PageProps = $props();
 	let { papers } = data;
@@ -42,17 +42,14 @@
 	</div>
 </Header>
 
-<div class="flex items-stretch gap-8 p-8">
+<div class="flex items-stretch gap-12 p-8">
 	{@render filters()}
-
-	<div class="bg-accent-light w-[2px] self-stretch"></div>
-
 	{@render content()}
 </div>
 
 {#snippet filters()}
 	<form
-		class="flex flex-col gap-8"
+		class="flex w-56 flex-col gap-8 text-sm"
 		method="POST"
 		action="?/filter"
 		use:enhance={() =>
@@ -61,42 +58,72 @@
 	>
 		{@render filesFilter()}
 		{@render samplesFilter()}
+		{@render treesFilter()}
+		{@render evolutionaryModelFilter()}
 	</form>
 {/snippet}
 
 {#snippet filesFilter()}
 	<div class="flex flex-col gap-2">
-		<span class="font-semibold">Files</span>
-		<span class="italic">Experiment has...</span>
-
-		<Checkbox name="MCMC posterior trees" value="MCMC posterior trees" submitOnChange>
+		<span class="text-base font-semibold">Files</span>
+		<Checkbox name="fileType" value="beast2PosteriorTrees" submitOnChange>
 			MCMC posterior trees
 		</Checkbox>
-		<Checkbox name="Summary tree" value="Summary tree" submitOnChange>Summary tree</Checkbox>
-		<Checkbox name="BEAST2 configuration files" value="BEAST2 configuration files" submitOnChange>
-			BEAST2 configuration files
-		</Checkbox>
-		<Checkbox name="BEAST2 log files" value="BEAST2 log files" submitOnChange
-			>BEAST2 log files</Checkbox
-		>
-		<Checkbox name="CodePhy model" value="CodePhy model" submitOnChange>CodePhy model</Checkbox>
+		<Checkbox name="fileType" value="summaryTree" submitOnChange>Summary trees</Checkbox>
+		<Checkbox name="fileType" value="beast2Configuration" submitOnChange>BEAST2 XMLs</Checkbox>
+		<Checkbox name="fileType" value="beast2PosteriorLogs" submitOnChange>BEAST2 log files</Checkbox>
+		<Checkbox name="fileType" value="codephyModel" submitOnChange>CodePhy models</Checkbox>
 	</div>
 {/snippet}
 
 {#snippet samplesFilter()}
 	<div class="flex flex-col gap-2">
-		<span class="font-semibold">Samples</span>
-		<span class="italic">Samples correspond to...</span>
+		<span class="text-base font-semibold">Samples</span>
 
-		<Checkbox name="MCMC posterior trees" value="MCMC posterior trees" submitOnChange>
-			Species
-		</Checkbox>
-		<Checkbox name="Summary tree" value="Summary tree" submitOnChange>Genes</Checkbox>
-		<Checkbox name="BEAST2 configuration files" value="BEAST2 configuration files" submitOnChange>
-			Cell lineages
-		</Checkbox>
-		<Checkbox name="BEAST2 log files" value="BEAST2 log files" submitOnChange>Languages</Checkbox>
-		<Checkbox name="CodePhy model" value="CodePhy model" submitOnChange>Others</Checkbox>
+		<Checkbox name="sampleType" value="species" submitOnChange>Species</Checkbox>
+		<Checkbox name="sampleType" value="cells" submitOnChange>Cells</Checkbox>
+		<Checkbox name="sampleType" value="language" submitOnChange>Languages</Checkbox>
+		<Checkbox name="sampleType" value="unknown" submitOnChange>Others</Checkbox>
+
+		<div></div>
+
+		<ComboBox
+			name="samples"
+			possibleValues={[
+				{ value: 'Penguins', label: 'Penguins' },
+				{ value: 'Animals', label: 'Animals' },
+				{ value: 'Eucariotes', label: 'Eucariotes' },
+				{ value: 'Virus', label: 'Virus' }
+			]}
+			submitOnChange
+			placeholder="Search for samples..."
+		/>
+	</div>
+{/snippet}
+
+{#snippet treesFilter()}
+	<div class="flex flex-col gap-2">
+		<span class="text-base font-semibold">Trees</span>
+
+		<Checkbox name="treesType" value="ultrametric" submitOnChange>Ultrametric</Checkbox>
+	</div>
+{/snippet}
+
+{#snippet evolutionaryModelFilter()}
+	<div class="flex flex-col gap-2">
+		<span class="text-base font-semibold">Evolutionary Model</span>
+
+		<ComboBox
+			name="samples"
+			possibleValues={[
+				{ value: 'Penguins', label: 'Penguins' },
+				{ value: 'Animals', label: 'Animals' },
+				{ value: 'Eucariotes', label: 'Eucariotes' },
+				{ value: 'Virus', label: 'Virus' }
+			]}
+			placeholder="Search for models..."
+			submitOnChange
+		/>
 	</div>
 {/snippet}
 
@@ -140,19 +167,8 @@
 				{paper.experiments.length}
 			</Tag>
 
-			<Tag label="Total Size">
-				{formatNumber(
-					Math.round(
-						paper.experiments.reduce(
-							(acc, exp) => acc + exp.files.reduce((acc, file) => acc + file.sizeBytes, 0),
-							0
-						) / 1024
-					)
-				)} KB
-			</Tag>
-
 			{#each treeTypes as treeType}
-				<Tag label="Tree Type">
+				<Tag label="Sample Type">
 					{treeType}
 				</Tag>
 			{/each}

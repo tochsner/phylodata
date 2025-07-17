@@ -44,7 +44,10 @@ export const load: PageServerLoad = async () => ({
 });
 
 export const actions = {
-	filter: async () => {
+	filter: async ({ request }) => {
+		const data = await request.formData();
+		console.log(data.getAll('samples'));
+
 		return 200;
 	}
 } satisfies Actions;

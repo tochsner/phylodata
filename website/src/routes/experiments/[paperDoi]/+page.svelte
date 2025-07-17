@@ -31,7 +31,7 @@
 </div>
 
 {#snippet sidebar()}
-	<div class="flex w-2/5 max-w-[300px] flex-col gap-8">
+	<div class="flex w-2/5 max-w-[300px] min-w-56 flex-col gap-8">
 		<div class="flex flex-col gap-3">
 			<button
 				class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold text-white hover:opacity-70"

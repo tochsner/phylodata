@@ -1,8 +1,7 @@
 - Add filters to search
+- Think about model view
 
 - Add python library documentation
-
-- Think about model view
 
 - Upload some datasets
 
@@ -11,3 +10,5 @@
 - Add CCD0 summary tree
 - Add simple tree ESS
 - Add more BEAST2 libraries
+
+- Author email
