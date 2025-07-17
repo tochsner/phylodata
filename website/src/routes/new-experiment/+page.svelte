@@ -49,7 +49,7 @@
 <Header><h2 class="text-dark text-2xl font-bold">Add experiment</h2></Header>
 
 <div class="container mx-auto max-w-4xl px-4 py-8">
-	<div class="mb-8 rounded-xl bg-white p-6 shadow-md">
+	<div class="mb-8 rounded-2xl bg-white p-6 shadow-lg shadow-gray-400/5">
 		<div class="mb-8 flex">
 			<div class="flex-1">
 				<div class="relative">

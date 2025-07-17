@@ -45,7 +45,7 @@
 		</div>
 	</div>
 
-	<div class="bg-accent/20 h-[1px] w-full"></div>
+	<div class="bg-accent/10 h-[1px] w-full"></div>
 
 	<div class="px-8 py-6">
 		{@render children()}

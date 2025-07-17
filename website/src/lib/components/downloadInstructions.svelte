@@ -79,7 +79,7 @@
 			<button
 				onclick={() => (experimentsToDownload = undefined)}
 				aria-label="Close dialog"
-				class="absolute top-0 right-0 cursor-pointer p-2 hover:opacity-60"
+				class="absolute top-0 right-0 cursor-pointer p-2 opacity-80 hover:opacity-40"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"

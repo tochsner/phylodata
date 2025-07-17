@@ -1,4 +1,3 @@
-- Add download instructions
 - Add filters to search
 
 - Add python library documentation
