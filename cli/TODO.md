@@ -1,11 +1,14 @@
-- Upload some datasets
+- Add download instructions
 - Add filters to search
 
-- Upload folder, not zip
-- Think about download
-- Implement download endpoint
-- Add downlaod to python library
+- Add python library documentation
+
+- Think about model view
+
+- Upload some datasets
+
 - Write Java library
 
 - Add CCD0 summary tree
 - Add simple tree ESS
+- Add more BEAST2 libraries

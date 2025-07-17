@@ -1,6 +1,6 @@
 <script lang="ts">
-	let { children, name, value, submitOnChange = false } = $props();
-	let key = $derived(`${name}_${value}`);
+	let { children, name, checked = $bindable(), submitOnChange = false } = $props();
+	let key = $derived(`${name}_${checked}`);
 
 	let input = $state<HTMLInputElement>();
 
@@ -15,7 +15,7 @@
 	<input
 		type="checkbox"
 		id={key}
-		{value}
+		bind:checked
 		{name}
 		class="border-accent peer size-6 cursor-pointer appearance-none rounded-md border-1 bg-white"
 		{onchange}

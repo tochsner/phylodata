@@ -27,6 +27,7 @@ def load_experiments(
     experiments_to_load: list[ExperimentToLoad | str],
     directory: Optional[str | Path] = None,
     download_only_preview: Optional[bool] = None,
+    files_to_download: Optional[list[FileType]] = None,
     force_download: bool = False,
 ) -> list[PaperWithExperiment]:
     """Loads multiple PhyloData experiments.
@@ -41,6 +42,8 @@ def load_experiments(
             Whether to only download preview files. This is useful for testing environments.
             This can also be controlled by setting the environment variable
             PHYLODATA_DOWNLOAD_ONLY_PREVIEW to true or false. Defaults to False.
+        files_to_download:
+                Optional list to restrict the FileTypes downloaded. Defaults to all.
         force_download:
             Whether to re-download files even if they exist locally. Defaults to False.
 
@@ -58,6 +61,7 @@ def load_experiments(
             directory=directory,
             version=experiment_to_load.version,
             download_only_preview=download_only_preview,
+            files_to_download=files_to_download,    # type: ignore
             force_download=force_download,
         )
         experiments.append(experiment)

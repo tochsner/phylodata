@@ -11,6 +11,7 @@
 	import { uploadToWasabi } from '$lib/storage/wasabiClient';
 	import toast from 'svelte-5-french-toast';
 	import Paper from './paper.svelte';
+	import Code from '$lib/components/code.svelte';
 
 	let currentStep = $state(1);
 	let files: File[] = $state([]);
@@ -119,36 +120,9 @@
 					Install the PhyloData library which will help you process your experiment files.
 				</p>
 
-				<div class="mb-4 rounded-md bg-gray-50 p-4">
-					<div class="flex items-center justify-between">
-						<code class="font-mono text-sm">pip install phylodata</code>
-						<button
-							class="cursor-pointer p-1 text-gray-500 hover:text-gray-700"
-							onclick={() => {
-								navigator.clipboard.writeText('pip install phylodata');
-								toast.success('Copied to clipboard.');
-							}}
-							aria-label="Copy command to clipboard"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="h-5 w-5"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
-								/>
-							</svg>
-						</button>
-					</div>
-				</div>
+				<Code code="pip install phylodata" />
 
-				<p class="mb-6 text-sm text-gray-600">Make sure you have Python 3.10 or newer installed.</p>
+				<p class="my-6 text-sm text-gray-600">Make sure you have Python 3.10 or newer installed.</p>
 
 				<button
 					class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
@@ -164,36 +138,9 @@
 					Navigate to the directory with your experiment files and run the following command:
 				</p>
 
-				<div class="mb-4 rounded-md bg-gray-50 p-4">
-					<div class="flex items-center justify-between">
-						<code class="font-mono text-sm">phylodata process</code>
-						<button
-							class="cursor-pointer p-1 text-gray-500 hover:text-gray-700"
-							onclick={() => {
-								navigator.clipboard.writeText('phylodata process');
-								toast.success('Copied to clipboard.');
-							}}
-							aria-label="Copy command to clipboard"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="h-5 w-5"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
-								/>
-							</svg>
-						</button>
-					</div>
-				</div>
+				<Code code="phylodata process" />
 
-				<p class="mb-6">
+				<p class="my-6">
 					The tool will guide you through the process and create a new folder with all necessary
 					files including a JSON metadata file.
 				</p>
