@@ -2,7 +2,7 @@ CREATE TABLE "papers" (
     "doi" VARCHAR(255) PRIMARY KEY,
     "title" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
-    "authors" TEXT[], -- PostgreSQL array type for string array
+    "authors" TEXT[],
     "abstract" TEXT NOT NULL,
     "bibtex" TEXT NOT NULL,
     "url" TEXT
@@ -19,7 +19,7 @@ CREATE TABLE "experiments" (
     "uploadDate" TIMESTAMP NOT NULL,
     "license" TEXT,
     "paperDoi" VARCHAR(255),
-    FOREIGN KEY ("paperDoi") REFERENCES "papers"("doi")
+    FOREIGN KEY ("paperDoi") REFERENCES "papers"("doi") ON DELETE CASCADE
 );
 
 CREATE TABLE "files" (
@@ -38,7 +38,7 @@ CREATE TABLE "files" (
     "md5" VARCHAR(32) NOT NULL,
     "isPreview" BOOLEAN DEFAULT FALSE,
     "experimentId" INTEGER,
-    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id")
+    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE "samples" (
@@ -48,7 +48,7 @@ CREATE TABLE "samples" (
     "type" VARCHAR(50) NOT NULL CHECK ("type" IN ('species', 'cells', 'language', 'unknown')),
     "commonName" TEXT,
     "experimentId" INTEGER,
-    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id")
+    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE "sampleData" (
@@ -62,9 +62,9 @@ CREATE TABLE "sampleData" (
         'unknown'
     )),
     "length" INTEGER NOT NULL,
-    "sampleData" TEXT NOT NULL,
+    "data" TEXT NOT NULL,
     "sampleId" INTEGER,
-    FOREIGN KEY ("sampleId") REFERENCES "samples"("id")
+    FOREIGN KEY ("sampleId") REFERENCES "samples"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE "classifications" (
@@ -74,7 +74,7 @@ CREATE TABLE "classifications" (
     "idType" VARCHAR(50) NOT NULL CHECK ("idType" IN ('ncibTaxonomyId', 'glottologId')),
     "commonName" TEXT,
     "sampleId" INTEGER,
-    FOREIGN KEY ("sampleId") REFERENCES "samples"("id")
+    FOREIGN KEY ("sampleId") REFERENCES "samples"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE "trees" (
@@ -91,7 +91,7 @@ CREATE TABLE "trees" (
     "leafToSampleMap" JSONB NOT NULL, -- JSON for Record<string, string>
     "averageRootAge" DECIMAL NOT NULL,
     "experimentId" INTEGER,
-    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id")
+    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE "evolutionaryModels" (
@@ -108,12 +108,12 @@ CREATE TABLE "evolutionaryModels" (
     "documentationUrl" TEXT NOT NULL,
     "parameters" JSONB NOT NULL, -- JSON for Record<string, any>
         "experimentId" INTEGER,
-    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id")
+    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE "metadata" (
     "id" SERIAL PRIMARY KEY,
     "evoDataPipelineVersion" VARCHAR(255) NOT NULL,
     "experimentId" INTEGER,
-    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id")
+    FOREIGN KEY ("experimentId") REFERENCES "experiments"("id") ON DELETE CASCADE
 );
