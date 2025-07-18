@@ -53,7 +53,7 @@
 		<div class="mb-8 flex">
 			<div class="flex-1">
 				<div class="relative">
-					<div class="-mx-full absolute top-5 right-0 left-0 h-[2px] bg-gray-200">
+					<div class="-mx-full absolute left-0 right-0 top-5 h-[2px] bg-gray-200">
 						<div
 							class={`bg-accent h-full ${currentStep >= 1 ? 'w-full' : 'w-0'} transition-all duration-500`}
 						></div>
@@ -68,7 +68,7 @@
 			</div>
 			<div class="flex-1">
 				<div class="relative">
-					<div class="-mx-full absolute top-5 right-0 left-0 h-[2px] bg-gray-200">
+					<div class="-mx-full absolute left-0 right-0 top-5 h-[2px] bg-gray-200">
 						<div
 							class={`bg-accent h-full ${currentStep >= 2 ? 'w-full' : 'w-0'} transition-all duration-500`}
 						></div>
@@ -83,7 +83,7 @@
 			</div>
 			<div class="flex-1">
 				<div class="relative">
-					<div class="-mx-full absolute top-5 right-0 left-0 h-[2px] bg-gray-200">
+					<div class="-mx-full absolute left-0 right-0 top-5 h-[2px] bg-gray-200">
 						<div
 							class={`bg-accent h-full ${currentStep >= 3 ? 'w-full' : 'w-0'} transition-all duration-500`}
 						></div>
@@ -98,7 +98,7 @@
 			</div>
 			<div class="flex-1">
 				<div class="relative">
-					<div class="-mx-full absolute top-5 right-0 left-0 h-[2px] bg-gray-200">
+					<div class="-mx-full absolute left-0 right-0 top-5 h-[2px] bg-gray-200">
 						<div
 							class={`bg-accent h-full ${currentStep >= 4 ? 'w-full' : 'w-0'} transition-all duration-500`}
 						></div>
@@ -120,7 +120,7 @@
 					Install the PhyloData library which will help you process your experiment files.
 				</p>
 
-				<Code code="pip install phylodata" />
+				<Code code="pip install phylodata --upgrade" />
 
 				<p class="my-6 text-sm text-gray-600">Make sure you have Python 3.10 or newer installed.</p>
 
