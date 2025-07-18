@@ -1,4 +1,8 @@
 - Add filters to search
+
+- Ask for mail
+- Fix file type names
+
 - Think about model view
 
 - Set up proper migrations

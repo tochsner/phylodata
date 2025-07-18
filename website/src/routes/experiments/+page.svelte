@@ -11,6 +11,14 @@
 
 	let { data }: PageProps = $props();
 	let { papers, possibleSamples, possibleEvolutionaryModels } = data;
+
+	let filteredPapers = $state<Awaited<typeof papers>>([]);
+
+	$effect.pre(() => {
+		papers.then((papers) => {
+			filteredPapers = papers;
+		});
+	});
 </script>
 
 <Header>
@@ -28,8 +36,14 @@
 		method="POST"
 		action="?/filter"
 		use:enhance={() =>
-			async ({ update }) =>
-				await update({ reset: false })}
+			async ({ update, result }) => {
+				if (result.type === 'success' && result.data) {
+					// @ts-ignore
+					filteredPapers = result.data;
+				}
+
+				return await update({ reset: false });
+			}}
 	>
 		{@render filesFilter()}
 		{@render samplesFilter()}
@@ -48,6 +62,7 @@
 		<Checkbox name="fileType" value="beast2Configuration" submitOnChange>BEAST2 XMLs</Checkbox>
 		<Checkbox name="fileType" value="beast2PosteriorLogs" submitOnChange>BEAST2 log files</Checkbox>
 		<Checkbox name="fileType" value="codephyModel" submitOnChange>CodePhy models</Checkbox>
+		<Checkbox name="fileType" value="unknown" submitOnChange>Others</Checkbox>
 	</div>
 {/snippet}
 
@@ -82,7 +97,10 @@
 	<div class="flex flex-col gap-2">
 		<span class="text-base font-semibold">Trees</span>
 
+		<Checkbox name="treesType" value="rooted" submitOnChange>Rooted</Checkbox>
+		<Checkbox name="treesType" value="unrooted" submitOnChange>Unrooted</Checkbox>
 		<Checkbox name="treesType" value="ultrametric" submitOnChange>Ultrametric</Checkbox>
+		<Checkbox name="treesType" value="nonUltrametric" submitOnChange>Not ultrametric</Checkbox>
 	</div>
 {/snippet}
 
@@ -112,8 +130,8 @@
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
-		{:then papers}
-			{#each papers as paper (paper.paper.doi)}
+		{:then}
+			{#each filteredPapers as paper (paper.paper.doi)}
 				{@render paperOverview(paper)}
 			{/each}
 		{/await}

@@ -1,4 +1,5 @@
 import { supabase } from '$lib/db/supabase';
+import { transformJoinedDataToPaperWithExperiment } from '$lib/db/transform';
 import type { PaperWithExperiments } from '$lib/types';
 import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
@@ -45,11 +46,7 @@ export const load: PageServerLoad = async () => ({
 				throw new Error('No experiment found');
 			}
 
-			const transformedData = data.map((d) => ({
-				paper: d,
-				experiments: d.experiments
-			}));
-			transformedData.forEach((d) => delete d.paper.experiments);
+			const transformedData = data.map(transformJoinedDataToPaperWithExperiment);
 
 			return transformedData as PaperWithExperiments[];
 		})
@@ -65,6 +62,54 @@ export const actions = {
 		const treesTypes = data.getAll('treesType') as string[];
 		const evolutionaryModels = data.getAll('evolutionaryModel') as string[];
 
-		return 200;
+		let query = supabase.from('papers').select(
+			`
+			*,
+			experiments!experiments_paperDoi_fkey!inner (
+				*,
+				files!inner (*),
+				trees!inner (*),
+				evolutionaryModels!inner (*),
+				metadata (*),
+				samples!inner (
+					*,
+					classification:classifications!inner (*),
+					sampleData!inner (*)
+				)
+			)`
+		);
+
+		if (fileTypes.length > 0) {
+			query = query.in('experiments.files.type', fileTypes);
+		}
+		if (sampleTypes.length > 0) {
+			query = query.in('experiments.samples.type', sampleTypes);
+		}
+		if (samples.length > 0) {
+			query = query.or(
+				`scientificName.in.(${samples.join(',')}),commonName.in.(${samples.join(',')})`,
+				{ referencedTable: 'experiments.samples.classification' }
+			);
+		}
+		if (treesTypes.includes('rooted')) {
+			query = query.eq('experiments.trees.rooted', true);
+		}
+		if (treesTypes.includes('unrooted')) {
+			query = query.eq('experiments.trees.rooted', false);
+		}
+		if (treesTypes.includes('ultrametric')) {
+			query = query.eq('experiments.trees.ultrametric', true);
+		}
+		if (treesTypes.includes('nonUltrametric')) {
+			query = query.eq('experiments.trees.ultrametric', false);
+		}
+		if (evolutionaryModels.length > 0) {
+			query = query.in('experiments.evolutionaryModels.name', evolutionaryModels);
+		}
+
+		const papers = await query;
+		return (
+			papers?.data?.map(transformJoinedDataToPaperWithExperiment) || ([] as PaperWithExperiments[])
+		);
 	}
 } satisfies Actions;
