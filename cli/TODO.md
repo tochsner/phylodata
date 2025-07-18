@@ -1,5 +1,3 @@
-- Add filters to search
-
 - Ask for mail
 - Fix file type names
 
