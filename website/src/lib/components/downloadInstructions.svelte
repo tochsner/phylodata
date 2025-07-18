@@ -105,11 +105,10 @@
 
 				<div class="flex flex-col gap-2">
 					<Checkbox name="only_specific_types" bind:checked={downloadSpecificTypes}>
-						Only download specific data types
+						Only download specific files
 					</Checkbox>
 					<span class="ml-8 text-sm opacity-70">
-						Check this if you only need certain file types (e.g. the BEAST2 configuration files).
-						This reduces the amount of storage needed.
+						Check this if you only need certain file types.
 					</span>
 
 					{#if downloadSpecificTypes}
@@ -129,12 +128,11 @@
 
 				<div class="flex flex-col gap-2">
 					<Checkbox name="download_previews" bind:checked={downloadPreview}>
-						Only download previews of large files
+						Only download previews
 					</Checkbox>
 					<span class="ml-8 text-sm opacity-70">
-						Check this if you want to download smaller preview versions of posterior tree and log
-						files. This is useful to test your code locally without having to deal with large
-						datasets.
+						Check this if you want to download subsampled versions of posterior tree and log files.
+						This is useful to test your code locally without having to deal with large datasets.
 					</span>
 				</div>
 			</div>
