@@ -28,7 +28,7 @@
 	<h2 class="text-dark flex-1 text-2xl font-bold">Experiments</h2>
 </Header>
 
-<div class="flex items-stretch gap-12 p-8">
+<div class="flex items-stretch gap-8 p-8">
 	{@render filters()}
 	{@render content()}
 </div>
