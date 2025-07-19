@@ -1,10 +1,7 @@
-- Stream experiment
 - Ask for mail
 - Fix file type names
 - Make slightly more responsive
-- Use experiments buttons pointer
 - File icon alignment
-- Header nav pointer
 
 - Think about model view
 

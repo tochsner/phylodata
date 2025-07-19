@@ -14,8 +14,8 @@
 
 			<!-- Navigation -->
 			<nav class="flex space-x-8">
-				<a href="/experiments" class="font-semibold hover:opacity-70">Experiments</a>
-				<a href="/models" class="font-semibold hover:opacity-70">Models</a>
+				<a href="/experiments" class="cursor-pointer font-semibold hover:opacity-70">Experiments</a>
+				<a href="/models" class="cursor-pointer font-semibold hover:opacity-70">Models</a>
 			</nav>
 		</div>
 
