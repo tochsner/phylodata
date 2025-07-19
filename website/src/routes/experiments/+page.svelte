@@ -73,8 +73,8 @@
 			<span class="text-base">Use experiments</span>
 		</button>
 
-		{@render filesFilter()}
 		{@render samplesFilter()}
+		{@render filesFilter()}
 		{@render treesFilter()}
 		{@render evolutionaryModelFilter()}
 	</form>
