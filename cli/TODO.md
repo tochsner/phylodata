@@ -1,7 +1,7 @@
+- Add leaf number filter
 - Ask for mail
 - Fix file type names
 - Make slightly more responsive
-- File icon alignment
 
 - Think about model view
 
