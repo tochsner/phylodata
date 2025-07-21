@@ -12,5 +12,5 @@
 	{#if label}
 		<span class="uppercase">{label}</span>
 	{/if}
-	<span class=" font-bold">{@render children()}</span>
+	<span class="flex items-center gap-1 font-bold">{@render children()}</span>
 </div>

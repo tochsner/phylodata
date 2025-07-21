@@ -6,7 +6,7 @@
 	import { page } from '$app/state';
 	import Tag from '$lib/components/tag.svelte';
 	import { titleCase } from '$lib/utils/titleCase';
-	import { getMainClassifications } from '$lib/classifications';
+	import SampleTypeIcon from '../sampleTypeIcon.svelte';
 
 	const modelName = page.params.model;
 	const model = NAME_TO_MODEL[modelName];
@@ -90,7 +90,7 @@
 
 		<div class="flex flex-wrap gap-2">
 			{#each model.sampleTypes as type}
-				<Tag>{titleCase(type)}</Tag>
+				<Tag><SampleTypeIcon {type} classes="text-accent size-5 -ml-1" /> {titleCase(type)}</Tag>
 			{/each}
 		</div>
 
