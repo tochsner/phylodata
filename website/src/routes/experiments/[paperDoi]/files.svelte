@@ -34,7 +34,6 @@
 		<table>
 			<thead>
 				<tr>
-					<th></th>
 					<ThSort {table} field="type">Type</ThSort>
 					<ThSort {table} field="name">Name</ThSort>
 					{#if !minimal}
@@ -47,39 +46,39 @@
 				{#each table.rows as row (row.md5)}
 					<tr>
 						<td>
-							{#if row.type === 'beast2Configuration'}
-								<BeastXmlIcon classes="text-accent size-5" />
-							{:else if row.type === 'codephyModel' || row.type === 'phyloDataExperiment'}
-								<MetadataIcon classes="text-accent size-5" />
-							{:else if row.type === 'beast2PosteriorLogs'}
-								<LogsIcon classes="text-accent size-5" />
-							{:else if row.type === 'beast2PosteriorTrees' || row.type === 'summaryTree'}
-								<TreesIcon classes="text-accent size-5" />
-							{:else}
-								<FileIcon classes="text-accent size-5" />
-							{/if}
-						</td>
+							<div class="flex gap-4 font-semibold">
+								{#if row.type === 'beast2Configuration'}
+									<BeastXmlIcon classes="text-accent size-5" />
+								{:else if row.type === 'codephyModel' || row.type === 'phyloDataExperiment'}
+									<MetadataIcon classes="text-accent size-5" />
+								{:else if row.type === 'beast2PosteriorLogs'}
+									<LogsIcon classes="text-accent size-5" />
+								{:else if row.type === 'beast2PosteriorTrees' || row.type === 'summaryTree'}
+									<TreesIcon classes="text-accent size-5" />
+								{:else}
+									<FileIcon classes="text-accent size-5" />
+								{/if}
 
-						<td class="font-semibold">
-							{#if row.type === 'beast2Configuration'}
-								Beast 2 XML Configuration
-							{:else if row.type === 'beast2PosteriorLogs'}
-								Beast 2 Posterior Logs
-							{:else if row.type === 'beast2PosteriorTrees'}
-								Beast 2 Posterior Trees
-							{:else if row.type === 'codephyModel'}
-								Codephy Model
-							{:else if row.type === 'summaryTree'}
-								Summary Tree
-							{:else if row.type === 'phyloDataExperiment'}
-								PhyloData Experiment
-							{:else}
-								Other
-							{/if}
+								{#if row.type === 'beast2Configuration'}
+									Beast 2 XML Configuration
+								{:else if row.type === 'beast2PosteriorLogs'}
+									Beast 2 Posterior Logs
+								{:else if row.type === 'beast2PosteriorTrees'}
+									Beast 2 Posterior Trees
+								{:else if row.type === 'codephyModel'}
+									Codephy Model
+								{:else if row.type === 'summaryTree'}
+									Summary Tree
+								{:else if row.type === 'phyloDataExperiment'}
+									PhyloData Experiment
+								{:else}
+									Other
+								{/if}
 
-							{#if row.isPreview}
-								(Preview)
-							{/if}
+								{#if row.isPreview}
+									(Preview)
+								{/if}
+							</div>
 						</td>
 						<td>{row.name}</td>
 
