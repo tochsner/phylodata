@@ -86,7 +86,7 @@
 		</div>
 
 		<div class="flex max-w-1/3 flex-col items-stretch rounded-xl bg-white/60">
-			<span class="w-full rounded-xl bg-white p-2 text-center font-bold">Sample Type</span>
+			<span class="w-full rounded-xl bg-white p-2 text-center font-bold">Data Type</span>
 
 			<div class="grid grid-cols-1 gap-2 p-4 md:grid-cols-2">
 				{#each dataTypes as type}
