@@ -10,6 +10,7 @@
 	import Trees from './trees.svelte';
 	import toast from 'svelte-5-french-toast';
 	import DownloadInstructions from '$lib/components/downloadInstructions.svelte';
+	import ClipboardIcon from '$lib/icons/clipboardIcon.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -34,7 +35,7 @@
 	<div class="flex w-2/5 max-w-[300px] min-w-56 flex-col gap-8">
 		<div class="flex flex-col gap-3">
 			<button
-				class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold text-white hover:opacity-70"
+				class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
 				onclick={() =>
 					(experimentsToDownload = data.experiments.map((exp) => [
 						exp.experiment.humanReadableId,
@@ -60,26 +61,13 @@
 			</button>
 
 			<button
-				class="border-accent text-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold hover:opacity-70"
+				class="border-accent text-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold duration-100 hover:scale-[102%] hover:opacity-80"
 				onclick={() => {
 					navigator.clipboard.writeText(data.paper.bibtex);
 					toast.success('Copied bibtex entry to clipboard');
 				}}
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="size-6"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
-					/>
-				</svg>
+				<ClipboardIcon classes="size-6" />
 
 				<span>Copy citation</span>
 			</button>
@@ -163,7 +151,7 @@
 {#snippet experimentOverview(experiment: Experiment)}
 	<div class="flex flex-wrap items-center gap-2 p-4">
 		<button
-			class="border-accent text-accent mr-4 flex cursor-pointer items-center space-x-1 rounded-md border px-3 py-1 font-semibold hover:opacity-70"
+			class="border-accent text-accent mr-4 flex cursor-pointer items-center space-x-1 rounded-md border px-3 py-1 font-semibold duration-100 hover:scale-[102%] hover:opacity-80"
 			onclick={() => (experimentsToDownload = [[experiment.humanReadableId, experiment.version]])}
 		>
 			<svg

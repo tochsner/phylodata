@@ -49,7 +49,7 @@
 			}}
 	>
 		<button
-			class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold text-white hover:opacity-70"
+			class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
 			onclick={() =>
 				(experimentsToDownload = filteredPapers
 					.flatMap((paper) => paper.experiments)
@@ -177,7 +177,7 @@
 	)}
 
 	<a
-		class="flex cursor-pointer flex-col rounded-xl bg-white p-3 shadow-lg shadow-gray-400/5 hover:opacity-70"
+		class="flex cursor-pointer flex-col rounded-xl bg-white p-3 shadow-lg shadow-gray-400/5 duration-100 hover:scale-[101%]"
 		href={`/experiments/${encodeURIComponent(paper.paper.doi)}`}
 		data-sveltekit-preloadData
 	>
