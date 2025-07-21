@@ -1,4 +1,4 @@
-type Model = {
+export type Model = {
 	software: 'beast2';
 	name: string;
 	authors: string[];
