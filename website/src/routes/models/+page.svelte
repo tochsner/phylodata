@@ -11,6 +11,7 @@
 	import { titleCase } from '$lib/utils/titleCase';
 	import { fade } from 'svelte/transition';
 	import SampleTypeIcon from './sampleTypeIcon.svelte';
+	import NoContent from '$lib/components/noContent.svelte';
 
 	const sampleTypes: { value: Model['sampleTypes'][number]; label: string; color: string }[] = [
 		{ value: 'species', label: 'Species', color: '#FCD443' },
@@ -142,5 +143,7 @@
 				</div>
 			</a>
 		{/each}
+
+		<NoContent items={filteredModels}>There are no matching models.</NoContent>
 	</div>
 </div>
