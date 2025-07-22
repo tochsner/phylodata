@@ -95,7 +95,7 @@
 												href={`https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=${row.classification.at(0)?.classificationId}`}
 												target="_blank"
 											>
-												NCIB
+												NCBI
 											</a>
 										{/if}
 

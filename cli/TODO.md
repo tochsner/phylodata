@@ -1,7 +1,11 @@
 - Add leaf number filter
+- NCBI
+- Redo tree classification
+- Uneditable JSON file
 - Ask for mail
 - Fix file type names
 - Make slightly more responsive
+- Filter function python
 
 - Set up proper migrations
 
