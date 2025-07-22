@@ -9,6 +9,7 @@
 	import ComboBox from '$lib/components/comboBox.svelte';
 	import { titleCase } from '$lib/utils/titleCase';
 	import DownloadInstructions from '$lib/components/downloadInstructions.svelte';
+	import NoContent from '$lib/components/noContent.svelte';
 
 	let { data }: PageProps = $props();
 	let { papers, possibleSamples, possibleEvolutionaryModels } = data;
@@ -162,6 +163,8 @@
 			{#each filteredPapers as paper (paper.paper.doi)}
 				{@render paperOverview(paper)}
 			{/each}
+
+			<NoContent items={filteredPapers}>There are no matching experiments.</NoContent>
 		{/await}
 	</div>
 {/snippet}

@@ -3,8 +3,6 @@
 - Fix file type names
 - Make slightly more responsive
 
-- Think about model view
-
 - Set up proper migrations
 
 - Add python library documentation

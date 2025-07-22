@@ -1,5 +1,4 @@
 import { supabase } from '$lib/db/supabase';
-import { transformJoinedDataToPaperWithExperiment } from '$lib/db/transform';
 import type { PaperWithExperiments } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
@@ -9,13 +8,13 @@ export const load: PageServerLoad = async ({ params }) => ({
 		.select(
 			`
 			*,
-      experiments!experiments_paperDoi_fkey (
+      experiments!experiments_paperDoi_fkey!inner (
         *,
         evolutionaryModels!inner (*)
       )
        `
 		)
-		// .eq('experiments.evolutionaryModels.name', params.model)
+		.eq('experiments.evolutionaryModels.name', params.model)
 		.then(({ error, data }) => {
 			if (error) {
 				console.error(error);

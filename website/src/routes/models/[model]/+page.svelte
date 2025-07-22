@@ -12,6 +12,7 @@
 	import CodeIcon from '$lib/icons/codeIcon.svelte';
 	import TutorialIcon from '$lib/icons/tutorialIcon.svelte';
 	import ExampleIcon from '$lib/icons/exampleIcon.svelte';
+	import NoContent from '$lib/components/noContent.svelte';
 
 	const modelName = page.params.model;
 	const model = NAME_TO_MODEL[modelName];
@@ -62,6 +63,7 @@
 	{:then papers}
 		<div class="gap-3 rounded-xl bg-white p-5 pb-1 shadow-lg shadow-gray-400/5">
 			<h3 class="text-accent mb-2 text-xl font-bold">Experiments using {model.name}</h3>
+
 			{#each papers as paper (paper.paper.doi)}
 				<a
 					class="flex cursor-pointer flex-col py-3 hover:opacity-70"
@@ -75,6 +77,8 @@
 					<p class="text-dark text-sm">{paper.paper.authors.join('; ')}</p>
 				</a>
 			{/each}
+
+			<NoContent items={papers}>There are no experiments use {model.name}.</NoContent>
 		</div>
 	{/await}
 {/snippet}
