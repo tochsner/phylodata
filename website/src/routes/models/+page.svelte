@@ -131,6 +131,7 @@
 					{/each}
 				</div>
 				<span class="line-clamp-2 h-12 text-ellipsis text-white">{model.shortDescription}</span>
+				<div class="flex-1"></div>
 
 				<div class="-mx-5 -mb-5 flex justify-between gap-2 rounded-b-xl bg-white/50 px-5 py-2">
 					<span class="text-accent text-sm font-semibold uppercase">{model.software}</span>
