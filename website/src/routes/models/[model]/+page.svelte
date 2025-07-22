@@ -78,7 +78,7 @@
 				</a>
 			{/each}
 
-			<NoContent items={papers}>There are no experiments use {model.name}.</NoContent>
+			<NoContent items={papers}>There are no experiments using {model.name}.</NoContent>
 		</div>
 	{/await}
 {/snippet}
