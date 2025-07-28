@@ -3,21 +3,22 @@
 - Think about order of UI elements
 - Add leaf number filter
 - NCBI
-- Think about sample classification
 - Redo tree classification
 - Uneditable JSON file
 - Ask for author email
 - Fix file type names
-- Make slightly more responsive
-- Filter function python
-
-- Set up proper migrations
-
-- Add python library documentation
 
 - Upload some datasets
 
+- Add python library documentation
+
+- Think about sample classification
+- Make slightly more responsive
+
+- Set up proper migrations
+
 - Write Java library
+- Filter function python
 
 - Add CCD0 summary tree
 - Add simple tree ESS
