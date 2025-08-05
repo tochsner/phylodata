@@ -1,6 +1,5 @@
 - Make filters URL-based
 - Add leaf number filter
-- NCBI
 - Redo tree classification
 - Uneditable JSON file
 - Ask for author email

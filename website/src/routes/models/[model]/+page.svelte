@@ -18,13 +18,6 @@
 	const model = NAME_TO_MODEL[modelName];
 
 	let { data }: PageProps = $props();
-
-	let md = $state('');
-	$effect(() => {
-		import(`$lib/models/${modelName.toLowerCase()}.md?raw`).then((text) => {
-			md = text.default;
-		});
-	});
 </script>
 
 <svelte:head>
@@ -48,14 +41,14 @@
 </div>
 
 {#snippet content()}
-	{#if md}
+	{#if data.md}
 		<div
 			class="prose prose-h1:text-4xl prose-h1:text-accent prose-h2:text-xl w-full max-w-full flex-1 rounded-xl bg-white p-6 shadow-lg shadow-gray-400/5"
 		>
 			<h1>{model.name}</h1>
 			<p>{model.shortDescription}</p>
 
-			<Markdown {md} />
+			<Markdown md={data.md} />
 		</div>
 	{:else}
 		<div class="h-64 max-w-[800px] flex-1 animate-pulse rounded-xl bg-white/70"></div>

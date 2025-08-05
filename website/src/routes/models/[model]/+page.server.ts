@@ -3,6 +3,7 @@ import type { PaperWithExperiments } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => ({
+	md: await import(`$lib/models/${params.model.toLowerCase()}.md?raw`).then((text) => text.default),
 	papers: supabase
 		.from('papers')
 		.select(
