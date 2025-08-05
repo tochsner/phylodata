@@ -25,6 +25,14 @@
 	let experimentsToDownload: [string, number][] | undefined = $state();
 </script>
 
+<svelte:head>
+	<title>Experiments – PhyloData</title>
+	<meta
+		name="description"
+		content="Explore a wide range of phylogenetic experiments on PhyloData."
+	/>
+</svelte:head>
+
 <Header>
 	<h2 class="text-dark flex-1 text-2xl font-bold">Experiments</h2>
 </Header>

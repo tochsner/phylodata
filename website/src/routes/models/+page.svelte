@@ -77,6 +77,11 @@
 	);
 </script>
 
+<svelte:head>
+	<title>PhyloData Models</title>
+	<meta name="description" content="Explore a wide range of models for your phylogenetic data." />
+</svelte:head>
+
 <Header>
 	<h2 class="text-dark text-2xl font-bold">Models</h2>
 	<h3 class="text-dark text-center text-lg font-semibold">Discover models for your data:</h3>

@@ -27,6 +27,11 @@
 	});
 </script>
 
+<svelte:head>
+	<title>{model.name} – PhyloData Models</title>
+	<meta name="description" content="Explore the {model.name} model." />
+</svelte:head>
+
 <Header><a class="text-dark cursor-pointer text-2xl font-bold" href="/models">Models</a></Header>
 
 <div class="m-8 flex items-start justify-center gap-8">

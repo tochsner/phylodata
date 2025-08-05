@@ -46,6 +46,11 @@
 	}
 </script>
 
+<svelte:head>
+	<title>New Experiment – PhyloData</title>
+	<meta name="description" content="Submit your experiment to PhyloData." />
+</svelte:head>
+
 <Header><h2 class="text-dark text-2xl font-bold">Add experiment</h2></Header>
 
 <div class="container mx-auto max-w-4xl px-4 py-8">
