@@ -11,6 +11,7 @@ from phylodata.process.paper.bibtex import (
     yield_bibtex_authors,
 )
 from phylodata.process.paper.doi import is_doi
+from phylodata.process.paper.mail import is_valid_email
 
 
 class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
@@ -66,6 +67,12 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
                 """Use the URL format (like *https://doi.org/10.1093/sysbio/22.3.240*).
                 Experiments with the same paper DOI will be linked to the same paper."""
             )
+            self.email = st.text_area(
+                "E-Mail"
+            )
+            st.markdown(
+                """We need your E-Mail in order to contact you if there are any issues with the experiment."""
+            )
             self.url = st.text_input("URL (optional)")
 
     def validate(self):
@@ -79,6 +86,9 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             raise ValidationError("Specify at least one paper author.")
         if is_valid_bibtex(self.bibtext):
             st.toast("Specify exactly one bibtex entry.")
+            return
+        if is_valid_email(self.email.strip()):
+            st.toast("Specify a valid email address.")
             return
         if not is_doi(self.doi.strip()):
             st.toast("Specify a DOI (like https://doi.org/10.1000/182).")
@@ -95,4 +105,5 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             abstract=self.abstract.strip(),
             bibtex=self.bibtext.strip(),
             url=self.url.strip() or None,
+            email=self.email.strip()
         ), NonEditablePaper(doi=self.doi.strip())

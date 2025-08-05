@@ -29,7 +29,7 @@ def parse_file(
             yield from parse_beast2_config(file)
         case FileType.BEAST2_POSTERIOR_LOGS:
             yield from parse_beast2_logs(file)
-        case FileType.BEAST2_POSTERIOR_TREES:
+        case FileType.POSTERIOR_TREES:
             yield from parse_beast2_trees(file)
         case _:
             yield from parse_other_file(file)
@@ -132,7 +132,7 @@ def parse_beast2_trees(file: BytesIO) -> Generator[File, None, None]:
     yield File.from_bytes(
         file,
         name=file.name,
-        type=FileType.BEAST2_POSTERIOR_TREES,
+        type=FileType.POSTERIOR_TREES,
     )
 
     # generate preview file
@@ -161,7 +161,7 @@ def parse_beast2_trees(file: BytesIO) -> Generator[File, None, None]:
     yield File.from_bytes(
         preview_file,
         name=add_file_name_suffix(file.name, " (preview)"),
-        type=FileType.BEAST2_POSTERIOR_TREES,
+        type=FileType.POSTERIOR_TREES,
         is_preview=True,
     )
 

@@ -92,9 +92,7 @@
 {#snippet filesFilter()}
 	<div class="flex flex-col gap-2">
 		<span class="text-base font-semibold">Files</span>
-		<Checkbox name="fileType" value="beast2PosteriorTrees" submitOnChange>
-			MCMC posterior trees
-		</Checkbox>
+		<Checkbox name="fileType" value="posteriorTrees" submitOnChange>MCMC posterior trees</Checkbox>
 		<Checkbox name="fileType" value="summaryTree" submitOnChange>Summary trees</Checkbox>
 		<Checkbox name="fileType" value="beast2Configuration" submitOnChange>BEAST2 XMLs</Checkbox>
 		<Checkbox name="fileType" value="beast2PosteriorLogs" submitOnChange>BEAST2 log files</Checkbox>

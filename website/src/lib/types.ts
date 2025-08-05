@@ -17,6 +17,7 @@ export type Paper = {
 	authors: string[];
 	abstract: string;
 	bibtex: string;
+	email: string;
 	url?: string;
 };
 
@@ -25,7 +26,7 @@ export type File = {
 	type:
 		| 'beast2Configuration'
 		| 'beast2PosteriorLogs'
-		| 'beast2PosteriorTrees'
+		| 'posteriorTrees'
 		| 'summaryTree'
 		| 'codephyModel'
 		| 'phyloDataExperiment'

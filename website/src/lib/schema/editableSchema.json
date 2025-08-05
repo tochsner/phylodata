@@ -1,191 +1,238 @@
 {
-	"$ref": "#/$defs/EditablePaperWithExperiment",
-	"$defs": {
-		"EditablePaperWithExperiment": {
-			"title": "EditablePaperWithExperiment",
-			"description": "This structure contains all experiment data computed by the pipeline\n    and may be changed manually.",
-			"type": "object",
-			"properties": {
-				"paper": {
-					"$ref": "#/$defs/EditablePaper"
-				},
-				"experiment": {
-					"$ref": "#/$defs/EditableExperiment"
-				},
-				"samples": {
-					"type": "array",
-					"items": {
-						"$ref": "#/$defs/Sample"
-					}
-				}
-			},
-			"required": ["paper", "experiment", "samples"]
-		},
-		"EditablePaper": {
-			"title": "EditablePaper",
-			"type": "object",
-			"properties": {
-				"title": {
-					"type": "string"
-				},
-				"year": {
-					"type": "integer"
-				},
-				"authors": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"abstract": {
-					"type": "string"
-				},
-				"bibtex": {
-					"type": "string"
-				},
-				"url": {
-					"anyOf": [
-						{
-							"type": "string"
-						},
-						{
-							"type": "null"
-						}
-					],
-					"default": null
-				}
-			},
-			"required": ["title", "year", "authors", "abstract", "bibtex"]
-		},
-		"EditableExperiment": {
-			"title": "EditableExperiment",
-			"type": "object",
-			"properties": {
-				"type": {
-					"$ref": "#/$defs/ExperimentType"
-				},
-				"title": {
-					"anyOf": [
-						{
-							"type": "string"
-						},
-						{
-							"type": "null"
-						}
-					],
-					"default": null
-				},
-				"description": {
-					"anyOf": [
-						{
-							"type": "string"
-						},
-						{
-							"type": "null"
-						}
-					],
-					"default": null
-				}
-			},
-			"required": ["type"]
-		},
-		"ExperimentType": {
-			"title": "ExperimentType",
-			"enum": ["beast2Experiment"]
-		},
-		"Sample": {
-			"title": "Sample",
-			"type": "object",
-			"properties": {
-				"sampleId": {
-					"type": "string"
-				},
-				"scientificName": {
-					"type": "string"
-				},
-				"type": {
-					"$ref": "#/$defs/SampleType"
-				},
-				"classification": {
-					"type": "array",
-					"items": {
-						"$ref": "#/$defs/ClassificationEntry"
-					}
-				},
-				"sampleData": {
-					"type": "array",
-					"items": {
-						"$ref": "#/$defs/SampleData"
-					}
-				},
-				"commonName": {
-					"anyOf": [
-						{
-							"type": "string"
-						},
-						{
-							"type": "null"
-						}
-					],
-					"default": null
-				}
-			},
-			"required": ["sampleId", "scientificName", "type", "classification", "sampleData"]
-		},
-		"SampleType": {
-			"title": "SampleType",
-			"enum": ["cells", "language", "species", "unknown"]
-		},
-		"ClassificationEntry": {
-			"title": "ClassificationEntry",
-			"type": "object",
-			"properties": {
-				"classificationId": {
-					"type": "string"
-				},
-				"scientificName": {
-					"type": "string"
-				},
-				"idType": {
-					"$ref": "#/$defs/ClassificationEntryType"
-				},
-				"commonName": {
-					"anyOf": [
-						{
-							"type": "string"
-						},
-						{
-							"type": "null"
-						}
-					],
-					"default": null
-				}
-			},
-			"required": ["classificationId", "scientificName", "idType"]
-		},
-		"ClassificationEntryType": {
-			"title": "ClassificationEntryType",
-			"enum": ["glottologId", "ncbiTaxonomyId"]
-		},
-		"SampleData": {
-			"title": "SampleData",
-			"type": "object",
-			"properties": {
-				"type": {
-					"$ref": "#/$defs/DataType"
-				},
-				"length": {
-					"type": "integer"
-				},
-				"data": {
-					"type": "string"
-				}
-			},
-			"required": ["type", "length", "data"]
-		},
-		"DataType": {
-			"title": "DataType",
-			"enum": ["aminoAcids", "dna", "phasedDiploidDna", "rna", "traits", "unknown"]
-		}
-	}
+  "$ref": "#/$defs/EditablePaperWithExperiment",
+  "$defs": {
+    "EditablePaperWithExperiment": {
+      "title": "EditablePaperWithExperiment",
+      "description": "This structure contains all experiment data computed by the pipeline\n    and may be changed manually.",
+      "type": "object",
+      "properties": {
+        "paper": {
+          "$ref": "#/$defs/EditablePaper"
+        },
+        "experiment": {
+          "$ref": "#/$defs/EditableExperiment"
+        },
+        "samples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Sample"
+          }
+        }
+      },
+      "required": [
+        "paper",
+        "experiment",
+        "samples"
+      ]
+    },
+    "EditablePaper": {
+      "title": "EditablePaper",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer"
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "email": {
+          "type": "string"
+        },
+        "abstract": {
+          "type": "string"
+        },
+        "bibtex": {
+          "type": "string"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "title",
+        "year",
+        "authors",
+        "email",
+        "abstract",
+        "bibtex"
+      ]
+    },
+    "EditableExperiment": {
+      "title": "EditableExperiment",
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/ExperimentType"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "ExperimentType": {
+      "title": "ExperimentType",
+      "enum": [
+        "beast2Experiment"
+      ]
+    },
+    "Sample": {
+      "title": "Sample",
+      "type": "object",
+      "properties": {
+        "sampleId": {
+          "type": "string"
+        },
+        "scientificName": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/SampleType"
+        },
+        "classification": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ClassificationEntry"
+          }
+        },
+        "sampleData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SampleData"
+          }
+        },
+        "commonName": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "sampleId",
+        "scientificName",
+        "type",
+        "classification",
+        "sampleData"
+      ]
+    },
+    "SampleType": {
+      "title": "SampleType",
+      "enum": [
+        "cells",
+        "language",
+        "species",
+        "unknown"
+      ]
+    },
+    "ClassificationEntry": {
+      "title": "ClassificationEntry",
+      "type": "object",
+      "properties": {
+        "classificationId": {
+          "type": "string"
+        },
+        "scientificName": {
+          "type": "string"
+        },
+        "idType": {
+          "$ref": "#/$defs/ClassificationEntryType"
+        },
+        "commonName": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "classificationId",
+        "scientificName",
+        "idType"
+      ]
+    },
+    "ClassificationEntryType": {
+      "title": "ClassificationEntryType",
+      "enum": [
+        "glottologId",
+        "ncbiTaxonomyId"
+      ]
+    },
+    "SampleData": {
+      "title": "SampleData",
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/DataType"
+        },
+        "length": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "length",
+        "data"
+      ]
+    },
+    "DataType": {
+      "title": "DataType",
+      "enum": [
+        "aminoAcids",
+        "dna",
+        "phasedDiploidDna",
+        "rna",
+        "traits",
+        "unknown"
+      ]
+    }
+  }
 }

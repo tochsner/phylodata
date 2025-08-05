@@ -175,7 +175,7 @@ def _download_experiment(
         if (
             download_only_preview
             and file.type
-            in [FileType.BEAST2_POSTERIOR_LOGS, FileType.BEAST2_POSTERIOR_TREES]
+            in [FileType.BEAST2_POSTERIOR_LOGS, FileType.POSTERIOR_TREES]
             and not file.is_preview
         ):
             continue

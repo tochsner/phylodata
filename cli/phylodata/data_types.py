@@ -31,7 +31,7 @@ class ClassificationEntryType(Enum):
 class FileType(Enum):
     BEAST2_CONFIGURATION = "beast2Configuration"
     BEAST2_POSTERIOR_LOGS = "beast2PosteriorLogs"
-    BEAST2_POSTERIOR_TREES = "beast2PosteriorTrees"
+    POSTERIOR_TREES = "posteriorTrees"
     SUMMARY_TREE = "summaryTree"
     CODEPHY_MODEL = "codephyModel"
     PHYLO_DATA_EXPERIMENT = "phyloDataExperiment"
@@ -109,6 +109,7 @@ class EditablePaper(msgspec.Struct, rename="camel"):
     title: str
     year: int
     authors: list[str]
+    email: str
     abstract: str
     bibtex: str
     url: Optional[str] = None

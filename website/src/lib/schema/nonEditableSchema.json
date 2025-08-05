@@ -147,9 +147,9 @@
       "enum": [
         "beast2Configuration",
         "beast2PosteriorLogs",
-        "beast2PosteriorTrees",
         "codephyModel",
         "phyloDataExperiment",
+        "posteriorTrees",
         "summaryTree",
         "unknown"
       ]

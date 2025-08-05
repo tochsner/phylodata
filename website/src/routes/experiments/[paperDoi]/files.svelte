@@ -54,7 +54,7 @@
 									<MetadataIcon classes="text-accent size-5" />
 								{:else if row.type === 'beast2PosteriorLogs'}
 									<LogsIcon classes="text-accent size-5" />
-								{:else if row.type === 'beast2PosteriorTrees' || row.type === 'summaryTree'}
+								{:else if row.type === 'posteriorTrees' || row.type === 'summaryTree'}
 									<TreesIcon classes="text-accent size-5" />
 								{:else}
 									<FileIcon classes="text-accent size-5" />
@@ -64,7 +64,7 @@
 									BEAST 2 XML Configuration
 								{:else if row.type === 'beast2PosteriorLogs'}
 									BEAST 2 Posterior Logs
-								{:else if row.type === 'beast2PosteriorTrees'}
+								{:else if row.type === 'posteriorTrees'}
 									BEAST 2 Posterior Trees
 								{:else if row.type === 'codephyModel'}
 									Codephy Model
@@ -86,7 +86,7 @@
 											This file contains the BEAST 2 model specified using XML.
 										{:else if row.type === 'beast2PosteriorLogs'}
 											This file contains the BEAST 2 posterior logs.
-										{:else if row.type === 'beast2PosteriorTrees'}
+										{:else if row.type === 'posteriorTrees'}
 											This file contains the BEAST 2 posterior trees.
 										{:else if row.type === 'codephyModel'}
 											This file contains a Codephy model description.

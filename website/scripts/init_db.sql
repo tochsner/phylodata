@@ -5,6 +5,7 @@ CREATE TABLE "papers" (
     "authors" TEXT[],
     "abstract" TEXT NOT NULL,
     "bibtex" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
     "url" TEXT
 );
 
@@ -28,7 +29,7 @@ CREATE TABLE "files" (
     "type" VARCHAR(50) NOT NULL CHECK ("type" IN (
         'beast2Configuration',
         'beast2PosteriorLogs',
-        'beast2PosteriorTrees',
+        'posteriorTrees',
         'summaryTree',
         'codephyModel',
         'phyloDataExperiment',
