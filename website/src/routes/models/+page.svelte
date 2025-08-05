@@ -7,6 +7,8 @@
 	import SampleTypeIcon from './sampleTypeIcon.svelte';
 	import NoContent from '$lib/components/noContent.svelte';
 	import Info from '$lib/components/info.svelte';
+	import { page } from '$app/stores';
+	import { replaceState } from '$app/navigation';
 
 	const sampleTypes: {
 		value: Model['sampleTypes'][number];
@@ -52,8 +54,30 @@
 		{ value: 'traits', label: 'Traits' }
 	];
 
-	let selectedSampleTypes = $state<Model['sampleTypes']>([]);
-	let selectedDataTypes = $state<Model['dataTypes']>([]);
+	let selectedSampleTypes = $state<Model['sampleTypes']>(
+		JSON.parse($page.url.searchParams.get('sampleTypes') || '[]')
+	);
+	let selectedDataTypes = $state<Model['dataTypes']>(
+		JSON.parse($page.url.searchParams.get('dataTypes') || '[]')
+	);
+
+	const updateUrl = () => {
+		if (0 < selectedSampleTypes.length) {
+			$page.url.searchParams.set('sampleTypes', JSON.stringify(selectedSampleTypes));
+		} else {
+			$page.url.searchParams.delete('sampleTypes');
+		}
+
+		if (0 < selectedDataTypes.length) {
+			$page.url.searchParams.set('dataTypes', JSON.stringify(selectedDataTypes));
+		} else {
+			$page.url.searchParams.delete('dataTypes');
+		}
+
+		try {
+			replaceState($page.url, $page.state);
+		} catch {}
+	};
 
 	const filteredModels = $derived(
 		MODELS.filter((model) => {
@@ -88,7 +112,7 @@
 
 	<div class="flex justify-center gap-4 pt-4">
 		<div
-			class="flex max-w-1/3 flex-col items-stretch overflow-clip rounded-xl bg-white/60 shadow-lg shadow-gray-300/10"
+			class="flex max-w-1/2 flex-col items-stretch overflow-clip rounded-xl bg-white/60 shadow-lg shadow-gray-300/10 lg:max-w-1/3"
 		>
 			<span class="w-full rounded-b-xl bg-white p-2 text-center font-bold">Sample Type</span>
 
@@ -106,6 +130,7 @@
 							if (selectedSampleTypes.includes(type.value))
 								selectedSampleTypes = selectedSampleTypes.filter((x) => x != type.value);
 							else selectedSampleTypes = [...selectedSampleTypes, type.value];
+							updateUrl();
 						}}
 					>
 						<SampleTypeIcon
@@ -124,7 +149,7 @@
 		</div>
 
 		<div
-			class="flex max-w-1/3 flex-col items-stretch overflow-clip rounded-xl bg-white/60 shadow-lg shadow-gray-300/10"
+			class="flex max-w-1/2 flex-col items-stretch overflow-clip rounded-xl bg-white/60 shadow-lg shadow-gray-300/10 lg:max-w-1/3"
 		>
 			<span class="w-full rounded-b-xl bg-white p-2 text-center font-bold">Data Type</span>
 
@@ -142,6 +167,7 @@
 							if (selectedDataTypes.includes(type.value))
 								selectedDataTypes = selectedDataTypes.filter((x) => x != type.value);
 							else selectedDataTypes = [...selectedDataTypes, type.value];
+							updateUrl();
 						}}
 					>
 						{type.label}
