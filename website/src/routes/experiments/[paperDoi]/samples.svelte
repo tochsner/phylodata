@@ -9,6 +9,7 @@
 	import GeneIcon from '$lib/icons/geneIcon.svelte';
 	import LanguageIcon from '$lib/icons/languageIcon.svelte';
 	import FileIcon from '$lib/icons/fileIcon.svelte';
+	import Info from '$lib/components/info.svelte';
 
 	let { samples }: { samples: Sample[] } = $props();
 
@@ -53,13 +54,26 @@
 								{/if}
 
 								<div class="flex flex-1 flex-col gap-1">
-									<span class="font-semibold capitalize">
+									<span class="flex items-center font-semibold capitalize">
 										{row.scientificName}
 										{#if row.commonName && row.commonName !== row.scientificName}
 											(<span class="italic">{row.commonName}</span>)
 										{/if}
+
+										{#if 0 < row.classification.length}
+											<Info classes="text-accent size-5 ml-2">
+												<div class="flex flex-col items-center gap-1 font-normal">
+													{#each row.classification as classification}
+														<span>{classification.scientificName}</span>
+													{/each}
+												</div>
+											</Info>
+										{/if}
 									</span>
-									<span>{row.sampleId}</span>
+									<span class="flex items-center gap-1">
+										{row.sampleId}
+										<Info classes="text-dark/50 size-4">This is the BEAST2 taxon ID.</Info>
+									</span>
 								</div>
 							</div>
 						</td>

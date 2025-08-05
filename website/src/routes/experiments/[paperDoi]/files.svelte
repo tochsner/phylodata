@@ -5,11 +5,12 @@
 	import { formatNumber } from '$lib/utils/formatter';
 	import Pagination from '$lib/components/pagination.svelte';
 	import toast from 'svelte-5-french-toast';
-	import BeastXmlIcon from '$lib/icons/beastXMLIcon.svelte';
+	import BEASTXmlIcon from '$lib/icons/beastXMLIcon.svelte';
 	import MetadataIcon from '$lib/icons/metadataIcon.svelte';
 	import LogsIcon from '$lib/icons/logsIcon.svelte';
 	import TreesIcon from '$lib/icons/treesIcon.svelte';
 	import FileIcon from '$lib/icons/fileIcon.svelte';
+	import Info from '$lib/components/info.svelte';
 
 	let { files, minimal }: { files: File[]; minimal?: boolean } = $props();
 
@@ -48,7 +49,7 @@
 						<td>
 							<div class="flex gap-4 font-semibold">
 								{#if row.type === 'beast2Configuration'}
-									<BeastXmlIcon classes="text-accent size-5" />
+									<BEASTXmlIcon classes="text-accent size-5" />
 								{:else if row.type === 'codephyModel' || row.type === 'phyloDataExperiment'}
 									<MetadataIcon classes="text-accent size-5" />
 								{:else if row.type === 'beast2PosteriorLogs'}
@@ -60,11 +61,11 @@
 								{/if}
 
 								{#if row.type === 'beast2Configuration'}
-									Beast 2 XML Configuration
+									BEAST 2 XML Configuration
 								{:else if row.type === 'beast2PosteriorLogs'}
-									Beast 2 Posterior Logs
+									BEAST 2 Posterior Logs
 								{:else if row.type === 'beast2PosteriorTrees'}
-									Beast 2 Posterior Trees
+									BEAST 2 Posterior Trees
 								{:else if row.type === 'codephyModel'}
 									Codephy Model
 								{:else if row.type === 'summaryTree'}
@@ -78,6 +79,26 @@
 								{#if row.isPreview}
 									(Preview)
 								{/if}
+
+								<Info>
+									<div class="font-normal">
+										{#if row.type === 'beast2Configuration'}
+											This file contains the BEAST 2 model specified using XML.
+										{:else if row.type === 'beast2PosteriorLogs'}
+											This file contains the BEAST 2 posterior logs.
+										{:else if row.type === 'beast2PosteriorTrees'}
+											This file contains the BEAST 2 posterior trees.
+										{:else if row.type === 'codephyModel'}
+											This file contains a Codephy model description.
+										{:else if row.type === 'summaryTree'}
+											This file contains a computed summary tree.
+										{:else if row.type === 'phyloDataExperiment'}
+											This file contains the PhyloData experiment data.
+										{:else}
+											This file contains some unspecified data.
+										{/if}
+									</div>
+								</Info>
 							</div>
 						</td>
 						<td>{row.name}</td>

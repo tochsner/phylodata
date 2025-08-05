@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Info from '$lib/components/info.svelte';
 	import CellIcon from '$lib/icons/cellIcon.svelte';
 	import GeneIcon from '$lib/icons/geneIcon.svelte';
 	import LanguageIcon from '$lib/icons/languageIcon.svelte';
@@ -10,13 +11,38 @@
 </script>
 
 {#if type === 'languages'}
-	<LanguageIcon {classes} />
+	<Info>
+		{#snippet trigger()}
+			<LanguageIcon {classes} />
+		{/snippet}
+		Languages
+	</Info>
 {:else if type === 'species'}
-	<SpeciesIcon {classes} />
+	<Info>
+		{#snippet trigger()}
+			<SpeciesIcon {classes} />
+		{/snippet}
+		Species
+	</Info>
 {:else if type === 'pathogens'}
-	<PathogenIcon {classes} />
+	<Info>
+		{#snippet trigger()}
+			<PathogenIcon {classes} />
+		{/snippet}
+		Pathogens
+	</Info>
 {:else if type === 'cells'}
-	<CellIcon {classes} />
+	<Info>
+		{#snippet trigger()}
+			<CellIcon {classes} />
+		{/snippet}
+		Cells
+	</Info>
 {:else if type === 'genes'}
-	<GeneIcon {classes} />
+	<Info>
+		{#snippet trigger()}
+			<GeneIcon {classes} />
+		{/snippet}
+		Genes
+	</Info>
 {/if}

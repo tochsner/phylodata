@@ -1,24 +1,49 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
-	import CellIcon from '$lib/icons/cellIcon.svelte';
-	import GeneIcon from '$lib/icons/geneIcon.svelte';
-	import LanguageIcon from '$lib/icons/languageIcon.svelte';
-	import PathogenIcon from '$lib/icons/pathogenIcon.svelte';
-	import SpeciesIcon from '$lib/icons/speciesIcon.svelte';
 	import { MODELS, type Model } from '$lib/models/models';
-	import { getRandomColor } from '$lib/utils/randomColor';
 	import { titleCase } from '$lib/utils/titleCase';
 	import { fade } from 'svelte/transition';
 	import SampleTypeIcon from './sampleTypeIcon.svelte';
 	import NoContent from '$lib/components/noContent.svelte';
+	import Info from '$lib/components/info.svelte';
 
-	const sampleTypes: { value: Model['sampleTypes'][number]; label: string; color: string }[] = [
-		{ value: 'species', label: 'Species', color: '#FCD443' },
-		{ value: 'cells', label: 'Single cells', color: '#2FA7AB' },
-		{ value: 'pathogens', label: 'Pathogens', color: '#AB2F54' },
-		{ value: 'genes', label: 'Genes', color: '#AB2F54' },
-		{ value: 'languages', label: 'Languages', color: '#AB2F54' }
+	const sampleTypes: {
+		value: Model['sampleTypes'][number];
+		label: string;
+		color: string;
+		description: string;
+	}[] = [
+		{
+			value: 'species',
+			label: 'Species',
+			color: '#FCD443',
+			description: 'This could be extinct or extant species.'
+		},
+		{
+			value: 'cells',
+			label: 'Single cells',
+			color: '#2FA7AB',
+			description: 'This could be extinct or extant species.'
+		},
+		{
+			value: 'pathogens',
+			label: 'Pathogens',
+			color: '#AB2F54',
+			description: 'This could be extinct or extant species.'
+		},
+		{
+			value: 'genes',
+			label: 'Genes',
+			color: '#AB2F54',
+			description: 'This could be extinct or extant species.'
+		},
+		{
+			value: 'languages',
+			label: 'Languages',
+			color: '#AB2F54',
+			description: 'This could be extinct or extant species.'
+		}
 	];
 	const dataTypes: { value: Model['dataTypes'][number]; label: string }[] = [
 		{ value: 'nucleotides', label: 'Nucleotides' },
@@ -82,7 +107,12 @@
 							type={type.value}
 							classes={selected ? `size-5 text-white` : `size-5 text-accent`}
 						/>
+
 						{type.label}
+
+						<Info classes={['size-5', !selected && 'text-accent/70', selected && 'text-white']}>
+							<span class="text-sm">{type.description}</span>
+						</Info>
 					</button>
 				{/each}
 			</div>
