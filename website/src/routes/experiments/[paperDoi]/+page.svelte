@@ -148,8 +148,8 @@
 		{@render experimentOverview(experiment.experiment)}
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />
-		<Trees trees={experiment.trees} />
 		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModel} />
+		<Trees trees={experiment.trees} />
 	</div>
 {/snippet}
 

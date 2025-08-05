@@ -83,9 +83,9 @@
 		</button>
 
 		{@render samplesFilter()}
+		{@render evolutionaryModelFilter()}
 		{@render filesFilter()}
 		{@render treesFilter()}
-		{@render evolutionaryModelFilter()}
 	</form>
 {/snippet}
 

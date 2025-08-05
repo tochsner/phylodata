@@ -1,6 +1,4 @@
-- Add title tags
 - Make filters URL-based
-- Think about order of UI elements
 - Add leaf number filter
 - NCBI
 - Redo tree classification
