@@ -46,7 +46,7 @@ export type SampleData = {
 export type ClassificationEntry = {
 	classificationId: string;
 	scientificName: string;
-	idType: 'ncibTaxonomyId' | 'glottologId';
+	idType: 'ncbiTaxonomyId' | 'glottologId';
 	commonName?: string;
 };
 

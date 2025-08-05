@@ -24,7 +24,7 @@ class ExperimentType(Enum):
 
 
 class ClassificationEntryType(Enum):
-    NCBI_TAXONOMY_ID = "ncibTaxonomyId"
+    NCBI_TAXONOMY_ID = "ncbiTaxonomyId"
     GLOTTOLOG_ID = "glottologId"
 
 

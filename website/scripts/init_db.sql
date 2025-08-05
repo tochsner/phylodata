@@ -71,7 +71,7 @@ CREATE TABLE "classifications" (
     "id" SERIAL PRIMARY KEY,
     "classificationId" VARCHAR(255) NOT NULL,
     "scientificName" VARCHAR(255) NOT NULL,
-    "idType" VARCHAR(50) NOT NULL CHECK ("idType" IN ('ncibTaxonomyId', 'glottologId')),
+    "idType" VARCHAR(50) NOT NULL CHECK ("idType" IN ('ncbiTaxonomyId', 'glottologId')),
     "commonName" TEXT,
     "sampleId" INTEGER,
     FOREIGN KEY ("sampleId") REFERENCES "samples"("id") ON DELETE CASCADE
