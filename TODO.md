@@ -1,5 +1,4 @@
 - Redo tree classification
-- Uneditable JSON file
 
 - Make filters URL-based
 - Add leaf number filter
