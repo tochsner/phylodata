@@ -1,6 +1,7 @@
-from typing import Optional
-import requests
 from pathlib import Path
+from typing import Optional
+
+import requests
 
 
 def download_file(

@@ -44,7 +44,12 @@ def parse_beast2_config(file: BytesIO) -> Generator[File, None, None]:
     if root is None or root.tag.lower() != "beast":
         raise ValidationError("BEAST 2 configuration has no root BEAST tag.")
 
-    if not any(child.tag.lower() == "data" for child in root):
+    if not root.attrib.get("version", "").startswith("2."):
+        raise ValidationError("The BEAST 2 configuration file is not version 2.")
+
+    if not any(child.tag.lower() == "data" for child in root) and not any(
+        child.tag.lower() == "alignment" for child in root
+    ):
         raise ValidationError("BEAST 2 has no <data> tag.")
 
     if not any(child.tag.lower() == "run" for child in root):

@@ -1,17 +1,18 @@
-from typing import Optional
-from pathlib import Path
-import msgspec
 import os
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional
+
+import msgspec
+from tqdm import tqdm
 
 from phylodata.data_types import (
+    EditablePaperWithExperiment,
     FileType,
     NonEditablePaperWithExperiment,
     PaperWithExperiment,
 )
 from phylodata.loader.download_file import download_file
-from phylodata.data_types import EditablePaperWithExperiment
-from dataclasses import dataclass
-from tqdm import tqdm
 
 EDITABLE_METADATA_FILE = "editable_phylodata_metadata.json"
 NON_EDITABLE_METADATA_FILE = "non_editable_phylodata_metadata"
@@ -61,12 +62,13 @@ def load_experiments(
             directory=directory,
             version=experiment_to_load.version,
             download_only_preview=download_only_preview,
-            files_to_download=files_to_download,    # type: ignore
+            files_to_download=files_to_download,  # type: ignore
             force_download=force_download,
         )
         experiments.append(experiment)
 
     return experiments
+
 
 def load_experiment(
     experiment_id: str,
@@ -174,8 +176,7 @@ def _download_experiment(
 
         if (
             download_only_preview
-            and file.type
-            in [FileType.BEAST2_POSTERIOR_LOGS, FileType.POSTERIOR_TREES]
+            and file.type in [FileType.BEAST2_POSTERIOR_LOGS, FileType.POSTERIOR_TREES]
             and not file.is_preview
         ):
             continue

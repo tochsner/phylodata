@@ -56,9 +56,7 @@ class FilesModule(Module[list[File]]):
         parsed_beast2_logs = parse_file(
             self.beast2_logs, FileType.BEAST2_POSTERIOR_LOGS
         )
-        parsed_beast2_trees = parse_file(
-            self.beast2_trees, FileType.POSTERIOR_TREES
-        )
+        parsed_beast2_trees = parse_file(self.beast2_trees, FileType.POSTERIOR_TREES)
 
         files = list(
             itertools.chain(

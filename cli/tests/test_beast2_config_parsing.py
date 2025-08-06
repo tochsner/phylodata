@@ -21,6 +21,25 @@ def test_simple_beast_config_is_ok():
     all(parse_beast2_config(file))
 
 
+def test_simple_beast_config_with_alignment_is_ok():
+    file = to_bytes_io("""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <beast namespace="beast.core" required="BEAST.base v2.7.7" version="2.7">
+        <alignment></alignment>
+        <run></run>
+    </beast>""")
+    all(parse_beast2_config(file))
+
+
+def test_beast1_xml_fails():
+    with pytest.raises(ValidationError):
+        file = to_bytes_io("""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <beast version="1.10.4">
+            <data></data>
+            <run></run>
+        </beast>""")
+        all(parse_beast2_config(file))
+
+
 def test_missing_data_tag_fails():
     with pytest.raises(ValidationError):
         file = to_bytes_io("""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
