@@ -1,7 +1,5 @@
 - Redo tree classification
 - Uneditable JSON file
-- Ask for author email
-- Fix file type names
 
 - Make filters URL-based
 - Add leaf number filter

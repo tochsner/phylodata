@@ -40,9 +40,6 @@ def generate_output(
 ) -> Path:
     """Creates the output folder for the given experiment metadata."""
     files = clean_up_file_names(files)
-    files = add_editable_metadata_file(
-        files, editable_paper, editable_experiment, samples
-    )
     files = add_non_editable_metadata_file(
         files,
         non_editable_paper,
@@ -50,6 +47,9 @@ def generate_output(
         evolutionary_model,
         trees,
         metadata,
+    )
+    files = add_editable_metadata_file(
+        files, editable_paper, editable_experiment, samples
     )
 
     output_folder = create_output_folder(non_editable_experiment)
