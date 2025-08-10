@@ -58,7 +58,7 @@
 			}}
 	>
 		<button
-			class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-2 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
+			class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-3 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
 			onclick={() =>
 				(experimentsToDownload = filteredPapers
 					.flatMap((paper) => paper.experiments)
