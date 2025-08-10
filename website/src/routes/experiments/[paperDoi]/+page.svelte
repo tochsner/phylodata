@@ -78,14 +78,14 @@
 			</button>
 		</div>
 
-		<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
+		<div class="flex flex-col gap-2 rounded-xl bg-white p-5 shadow-lg shadow-gray-400/10">
 			<h3 class="text-sm font-bold">Authors</h3>
 			<p class="text-sm">
 				{data.paper.authors.join(', ')}
 			</p>
 		</div>
 
-		<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
+		<div class="flex flex-col gap-2 rounded-xl bg-white p-5 shadow-lg shadow-gray-400/10">
 			<h3 class="text-sm font-bold">Abstract</h3>
 			<p class="text-sm">{data.paper.abstract}</p>
 		</div>
@@ -143,7 +143,7 @@
 
 {#snippet experiment(experiment: PaperWithExperiments['experiments'][number])}
 	<div
-		class="divide-background flex flex-col divide-y divide-solid rounded-xl bg-white text-sm shadow-lg shadow-gray-400/5"
+		class="divide-background flex flex-col divide-y divide-solid rounded-xl bg-white text-sm shadow-lg shadow-gray-400/10"
 	>
 		{@render experimentOverview(experiment.experiment)}
 		<Files files={experiment.files} />
@@ -154,7 +154,7 @@
 {/snippet}
 
 {#snippet experimentOverview(experiment: Experiment)}
-	<div class="flex flex-wrap items-center gap-2 p-4">
+	<div class="flex flex-wrap items-center gap-2 p-5">
 		<button
 			class="border-accent text-accent mr-4 flex cursor-pointer items-center space-x-1 rounded-md border px-3 py-1 font-semibold duration-100 hover:scale-[102%] hover:opacity-80"
 			onclick={() => (experimentsToDownload = [[experiment.humanReadableId, experiment.version]])}

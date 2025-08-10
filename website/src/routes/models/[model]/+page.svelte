@@ -43,7 +43,7 @@
 {#snippet content()}
 	{#if data.md}
 		<div
-			class="prose prose-h1:text-4xl prose-h1:text-accent prose-h2:text-xl w-full max-w-full flex-1 rounded-xl bg-white p-6 shadow-lg shadow-gray-400/5"
+			class="prose prose-h1:text-4xl prose-h1:text-accent prose-h2:text-xl w-full max-w-full flex-1 rounded-xl bg-white p-6 shadow-lg shadow-gray-400/10"
 		>
 			<h1>{model.name}</h1>
 			<p>{model.shortDescription}</p>
@@ -59,7 +59,7 @@
 	{#await data.papers}
 		<div class="h-[200px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
 	{:then papers}
-		<div class="gap-3 rounded-xl bg-white p-5 pb-1 shadow-lg shadow-gray-400/5">
+		<div class="gap-3 rounded-xl bg-white p-5 pb-1 shadow-lg shadow-gray-400/10">
 			<h3 class="text-accent mb-2 text-xl font-bold">Experiments using {model.name}</h3>
 
 			{#each papers as paper (paper.paper.doi)}
@@ -82,7 +82,7 @@
 {/snippet}
 
 {#snippet tags()}
-	<div class="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
+	<div class="flex flex-col gap-2 rounded-xl bg-white p-5 shadow-lg shadow-gray-400/10">
 		<h3 class="text-accent font-bold">Compatible sample types</h3>
 
 		<div class="flex flex-wrap gap-2">
@@ -112,7 +112,7 @@
 {/snippet}
 
 {#snippet links()}
-	<div class="rounded-xl bg-white p-4 pb-1 shadow-lg shadow-gray-400/5">
+	<div class="rounded-xl bg-white p-5 pb-1 shadow-lg shadow-gray-400/10">
 		<h3 class="text-accent font-bold">Links</h3>
 
 		{#if model.website}
@@ -161,7 +161,7 @@
 {/snippet}
 
 {#snippet authors()}
-	<div class="rounded-xl bg-white p-4 shadow-lg shadow-gray-400/5">
+	<div class="rounded-xl bg-white p-5 shadow-lg shadow-gray-400/10">
 		<h3 class="text-accent font-bold">Authors</h3>
 		<p>
 			{model.authors.join(', ')}

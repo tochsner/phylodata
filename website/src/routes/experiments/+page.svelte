@@ -160,7 +160,7 @@
 {/snippet}
 
 {#snippet content()}
-	<div class="flex flex-1 flex-col gap-4">
+	<div class="flex flex-1 flex-col gap-5">
 		{#await papers}
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
@@ -186,15 +186,15 @@
 	)}
 
 	<a
-		class="flex cursor-pointer flex-col rounded-xl bg-white p-3 shadow-lg shadow-gray-400/5 duration-100 hover:scale-[101%]"
+		class="flex cursor-pointer flex-col rounded-xl bg-white p-4 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[101%]"
 		href={`/experiments/${encodeURIComponent(paper.paper.doi)}`}
 		data-sveltekit-preloadData
 	>
-		<h3 class="text-accent pb-2 text-xl font-bold">
+		<h3 class="text-accent pb-2 text-[1.3rem] font-bold">
 			{paper.paper.title}
 		</h3>
 
-		<p class="text-dark pb-3 text-sm">{paper.paper.authors.join('; ')}</p>
+		<p class="text-dark/60 pb-3">{paper.paper.authors.join('; ')}</p>
 
 		<div class="flex flex-wrap gap-2">
 			<Tag label="Number of Experiments">

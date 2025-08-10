@@ -37,7 +37,7 @@
 	});
 </script>
 
-<div class="flex flex-col gap-4 p-4">
+<div class="flex flex-col gap-5 p-5">
 	<h3 class="text-lg font-bold">Trees</h3>
 
 	<div class="flex flex-wrap items-start gap-2">

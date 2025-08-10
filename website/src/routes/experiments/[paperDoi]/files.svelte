@@ -21,7 +21,7 @@
 	const totalSize = files.map((file) => file.sizeBytes).reduce((acc, val) => acc + val, 0);
 </script>
 
-<div class="flex flex-col gap-4 p-4">
+<div class="flex flex-col gap-5 p-5">
 	<h3 class="text-lg font-bold">Files</h3>
 
 	{#if !minimal}

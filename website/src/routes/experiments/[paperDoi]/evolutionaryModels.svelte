@@ -4,7 +4,7 @@
 	let { evolutionaryModels }: { evolutionaryModels: EvolutionaryModelComponent[] } = $props();
 </script>
 
-<div class="flex flex-col gap-4 p-4">
+<div class="flex flex-col gap-5 p-5">
 	<h3 class="text-lg font-bold">Evolutionary Models</h3>
 
 	<div class="divide-background grid grid-cols-2 gap-x-4 gap-y-8">

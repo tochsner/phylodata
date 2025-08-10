@@ -8,7 +8,7 @@
 	}: { label?: string; children: Snippet; class?: string } = $props();
 </script>
 
-<div class={`bg-light-gray flex gap-2 rounded-full px-3 py-1 text-xs ${classes}`}>
+<div class={`bg-light-gray flex gap-2 rounded-full px-4 py-1 text-xs ${classes}`}>
 	{#if label}
 		<span class="uppercase">{label}</span>
 	{/if}
