@@ -23,7 +23,7 @@
 		<div class="flex items-center space-x-8">
 			<a
 				href="/new-experiment"
-				class="bg-accent flex cursor-pointer items-center space-x-2 rounded-md px-5 py-3 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
+				class="bg-accent flex cursor-pointer items-center space-x-2 rounded-full px-5 py-3 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"

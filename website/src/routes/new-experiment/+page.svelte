@@ -130,7 +130,7 @@
 				<p class="my-6 text-sm text-gray-600">Make sure you have Python 3.10 or newer installed.</p>
 
 				<button
-					class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity duration-100 hover:scale-[102%] hover:opacity-80"
+					class="bg-accent cursor-pointer rounded-full px-6 py-3 font-medium text-white transition-opacity duration-100 hover:scale-[102%] hover:opacity-80"
 					onclick={() => goToStep(2)}
 				>
 					Continue
@@ -152,13 +152,13 @@
 
 				<div class="flex space-x-4">
 					<button
-						class="cursor-pointer rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+						class="cursor-pointer rounded-full border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
 						onclick={() => goToStep(1)}
 					>
 						Back
 					</button>
 					<button
-						class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity duration-100 hover:scale-[102%] hover:opacity-80"
+						class="bg-accent cursor-pointer rounded-full px-6 py-3 font-medium text-white transition-opacity duration-100 hover:scale-[102%] hover:opacity-80"
 						onclick={() => goToStep(3)}
 					>
 						Continue
@@ -209,13 +209,13 @@
 
 				<div class="flex space-x-4">
 					<button
-						class="cursor-pointer rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+						class="cursor-pointer rounded-full border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
 						onclick={() => goToStep(2)}
 					>
 						Back
 					</button>
 					<button
-						class="bg-accent cursor-pointer rounded-md px-6 py-3 font-medium text-white transition-opacity duration-100 hover:scale-[102%] hover:opacity-80 disabled:opacity-50"
+						class="bg-accent cursor-pointer rounded-full px-6 py-3 font-medium text-white transition-opacity duration-100 hover:scale-[102%] hover:opacity-80 disabled:opacity-50"
 						onclick={() => {
 							selectFiles();
 						}}
@@ -301,7 +301,7 @@
 					}}
 				>
 					<button
-						class="cursor-pointer rounded-md border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+						class="cursor-pointer rounded-full border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
 						onclick={() => goToStep(3)}
 					>
 						Back

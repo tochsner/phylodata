@@ -40,7 +40,7 @@
 	<div class="flex w-2/5 max-w-[300px] min-w-56 flex-col gap-8">
 		<div class="flex flex-col gap-3">
 			<button
-				class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-3 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
+				class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-full border px-4 py-3 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
 				onclick={() =>
 					(experimentsToDownload = data.experiments.map((exp) => [
 						exp.experiment.humanReadableId,
@@ -66,7 +66,7 @@
 			</button>
 
 			<button
-				class="border-accent text-accent flex cursor-pointer items-center space-x-2 rounded-md border px-4 py-3 font-semibold duration-100 hover:scale-[102%] hover:opacity-80"
+				class="border-accent text-accent flex cursor-pointer items-center space-x-2 rounded-full border px-4 py-3 font-semibold duration-100 hover:scale-[102%] hover:opacity-80"
 				onclick={() => {
 					navigator.clipboard.writeText(data.paper.bibtex);
 					toast.success('Copied bibtex entry to clipboard');
