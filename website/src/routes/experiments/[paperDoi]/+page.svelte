@@ -87,7 +87,7 @@
 
 		<div class="flex flex-col gap-2 rounded-xl bg-white p-5 shadow-lg shadow-gray-400/10">
 			<h3 class="text-sm font-bold">Abstract</h3>
-			<p class="overflow-clip text-sm/6">{data.paper.abstract}</p>
+			<p class="overflow-clip text-sm/6 whitespace-pre-wrap">{data.paper.abstract}</p>
 		</div>
 	</div>
 {/snippet}
