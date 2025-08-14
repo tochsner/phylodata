@@ -149,7 +149,10 @@
 		<Files files={experiment.files} />
 		<Samples samples={experiment.samples} />
 		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModel} />
-		<Trees trees={experiment.trees} />
+
+		{#if experiment.trees}
+			<Trees trees={experiment.trees} />
+		{/if}
 	</div>
 {/snippet}
 
@@ -182,6 +185,10 @@
 		<Tag label="version">{formatNumber(experiment.version)}</Tag>
 		<Tag label="Experiment ID">{experiment.humanReadableId}</Tag>
 	</div>
+
+	{#if experiment.description}
+		<span class="p-5 whitespace-pre-line">{experiment.description}</span>
+	{/if}
 {/snippet}
 
 <DownloadInstructions {experimentsToDownload} />

@@ -67,7 +67,7 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
                 """Use the URL format (like *https://doi.org/10.1093/sysbio/22.3.240*).
                 Experiments with the same paper DOI will be linked to the same paper."""
             )
-            self.email = st.text_area("E-Mail")
+            self.email = st.text_input("E-Mail")
             st.markdown(
                 """We need your E-Mail in order to contact you if there are any issues with the experiment."""
             )

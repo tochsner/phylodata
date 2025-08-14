@@ -12,6 +12,7 @@
 	import toast from 'svelte-5-french-toast';
 	import Paper from './paper.svelte';
 	import Code from '$lib/components/code.svelte';
+	import Experiment from './experiment.svelte';
 
 	let currentStep = $state(1);
 	let files: File[] = $state([]);
@@ -233,12 +234,15 @@
 				{#if uploadedObject}
 					<div class="divide-background -m-4 my-6 flex flex-col divide-y divide-solid text-sm">
 						<Paper paper={uploadedObject.paper} />
+						<Experiment experiment={uploadedObject.experiments[0].experiment} />
 						<Files files={uploadedObject.experiments[0].files} minimal />
 						<Samples samples={uploadedObject.experiments[0].samples} />
-						<Trees trees={uploadedObject.experiments[0].trees} />
 						<EvolutionaryModels
 							evolutionaryModels={uploadedObject.experiments[0].evolutionaryModel}
 						/>
+						{#if uploadedObject.experiments[0].trees}
+							<Trees trees={uploadedObject.experiments[0].trees} />
+						{/if}
 					</div>
 				{/if}
 

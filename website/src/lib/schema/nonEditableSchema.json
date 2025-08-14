@@ -19,7 +19,14 @@
           }
         },
         "trees": {
-          "$ref": "#/$defs/Trees"
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/Trees"
+            }
+          ]
         },
         "evolutionaryModel": {
           "type": "array",

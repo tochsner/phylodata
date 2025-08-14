@@ -57,7 +57,7 @@ if st.session_state[STAGE] == Stage.INPUT:
     """
 
     def process_input():
-        with st.spinner("Processing your analysis..."):
+        with st.status("Processing your analysis...", expanded=True):
             try:
                 paper_module.validate()
                 experiment_module.validate()

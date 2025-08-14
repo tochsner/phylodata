@@ -2,6 +2,7 @@ import os
 import shutil
 from io import BytesIO
 from pathlib import Path
+from typing import Optional
 
 import msgspec
 
@@ -35,7 +36,7 @@ def generate_output(
     samples: list[Sample],
     files: list[File],
     evolutionary_model: list[EvolutionaryModelComponent],
-    trees: Trees,
+    trees: Optional[Trees],
     metadata: Metadata,
 ) -> Path:
     """Creates the output folder for the given experiment metadata."""
@@ -106,7 +107,7 @@ def add_non_editable_metadata_file(
     non_editable_paper: NonEditablePaper,
     non_editable_experiment: NonEditableExperiment,
     evolutionary_model: list[EvolutionaryModelComponent],
-    trees: Trees,
+    trees: Optional[Trees],
     metadata: Metadata,
 ) -> list[File]:
     """Adds a new File object to the files list corresponding to the

@@ -232,7 +232,7 @@ class NonEditablePaperWithExperiment(msgspec.Struct, rename="camel"):
     paper: NonEditablePaper
     experiment: NonEditableExperiment
     files: list[File]
-    trees: Trees
+    trees: Optional[Trees]
     evolutionary_model: list[EvolutionaryModelComponent]
     metadata: Metadata
 

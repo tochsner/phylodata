@@ -5,6 +5,7 @@ from phylodata.errors import ValidationError
 from phylodata.process.files.parse_files import parse_file
 from phylodata.process.module import Module
 
+from io import BytesIO
 
 class FilesModule(Module[list[File]]):
     def ui(self):
