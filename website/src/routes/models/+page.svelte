@@ -23,20 +23,14 @@
 			description: 'This could be extinct or extant species.'
 		},
 		{
-			value: 'cells',
-			label: 'Single cells',
+			value: 'single-cells',
+			label: 'Single-cells',
 			color: '#2FA7AB',
 			description: 'This could be extinct or extant species.'
 		},
 		{
 			value: 'pathogens',
 			label: 'Pathogens',
-			color: '#AB2F54',
-			description: 'This could be extinct or extant species.'
-		},
-		{
-			value: 'genes',
-			label: 'Genes',
 			color: '#AB2F54',
 			description: 'This could be extinct or extant species.'
 		},
@@ -183,13 +177,13 @@
 		{#each filteredModels as model}
 			<a
 				class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[102%] hover:opacity-90"
-				href={`models/${model.name}`}
+				href={`models/${decodeURIComponent(model.name)}`}
 				style="background: linear-gradient(45deg, hsl(96 25 45) 0%, hsl(96 30 55) 100%);"
 				transition:fade={{ duration: 100 }}
 			>
 				<span class="text-xl font-semibold text-white">{model.name}</span>
 				<div class="mx-[-2px] flex gap-3 text-black">
-					{#each model.mainTags as tag}
+					{#each model.tags as tag}
 						<Tag class="bg-white">
 							{titleCase(tag)}
 						</Tag>
@@ -209,7 +203,7 @@
 				</div>
 			</a>
 		{/each}
-
-		<NoContent items={filteredModels}>There are no matching models.</NoContent>
 	</div>
+
+	<NoContent items={filteredModels}>There are no matching models.</NoContent>
 </div>

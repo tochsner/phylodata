@@ -54,7 +54,7 @@ export type ClassificationEntry = {
 export type Sample = {
 	sampleId: string;
 	scientificName: string;
-	type: 'species' | 'cells' | 'language' | 'unknown';
+	type: 'species' | 'pathogens' | 'individuals' | 'single-cells' | 'language' | 'unknown';
 	classification: ClassificationEntry[];
 	sampleData: SampleData[];
 	commonName?: string;
@@ -76,9 +76,7 @@ export type Trees = {
 
 export type EvolutionaryModelComponent = {
 	name: string;
-	description: string;
 	type: 'substitutionModel' | 'clockModel' | 'treePrior' | 'treeLikelihood' | 'other';
-	documentationUrl: string;
 	parameters: Record<string, any>;
 };
 

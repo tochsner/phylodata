@@ -3,7 +3,9 @@ import type { PaperWithExperiments } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => ({
-	md: await import(`$lib/models/${params.model.toLowerCase()}.md?raw`).then((text) => text.default),
+	md: await import(`$lib/models/${encodeURIComponent(params.model).toLowerCase()}.md?raw`).then(
+		(text) => text.default
+	),
 	papers: supabase
 		.from('papers')
 		.select(
@@ -15,7 +17,7 @@ export const load: PageServerLoad = async ({ params }) => ({
       )
        `
 		)
-		.eq('experiments.evolutionaryModels.name', params.model)
+		.eq('experiments.evolutionaryModels.name', encodeURIComponent(params.model))
 		.then(({ error, data }) => {
 			if (error) {
 				console.error(error);

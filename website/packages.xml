@@ -1,59 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <packages>
    <package
-        name="BICEPS"
-        version="1.1.2"
-        url="https://github.com/rbouckaert/biceps/releases/download/v1.1.2/BICEPS.addon.v1.1.2.zip"
-        description="Bayesian Integrated Coalescent Epoch PlotS + Yule Skyline"
-        projectURL="https://github.com/rbouckaert/biceps/"
-    >
-      <depends on="BEAST.base" atleast="2.7.0" />
-      <depends on="BEAST.app" atleast="2.7.0" />
-   </package>
-   <package
-        name="ORC"
-        version="1.2.1"
-        url="https://github.com/jordandouglas/ORC/releases/download/v1.2.1/ORC.addon.v1.2.1.zip"
-        description="Optimised Relaxed Clock model"
-        projectURL="https://github.com/jordandouglas/ORC/"
-    >
-      <depends on="BEAST.base" atleast="2.7.5" />
-      <depends on="BEAST.app" atleast="2.7.5" />
-      <depends on="BEASTLabs" atleast="2.0.0" />
-   </package>
-   <package
-        name="contraband"
-        version="1.0.2"
-        url="https://github.com/fkmendes/contraband/releases/download/v1.0.2/contraband.addon.v1.0.2.zip"
-        description="Scalable brownian models for continuous trait evolution"
-        projectURL="https://github.com/fkmendes/contraband"
-    >
-      <depends on="BEAST.base" atleast="2.7.0" />
-      <depends on="BEAST.app" atleast="2.7.0" />
-   </package>
-   <package
-        name="Babel"
-        version="0.4.2"
-        url="https://github.com/rbouckaert/Babel/releases/download/v0.4.0/Babel.addon.v0.4.2.zip"
-        description="BABEL = BEAST analysis backing effective linguistics"
-        projectURL="https://github.com/rbouckaert/Babel"
-    >
-      <depends on="BEAST.base" atleast="2.7.0" />
-      <depends on="BEAST.app" atleast="2.7.0" />
-      <depends on="BEASTLabs" atleast="2.0.0" />
-   </package>
-   <package
-        name="SNAPP"
-        version="1.6.1"
-        url="https://github.com/BEAST2-Dev/SNAPP/releases/download/v1.6.0/SNAPP.addon.v1.6.1.zip"
-        description="SNP and AFLP Phylogenies"
-        projectURL="http://beast2.org/snapp/"
-    >
-      <depends on="BEAST.base" atleast="2.7.0" />
-      <depends on="BEAST.app" atleast="2.7.0" />
-      <depends on="BEASTLabs" atleast="2.0.0" />
-   </package>
-   <package
         name="snapper"
         version="1.1.5"
         url="https://github.com/rbouckaert/snapper/releases/download/v1.1.0/snapper.package.v1.1.5.zip"

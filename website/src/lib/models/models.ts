@@ -3,35 +3,31 @@ export type Model = {
 	name: string;
 	authors: string[];
 	shortDescription: string;
-	mainTags: string[];
-	sampleTypes: ('species' | 'genes' | 'cells' | 'pathogens' | 'languages')[];
+	tags: string[];
+	sampleTypes: ('species' | 'single-cells' | 'pathogens' | 'languages')[];
 	dataTypes: ('nucleotides' | 'proteins' | 'snps' | 'traits')[];
 	model: 'treePrior' | 'substitutionModel' | 'clockModel' | 'treeLikelihood' | 'mixed' | 'other';
-	otherFeatures: (
-		| 'structured'
-		| 'rateChangesOverTime'
-		| 'multispecies coalescent'
-		| 'species delimitation'
-	)[];
 	website?: string;
 	paper?: string;
 	code?: string;
 	tutorials: string[];
 	examples: string[];
+	namespaces: string[];
 };
 
+export const ALL_SAMPLE_TYPES = ['species', 'single-cells', 'pathogens'] as Model['sampleTypes'];
+export const ALL_DATA_TYPES = ['nucleotides', 'proteins', 'snps', 'traits'] as Model['dataTypes'];
+
 export const MODELS: Model[] = [
-	// Previously completed packages
 	{
 		software: 'beast2',
 		name: 'OBAMA',
 		authors: ['Remco Bouckaert'],
 		shortDescription: 'Site models for amino acid sequences with automatic model averaging.',
-		mainTags: ['Proteins', 'Substitution Model'],
-		sampleTypes: ['species', 'genes', 'cells', 'pathogens'],
+		tags: ['Proteins'],
+		sampleTypes: ['species', 'single-cells', 'pathogens'],
 		dataTypes: ['proteins'],
 		model: 'substitutionModel',
-		otherFeatures: [],
 		paper: 'https://doi.org/10.7717/peerj.9460',
 		code: 'https://github.com/rbouckaert/obama/',
 		tutorials: [
@@ -40,7 +36,8 @@ export const MODELS: Model[] = [
 			'https://github.com/rbouckaert/obama/wiki/Trouble-shooting',
 			'https://www.beast2.org/2020/11/25/OBAMA.html'
 		],
-		examples: ['https://github.com/rbouckaert/obama/tree/master/examples']
+		examples: ['https://github.com/rbouckaert/obama/tree/master/examples'],
+		namespaces: ['obama']
 	},
 	{
 		software: 'beast2',
@@ -53,43 +50,42 @@ export const MODELS: Model[] = [
 			'Peter R. Wills'
 		],
 		shortDescription: 'A clock model to test for punctuated equilibrium.',
-		mainTags: ['Punctuated Equilibrium', 'Clock Model'],
-		sampleTypes: ['species', 'genes', 'cells', 'pathogens', 'languages'],
-		dataTypes: ['proteins', 'nucleotides', 'snps', 'traits'],
+		tags: ['Punctuated Equilibrium'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
 		model: 'clockModel',
-		otherFeatures: [],
 		paper: 'https://doi.org/10.1098/rspb.2025.0182',
 		code: 'https://github.com/jordandouglas/GammaSpikeModel',
 		tutorials: ['https://github.com/jordandouglas/GammaSpikeModel'],
-		examples: ['https://github.com/jordandouglas/GammaSpikeModel/tree/main/examples']
+		examples: ['https://github.com/jordandouglas/GammaSpikeModel/tree/main/examples'],
+		namespaces: ['gammaspike']
 	},
 	{
 		software: 'beast2',
 		name: 'Babel',
 		authors: ['Remco Bouckaert'],
 		shortDescription: 'A package for linguistic analyses.',
-		mainTags: ['Linguistics'],
+		tags: ['Linguistics'],
 		sampleTypes: ['languages'],
 		dataTypes: ['traits'],
 		model: 'mixed',
-		otherFeatures: [],
 		code: 'https://github.com/rbouckaert/Babel',
 		tutorials: [
 			'https://taming-the-beast.org/tutorials/LanguagePhylogenies/',
 			'https://www.beast2.org/2019/05/27/babel-tools.html'
 		],
-		examples: ['https://github.com/rbouckaert/Babel/tree/master/examples']
+		examples: ['https://github.com/rbouckaert/Babel/tree/master/examples'],
+		namespaces: ['babel']
 	},
 	{
 		software: 'beast2',
 		name: 'StarBeast3',
 		authors: ['Jordan Douglas', 'Cinthy L. Jiménez-Silva', 'Remco Bouckaert'],
 		shortDescription: 'Infer the species tree and compatible gene trees.',
-		mainTags: ['multispecies coalescent', 'ILS'],
-		sampleTypes: ['species', 'genes'],
-		dataTypes: ['proteins', 'nucleotides', 'snps', 'traits'],
+		tags: ['Multispecies Coalescent', 'ILS'],
+		sampleTypes: ['species'],
+		dataTypes: ALL_DATA_TYPES,
 		model: 'treeLikelihood',
-		otherFeatures: ['multispecies coalescent'],
 		code: 'https://github.com/rbouckaert/starbeast3',
 		paper: 'https://doi.org/10.1093/sysbio/syac010',
 		tutorials: [
@@ -97,18 +93,18 @@ export const MODELS: Model[] = [
 			'https://github.com/rbouckaert/starbeast3/tree/master/workshop',
 			'https://www.beast2.org/2022/03/31/starbeast3.html'
 		],
-		examples: ['https://github.com/rbouckaert/starbeast3/tree/master/examples']
+		examples: ['https://github.com/rbouckaert/starbeast3/tree/master/examples'],
+		namespaces: ['starbeast3']
 	},
 	{
 		software: 'beast2',
 		name: 'SPEEDEMON',
 		authors: ['Jordan Douglas', 'Remco Bouckaert'],
 		shortDescription: 'Define boundaries between species.',
-		mainTags: ['species delimitation'],
-		sampleTypes: ['species', 'genes'],
-		dataTypes: ['proteins', 'nucleotides', 'snps', 'traits'],
+		tags: ['Species Delimitation'],
+		sampleTypes: ['species'],
+		dataTypes: ALL_DATA_TYPES,
 		model: 'treePrior',
-		otherFeatures: ['species delimitation'],
 		code: 'https://github.com/rbouckaert/speedemon',
 		paper: 'https://doi.org/10.1038/s42003-022-03723-z',
 		tutorials: [
@@ -116,7 +112,8 @@ export const MODELS: Model[] = [
 			'https://github.com/rbouckaert/speedemon#preparing-an-xml-file-using-beauti',
 			'https://www.beast2.org/2022/08/01/speedemon.html'
 		],
-		examples: ['https://github.com/rbouckaert/speedemon/tree/master/examples']
+		examples: ['https://github.com/rbouckaert/speedemon/tree/master/examples'],
+		namespaces: ['speedemon']
 	},
 	{
 		software: 'beast2',
@@ -129,46 +126,46 @@ export const MODELS: Model[] = [
 			'Alexei J Drummond'
 		],
 		shortDescription: 'Model single-cell cancer evolution.',
-		mainTags: ['cancer evolution'],
-		sampleTypes: ['cells'],
+		tags: ['cancer evolution'],
+		sampleTypes: ['single-cells'],
 		dataTypes: ['snps', 'nucleotides', 'proteins'],
 		model: 'mixed',
-		otherFeatures: [],
 		code: 'https://github.com/bioDS/beast-phylonco',
 		paper: 'https://doi.org/10.1093/molbev/msac143',
 		tutorials: ['https://github.com/bioDS/beast-phylonco?tab=readme-ov-file#user-guide'],
-		examples: ['https://github.com/bioDS/beast-phylonco/tree/master/examples']
+		examples: ['https://github.com/bioDS/beast-phylonco/tree/master/examples'],
+		namespaces: ['phylonco']
 	},
 	{
 		software: 'beast2',
 		name: 'BDMM-Prime',
 		authors: ['Timothy G Vaughan', 'Tanja Stadler'],
 		shortDescription: 'Use structured and unstructured birth-death models.',
-		mainTags: ['birth-death models', 'multiple types'],
-		sampleTypes: ['species', 'genes', 'cells', 'pathogens', 'languages'],
-		dataTypes: ['nucleotides', 'proteins', 'snps', 'traits'],
+		tags: ['birth-death models', 'multiple types'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
 		model: 'treePrior',
-		otherFeatures: ['structured'],
 		code: 'https://github.com/tgvaughan/BDMM-Prime',
 		website: 'https://tgvaughan.github.io/BDMM-Prime/',
 		paper: 'https://doi.org/10.1093/molbev/msaf130',
 		tutorials: ['https://tgvaughan.github.io/BDMM-Prime/#id-1-Getting-Started'],
-		examples: ['https://github.com/tgvaughan/BDMM-Prime/tree/master/examples']
+		examples: [],
+		namespaces: ['bdmmprime']
 	},
 	{
 		software: 'beast2',
 		name: 'TiDeTree',
 		authors: ['Timothy G Vaughan', 'Tanja Stadler'],
 		shortDescription: 'Use lineage recorder data to estimate time-scaled single-cell trees.',
-		mainTags: ['single-cell trees', 'lineage tracing data'],
-		sampleTypes: ['cells'],
+		tags: ['single-cell trees', 'lineage tracing data'],
+		sampleTypes: ['single-cells'],
 		dataTypes: ['nucleotides'],
 		model: 'mixed',
-		otherFeatures: [],
 		code: 'https://github.com/seidels/tidetree',
 		paper: 'https://doi.org/10.1098/rspb.2022.1844',
 		tutorials: ['https://github.com/seidels/tidetree?tab=readme-ov-file#installation'],
-		examples: ['https://github.com/seidels/tidetree/tree/main/examples']
+		examples: ['https://github.com/seidels/tidetree/tree/main/examples'],
+		namespaces: ['tidetree']
 	},
 	{
 		software: 'beast2',
@@ -182,11 +179,10 @@ export const MODELS: Model[] = [
 			'David Welch'
 		],
 		shortDescription: 'Use birth-death skyline models.',
-		mainTags: ['birth-death skyline models'],
-		sampleTypes: ['species', 'genes', 'cells', 'pathogens', 'languages'],
-		dataTypes: ['nucleotides', 'proteins', 'snps', 'traits'],
+		tags: [],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
 		model: 'treePrior',
-		otherFeatures: [],
 		code: 'https://github.com/BEAST2-Dev/bdsky',
 		paper: 'https://doi.org/10.1073/pnas.1207965110',
 		tutorials: [
@@ -194,8 +190,118 @@ export const MODELS: Model[] = [
 			'https://taming-the-beast.org/tutorials/Skyline-plots/',
 			'https://phyloworks.org/workshops/Ebola_BEAST2_Exercise.pdf'
 		],
-		examples: ['https://github.com/BEAST2-Dev/bdsky/tree/master/examples']
+		examples: ['https://github.com/BEAST2-Dev/bdsky/tree/master/examples'],
+		namespaces: ['bdsky']
+	},
+	{
+		software: 'beast2',
+		name: 'BICEPS',
+		authors: ['Remco R Bouckaert'],
+		shortDescription: 'Use birth-death skyline models more efficiently.',
+		tags: [],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://github.com/rbouckaert/biceps/',
+		paper: 'https://academic.oup.com/sysbio/article/71/6/1549/6536980',
+		tutorials: [
+			'https://github.com/rbouckaert/biceps/?tab=readme-ov-file#biceps-tutorial',
+			'https://github.com/rbouckaert/biceps/?tab=readme-ov-file#yule-skyline-tutorial',
+			'https://www.beast2.org/2022/05/01/bicpes-tree-prior.html',
+			'https://beast2-dev.github.io/hmc/hmc/Priors/BICEPS/'
+		],
+		examples: ['https://github.com/rbouckaert/biceps/tree/master/examples'],
+		namespaces: ['biceps']
+	},
+	{
+		software: 'beast2',
+		name: 'contraband',
+		authors: [
+			'Théo Gaboriau',
+			'Fábio K. Mendes',
+			'Simon Joly',
+			'Daniele Silvestro',
+			'Nicolas Salamin'
+		],
+		shortDescription: 'Model the evolution of continuous traits.',
+		tags: ['Continuous Traits'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ['traits'],
+		model: 'substitutionModel',
+		code: 'https://github.com/fkmendes/contraband',
+		paper: 'https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/2041-210X.13458',
+		tutorials: ['https://taming-the-beast.org/tutorials/contraband-tutorial/'],
+		examples: ['https://github.com/fkmendes/contraband/tree/master/examples/testing'],
+		namespaces: ['contraband']
+	},
+	{
+		software: 'beast2',
+		name: 'SNAPP',
+		authors: [
+			'David Bryant',
+			'Remco Bouckaert',
+			'Joseph Felsenstein',
+			'Noah A. Rosenberg',
+			'Arindam RoyChoudhury'
+		],
+		shortDescription: 'Infer species trees from SNP or AFLP data.',
+		tags: ['Multispecies Coalescent', 'SNP', 'AFLP'],
+		sampleTypes: ['species', 'single-cells', 'pathogens'],
+		dataTypes: ['snps'],
+		model: 'treePrior',
+		code: 'https://github.com/BEAST2-Dev/SNAPP',
+		paper: 'https://academic.oup.com/mbe/article/29/8/1917/1045283',
+		tutorials: [
+			'https://www.beast2.org/snapp/',
+			'https://www.beast2.org/snapp-faq/',
+			'https://github.com/ForBioPhylogenomics/tutorials/blob/main/divergence_time_estimation_with_snp_data/README.md',
+			'https://evomics.org/wp-content/uploads/2018/01/BFD-tutorial.pdf',
+			'https://taming-the-beast.org/tutorials/BFD_snapper_tutorial/'
+		],
+		examples: ['https://github.com/BEAST2-Dev/SNAPP/tree/master/examples'],
+		namespaces: ['snap']
+	},
+	{
+		software: 'beast2',
+		name: 'SNAPPER',
+		authors: [
+			'Marnus Stoltz',
+			'Boris Bauemer',
+			'Remco Bouckaert',
+			'Colin Fox',
+			'Gordon Hiscott',
+			'David Bryant'
+		],
+		shortDescription: 'Efficiently infer species trees from SNP or AFLP data.',
+		tags: ['Multispecies Coalescent', 'SNP', 'AFLP'],
+		sampleTypes: ['species', 'single-cells', 'pathogens'],
+		dataTypes: ['snps'],
+		model: 'treePrior',
+		code: 'https://github.com/rbouckaert/snapper',
+		paper: 'https://academic.oup.com/sysbio/article-abstract/70/1/145/5867924',
+		tutorials: [
+			'https://github.com/ForBioPhylogenomics/tutorials/tree/main/divergence_time_estimation_with_snp_data',
+			'https://github.com/BEAST2-Dev/beast-docs/releases/download/v1.0/snapper-delimitation-tutorial-2021.zip',
+			'https://taming-the-beast.org/tutorials/BFD_snapper_tutorial/'
+		],
+		examples: ['https://github.com/rbouckaert/snapper/tree/master/examples'],
+		namespaces: ['snapper']
 	}
+	// {
+	// 	software: 'beast2',
+	// 	name: '',
+	// 	authors: [],
+	// 	shortDescription: '',
+	// 	tags: [],
+	// 	sampleTypes: ALL_SAMPLE_TYPES,
+	// 	dataTypes: ALL_DATA_TYPES,
+	// 	model: '',
+	// 	code: '',
+	// 	paper: '',
+	// 	tutorials: [],
+	// 	examples: [],
+	// 	namespaces: []
+	// }
 ];
 
 export const NAME_TO_MODEL = Object.fromEntries(MODELS.map((x) => [x.name, x]));

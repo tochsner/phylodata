@@ -14,7 +14,7 @@
 	import ExampleIcon from '$lib/icons/exampleIcon.svelte';
 	import NoContent from '$lib/components/noContent.svelte';
 
-	const modelName = page.params.model;
+	const modelName = encodeURIComponent(page.params.model);
 	const model = NAME_TO_MODEL[modelName];
 
 	let { data }: PageProps = $props();
@@ -98,16 +98,6 @@
 				<Tag>{titleCase(type)}</Tag>
 			{/each}
 		</div>
-
-		{#if 0 < model.otherFeatures.length}
-			<h3 class="text-accent mt-4 font-bold">Other features</h3>
-
-			<div class="flex flex-wrap gap-2">
-				{#each model.otherFeatures as feature}
-					<Tag>{titleCase(feature)}</Tag>
-				{/each}
-			</div>
-		{/if}
 	</div>
 {/snippet}
 

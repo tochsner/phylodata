@@ -31,7 +31,7 @@
 				<a
 					class="text-accent cursor-pointer"
 					aria-label="go to documentation"
-					href={model.documentationUrl}
+					href={'/models/' + model.name}
 					target="_blank"
 				>
 					<svg

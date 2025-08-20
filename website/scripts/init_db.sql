@@ -98,7 +98,6 @@ CREATE TABLE "trees" (
 CREATE TABLE "evolutionaryModels" (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR(255) NOT NULL,
-    "description" TEXT NOT NULL,
     "type" VARCHAR(50) NOT NULL CHECK ("type" IN (
         'substitutionModel',
         'clockModel',
@@ -106,7 +105,6 @@ CREATE TABLE "evolutionaryModels" (
         'treeLikelihood',
         'other'
     )),
-    "documentationUrl" TEXT NOT NULL,
     "parameters" JSONB NOT NULL, -- JSON for Record<string, any>
         "experimentId" INTEGER,
     FOREIGN KEY ("experimentId") REFERENCES "experiments"("id") ON DELETE CASCADE

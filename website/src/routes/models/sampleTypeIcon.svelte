@@ -31,18 +31,11 @@
 		{/snippet}
 		Pathogens
 	</Info>
-{:else if type === 'cells'}
+{:else if type === 'single-cells'}
 	<Info>
 		{#snippet trigger()}
 			<CellIcon {classes} />
 		{/snippet}
 		Cells
-	</Info>
-{:else if type === 'genes'}
-	<Info>
-		{#snippet trigger()}
-			<GeneIcon {classes} />
-		{/snippet}
-		Genes
 	</Info>
 {/if}
