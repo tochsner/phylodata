@@ -224,7 +224,7 @@ export const MODELS: Model[] = [
 			'Nicolas Salamin'
 		],
 		shortDescription: 'Model the evolution of continuous traits.',
-		tags: ['Continuous Traits'],
+		tags: ['Trait Evolution'],
 		sampleTypes: ALL_SAMPLE_TYPES,
 		dataTypes: ['traits'],
 		model: 'substitutionModel',
@@ -286,6 +286,80 @@ export const MODELS: Model[] = [
 		],
 		examples: ['https://github.com/rbouckaert/snapper/tree/master/examples'],
 		namespaces: ['snapper']
+	},
+	{
+		software: 'beast2',
+		name: 'SpeciesNetwork',
+		authors: ['Chi Zhang', 'Huw A Ogilvie', 'Alexei J Drummond', 'Tanja Stadler'],
+		shortDescription:
+			'Multispecies network coalescent inference of introgression and hybridization.',
+		tags: ['Introgression', 'Hybridization'],
+		sampleTypes: ['species'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://github.com/zhangchicool/speciesnetwork/tree/master',
+		paper: 'https://academic.oup.com/mbe/article/35/2/504/4705834',
+		tutorials: [
+			'https://github.com/zhangchicool/speciesnetwork/releases/download/v0.13.0/Tutorial.zip',
+			'https://evomics.org/wp-content/uploads/2018/01/tutorial-1.pdf'
+		],
+		examples: ['https://github.com/zhangchicool/speciesnetwork/tree/master/examples'],
+		namespaces: ['speciesnetwork']
+	},
+	{
+		software: 'beast2',
+		name: 'morph-models',
+		authors: ['Remco Bouckaert', 'Alexandra Gavryushkina'],
+		shortDescription: 'The MK and MKv models for morphological data.',
+		tags: ['Trait Evolution'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ['traits'],
+		model: 'substitutionModel',
+		code: 'https://github.com/CompEvol/morph-models',
+		paper: 'https://academic.oup.com/sysbio/article-abstract/50/6/913/1628902',
+		tutorials: ['https://www.beast2.org/morphological-models/'],
+		examples: [
+			'https://github.com/CompEvol/morph-models/tree/master/examples',
+			'https://taming-the-beast.org/tutorials/Total-Evidence-Tutorial/'
+		],
+		namespaces: ['morphmodels']
+	},
+	{
+		software: 'beast2',
+		name: 'GEO_SPHERE',
+		authors: ['Remco Bouckaert'],
+		shortDescription: 'Model geographical evolution on a sphere.',
+		tags: ['Geographical Evolution'],
+		sampleTypes: ['species', 'pathogens', 'languages'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'substitutionModel',
+		code: 'https://github.com/BEAST2-Dev/beast-geo',
+		paper: 'https://www.biorxiv.org/content/10.1101/016311v1',
+		tutorials: [
+			'https://github.com/BEAST2-Dev/beast-geo/releases/download/v1.1.0/phylogeography_s.0.1.2.pdf',
+			'https://tgvaughan.github.io/talks/MolEcolBio/'
+		],
+		examples: ['https://github.com/BEAST2-Dev/beast-geo/tree/master/examples'],
+		namespaces: ['sphericalGeo']
+	},
+	{
+		software: 'beast2',
+		name: 'break-away',
+		authors: ['Remco Bouckaert', 'Claire Bowern', 'Quentin Atkinson'],
+		shortDescription:
+			'Model geographical evolution where one of the populations stays in the same place.',
+		tags: ['Geographical Evolution'],
+		sampleTypes: ['species', 'pathogens', 'languages'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'substitutionModel',
+		code: 'https://github.com/rbouckaert/break-away',
+		paper: 'https://www.nature.com/articles/s41559-018-0489-3',
+		tutorials: [
+			'https://github.com/rbouckaert/break-away/wiki',
+			'https://www.beast2.org/2018/03/12/break-away-phylogeography.html'
+		],
+		examples: ['https://github.com/rbouckaert/break-away/tree/master/examples'],
+		namespaces: ['breakaway']
 	}
 	// {
 	// 	software: 'beast2',
