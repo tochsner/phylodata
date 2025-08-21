@@ -141,7 +141,7 @@ export const MODELS: Model[] = [
 		name: 'BDMM-Prime',
 		authors: ['Timothy G Vaughan', 'Tanja Stadler'],
 		shortDescription: 'Use structured and unstructured birth-death models.',
-		tags: ['birth-death models', 'multiple types'],
+		tags: ['Multiple Types'],
 		sampleTypes: ALL_SAMPLE_TYPES,
 		dataTypes: ALL_DATA_TYPES,
 		model: 'treePrior',
@@ -409,6 +409,72 @@ export const MODELS: Model[] = [
 		],
 		examples: ['https://github.com/CompEvol/sampled-ancestors/tree/master/examples'],
 		namespaces: ['sa']
+	},
+	{
+		software: 'beast2',
+		name: 'STACEY',
+		authors: ['Graham Jones'],
+		shortDescription: 'Infer species delimitations and the species tree.',
+		tags: ['Multispecies Coalescent', 'Species Delimitation'],
+		sampleTypes: ['species'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treeLikelihood',
+		code: 'https://github.com/Graham853/STACEY',
+		paper: 'https://link.springer.com/article/10.1007/s00285-016-1034-0',
+		tutorials: [
+			'http://indriid.com/2014/Rcode-for-XML-for-STACEY.zip',
+			'https://www.beast2.org/2015/06/02/species-delimitation-with-beast.html'
+		],
+		examples: [],
+		namespaces: ['stacey']
+	},
+	{
+		software: 'beast2',
+		name: 'ClaDS',
+		authors: ['Joëlle Barido-Sottani', 'Hélène Morlon'],
+		shortDescription: 'Model progressive rate changes along a phylogeny.',
+		tags: ['Continuous Rate Changes'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://bitbucket.org/bjoelle/clads/src/main/',
+		paper: 'https://academic.oup.com/sysbio/article/72/5/1180/7158798',
+		tutorials: ['https://taming-the-beast.org/tutorials/ClaDS-tutorial/'],
+		examples: ['https://bitbucket.org/bjoelle/clads/src/main/examples/'],
+		namespaces: ['clads']
+	},
+	{
+		software: 'beast2',
+		name: 'MSBD',
+		authors: ['Joëlle Barido-Sottani', 'Timothy G Vaughan', 'Tanja Stadler'],
+		shortDescription: 'Use structured models with unknown number of types.',
+		tags: ['Multiple Types'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://bitbucket.org/bjoelle/msbd/',
+		paper: 'https://academic.oup.com/sysbio/article/69/5/973/5762626',
+		tutorials: ['https://taming-the-beast.org/tutorials/MSBD-tutorial/'],
+		examples: ['https://bitbucket.org/bjoelle/msbd/src/main/examples/'],
+		namespaces: ['msbd']
+	},
+	{
+		software: 'beast2',
+		name: 'MASCOT',
+		authors: ['Nicola F Müller', 'David Rasmussen', 'Tanja Stadler'],
+		shortDescription: 'Efficiently infer the structured coalescent model.',
+		tags: ['Multiple Types'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://github.com/nicfel/Mascot',
+		paper: 'https://doi.org/10.1093/bioinformatics/bty406',
+		tutorials: [
+			'https://taming-the-beast.org/tutorials/Mascot-Tutorial/',
+			'https://github.com/nicfel/MascotSkyline-Tutorial'
+		],
+		examples: ['https://github.com/nicfel/Mascot/tree/master/examples'],
+		namespaces: ['mascot']
 	}
 	// {
 	// 	software: 'beast2',
