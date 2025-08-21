@@ -15,7 +15,12 @@ export type Model = {
 	namespaces: string[];
 };
 
-export const ALL_SAMPLE_TYPES = ['species', 'single-cells', 'pathogens'] as Model['sampleTypes'];
+export const ALL_SAMPLE_TYPES = [
+	'species',
+	'single-cells',
+	'pathogens',
+	'languages'
+] as Model['sampleTypes'];
 export const ALL_DATA_TYPES = ['nucleotides', 'proteins', 'snps', 'traits'] as Model['dataTypes'];
 
 export const MODELS: Model[] = [
