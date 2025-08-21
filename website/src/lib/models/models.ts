@@ -475,6 +475,21 @@ export const MODELS: Model[] = [
 		],
 		examples: ['https://github.com/nicfel/Mascot/tree/master/examples'],
 		namespaces: ['mascot']
+	},
+	{
+		software: 'beast2',
+		name: 'Recombination',
+		authors: ['Nicola F. Müller', 'Kathryn E. Kistler', 'Trevor Bedford'],
+		shortDescription: 'Model recombination events with phylogenetic networks.',
+		tags: ['Recombination'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://github.com/nicfel/Recombination',
+		paper: 'https://www.nature.com/articles/s41467-022-31749-8',
+		tutorials: ['https://github.com/nicfel/Recombination-Tutorial'],
+		examples: ['https://github.com/nicfel/Recombination/tree/master/examples'],
+		namespaces: ['recombination']
 	}
 	// {
 	// 	software: 'beast2',
