@@ -360,6 +360,55 @@ export const MODELS: Model[] = [
 		],
 		examples: ['https://github.com/rbouckaert/break-away/tree/master/examples'],
 		namespaces: ['breakaway']
+	},
+	{
+		software: 'beast2',
+		name: 'SSM',
+		authors: ['Remco Bouckaert', 'Dong Xie'],
+		shortDescription: 'Use a wide range of substitution models.',
+		tags: ['Substitution Models'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ['nucleotides', 'snps'],
+		model: 'substitutionModel',
+		code: 'https://github.com/BEAST2-Dev/substmodels',
+		paper: 'https://doi.org/10.5281/zenodo.995740',
+		tutorials: ['https://github.com/BEAST2-Dev/substmodels?tab=readme-ov-file#installation'],
+		examples: [],
+		namespaces: ['substmodels']
+	},
+	{
+		software: 'beast2',
+		name: 'MGSM',
+		authors: ['Remco Bouckaert', 'Peter Lockhart'],
+		shortDescription: 'Capture extreme rate differences between lineages.',
+		tags: ['Heterotachy'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'substitutionModel',
+		code: 'https://github.com/BEAST2-Dev/MGSM',
+		paper: 'https://www.biorxiv.org/content/10.1101/018101v1.full.pdf',
+		tutorials: ['https://github.com/BEAST2-Dev/MGSM/wiki'],
+		examples: [],
+		namespaces: ['mgsm']
+	},
+	{
+		software: 'beast2',
+		name: 'sampled-ancestors',
+		authors: ['Alexandra Gavryushkina', 'David Welch', 'Tanja Stadler', 'Alexei J. Drummond'],
+		shortDescription: 'Use the birth-death skyline model with sampled ancestors.',
+		tags: ['Sampled Ancestors'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://github.com/CompEvol/sampled-ancestors',
+		paper: 'https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003919',
+		tutorials: [
+			'https://www.beast2.org/2014/09/02/sampled-ancestor-trees-in-beast.html',
+			'https://beast2-dev.github.io/beast-docs/beast2/FBDDating/tutorial.html',
+			'https://www.beast2.org/divergence-dating-with-sampled-ancestors-fbd-model/'
+		],
+		examples: ['https://github.com/CompEvol/sampled-ancestors/tree/master/examples'],
+		namespaces: ['sa']
 	}
 	// {
 	// 	software: 'beast2',
