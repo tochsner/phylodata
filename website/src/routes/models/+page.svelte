@@ -90,6 +90,7 @@
 					model.dataTypes.filter((type) => selectedDataTypes.includes(type)).length /
 						model.dataTypes.length
 			}))
+			.sort((a, b) => a.model.name.localeCompare(b.model.name))
 			.sort((a, b) => b.matchScore - a.matchScore)
 			.map(({ model }) => model)
 	);
