@@ -495,6 +495,90 @@ export const MODELS: Model[] = [
 		tutorials: ['https://github.com/nicfel/Recombination-Tutorial'],
 		examples: ['https://github.com/nicfel/Recombination/tree/master/examples'],
 		namespaces: ['recombination']
+	},
+	{
+		software: 'beast2',
+		name: 'CoalRe',
+		authors: ['Nicola F. Müller', 'Ugnė Stolz', 'Gytis Dudas', 'Timothy G. Vaughan'],
+		shortDescription: 'Model reassortment events with phylogenetic networks.',
+		tags: ['Reassortment'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://github.com/nicfel/CoalRe/',
+		paper: 'https://www.pnas.org/doi/10.1073/pnas.1918304117',
+		tutorials: ['https://taming-the-beast.org/tutorials/Reassortment-Tutorial/'],
+		examples: [],
+		namespaces: ['coalre']
+	},
+	{
+		software: 'beast2',
+		name: 'CodonSubstModels',
+		authors: ['Dong Xie', 'Remco Bouckaert'],
+		shortDescription: 'Use codon-based substitution models.',
+		tags: ['Codons'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ['nucleotides', 'snps'],
+		model: 'substitutionModel',
+		code: 'https://github.com/BEAST2-Dev/codonsubstmodels',
+		tutorials: ['https://github.com/BEAST2-Dev/codonsubstmodels/wiki'],
+		examples: ['https://github.com/BEAST2-Dev/codonsubstmodels/tree/master/examples'],
+		namespaces: ['codonmodels']
+	},
+	{
+		software: 'beast2',
+		name: 'TimTam',
+		authors: [
+			'Alexander Eugene Zarebski',
+			'Louis du Plessis',
+			'Kris Varun Parag',
+			'Oliver George Pybus'
+		],
+		shortDescription: 'Combine genetic and epidemiological data to model outbreaks.',
+		tags: [],
+		sampleTypes: ['pathogens'],
+		dataTypes: ALL_DATA_TYPES,
+		website: 'https://aezarebski.github.io/timtam/index.html',
+		model: 'treeLikelihood',
+		code: 'https://github.com/aezarebski/timtam2',
+		paper: 'https://doi.org/10.1371/journal.pcbi.1009805',
+		tutorials: ['https://github.com/aezarebski/timtam2/wiki'],
+		examples: ['https://github.com/aezarebski/timtam2/tree/main/examples'],
+		namespaces: ['timtam']
+	},
+	{
+		software: 'beast2',
+		name: 'BEASTvntr',
+		authors: ['Arjun Dhawan', 'Remco Bouckaert'],
+		shortDescription: 'Model variable number of tandem repeats (VNTRs).',
+		tags: ['VNTRs'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'substitutionModel',
+		code: 'https://github.com/arjun-1/BEASTvntr',
+		paper:
+			'https://academic.oup.com/genetics/article-abstract/168/1/383/6059470?redirectedFrom=fulltext',
+		tutorials: ['https://github.com/arjun-1/BEASTvntr/tree/master#example'],
+		examples: [],
+		namespaces: ['vntr']
+	},
+	{
+		software: 'beast2',
+		name: 'PIQMEE',
+		authors: ['Veronika Boskova', 'Tanja Stadler'],
+		shortDescription: 'Increase efficiency when working with duplicate sequences.',
+		tags: [],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treeLikelihood',
+		code: 'https://github.com/boskovav/piqmee',
+		paper: 'https://doi.org/10.1093/molbev/msaa136',
+		tutorials: [
+			'https://taming-the-beast.org/tutorials/PIQMEE-Tutorial/',
+			'https://www.beast2.org/2020/10/06/PIQMEE.html'
+		],
+		examples: ['https://github.com/boskovav/piqmee/tree/master/examples'],
+		namespaces: ['piqmee']
 	}
 	// {
 	// 	software: 'beast2',

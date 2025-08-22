@@ -1,56 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<packages>
-   <package
-        name="CoalRe"
-        version="1.0.4"
-        url="https://github.com/nicfel/CoalRe/releases/download/v1.0.4/CoalRe.v1.0.4.zip"
-        description="Inference of Recombination networks"
-        projectURL="https://github.com/nicfel/CoalRe/"
-    >
-      <depends on="BEAST.base" atleast="2.7.2" />
-      <depends on="BEAST.app" atleast="2.7.2" />
-   </package>
-   <package
-        name="CodonSubstModels"
-        version="2.0.0"
-        url="https://github.com/BEAST2-Dev/codonsubstmodels/releases/download/v2.0.0/CodonSubstModels.v2.0.0.zip"
-        description="Codon substitution models for DNA"
-        projectURL="https://github.com/BEAST2-Dev/codonsubstmodels"
-    >
-      <depends on="BEAST.base" atleast="2.7.2" />
-      <depends on="BEAST.app" atleast="2.7.2" />
-   </package>
-   <package
-        name="timtam"
-        version="0.4.0"
-        url="https://github.com/aezarebski/timtam2/releases/download/v0.4.0/timtam.v0.4.0.zip"
-        projectURL="https://aezarebski.github.io/timtam/index.html"
-        description="Distribution for birth-death models with occurrence data and population size estimation."
-    >
-      <depends on="BEAST.base" atleast="2.7.2" />
-      <depends on="BEAST.app" atleast="2.7.2" />
-   </package>
-   <package
-        name="BEASTvntr"
-        version="0.2.0"
-        url="https://github.com/arjun-1/BEASTvntr/releases/download/v0.2.0/BEASTvntr.addon.v0.2.0.zip"
-        description="Variable Number of Tandem Repeat data, such as microsattelites"
-        projectURL="https://github.com/arjun-1/BEASTvntr"
-    >
-      <depends on="BEAST.base" atleast="2.7.1" />
-      <depends on="BEAST.app" atleast="2.7.1" />
-   </package>
-   <package
-        name="PIQMEE"
-        version="1.0.0"
-        url="https://github.com/boskovav/piqmee/releases/download/v1.1.0/PIQMEE.v1.1.0.zip"
-        projectURL="https://github.com/boskovav/piqmee"
-        description="Birth-death skyline-based method efficiently dealing with duplicate sequences"
-    >
-      <depends on="BEAST.base" atleast="2.7.1" />
-      <depends on="BEAST.app" atleast="2.7.1" />
-      <depends on="BDSKY" atleast="1.5.0" />
-   </package>
+<packages
    <package
         name="EpiInf"
         version="8.0.0"
