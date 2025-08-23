@@ -660,22 +660,135 @@ export const MODELS: Model[] = [
 		tutorials: ['https://taming-the-beast.org/tutorials/SCOTTI-Tutorial/'],
 		examples: ['https://bitbucket.org/nicofmay/scotti/src/master/SCOTTI/examples/'],
 		namespaces: ['scotti']
+	},
+	{
+		software: 'beast2',
+		name: 'BASTA',
+		authors: ['Nicola De Maio', 'Daniel Wilson', 'Chieh-hsi Wu'],
+		shortDescription: 'Efficiently infer the structured coalescent model.',
+		tags: ['Multiple Types'],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://bitbucket.org/nicofmay/basta-bayesian-structured-coalescent-approximation',
+		paper: 'https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005421',
+		tutorials: [
+			'https://bitbucket.org/nicofmay/basta-bayesian-structured-coalescent-approximation/src/master/doc/BASTA_xml_file_guide.pdf'
+		],
+		examples: [
+			'https://bitbucket.org/nicofmay/basta-bayesian-structured-coalescent-approximation/src/master/examples/'
+		],
+		namespaces: ['basta']
+	},
+	{
+		software: 'beast2',
+		name: 'BadTrIP',
+		authors: ['Nicola De Maio', 'Colin J. Worby', 'Daniel J. Wilson', 'Nicole Stoesser'],
+		shortDescription:
+			'Reconstruct host-to-host transmission using within-host pathogen genomic variants.',
+		tags: ['Transmission Histories', 'Within-host Variants'],
+		sampleTypes: ['pathogens'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treeLikelihood',
+		code: 'https://bitbucket.org/nicofmay/badtrip',
+		paper: 'https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006117',
+		tutorials: ['https://bitbucket.org/nicofmay/badtrip/src/master/doc/BadTrIP_manual.pdf'],
+		examples: ['https://bitbucket.org/nicofmay/badtrip/src/master/examples/'],
+		namespaces: ['badtrip']
+	},
+	{
+		software: 'beast2',
+		name: 'PhyDyn',
+		authors: ['Igor Siveroni', 'Erik Volz'],
+		shortDescription:
+			'Estimate epidemiological parameters and phylogenies by fitting compartmental epidemiological models.',
+		tags: ['Compartmental Models', 'Multiple Types'],
+		sampleTypes: ['pathogens'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://github.com/mrc-ide/PhyDyn',
+		paper: 'https://pubmed.ncbi.nlm.nih.gov/30422979/',
+		tutorials: ['https://github.com/mrc-ide/PhyDyn/wiki'],
+		examples: [
+			'https://github.com/mrc-ide/PhyDyn/wiki/Influenza-Example',
+			'https://github.com/mrc-ide/PhyDyn/wiki/Ebola-Example',
+			'https://github.com/mrc-ide/PhyDyn/tree/master/examples'
+		],
+		namespaces: ['phydyn']
+	},
+	{
+		software: 'beast2',
+		name: 'phylodynamics',
+		authors: ['Denise Kühnert', 'Alex Popinga', 'Walter Xie', 'Remco Bouckaert'],
+		shortDescription: 'Infer different approximations of the epidemiological SIR model.',
+		tags: ['SIR'],
+		sampleTypes: ['pathogens'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://github.com/BEAST2-Dev/phylodynamics',
+		tutorials: [
+			'https://github.com/sebastianduchene/phyloworkshop_2017/blob/master/Day_3_Prac_2.docx?raw=true'
+		],
+		examples: ['https://github.com/BEAST2-Dev/phylodynamics/tree/master/examples'],
+		namespaces: ['phylodynamics']
+	},
+	{
+		software: 'beast2',
+		name: 'contacTrees',
+		authors: [
+			'Nico Neureiter',
+			'Peter Ranacher',
+			'Nour Efrat-Kowalsky',
+			'Gereon A. Kaiping',
+			'Robert Weibel',
+			'Paul Widmer',
+			'Remco R. Bouckaert'
+		],
+		shortDescription: 'Infer language phylogenies while accounting for contact and borrowing.',
+		tags: ['Linguistics', 'Borrowing'],
+		sampleTypes: ['languages'],
+		dataTypes: ['traits'],
+		model: 'treePrior',
+		code: 'https://github.com/NicoNeureiter/contacTrees',
+		paper: 'https://www.nature.com/articles/s41599-022-01211-7',
+		tutorials: [
+			'https://github.com/NicoNeureiter/contacTrees/tree/master/examples/starting-with-beastling'
+		],
+		examples: [
+			'https://github.com/NicoNeureiter/contacTrees/tree/master/examples/starting-with-beastling'
+		],
+		namespaces: ['contactrees']
+	},
+	{
+		software: 'beast2',
+		name: 'PoMo',
+		authors: ['Nicola De Maio', 'Christian Schlötterer', 'Carolin Kosiol'],
+		shortDescription: 'Infer phylogenies while accounting for polymorphisms and fixation biases',
+		tags: ['Polymorphism-Aware'],
+		sampleTypes: ['species'],
+		dataTypes: ['nucleotides'],
+		model: 'substitutionModel',
+		code: 'https://bitbucket.org/nicofmay/pomo-beast/src/master/',
+		paper: 'https://academic.oup.com/mbe/article/30/10/2249/1247434',
+		tutorials: ['https://bitbucket.org/nicofmay/pomo-beast/src/master/doc/PoMo_xml_file_guide.pdf'],
+		examples: ['https://bitbucket.org/nicofmay/pomo-beast/src/master/examples/'],
+		namespaces: ['pomo']
+	},
+	{
+		software: 'beast2',
+		name: 'FLC',
+		authors: ['Mathieu Fourment', 'Aaron E. Darling'],
+		shortDescription: 'Use a hybrid of local and relaxed clock models.',
+		tags: [],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'clockModel',
+		code: 'https://github.com/4ment/flc',
+		paper: 'https://peerj.com/articles/5140.pdf',
+		tutorials: [],
+		examples: ['https://github.com/4ment/flc/tree/master/examples'],
+		namespaces: ['mf.beast.evolution.branchratemodel']
 	}
-	// {
-	// 	software: 'beast2',
-	// 	name: '',
-	// 	authors: [],
-	// 	shortDescription: '',
-	// 	tags: [],
-	// 	sampleTypes: ALL_SAMPLE_TYPES,
-	// 	dataTypes: ALL_DATA_TYPES,
-	// 	model: '',
-	// 	code: '',
-	// 	paper: '',
-	// 	tutorials: [],
-	// 	examples: [],
-	// 	namespaces: []
-	// }
 ];
 
 export const NAME_TO_MODEL = Object.fromEntries(MODELS.map((x) => [x.name, x]));
