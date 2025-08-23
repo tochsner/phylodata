@@ -567,7 +567,7 @@ export const MODELS: Model[] = [
 		name: 'PIQMEE',
 		authors: ['Veronika Boskova', 'Tanja Stadler'],
 		shortDescription: 'Increase efficiency when working with duplicate sequences.',
-		tags: [],
+		tags: ['Duplicate Sequences'],
 		sampleTypes: ['species', 'pathogens', 'single-cells'],
 		dataTypes: ALL_DATA_TYPES,
 		model: 'treeLikelihood',
@@ -579,6 +579,87 @@ export const MODELS: Model[] = [
 		],
 		examples: ['https://github.com/boskovav/piqmee/tree/master/examples'],
 		namespaces: ['piqmee']
+	},
+	{
+		software: 'beast2',
+		name: 'EpiInf',
+		authors: [
+			'Timothy G Vaughan',
+			'Gabriel E Leventhal',
+			'David A Rasmussen',
+			'Alexei J Drummond',
+			'David Welch',
+			'Tanja Stadler'
+		],
+		shortDescription:
+			'Infer incidence, prevalence, and phylogenies from genomic and case count data.',
+		tags: ['Epidemic Trajectories'],
+		sampleTypes: ['pathogens'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treeLikelihood',
+		website: 'https://tgvaughan.github.io/EpiInf/',
+		code: 'https://github.com/tgvaughan/EpiInf',
+		paper: 'https://doi.org/10.1093/molbev/msz106',
+		tutorials: ['https://tgvaughan.github.io/EpiInf/doc/'],
+		examples: [],
+		namespaces: ['epiinf']
+	},
+	{
+		software: 'beast2',
+		name: 'FastRelaxedClockLogNormal',
+		authors: ['Rong Zhang', 'Alexei Drummond'],
+		shortDescription: 'Provides a faster relaxed clock model.',
+		tags: [],
+		sampleTypes: ALL_SAMPLE_TYPES,
+		dataTypes: ALL_DATA_TYPES,
+		model: 'clockModel',
+		code: 'https://github.com/Rong419/ConstantDistanceOperator',
+		paper: 'https://link.springer.com/content/pdf/10.1186/s12862-020-01609-4.pdf',
+		tutorials: [],
+		examples: ['https://github.com/Rong419/ConstantDistanceOperator/tree/master/examples'],
+		namespaces: ['consoperators']
+	},
+	{
+		software: 'beast2',
+		name: 'bacter',
+		authors: [
+			'Timothy G Vaughan',
+			'David Welch',
+			'Alexei J Drummond',
+			'Patrick J Biggs',
+			'Tessy George',
+			'Nigel P French'
+		],
+		shortDescription: 'Infer ancestral recombination graphs from bacterial sequences.',
+		tags: ['ARGs', 'Recombination'],
+		sampleTypes: ['pathogens', 'species'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		website: 'https://tgvaughan.github.io/bacter/',
+		code: 'https://github.com/tgvaughan/bacter',
+		paper: 'https://academic.oup.com/genetics/article/205/2/857/6066433',
+		tutorials: [
+			'https://tgvaughan.github.io/bacter/doc/',
+			'https://taming-the-beast.org/tutorials/Bacter-Tutorial/'
+		],
+		examples: ['https://github.com/tgvaughan/bacter/tree/master/examples'],
+		namespaces: ['bacter']
+	},
+	{
+		software: 'beast2',
+		name: 'SCOTTI',
+		authors: ['Nicola De Maio', 'Jessie Wu', 'Daniel Wilson'],
+		shortDescription:
+			'Infer transmission while accounting for within-host evolution and non-sampled patients.',
+		tags: ['Transmission Histories'],
+		sampleTypes: ['pathogens'],
+		dataTypes: ALL_DATA_TYPES,
+		model: 'treePrior',
+		code: 'https://bitbucket.org/nicofmay/scotti',
+		paper: 'https://pubmed.ncbi.nlm.nih.gov/27681228/',
+		tutorials: ['https://taming-the-beast.org/tutorials/SCOTTI-Tutorial/'],
+		examples: ['https://bitbucket.org/nicofmay/scotti/src/master/SCOTTI/examples/'],
+		namespaces: ['scotti']
 	}
 	// {
 	// 	software: 'beast2',
