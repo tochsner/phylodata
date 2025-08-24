@@ -12,7 +12,7 @@
 	import { browser } from '$app/environment';
 	import modelEmbeddings from '$lib/models/embeddings.json';
 
-	const embeddingThreshold = 0.35;
+	const embeddingThreshold = 0.4;
 
 	async function computeEmbedding(query: string | null) {
 		if (!query || !browser) return null;
@@ -256,7 +256,7 @@
 
 			<div class="flex justify-center gap-2 pt-4">
 				<textarea
-					class="h-17 w-full resize-none rounded-md border border-white bg-white py-2 pr-10 pl-3 placeholder:italic focus:bg-white"
+					class="h-24 w-full resize-none rounded-md border border-white bg-white py-2 pr-10 pl-3 placeholder:italic focus:bg-white"
 					bind:value={inputSearchQuery}
 					placeholder="I study bacterial evolution with a focus on horizontal gene transfer."
 				></textarea>

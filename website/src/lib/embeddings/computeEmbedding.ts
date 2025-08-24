@@ -11,7 +11,7 @@ export async function extendQuery(query: string) {
 		'You are an expert in Bayesian phylogenetic modeling.\nSuggest features that a model should support in the context of a specific phylogenetic analysis, such as: structured analysis, phylogenetic network, transmission history inference, language tree inference, species delimitation, and more.';
 
 	const completion = await openai.chat.completions.create({
-		model: 'gpt-5-nano',
+		model: 'gpt-4.1',
 		messages: [
 			{
 				role: 'system',
