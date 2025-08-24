@@ -8,10 +8,10 @@ const openai = new OpenAI({ apiKey });
 
 export async function extendQuery(query: string) {
 	const modelFeatures =
-		'Provide features that a model should support in the context of phylogenetic analysis, such as: structured analysis, phylogenetic network, transmission history inference, language tree inference, species delimitation, and more.';
+		'You are an expert in Bayesian phylogenetic modeling.\nSuggest features that a model should support in the context of a specific phylogenetic analysis, such as: structured analysis, phylogenetic network, transmission history inference, language tree inference, species delimitation, and more.';
 
 	const completion = await openai.chat.completions.create({
-		model: 'gpt-4',
+		model: 'gpt-5-nano',
 		messages: [
 			{
 				role: 'system',
@@ -19,7 +19,7 @@ export async function extendQuery(query: string) {
 			},
 			{
 				role: 'user',
-				content: `For the following query about phylogenetics: If the query does not obviously refer to a common phylogenetic use case, return an empty string. Otherwise, suggest relevant model features that should be supported: "${query}". If the query does not obviously refer to a common phylogenetic use case, *return an empty string*. Only return a list of at most four keywords separated by commas.`
+				content: `For the following query: If the query does not obviously refer to a common phylogenetic use case, return an empty string. Otherwise, suggest relevant phylogenetic model features that might be required: "${query}". Only return a list of at most six keywords separated by commas.`
 			}
 		]
 	});

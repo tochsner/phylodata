@@ -12,7 +12,7 @@
 	import { browser } from '$app/environment';
 	import modelEmbeddings from '$lib/models/embeddings.json';
 
-	const embeddingThreshold = 0.4;
+	const embeddingThreshold = 0.35;
 
 	async function computeEmbedding(query: string | null) {
 		if (!query || !browser) return null;
