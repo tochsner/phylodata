@@ -16,6 +16,10 @@
 			<nav class="flex space-x-8">
 				<a href="/experiments" class="cursor-pointer font-semibold hover:opacity-70">Experiments</a>
 				<a href="/models" class="cursor-pointer font-semibold hover:opacity-70">Models</a>
+				<a
+					href="https://github.com/tochsner/phylodata/blob/main/PRINCIPLES.md"
+					class="cursor-pointer font-semibold hover:opacity-70">About</a
+				>
 			</nav>
 		</div>
 
