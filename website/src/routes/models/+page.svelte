@@ -12,7 +12,7 @@
 	import { browser } from '$app/environment';
 	import modelEmbeddings from '$lib/models/embeddings.json';
 
-	const embeddingThreshold = 0.4;
+	const embeddingThreshold = 0.55;
 
 	async function computeEmbedding(query: string | null) {
 		if (!query || !browser) return null;
@@ -154,7 +154,8 @@
 					return (
 						!modelEmbedding || cosineSimilarity(embedding, modelEmbedding) > embeddingThreshold
 					);
-				});
+				})
+				.slice(0, 6);
 		}
 
 		return filteredModels;

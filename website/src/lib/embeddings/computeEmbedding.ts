@@ -7,11 +7,48 @@ const apiKey = process.env.OPEN_AI_KEY || OPEN_AI_KEY;
 const openai = new OpenAI({ apiKey });
 
 export async function extendQuery(query: string) {
-	const modelFeatures =
-		'You are an expert in Bayesian phylogenetic modeling.\nSuggest features that a model should support in the context of a specific phylogenetic analysis, such as: structured analysis, phylogenetic network, transmission history inference, language tree inference, species delimitation, and more.';
+	const modelFeatures = `You are an expert in Bayesian phylogenetics.
+
+	You develop a BEAST 2 package for a given use case. Suggest features that your package for the use case should support.
+	Describe the package by listing potential applications of your package. List at most five of such applications.
+
+	# Example 1
+
+	Given use case: "I want to group multiple samples into distinct species."
+
+	Use the package when you:
+
+	- Need to **define species boundaries** from genomic data
+	- Working with **multilocus sequence data** or **SNP data**
+	- Want to account for **different evolutionary histories** across genomic regions
+	- Want to allow **speciation rates to vary through time**
+
+	# Example 2
+
+	Given use case: "I study viral evolution given epidemic and genetic data."
+
+	Use the package when you:
+
+	- Combining phylogenetic sequences with time series of confirmed cases for joint inference
+  - Analyzing large genomic datasets or real-time analysis from infectious disease outbreaks that require computationally tractable methods
+  - Estimating R₀ and prevalence from combined genetic and epidemiological sources
+
+  # Example 3
+
+	Given use case: "I study old polynesian languages."
+
+	Use the package when you:
+
+	- Working with linguistic data in BEAST2
+  - Analyzing cognate data (homologous word forms from common ancestors)
+  - Studying grammatical features across languages
+  - Creating language phylogenies with temporal information
+  - Working with binary presence/absence data for linguistic traits
+  - Need to account for ascertainment bias in linguistic datasets
+	`;
 
 	const completion = await openai.chat.completions.create({
-		model: 'gpt-4.1',
+		model: 'gpt-4o',
 		messages: [
 			{
 				role: 'system',
@@ -19,12 +56,12 @@ export async function extendQuery(query: string) {
 			},
 			{
 				role: 'user',
-				content: `For the following query: If the query does not obviously refer to a common phylogenetic use case, return an empty string. Otherwise, suggest relevant phylogenetic model features that might be required: "${query}". Only return a list of at most six keywords separated by commas.`
+				content: `For the following use case: "${query}".`
 			}
 		]
 	});
 
-	const enhancedQuery = `${query}\n (${completion.choices[0].message.content})`;
+	const enhancedQuery = `${query}\n\n ${completion.choices[0].message.content}`;
 
 	return enhancedQuery;
 }
