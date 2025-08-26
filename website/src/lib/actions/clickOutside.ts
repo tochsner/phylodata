@@ -1,11 +1,7 @@
 // Action to handle clicks outside of an element
 export function clickOutside(node: HTMLElement, handler: () => void) {
 	const handleClick = (event: MouseEvent) => {
-		if (
-			node &&
-			!node.contains(event.target as Node) &&
-			!event.defaultPrevented
-		) {
+		if (node && !node.contains(event.target as Node) && !event.defaultPrevented) {
 			handler();
 		}
 	};
