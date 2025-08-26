@@ -3,28 +3,29 @@
 	import Tag from '$lib/components/tag.svelte';
 	import { MODELS, type Model } from '$lib/models/models';
 	import { titleCase } from '$lib/utils/titleCase';
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import SampleTypeIcon from './sampleTypeIcon.svelte';
 	import NoContent from '$lib/components/noContent.svelte';
 	import Info from '$lib/components/info.svelte';
 	import { page } from '$app/stores';
 	import { replaceState } from '$app/navigation';
-	import { browser } from '$app/environment';
-	import modelEmbeddings from '$lib/models/embeddings.json';
+	import {
+		computeEmbedding,
+		getModelEmbedding,
+		embeddingSimilarity
+	} from '$lib/embeddings/embeddingsClient';
 
 	const embeddingThreshold = 0.55;
+	const maxSearchResults = 6;
 
-	async function computeEmbedding(query: string | null) {
-		if (!query || !browser) return null;
+	let inputSearchQuery = $state<string>($page.url.searchParams.get('query') || '');
+	let searchQuery = $state<string | null>($page.url.searchParams.get('query'));
 
-		const response = await fetch(`api/computeEmbedding/${query}`);
-		const data = await response.json();
-
-		return data;
-	}
-	const modelToEmbedding = new Map<string, number[]>();
-	for (const model of modelEmbeddings) {
-		modelToEmbedding.set(model.fileName, model.embedding);
+	function isExactMatch(model: Model, searchQuery: string): boolean {
+		return (
+			model.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			model.shortDescription.toLowerCase().includes(searchQuery.toLowerCase())
+		);
 	}
 
 	const sampleTypes: {
@@ -64,9 +65,6 @@
 		{ value: 'snps', label: 'SNPs' },
 		{ value: 'traits', label: 'Traits' }
 	];
-
-	let inputSearchQuery = $state<string>($page.url.searchParams.get('query') || '');
-	let searchQuery = $state<string | null>($page.url.searchParams.get('query'));
 
 	let selectedSampleTypes = $state<Model['sampleTypes']>(
 		JSON.parse($page.url.searchParams.get('sampleTypes') || '[]')
@@ -126,44 +124,42 @@
 			filteredModels = filteredModels
 				.sort((a, b) => {
 					if (!searchQuery) return 0;
-					if (
-						a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						a.shortDescription.toLowerCase().includes(searchQuery.toLowerCase())
-					) {
-						return -1;
+
+					if (isExactMatch(b, searchQuery)) {
+						return 1;
 					}
 
-					const aEmbedding = modelToEmbedding.get(a.name.toLowerCase() + '.md');
-					const bEmbedding = modelToEmbedding.get(b.name.toLowerCase() + '.md');
+					const aEmbedding = getModelEmbedding(a.name);
+					const bEmbedding = getModelEmbedding(b.name);
 					if (!aEmbedding || !bEmbedding) {
 						console.log('Embedding not found for', a.name, b.name);
 						return 0;
 					}
-					return -cosineSimilarity(embedding, aEmbedding) + cosineSimilarity(embedding, bEmbedding);
+
+					return (
+						embeddingSimilarity(embedding, bEmbedding) - embeddingSimilarity(embedding, aEmbedding)
+					);
 				})
 				.filter((model) => {
 					if (!searchQuery) return false;
-					if (
-						model.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						model.shortDescription.toLowerCase().includes(searchQuery.toLowerCase())
-					) {
+
+					if (isExactMatch(model, searchQuery)) {
 						return true;
 					}
 
-					const modelEmbedding = modelToEmbedding.get(model.name.toLowerCase() + '.md');
-					return (
-						!modelEmbedding || cosineSimilarity(embedding, modelEmbedding) > embeddingThreshold
-					);
+					const modelEmbedding = getModelEmbedding(model.name);
+					if (!modelEmbedding) {
+						console.log('Embedding not found for', model.name);
+						return false;
+					}
+
+					return embeddingSimilarity(embedding, modelEmbedding) > embeddingThreshold;
 				})
-				.slice(0, 6);
+				.slice(0, maxSearchResults);
 		}
 
 		return filteredModels;
 	});
-
-	function cosineSimilarity(embedding: number[], aEmbedding: number[]) {
-		return aEmbedding.reduce((acc, val, i) => acc + val * embedding[i], 0);
-	}
 </script>
 
 <svelte:head>
@@ -359,6 +355,7 @@
 				</a>
 			{/each}
 		</div>
+
 		<NoContent items={filteredModels}>There are no matching models.</NoContent>
 	{/await}
 </div>

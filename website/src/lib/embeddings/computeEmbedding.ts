@@ -6,10 +6,25 @@ const apiKey = process.env.OPEN_AI_KEY || OPEN_AI_KEY;
 
 const openai = new OpenAI({ apiKey });
 
+/**
+ * Compute an embedding for the given search query using OpenAI's embedding model.
+ */
+export async function computeEmbedding(searchQuery: string) {
+	const response = await openai.embeddings.create({
+		model: embedding_model,
+		input: await extendQuery(searchQuery)
+	});
+	return response.data[0].embedding;
+}
+
+/**
+ * Extends the given search query with a description of the applications of a matching model.
+ * This is done to increase the similarity of the query with a matching model's description.
+ */
 export async function extendQuery(query: string) {
 	const modelFeatures = `You are an expert in Bayesian phylogenetics.
 
-	You develop a BEAST 2 package for a given use case. Suggest features that your package for the use case should support.
+	You develop a BEAST 2 package for a given use case. Suggest features that your package should support.
 	Describe the package by listing potential applications of your package. List at most five of such applications.
 
 	# Example 1
@@ -25,7 +40,7 @@ export async function extendQuery(query: string) {
 
 	# Example 2
 
-	Given use case: "I study viral evolution given epidemic and genetic data."
+	Given use case: "I study infectious disease outbreaks given epidemic and genetic data."
 
 	Use the package when you:
 
@@ -62,14 +77,5 @@ export async function extendQuery(query: string) {
 	});
 
 	const enhancedQuery = `${query}\n\n ${completion.choices[0].message.content}`;
-
 	return enhancedQuery;
-}
-
-export async function computeEmbedding(content: string) {
-	const response = await openai.embeddings.create({
-		model: embedding_model,
-		input: await extendQuery(content)
-	});
-	return response.data[0].embedding;
 }

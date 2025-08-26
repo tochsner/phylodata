@@ -29,20 +29,21 @@
 	}
 </script>
 
-<button
-	popovertarget="info"
+<div
 	data-trigger="hover"
 	onmouseover={mouseOver}
 	onmousemove={mouseMove}
 	onmouseleave={mouseLeave}
 	onfocus={() => {}}
+	aria-roledescription="information"
+	role="tooltip"
 >
 	{#if trigger}
 		{@render trigger()}
 	{:else}
 		<InfoIcon {classes} />
 	{/if}
-</button>
+</div>
 
 <div
 	bind:this={popup}
