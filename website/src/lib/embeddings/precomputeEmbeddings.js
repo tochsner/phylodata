@@ -36,9 +36,12 @@ async function main() {
 			const filePath = path.join(modelsDir, fileName);
 			const content = fs.readFileSync(filePath, 'utf-8');
 
+			const lines = content.split('\n');
+			const contentWithoutHeaders = lines.filter((line) => !line.trim().startsWith('#')).join('\n');
+
 			results.push({
 				fileName,
-				embedding: await computeEmbedding(content),
+				embedding: await computeEmbedding(contentWithoutHeaders),
 				modelName: embedding_model
 			});
 
