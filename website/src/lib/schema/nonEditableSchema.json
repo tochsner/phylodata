@@ -223,14 +223,8 @@
         "name": {
           "type": "string"
         },
-        "description": {
-          "type": "string"
-        },
         "type": {
           "$ref": "#/$defs/ModelType"
-        },
-        "documentationUrl": {
-          "type": "string"
         },
         "parameters": {
           "type": "object"
@@ -238,9 +232,7 @@
       },
       "required": [
         "name",
-        "description",
         "type",
-        "documentationUrl",
         "parameters"
       ]
     },

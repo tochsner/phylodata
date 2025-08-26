@@ -1,4 +1,4 @@
-from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
+from phylodata.data_types import ClassificationEntry, DataType, Sample
 from phylodata.errors import BlastError
 from phylodata.process.samples.run_blast import (
     extract_taxon_ids,
@@ -18,9 +18,6 @@ def add_protein_metadata(samples: list[Sample]) -> list[Sample]:
     protein_sequence_idx: list[int] = []
 
     for idx, sample in enumerate(samples):
-        if sample.type != SampleType.UNKNOWN:
-            continue
-
         for data in sample.sample_data:
             if data.type == DataType.AMINO_ACIDS:
                 protein_sequences.append("".join(c for c in data.data if c.isalpha()))
@@ -31,17 +28,6 @@ def add_protein_metadata(samples: list[Sample]) -> list[Sample]:
 
     classification = fetch_protein_classifications(protein_sequences)
 
-    # decide on the tree type
-
-    species = set(
-        [
-            classification[0].scientific_name
-            for classification in classification
-            if classification
-        ]
-    )
-    tree_type = SampleType.SPECIES if 1 < len(species) > 1 else SampleType.CELLS
-
     # add the classifications to the samples
 
     for idx, classification in zip(protein_sequence_idx, classification):
@@ -49,7 +35,6 @@ def add_protein_metadata(samples: list[Sample]) -> list[Sample]:
             samples[idx].classification = classification
             samples[idx].scientific_name = classification[0].scientific_name
             samples[idx].common_name = classification[0].common_name
-            samples[idx].type = tree_type
 
     return samples
 

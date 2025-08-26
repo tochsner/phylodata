@@ -38,13 +38,6 @@ class FileType(Enum):
     UNKNOWN = "unknown"
 
 
-class SampleType(Enum):
-    SPECIES = "species"
-    CELLS = "cells"
-    LANGUAGE = "language"
-    UNKNOWN = "unknown"
-
-
 class DataType(Enum):
     RNA = "rna"
     DNA = "dna"
@@ -193,7 +186,6 @@ class ClassificationEntry(msgspec.Struct, rename="camel"):
 class Sample(msgspec.Struct, rename="camel"):
     sample_id: str
     scientific_name: str
-    type: SampleType
     classification: list[ClassificationEntry]
     sample_data: list[SampleData]
     common_name: Optional[str] = None

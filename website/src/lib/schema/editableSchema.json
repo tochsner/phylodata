@@ -121,9 +121,6 @@
         "scientificName": {
           "type": "string"
         },
-        "type": {
-          "$ref": "#/$defs/SampleType"
-        },
         "classification": {
           "type": "array",
           "items": {
@@ -151,18 +148,8 @@
       "required": [
         "sampleId",
         "scientificName",
-        "type",
         "classification",
         "sampleData"
-      ]
-    },
-    "SampleType": {
-      "title": "SampleType",
-      "enum": [
-        "cells",
-        "language",
-        "species",
-        "unknown"
       ]
     },
     "ClassificationEntry": {

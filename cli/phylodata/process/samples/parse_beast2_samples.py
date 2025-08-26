@@ -7,7 +7,6 @@ from phylodata.data_types import (
     DataType,
     Sample,
     SampleData,
-    SampleType,
 )
 from phylodata.process.samples.add_language_metadata import add_language_metadata
 from phylodata.process.samples.add_nucleotide_metadata import add_nucleotide_metadata
@@ -115,7 +114,6 @@ def construct_samples_from_data(
         Sample(
             sample_id=id,
             scientific_name=id,
-            type=SampleType.UNKNOWN,
             classification=[],
             sample_data=data,
             common_name=None,

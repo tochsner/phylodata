@@ -45,9 +45,9 @@
 					<tr>
 						<td>
 							<div class="flex items-center gap-4">
-								{#if row.type === 'species' || row.type === 'cells'}
+								{#if row.classification.at(0)?.idType === 'ncbiTaxonomyId'}
 									<GeneIcon classes="size-5 text-accent" />
-								{:else if row.type === 'language'}
+								{:else if row.classification.at(0)?.idType === 'glottologId'}
 									<LanguageIcon classes="size-5 text-accent" />
 								{:else}
 									<FileIcon classes="size-5 text-accent" />
@@ -102,7 +102,7 @@
 							<div class="flex flex-col gap-1">
 								{#each row.sampleData as data, idx (idx)}
 									<div class="flex justify-end gap-2">
-										{#if (data.type === 'dna' || data.type === 'rna' || data.type === 'aminoAcids') && row.classification.at(0)?.classificationId}
+										{#if row.classification.at(0)?.idType === 'ncbiTaxonomyId' && row.classification.at(0)?.classificationId}
 											<a
 												aria-label="download"
 												class="text-accent cursor-pointer p-2 font-semibold"
@@ -113,7 +113,7 @@
 											</a>
 										{/if}
 
-										{#if row.type === 'language' && row.classification.at(0)?.classificationId}
+										{#if row.classification.at(0)?.idType === 'glottologId' && row.classification.at(0)?.classificationId}
 											<a
 												aria-label="download"
 												class="text-accent cursor-pointer p-2 font-semibold"

@@ -54,7 +54,6 @@ export type ClassificationEntry = {
 export type Sample = {
 	sampleId: string;
 	scientificName: string;
-	type: 'species' | 'pathogens' | 'individuals' | 'single-cells' | 'language' | 'unknown';
 	classification: ClassificationEntry[];
 	sampleData: SampleData[];
 	commonName?: string;

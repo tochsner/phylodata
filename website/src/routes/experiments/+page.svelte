@@ -176,11 +176,6 @@
 {/snippet}
 
 {#snippet paperOverview(paper: PaperWithExperiments)}
-	{@const treeTypes = [
-		...new Set(
-			paper.experiments.flatMap((exp) => exp.samples).map((sample) => sample.type.toUpperCase())
-		)
-	]}
 	{@const commonClassifications = getMainClassifications(
 		paper.experiments.flatMap((exp) => exp.samples)
 	)}
@@ -200,12 +195,6 @@
 			<Tag label="Number of Experiments">
 				{paper.experiments.length}
 			</Tag>
-
-			{#each treeTypes as treeType}
-				<Tag label="Sample Type">
-					{treeType}
-				</Tag>
-			{/each}
 
 			{#each commonClassifications as classification}
 				<Tag label="Contains">

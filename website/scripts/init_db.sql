@@ -46,7 +46,6 @@ CREATE TABLE "samples" (
     "id" SERIAL PRIMARY KEY,
     "sampleId" VARCHAR(255) NOT NULL,
     "scientificName" VARCHAR(255) NOT NULL,
-    "type" VARCHAR(50) NOT NULL CHECK ("type" IN ('species', 'cells', 'language', 'unknown')),
     "commonName" TEXT,
     "experimentId" INTEGER,
     FOREIGN KEY ("experimentId") REFERENCES "experiments"("id") ON DELETE CASCADE

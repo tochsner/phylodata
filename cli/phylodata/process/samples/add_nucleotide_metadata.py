@@ -1,6 +1,6 @@
 from loguru import logger
 
-from phylodata.data_types import ClassificationEntry, DataType, Sample, SampleType
+from phylodata.data_types import ClassificationEntry, DataType, Sample
 from phylodata.errors import BlastError
 from phylodata.process.samples.run_blast import extract_taxon_ids, run_blast
 from phylodata.process.samples.taxon_classification import look_up_taxon_classification
@@ -17,9 +17,6 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
     nucleotide_sequence_idx: list[int] = []
 
     for idx, sample in enumerate(samples):
-        if sample.type != SampleType.UNKNOWN:
-            continue
-
         for data in sample.sample_data:
             if data.type in [DataType.RNA, DataType.DNA]:
                 nucleotide_sequences.append(
@@ -32,17 +29,6 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
 
     classification = fetch_nucleotide_classifications(nucleotide_sequences)
 
-    # decide on the tree type
-
-    species = set(
-        [
-            classification[0].scientific_name
-            for classification in classification
-            if classification
-        ]
-    )
-    tree_type = SampleType.SPECIES if 1 < len(species) else SampleType.CELLS
-
     # add the classifications to the samples
 
     for idx, classification in zip(nucleotide_sequence_idx, classification):
@@ -50,7 +36,6 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
             samples[idx].classification = classification
             samples[idx].scientific_name = classification[0].scientific_name
             samples[idx].common_name = classification[0].common_name
-            samples[idx].type = tree_type
 
     return samples
 

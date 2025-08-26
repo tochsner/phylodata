@@ -14,3 +14,6 @@ build:
 
 publish:
     uv publish
+
+generate_schema:
+    uv run python scripts/generate_json_schema.py

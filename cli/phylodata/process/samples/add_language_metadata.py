@@ -5,7 +5,6 @@ from phylodata.data_types import (
     ClassificationEntryType,
     DataType,
     Sample,
-    SampleType,
 )
 from phylodata.process.samples.language_utils import (
     clean_label,
@@ -18,9 +17,6 @@ from phylodata.process.samples.language_utils import (
 def add_language_metadata(samples: list[Sample]) -> list[Sample]:
     """Tries to add metadata to all samples which correspond to a language."""
     for sample in samples:
-        if sample.type != SampleType.UNKNOWN:
-            continue
-
         for data in sample.sample_data:
             if data.type != DataType.TRAITS:
                 continue
@@ -28,7 +24,6 @@ def add_language_metadata(samples: list[Sample]) -> list[Sample]:
             if classification := fetch_language_classification(sample.sample_id):
                 sample.classification = classification
                 sample.scientific_name = classification[0].scientific_name
-                sample.type = SampleType.LANGUAGE
                 break  # we only need one match
 
     return samples
