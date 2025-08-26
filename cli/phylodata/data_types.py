@@ -215,9 +215,7 @@ class Trees(msgspec.Struct, rename="camel"):
 
 class EvolutionaryModelComponent(msgspec.Struct, rename="camel"):
     name: str
-    description: str
     type: ModelType
-    documentation_url: str
     parameters: dict[str, Any]
 
 
@@ -251,7 +249,7 @@ class PaperWithExperiment(msgspec.Struct, rename="camel"):
     experiment: Experiment
     files: list[File]
     samples: list[Sample]
-    trees: Trees
+    trees: Optional[Trees]
     evolutionary_model: list[EvolutionaryModelComponent]
     metadata: Metadata
 

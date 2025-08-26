@@ -4,23 +4,6 @@
 <!-- Peer reviewed packages can go in packages2.7.xml   -->
 
 <packages>
-    <package name="AlmostDistributions" version="0.2.1"
-        url="https://github.com/rbouckaert/AlmostDistributions/releases/download/v0.2.0/AlmostDistributions.package.v0.2.1.zip"
-        description="Almost-distributions"
-        projectURL="https://github.com/rbouckaert/AlmostDistributions">
-        <depends on='BEAST.base' atleast='2.7.0'/>
-        <depends on='BEASTLabs' atleast='2.0.0'/>
-    </package>
-
-    <package name="Experimenter" version="0.2.0"
-        url="https://github.com/christiaanjs/beast-validation/releases/download/v0.2.0/Experimenter.addon.v0.2.0.zip"
-        description="Experimenter"
-        projectURL="https://github.com/christiaanjs/beast-validation/">
-        <depends on='BEAST.base' atleast='2.7.0'/>
-        <depends on='BEAST.app' atleast='2.7.0'/>
-        <depends on='BEASTLabs' atleast='2.0.0'/>
-    </package>
-
 
     <package name="IndelDollo" version="0.0.1"
         url="https://github.com/jordandouglas/IndelDollo/releases/download/0.0.1/IndelDollo.addon.v0.0.1.zip"
@@ -40,18 +23,6 @@
         <depends on='BEAST_CLASSIC' atleast='1.6.1'/>
         <depends on='Babel' atleast='0.4.1'/>
     </package>
-
-
-    <package name="ASM" version="0.0.1"
-        url="https://github.com/rbouckaert/asm/releases/download/v0.0.1/ASM.package.v0.0.1.zip"
-        description="Automatic stopping MCMC"
-        projectURL="https://github.com/rbouckaert/asm">
-        <depends on='BEAST.base' atleast='2.7.5'/>
-        <depends on='BEAST.app' atleast='2.7.5'/>
-        <depends on='BEASTLabs' atleast='2.0.0'/>
-    </package>
-
-
 
 
     <package name='HetMM' version='0.0.1'
@@ -119,15 +90,6 @@
 	     description="Add clock models that have different mean rates at different epochs">
         <depends on='BEAST.base' atleast='2.7.0'/>
         <depends on='BEAST.app' atleast='2.7.0'/>
-    </package>
-
-
-    <package name="TargetedBeast" version="1.0.0"
-         url="https://github.com/nicfel/targetedbeast/releases/download/v.1.0.0/TargetedBeast.v1.0.0.zip"
-         projectURL="https://github.com/nicfel/targetedbeast/"
-         description="Targeted MCMC operators for Improving the Scalability of Bayesian Phylodynamic Inference">
-        <depends on='BEAST.base' atleast='2.7.2'/>
-        <depends on='BEAST.app' atleast='2.7.2'/>
     </package>
 
 </packages>

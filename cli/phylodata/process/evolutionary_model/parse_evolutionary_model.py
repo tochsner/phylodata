@@ -18,9 +18,7 @@ def parse_evolutionary_model(
         if parser.is_used(xml):
             model = EvolutionaryModelComponent(
                 name=parser.get_name(),
-                description=parser.get_description(),
                 parameters=parser.get_parameters(xml),
-                documentation_url=parser.get_documentation_url(),
                 type=parser.get_type(),
             )
             models.append(model)
