@@ -74,6 +74,7 @@ export async function extendQuery(query: string) {
 				content: `For the following use case: "${query}".`
 			}
 		],
+		temperature: 0.1,
 		top_p: 0.1
 	});
 
