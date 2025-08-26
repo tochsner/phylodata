@@ -1,8 +1,10 @@
 import json
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Any
 from xml.etree.ElementTree import ElementTree
 
+import phylodata
 from phylodata.data_types import ModelType
 from phylodata.process.utils.beast2_xml_utils import get_attribute
 
@@ -28,6 +30,15 @@ class Beast2PackageParser(ABC):
             namespace == package_namespace
             or namespace.startswith(f"{package_namespace}.")
             for namespace in namespaces
+        ):
+            return True
+
+        # check maps
+
+        elements_with_map = root.findall(".//map")
+        if any(
+            elem.text and elem.text.startswith(package_namespace)
+            for elem in elements_with_map
         ):
             return True
 
@@ -105,7 +116,10 @@ def load_package_parsers_from_json() -> list[Beast2PackageParser]:
     This is useful to sync the models detected by the PhyloData python library
     with the models presented on the PhyloData website."""
 
-    with open("phylodata/process/evolutionary_model/models.json", "r") as handle:
+    with open(
+        Path(phylodata.__path__[0]) / "process" / "evolutionary_model" / "models.json",
+        "r",
+    ) as handle:  # type: ignore
         json_models = json.loads(handle.read())
 
         return [
@@ -116,6 +130,8 @@ def load_package_parsers_from_json() -> list[Beast2PackageParser]:
             )
             for model in json_models
         ]
+
+        return []
 
 
 BEAST2_PACKAGE_PARSERS: list[Beast2PackageParser] = load_package_parsers_from_json()
