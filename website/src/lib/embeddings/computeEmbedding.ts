@@ -1,4 +1,5 @@
 import { OpenAI } from 'openai';
+
 import { OPEN_AI_KEY } from '$env/static/private';
 
 export const embedding_model = 'text-embedding-3-large';
@@ -24,12 +25,18 @@ export async function computeEmbedding(searchQuery: string) {
 export async function extendQuery(query: string) {
 	const modelFeatures = `You are an expert in Bayesian phylogenetics.
 
-	You develop a BEAST 2 package for a given use case. Suggest features that your package should support.
-	Describe the package by listing potential applications of your package. List at most five of such applications.
+	You develop a BEAST 2 package for a given use case (it might be slightly more general). Suggest features that your package should support.
+
+	Describe the package by first describing the main use case as a single short sentence, followed by a list of potential applications. List at most five of such applications.
+
+	Do not mention the very specific use case (like the type of species or virus involved). The package should
+	be general for similar use cases.
 
 	# Example 1
 
 	Given use case: "I want to group multiple samples into distinct species."
+
+	Define species boundaries from genomic data.
 
 	Use the package when you:
 
@@ -42,6 +49,8 @@ export async function extendQuery(query: string) {
 
 	Given use case: "I study infectious disease outbreaks given epidemic and genetic data."
 
+	Combine genetic and epidemiological data to model outbreaks.
+
 	Use the package when you:
 
 	- Combining phylogenetic sequences with time series of confirmed cases for joint inference
@@ -51,6 +60,8 @@ export async function extendQuery(query: string) {
   # Example 3
 
 	Given use case: "I study old polynesian languages."
+
+	Study languages using phylogenetics.
 
 	Use the package when you:
 

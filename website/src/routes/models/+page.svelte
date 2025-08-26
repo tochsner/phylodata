@@ -14,9 +14,10 @@
 		getModelEmbedding,
 		embeddingSimilarity
 	} from '$lib/embeddings/embeddingsClient';
+	import { detectSampleTypes } from '$lib/sampleTypes/detectSampleTypesClient';
 
-	const embeddingThreshold = 0.55;
-	const maxSearchResults = 6;
+	const embeddingThreshold = 0.525;
+	const maxSearchResults = 9;
 
 	let inputSearchQuery = $state<string>($page.url.searchParams.get('query') || '');
 	let searchQuery = $state<string | null>($page.url.searchParams.get('query'));
@@ -99,28 +100,16 @@
 	};
 
 	const filteredModels = $derived.by(async () => {
-		let filteredModels = MODELS.filter((model) => {
-			if (selectedSampleTypes.length === 0) return true;
-			return model.sampleTypes.some((type) => selectedSampleTypes.includes(type));
-		})
-			.filter((model) => {
-				if (selectedDataTypes.length === 0) return true;
-				return model.dataTypes.some((type) => selectedDataTypes.includes(type));
-			})
-			.map((model) => ({
-				model,
-				matchScore:
-					model.sampleTypes.filter((type) => selectedSampleTypes.includes(type)).length /
-						model.sampleTypes.length +
-					model.dataTypes.filter((type) => selectedDataTypes.includes(type)).length /
-						model.dataTypes.length
-			}))
-			.sort((a, b) => b.matchScore - a.matchScore)
-			.map(({ model }) => model)
-			.sort((a, b) => a.name.localeCompare(b.name));
+		let filteredModels = MODELS;
+		let querySampleTypes = undefined;
 
 		if (searchQuery) {
-			const embedding = await computeEmbedding(searchQuery);
+			const [embedding, sampleTypes] = await Promise.all([
+				computeEmbedding(searchQuery),
+				detectSampleTypes(searchQuery)
+			]);
+			querySampleTypes = sampleTypes;
+
 			filteredModels = filteredModels
 				.sort((a, b) => {
 					if (!searchQuery) return 0;
@@ -157,6 +146,29 @@
 				})
 				.slice(0, maxSearchResults);
 		}
+
+		querySampleTypes = querySampleTypes || selectedSampleTypes;
+
+		filteredModels = filteredModels
+			.filter((model) => {
+				if (querySampleTypes.length === 0) return true;
+				return model.sampleTypes.some((type) => querySampleTypes.includes(type));
+			})
+			.filter((model) => {
+				if (selectedDataTypes.length === 0) return true;
+				return model.dataTypes.some((type) => selectedDataTypes.includes(type));
+			})
+			.map((model) => ({
+				model,
+				matchScore:
+					model.sampleTypes.filter((type) => querySampleTypes.includes(type)).length /
+						model.sampleTypes.length +
+					model.dataTypes.filter((type) => selectedDataTypes.includes(type)).length /
+						model.dataTypes.length
+			}))
+			.sort((a, b) => b.matchScore - a.matchScore)
+			.map(({ model }) => model)
+			.sort((a, b) => a.name.localeCompare(b.name));
 
 		return filteredModels;
 	});
