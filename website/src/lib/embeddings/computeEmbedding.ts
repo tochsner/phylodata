@@ -73,7 +73,8 @@ export async function extendQuery(query: string) {
 				role: 'user',
 				content: `For the following use case: "${query}".`
 			}
-		]
+		],
+		top_p: 0.1
 	});
 
 	const enhancedQuery = `${query}\n\n ${completion.choices[0].message.content}`;
