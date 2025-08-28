@@ -17,8 +17,27 @@ def is_rna_sequence(sequence: str):
     return characters.issubset(RNA_CHARACTERS)
 
 
-DNA_CHARACTERS = {"a", "t", "c", "g", "*", "?", "-", "r", "y", "u", "n"}
-RNA_CHARACTERS = {"a", "u", "c", "g", "*", "?", "-", "r", "y", "t", "n"}
+DNA_CHARACTERS = {
+    "a",
+    "t",
+    "c",
+    "g",
+    "*",
+    "?",
+    "-",
+    "r",
+    "y",
+    "s",
+    "w",
+    "k",
+    "m",
+    "b",
+    "d",
+    "h",
+    "v",
+    "n",
+}
+RNA_CHARACTERS = (DNA_CHARACTERS - {"t"}) | {"u"}
 AA_CHARACTERS = {
     "a",
     "r",

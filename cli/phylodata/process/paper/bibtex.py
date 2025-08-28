@@ -6,7 +6,7 @@ import bibtexparser
 
 def is_valid_bibtex(bibtex_str: str):
     """Checks if the given string contains at least one valid bibtex entry."""
-    return len(bibtexparser.parse_string(bibtex_str).entries) != 1
+    return len(bibtexparser.parse_string(bibtex_str).entries) == 1
 
 
 def get_bibtex_value(bibtex_str: str, key: str) -> str | None:

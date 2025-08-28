@@ -2,6 +2,8 @@ cli/.venv
 .ropeproject
 cli/.ipynb_checkpoints
 
+.vscode
+
 *.egg-info
 __pycache__
 

@@ -18,11 +18,14 @@ def add_protein_metadata(samples: list[Sample]) -> list[Sample]:
     protein_sequence_idx: list[int] = []
 
     for idx, sample in enumerate(samples):
+        if sample.classification:
+            continue
+
         for data in sample.sample_data:
+            print(data.type)
             if data.type == DataType.AMINO_ACIDS:
                 protein_sequences.append("".join(c for c in data.data if c.isalpha()))
                 protein_sequence_idx.append(idx)
-                break  # we only need one sequence per sample
 
     # fetch the protein classifications
 

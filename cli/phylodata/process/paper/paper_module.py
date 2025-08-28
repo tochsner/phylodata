@@ -21,6 +21,7 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             return
 
         bibtex: str = st.session_state["paper_bibtex"]
+
         if name := get_bibtex_value(bibtex, "title"):
             st.session_state["paper_bibtex_title"] = name
         if abstract := get_bibtex_value(bibtex, "abstract"):
@@ -82,15 +83,12 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             raise ValidationError("Specify a paper abstract.")
         if not self.authors or not self.authors.strip():
             raise ValidationError("Specify at least one paper author.")
-        if is_valid_bibtex(self.bibtext):
-            st.toast("Specify exactly one bibtex entry.")
-            return
-        if is_valid_email(self.email.strip()):
-            st.toast("Specify a valid email address.")
-            return
+        if not is_valid_bibtex(self.bibtext):
+            raise ValidationError("Specify exactly one bibtex entry.")
+        if not is_valid_email(self.email.strip()):
+            raise ValidationError("Specify a valid email address.")
         if not is_doi(self.doi.strip()):
-            st.toast("Specify a DOI (like https://doi.org/10.1000/182).")
-            return
+            raise ValidationError("Specify a DOI (like https://doi.org/10.1000/182).")
 
     def parse(self) -> tuple[EditablePaper, NonEditablePaper]:
         if not self.title or not self.year or not self.authors or not self.abstract:

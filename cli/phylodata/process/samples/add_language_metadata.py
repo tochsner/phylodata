@@ -18,7 +18,10 @@ def add_language_metadata(samples: list[Sample]) -> list[Sample]:
     """Tries to add metadata to all samples which correspond to a language."""
     for sample in samples:
         for data in sample.sample_data:
-            if data.type != DataType.TRAITS:
+            if data.type not in [DataType.TRAITS, DataType.UNKNOWN]:
+                continue
+
+            if sample.classification:
                 continue
 
             if classification := fetch_language_classification(sample.sample_id):

@@ -1,4 +1,6 @@
-- Redo tree classification
+- Look for map tags
+
+- Start adding datasets
 
 - Make filters URL-based
 - Add leaf number filter

@@ -17,13 +17,15 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
     nucleotide_sequence_idx: list[int] = []
 
     for idx, sample in enumerate(samples):
+        if sample.classification:
+            continue
+
         for data in sample.sample_data:
             if data.type in [DataType.RNA, DataType.DNA]:
                 nucleotide_sequences.append(
                     "".join(c for c in data.data if c.isalpha())
                 )
                 nucleotide_sequence_idx.append(idx)
-                break  # we only need one sequence per sample
 
     # fetch the nucleotide classifications
 

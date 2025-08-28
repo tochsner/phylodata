@@ -69,7 +69,13 @@ def parse_beast2_logs(file: BytesIO) -> Generator[File, None, None]:
     BEAST log, a ValidationError is raised."""
     try:
         wrapper = TextIOWrapper(file)
-        tsv_file = csv.DictReader(wrapper, delimiter="\t")
+
+        def uncomment_lines(wrapper: TextIOWrapper):
+            for line in wrapper:
+                if not line.lstrip().startswith("#"):
+                    yield line
+
+        tsv_file = csv.DictReader(uncomment_lines(wrapper), delimiter="\t")
     except Exception:
         raise ValidationError("BEAST 2 log file is not a tab-separated file.")
 
@@ -184,6 +190,7 @@ def parse_other_file(file: BytesIO) -> Generator[File, None, None]:
                 name=file.name,
                 type=FileType.SUMMARY_TREE,
             )
+            return
     except ValidationError:
         # file is not a valid trees file
         ...
