@@ -37,9 +37,9 @@ function getSpecificMainClassification(
 	}
 
 	const threshold = samples.length / 2;
-	return titleCase(
-		Object.entries(classificationCounts)
-			.filter((data) => data[1] >= threshold)
-			.map((data) => data[0])[0]
-	);
+	const mainClassification = Object.entries(classificationCounts)
+		.filter((data) => data[1] >= threshold)
+		.map((data) => data[0])[0];
+
+	return mainClassification ? titleCase(mainClassification) : undefined;
 }

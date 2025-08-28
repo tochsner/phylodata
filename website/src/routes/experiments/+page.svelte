@@ -105,13 +105,6 @@
 	<div class="flex flex-col gap-2">
 		<span class="text-base font-semibold">Samples</span>
 
-		<Checkbox name="sampleType" value="species" submitOnChange>Species</Checkbox>
-		<Checkbox name="sampleType" value="cells" submitOnChange>Cells</Checkbox>
-		<Checkbox name="sampleType" value="language" submitOnChange>Languages</Checkbox>
-		<Checkbox name="sampleType" value="unknown" submitOnChange>Others</Checkbox>
-
-		<div></div>
-
 		{#await possibleSamples}
 			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
 		{:then possibleSamples}

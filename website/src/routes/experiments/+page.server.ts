@@ -69,7 +69,7 @@ export const actions = {
 				*,
 				files!inner (*),
 				trees!inner (*),
-				evolutionaryModels!inner (*),
+				evolutionaryModels (*),
 				metadata (*),
 				samples!inner (
 					*,

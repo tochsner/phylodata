@@ -133,8 +133,6 @@ export async function insertPaperWithExperiments(
 							sampleId
 						}));
 
-						console.log(classificationData);
-
 						const { error: classificationError } = await supabase
 							.from('classifications')
 							.insert(classificationData);

@@ -11,7 +11,6 @@ export const actions = {
 		const rawFileNames = formData.get('fileNames') as string;
 
 		if (!rawPaperData) {
-			console.log('A');
 			return fail(400);
 		}
 

@@ -44,7 +44,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each table.rows as row (row.md5)}
+				{#each table.rows as row (row.name)}
 					<tr>
 						<td>
 							<div class="flex gap-4 font-semibold">
