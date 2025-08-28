@@ -39,8 +39,6 @@ def build_fasta_data(sequences: list[str], max_length_considered: int) -> str:
     for i, seq in enumerate(sequences):
         fasta_data += f">{i}\n{seq[:max_length_considered]}\n"
 
-    print(fasta_data)
-
     return fasta_data
 
 

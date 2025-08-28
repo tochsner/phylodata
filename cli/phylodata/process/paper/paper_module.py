@@ -40,7 +40,7 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
 
             Enter the following general information about your paper:
             """)
-            self.bibtext = st.text_area(
+            self.bibtex = st.text_area(
                 "BibTex citation",
                 on_change=self.fill_using_bibtex,
                 key="paper_bibtex",
@@ -83,7 +83,7 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             raise ValidationError("Specify a paper abstract.")
         if not self.authors or not self.authors.strip():
             raise ValidationError("Specify at least one paper author.")
-        if not is_valid_bibtex(self.bibtext):
+        if not is_valid_bibtex(self.bibtex):
             raise ValidationError("Specify exactly one bibtex entry.")
         if not is_valid_email(self.email.strip()):
             raise ValidationError("Specify a valid email address.")
@@ -99,7 +99,7 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             year=int(self.year),
             authors=[author.strip() for author in self.authors.split("\n")],
             abstract=self.abstract.strip(),
-            bibtex=self.bibtext.strip(),
+            bibtex=self.bibtex.strip(),
             url=self.url.strip() or None,
             email=self.email.strip(),
         ), NonEditablePaper(doi=self.doi.strip())

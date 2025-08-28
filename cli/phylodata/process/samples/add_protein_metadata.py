@@ -22,7 +22,6 @@ def add_protein_metadata(samples: list[Sample]) -> list[Sample]:
             continue
 
         for data in sample.sample_data:
-            print(data.type)
             if data.type == DataType.AMINO_ACIDS:
                 protein_sequences.append("".join(c for c in data.data if c.isalpha()))
                 protein_sequence_idx.append(idx)

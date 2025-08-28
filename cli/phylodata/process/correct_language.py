@@ -1,4 +1,3 @@
-import sys
 from pathlib import Path
 
 import msgspec
@@ -9,7 +8,16 @@ from phylodata.process.samples.add_language_metadata import (
 )
 
 
-def correct_langauge(metadata_file: Path, sample_id: str, language_label: str):
+def correct_language(metadata_file: Path, sample_id: str, language_label: str):
+    """
+    Changes the classification of a language sample in a editable metadata file.
+
+    Args:
+        metadata_file: The path to the metadata file.
+        sample_id: The ID of the sample to correct.
+        language_label: The label of the language to correct to.
+    """
+
     with open(metadata_file, "r") as file:
         metadata = msgspec.json.decode(file.read(), type=EditablePaperWithExperiment)
 
@@ -22,6 +30,3 @@ def correct_langauge(metadata_file: Path, sample_id: str, language_label: str):
 
     with open(metadata_file, "wb") as file:
         file.write(msgspec.json.format(msgspec.json.encode(metadata), indent=2))
-
-
-correct_langauge(Path(sys.argv[1]), sys.argv[2], sys.argv[3])
