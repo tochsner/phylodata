@@ -13,7 +13,7 @@ build:
     uv build
 
 publish:
-    source .env && uv publish --token $UV_PUBLISH_TOKEN
+    source .env && uv publish --token $UV_PUBLISH_PASSWORD
 
 generate_schema:
     uv run python scripts/generate_json_schema.py
