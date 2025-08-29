@@ -10,7 +10,7 @@ from phylodata.process.paper.bibtex import (
     is_valid_bibtex,
     yield_bibtex_authors,
 )
-from phylodata.process.paper.doi import is_doi
+from phylodata.process.paper.doi import get_doi_url, is_doi
 from phylodata.process.paper.mail import is_valid_email
 
 
@@ -32,6 +32,8 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             st.session_state["paper_bibtex_authors"] = "\n".join(
                 yield_bibtex_authors(authors)
             )
+        if doi := get_bibtex_value(bibtex, "doi"):
+            st.session_state["paper_bibtex_doi"] = get_doi_url(doi)
 
     def ui(self):
         with st.container(border=True):
@@ -63,7 +65,9 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             st.markdown(
                 """One author per line. Use *Name Surname* like *Joseph Felsenstein*."""
             )
-            self.doi = st.text_input("DOI")
+            self.doi = st.text_input(
+                "DOI", value=st.session_state.get("paper_bibtex_doi")
+            )
             st.markdown(
                 """Use the URL format (like *https://doi.org/10.1093/sysbio/22.3.240*).
                 Experiments with the same paper DOI will be linked to the same paper."""
