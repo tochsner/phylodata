@@ -51,13 +51,13 @@ class FilesModule(Module[list[File]]):
 
             if not self.beast2_logs:
                 st.write("""
-                If possible, select the file containing the posterior trees (.trees):
+                If possible, select the file containing the logs (.log):
                 """)
                 self.beast2_logs = st.file_uploader("BEAST 2 log file", type=["log"])
 
             if not self.beast2_trees:
                 st.write("""
-                If possible, select the file containing the logs (.log):
+                If possible, select the file containing the posterior trees (.trees):
                 """)
                 self.beast2_trees = st.file_uploader(
                     "BEAST 2 posterior trees", type=["trees"]
