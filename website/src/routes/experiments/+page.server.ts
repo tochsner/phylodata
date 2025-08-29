@@ -24,15 +24,7 @@ export const load: PageServerLoad = async () => ({
 			*,
       experiments!experiments_paperDoi_fkey (
         *,
-        files (*),
-        trees (*),
-        evolutionaryModels (*),
-        metadata (*),
-        samples (
-          *,
-          classification:classifications (*),
-          sampleData (*)
-        )
+        trees (*)
       )
        `
 		)

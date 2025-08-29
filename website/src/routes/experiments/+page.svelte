@@ -169,9 +169,9 @@
 {/snippet}
 
 {#snippet paperOverview(paper: PaperWithExperiments)}
-	{@const commonClassifications = getMainClassifications(
+	<!-- {@const commonClassifications = getMainClassifications(
 		paper.experiments.flatMap((exp) => exp.samples)
-	)}
+	)} -->
 
 	<a
 		class="flex cursor-pointer flex-col rounded-xl bg-white p-4 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[101%]"
@@ -189,11 +189,11 @@
 				{paper.experiments.length}
 			</Tag>
 
-			{#each commonClassifications as classification}
+			<!-- {#each commonClassifications as classification}
 				<Tag label="Contains">
 					{classification}
 				</Tag>
-			{/each}
+			{/each} -->
 		</div>
 	</a>
 {/snippet}
