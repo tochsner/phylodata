@@ -91,11 +91,17 @@ class PaperModule(Module[tuple[EditablePaper, NonEditablePaper]]):
             raise ValidationError("Specify exactly one bibtex entry.")
         if not is_valid_email(self.email.strip()):
             raise ValidationError("Specify a valid email address.")
-        if not is_doi(self.doi.strip()):
+        if not self.doi or not is_doi(self.doi.strip()):
             raise ValidationError("Specify a DOI (like https://doi.org/10.1000/182).")
 
     def parse(self) -> tuple[EditablePaper, NonEditablePaper]:
-        if not self.title or not self.year or not self.authors or not self.abstract:
+        if (
+            not self.title
+            or not self.year
+            or not self.authors
+            or not self.abstract
+            or not self.doi
+        ):
             raise ValidationError("Paper info missing.")
 
         return EditablePaper(

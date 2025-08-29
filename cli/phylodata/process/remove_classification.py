@@ -1,12 +1,9 @@
 from pathlib import Path
+from typing import Optional
 
 import msgspec
 
 from phylodata.data_types import EditablePaperWithExperiment
-from phylodata.process.samples.add_language_metadata import (
-    fetch_language_classification,
-)
-from typing import Optional
 
 
 def remove_classification(metadata_file: Path, sample_id: Optional[str] = None):
@@ -25,7 +22,7 @@ def remove_classification(metadata_file: Path, sample_id: Optional[str] = None):
     for sample in metadata.samples:
         if not sample_id or sample.sample_id == sample_id:
             sample.classification = []
-            sample.scientific_name = sample_id
+            sample.scientific_name = sample.sample_id
             sample.common_name = None
 
     with open(metadata_file, "wb") as file:

@@ -6,7 +6,12 @@ import click
 
 import phylodata
 from phylodata.data_types import get_schema, validate_editable_json
-from phylodata.process.correct_language import correct_language
+from phylodata.process.change_language import (
+    change_language as change_language_handler,
+)
+from phylodata.process.remove_classification import (
+    remove_classification as remove_classification_handler,
+)
 
 
 @click.group()
@@ -40,11 +45,13 @@ def schema():
 @click.argument("sample_id", type=str)
 @click.argument("language_label", type=str)
 def change_language(metadata_file: str, sample_id: str, language_label: str):
-    correct_language(Path(metadata_file), sample_id, language_label)
+    change_language_handler(Path(metadata_file), sample_id, language_label)
 
 
-@cli.command(help="Removes the classification of a sample in a metadata file.")
+@cli.command(
+    help="Removes the classification of a sample in a metadata file. If no sample_id is provided, all samples are removed."
+)
 @click.argument("metadata_file", type=click.Path(exists=True))
 @click.argument("sample_id", type=str, required=False)
 def remove_classification(metadata_file: str, sample_id: Optional[str] = None):
-    remove_classification(Path(metadata_file), sample_id)
+    remove_classification_handler(Path(metadata_file), sample_id)

@@ -8,7 +8,7 @@ from phylodata.process.samples.add_language_metadata import (
 )
 
 
-def correct_language(metadata_file: Path, sample_id: str, language_label: str):
+def change_language(metadata_file: Path, sample_id: str, language_label: str):
     """
     Changes the classification of a language sample in a editable metadata file.
 
