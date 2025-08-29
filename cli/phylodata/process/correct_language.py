@@ -26,6 +26,7 @@ def correct_language(metadata_file: Path, sample_id: str, language_label: str):
             if classification := fetch_language_classification(language_label):
                 sample.classification = classification
                 sample.scientific_name = classification[0].scientific_name
+                sample.common_name = classification[0].common_name
                 break
 
     with open(metadata_file, "wb") as file:

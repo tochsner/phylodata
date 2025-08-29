@@ -1,5 +1,6 @@
 import subprocess
 from pathlib import Path
+from typing import Optional
 
 import click
 
@@ -40,3 +41,10 @@ def schema():
 @click.argument("language_label", type=str)
 def change_language(metadata_file: str, sample_id: str, language_label: str):
     correct_language(Path(metadata_file), sample_id, language_label)
+
+
+@cli.command(help="Removes the classification of a sample in a metadata file.")
+@click.argument("metadata_file", type=click.Path(exists=True))
+@click.argument("sample_id", type=str, required=False)
+def remove_classification(metadata_file: str, sample_id: Optional[str] = None):
+    remove_classification(Path(metadata_file), sample_id)
