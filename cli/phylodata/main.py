@@ -57,8 +57,8 @@ def change_language(metadata_file: str, sample_id: str, language_label: str):
 @click.argument("metadata_file", type=click.Path(exists=True))
 @click.argument("sample_id", type=str)
 @click.argument("ncbi_taxon_id", type=int)
-def change_ncbi(metadata_file: str, sample_id: str, ncbi_taxon_id: int):
-    change_ncbi_handler(Path(metadata_file), sample_id, ncbi_taxon_id)
+def change_ncbi(metadata_file: str, sample_id: str, ncbi_taxon_id: str):
+    change_ncbi_handler(Path(metadata_file), sample_id, int(ncbi_taxon_id))
 
 
 @cli.command(

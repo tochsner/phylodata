@@ -1,6 +1,6 @@
 [project]
 name = "phylodata"
-version = "0.28.0"
+version = "0.30.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -24,6 +24,12 @@ dependencies = [
 [build-system]
 requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "phylodata",
+  ".streamlit",
+]
 
 [project.scripts]
 phylodata = "phylodata.main:cli"
