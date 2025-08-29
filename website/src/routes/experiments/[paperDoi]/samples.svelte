@@ -13,9 +13,11 @@
 
 	let { samples }: { samples: Sample[] } = $props();
 
-	const table = new TableHandler(samples, {
-		rowsPerPage: 10
-	});
+	const table = $derived(
+		new TableHandler(samples, {
+			rowsPerPage: 10
+		})
+	);
 
 	const mainClassifications = $derived(getMainClassifications(samples));
 </script>

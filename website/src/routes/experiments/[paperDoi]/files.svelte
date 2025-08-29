@@ -14,9 +14,11 @@
 
 	let { files, minimal }: { files: File[]; minimal?: boolean } = $props();
 
-	const table = new TableHandler(files, {
-		rowsPerPage: 10
-	});
+	const table = $derived(
+		new TableHandler(files, {
+			rowsPerPage: 10
+		})
+	);
 
 	const totalSize = files.map((file) => file.sizeBytes).reduce((acc, val) => acc + val, 0);
 </script>

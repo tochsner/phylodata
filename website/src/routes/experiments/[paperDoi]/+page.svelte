@@ -26,7 +26,7 @@
 
 <Header>
 	<div class="flex items-baseline gap-4">
-		<h2 class="text-dark text-2xl font-bold text-nowrap">Experiments for</h2>
+		<h2 class="text-dark text-nowrap text-2xl font-bold">Experiments for</h2>
 		<h2 class="text-accent text-3xl font-bold">{data.paper.title}</h2>
 	</div>
 </Header>
@@ -37,7 +37,7 @@
 </div>
 
 {#snippet sidebar()}
-	<div class="flex w-2/5 max-w-[300px] min-w-56 flex-col gap-8">
+	<div class="flex w-2/5 min-w-56 max-w-[300px] flex-col gap-8">
 		<div class="flex flex-col gap-3">
 			<button
 				class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-full border px-4 py-3 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
@@ -87,7 +87,7 @@
 
 		<div class="flex flex-col gap-2 rounded-xl bg-white p-5 shadow-lg shadow-gray-400/10">
 			<h3 class="text-sm font-bold">Abstract</h3>
-			<p class="overflow-clip text-sm/6 whitespace-pre-wrap">{data.paper.abstract}</p>
+			<p class="overflow-clip whitespace-pre-wrap text-sm/6">{data.paper.abstract}</p>
 		</div>
 	</div>
 {/snippet}
@@ -117,7 +117,7 @@
 
 {#snippet tabs()}
 	<div class="flex items-center">
-		<span class="mr-8 ml-4 font-bold">Experiments:</span>
+		<span class="ml-4 mr-8 font-bold">Experiments:</span>
 
 		{#each data.experiments as experiment, idx (idx)}
 			<button
@@ -128,8 +128,8 @@
 				{#if idx === currentExperimentIdx}
 					<!-- Make outer rounded corner of active tab -->
 					<div class="absolute -bottom-3 -left-3 size-6 rounded-full bg-white"></div>
-					<div class="bg-background absolute bottom-0 -left-6 size-6 rounded-full"></div>
-					<div class="absolute -right-3 -bottom-3 size-6 rounded-full bg-white"></div>
+					<div class="bg-background absolute -left-6 bottom-0 size-6 rounded-full"></div>
+					<div class="absolute -bottom-3 -right-3 size-6 rounded-full bg-white"></div>
 					<div class="bg-background absolute -right-6 bottom-0 size-6 rounded-full"></div>
 				{/if}
 
@@ -187,7 +187,7 @@
 	</div>
 
 	{#if experiment.description}
-		<span class="p-5 whitespace-pre-line">{experiment.description}</span>
+		<span class="whitespace-pre-line p-5">{experiment.description}</span>
 	{/if}
 {/snippet}
 
