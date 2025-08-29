@@ -11,6 +11,7 @@
 	import TreesIcon from '$lib/icons/treesIcon.svelte';
 	import FileIcon from '$lib/icons/fileIcon.svelte';
 	import Info from '$lib/components/info.svelte';
+	import { formatFileSize } from '$lib/utils/fileSizeFormatter';
 
 	let { files, minimal }: { files: File[]; minimal?: boolean } = $props();
 
@@ -49,7 +50,7 @@
 				{#each table.rows as row (row.name)}
 					<tr>
 						<td>
-							<div class="flex gap-4 font-semibold">
+							<div class="flex gap-4 whitespace-nowrap font-semibold">
 								{#if row.type === 'beast2Configuration'}
 									<BEASTXmlIcon classes="text-accent size-5" />
 								{:else if row.type === 'codephyModel' || row.type === 'phyloDataExperiment'}
@@ -103,10 +104,11 @@
 								</Info>
 							</div>
 						</td>
-						<td>{row.name}</td>
+
+						<td><span class="wrap-anywhere">{row.name}</span></td>
 
 						{#if !minimal}
-							<td class="text-nowrap">{formatNumber(row.sizeBytes)} bytes</td>
+							<td class="text-nowrap">{formatFileSize(row.sizeBytes)}</td>
 							<td align="right">
 								<button
 									aria-label="download"
