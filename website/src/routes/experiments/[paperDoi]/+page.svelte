@@ -93,7 +93,7 @@
 {/snippet}
 
 {#snippet content()}
-	<div class="flex flex-1 flex-col gap-8 overflow-x-clip">
+	<div class="flex min-w-0 flex-1 flex-col gap-8 overflow-x-clip">
 		{@render paperOverview()}
 
 		<div>
@@ -116,28 +116,30 @@
 {/snippet}
 
 {#snippet tabs()}
-	<div class="flex items-center">
+	<div class="flex w-full items-center">
 		<span class="ml-4 mr-8 font-bold">Experiments:</span>
 
-		{#each data.experiments as experiment, idx (idx)}
-			<button
-				class="relative cursor-pointer rounded-t-xl px-6 py-2 font-medium"
-				class:bg-white={idx === currentExperimentIdx}
-				onclick={() => (currentExperimentIdx = idx)}
-			>
-				{#if idx === currentExperimentIdx}
-					<!-- Make outer rounded corner of active tab -->
-					<div class="absolute -bottom-3 -left-3 size-6 rounded-full bg-white"></div>
-					<div class="bg-background absolute -left-6 bottom-0 size-6 rounded-full"></div>
-					<div class="absolute -bottom-3 -right-3 size-6 rounded-full bg-white"></div>
-					<div class="bg-background absolute -right-6 bottom-0 size-6 rounded-full"></div>
-				{/if}
+		<div class="flex overflow-x-scroll">
+			{#each data.experiments as experiment, idx (idx)}
+				<button
+					class="relative cursor-pointer rounded-t-xl px-6 py-2 font-medium"
+					class:bg-white={idx === currentExperimentIdx}
+					onclick={() => (currentExperimentIdx = idx)}
+				>
+					{#if idx === currentExperimentIdx}
+						<!-- Make outer rounded corner of active tab -->
+						<div class="absolute -bottom-3 -left-3 size-6 rounded-full bg-white"></div>
+						<div class="bg-background absolute -left-6 bottom-0 size-6 rounded-full"></div>
+						<div class="absolute -bottom-3 -right-3 size-6 rounded-full bg-white"></div>
+						<div class="bg-background absolute -right-6 bottom-0 size-6 rounded-full"></div>
+					{/if}
 
-				<span class:text-accent={idx === currentExperimentIdx}>
-					{experiment.experiment.title || `Experiment ${idx + 1}`}
-				</span>
-			</button>
-		{/each}
+					<span class:text-accent={idx === currentExperimentIdx} class="text-nowrap">
+						{experiment.experiment.title || `Experiment ${idx + 1}`}
+					</span>
+				</button>
+			{/each}
+		</div>
 	</div>
 {/snippet}
 
