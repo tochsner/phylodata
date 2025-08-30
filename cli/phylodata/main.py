@@ -25,7 +25,16 @@ def cli(): ...
 @click.argument("files", nargs=-1, type=click.UNPROCESSED)
 def process(files):
     subprocess.run(
-        ["streamlit", "run", str(Path(phylodata.__path__[0]) / "process/ui.py"), *files]
+        [
+            "streamlit",
+            "run",
+            "--server.maxUploadSize=10000",
+            "--theme.primaryColor=#54763d",
+            "--theme.backgroundColor=#f5f5ef",
+            "--theme.secondaryBackgroundColor=white",
+            str(Path(phylodata.__path__[0]) / "process/ui.py"),
+            *files,
+        ],
     )  # type: ignore
 
 
