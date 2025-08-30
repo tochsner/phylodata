@@ -13,31 +13,40 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
     sequences."""
     # collect all nucleotide sequences
 
-    nucleotide_sequences: list[str] = []
-    nucleotide_sequence_idx: list[int] = []
+    max_sequences_per_sample = max([len(sample.sample_data) for sample in samples])
 
-    for idx, sample in enumerate(samples):
-        if sample.classification:
-            continue
+    # we try the first data point for each sample and see if we can get a classification
+    # and continue with the other data points until we find one
+    for i in range(max_sequences_per_sample):
+        nucleotide_sequences: list[str] = []
+        nucleotide_sequence_idx: list[int] = []
 
-        for data in sample.sample_data:
+        for sample_idx, sample in enumerate(samples):
+            if sample.classification:
+                # we already have found a classification for this sample
+                continue
+
+            if len(sample.sample_data) <= i:
+                continue
+
+            data = sample.sample_data[i]
             if data.type in [DataType.RNA, DataType.DNA]:
                 nucleotide_sequences.append(
                     "".join(c for c in data.data if c.isalpha())
                 )
-                nucleotide_sequence_idx.append(idx)
+                nucleotide_sequence_idx.append(sample_idx)
 
-    # fetch the nucleotide classifications
+        # fetch the nucleotide classifications
 
-    classification = fetch_nucleotide_classifications(nucleotide_sequences)
+        classification = fetch_nucleotide_classifications(nucleotide_sequences)
 
-    # add the classifications to the samples
+        # add the classifications to the samples
 
-    for idx, classification in zip(nucleotide_sequence_idx, classification):
-        if classification:
-            samples[idx].classification = classification
-            samples[idx].scientific_name = classification[0].scientific_name
-            samples[idx].common_name = classification[0].common_name
+        for sample_idx, classification in zip(nucleotide_sequence_idx, classification):
+            if classification:
+                samples[sample_idx].classification = classification
+                samples[sample_idx].scientific_name = classification[0].scientific_name
+                samples[sample_idx].common_name = classification[0].common_name
 
     return samples
 
