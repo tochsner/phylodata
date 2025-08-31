@@ -11,7 +11,8 @@ MAX_SEQ_LENGTH_CONSIDERED = 2500
 def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
     """Tries to add metadata to all samples for which we have nucleotide
     sequences."""
-    # collect all nucleotide sequences
+    if not samples:
+        return []
 
     max_sequences_per_sample = max([len(sample.sample_data) for sample in samples])
 
