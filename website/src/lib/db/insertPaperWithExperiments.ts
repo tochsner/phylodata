@@ -10,8 +10,6 @@ interface InsertResult {
 	};
 }
 
-const MAX_SAMPLE_DATA_LENGTH = 10_000;
-
 /**
  * Inserts a PaperWithExperiments object into the database with rollback support
  * @param paperWithExperiments - The data to insert
@@ -149,7 +147,6 @@ export async function insertPaperWithExperiments(
 					if (sampleData.length > 0) {
 						const sampleDataEntries = sampleData.map((dataEntry) => ({
 							...dataEntry,
-							data: dataEntry.data.slice(0, MAX_SAMPLE_DATA_LENGTH),
 							sampleId
 						}));
 
