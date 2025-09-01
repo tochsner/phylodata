@@ -78,9 +78,9 @@ def change_ncbi(metadata_file: str, sample_id: str, ncbi_taxon_id: str):
     help="Removes the classification of a sample in a metadata file. If no sample_id is provided, all samples are removed."
 )
 @click.argument("metadata_file", type=click.Path(exists=True))
-@click.argument("sample_id", type=str, required=False)
-@click.argument(
-    "classification_type",
+@click.option("--sample_id", type=str, required=False)
+@click.option(
+    "--classification_type",
     type=click.Choice(ClassificationEntryType, case_sensitive=False),
     required=False,
 )
@@ -89,4 +89,4 @@ def remove_classification(
     sample_id: Optional[str] = None,
     classification_type: Optional[ClassificationEntryType] = None,
 ):
-    remove_classification_handler(Path(metadata_file), sample_id)
+    remove_classification_handler(Path(metadata_file), sample_id, classification_type)
