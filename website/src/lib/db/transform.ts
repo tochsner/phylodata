@@ -31,7 +31,7 @@ export function transformJoinedDataToPaperWithExperiment(joinedData: any): Paper
 			trees: exp.trees[0],
 			evolutionaryModel: exp.evolutionaryModels,
 			metadata: exp.metadata,
-			samples: exp.samples
+			samples: exp.samples || []
 		}))
 	} as PaperWithExperiments;
 }
