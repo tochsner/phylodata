@@ -30,7 +30,7 @@
 	{#if !minimal}
 		<div class="flex flex-wrap items-start gap-2">
 			<Tag label="Number of files">{formatNumber(files.length)}</Tag>
-			<Tag label="Total size">{formatNumber(totalSize)} bytes</Tag>
+			<Tag label="Total size">{formatFileSize(totalSize)}</Tag>
 		</div>
 	{/if}
 
