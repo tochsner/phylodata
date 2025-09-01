@@ -25,7 +25,8 @@
 	function isExactMatch(model: Model, searchQuery: string): boolean {
 		return (
 			model.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			model.shortDescription.toLowerCase().includes(searchQuery.toLowerCase())
+			model.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			model.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 		);
 	}
 
@@ -100,7 +101,7 @@
 	};
 
 	const filteredModels = $derived.by(async () => {
-		let filteredModels = MODELS;
+		let filteredModels = MODELS.sort((a, b) => a.name.localeCompare(b.name));
 		let querySampleTypes = undefined;
 
 		if (searchQuery) {
@@ -116,6 +117,8 @@
 
 					if (isExactMatch(b, searchQuery)) {
 						return 1;
+					} else if (isExactMatch(a, searchQuery)) {
+						return -1;
 					}
 
 					const aEmbedding = getModelEmbedding(a.name);
@@ -166,9 +169,12 @@
 					model.dataTypes.filter((type) => selectedDataTypes.includes(type)).length /
 						model.dataTypes.length
 			}))
-			.sort((a, b) => b.matchScore - a.matchScore)
-			.map(({ model }) => model)
-			.sort((a, b) => a.name.localeCompare(b.name));
+			.sort((a, b) => {
+				if (a.matchScore > b.matchScore) return -1;
+				if (a.matchScore < b.matchScore) return 1;
+				return 0;
+			})
+			.map(({ model }) => model);
 
 		return filteredModels;
 	});
@@ -198,7 +204,7 @@
 
 							<button
 								class={[
-									'flex cursor-pointer items-center gap-1 rounded-lg py-2 pr-4 pl-3 duration-100 hover:scale-[103%]',
+									'flex cursor-pointer items-center gap-1 rounded-lg py-2 pl-3 pr-4 duration-100 hover:scale-[103%]',
 									!selected && 'bg-accent-light',
 									selected && 'bg-accent  text-white'
 								]}
@@ -235,7 +241,7 @@
 
 							<button
 								class={[
-									'flex cursor-pointer items-center gap-1 rounded-lg py-2 pr-4 pl-3 duration-100 hover:scale-[103%]',
+									'flex cursor-pointer items-center gap-1 rounded-lg py-2 pl-3 pr-4 duration-100 hover:scale-[103%]',
 									!selected && 'bg-accent-light',
 									selected && 'bg-accent  text-white'
 								]}
@@ -256,7 +262,7 @@
 
 		<div class="flex flex-col items-center">
 			<div class="w-[1px] flex-1 bg-white/60"></div>
-			<span class="text-dark/60 pt-2 pb-3 italic">or</span>
+			<span class="text-dark/60 pb-3 pt-2 italic">or</span>
 			<div class="w-[1px] flex-1 bg-white/60"></div>
 		</div>
 
@@ -265,7 +271,7 @@
 
 			<div class="flex justify-center gap-2 pt-4">
 				<textarea
-					class="h-24 w-full resize-none rounded-md border border-white bg-white py-2 pr-10 pl-3 placeholder:italic focus:bg-white"
+					class="h-24 w-full resize-none rounded-md border border-white bg-white py-2 pl-3 pr-10 placeholder:italic focus:bg-white"
 					bind:value={inputSearchQuery}
 					placeholder="I study bacterial evolution with a focus on horizontal gene transfer."
 				></textarea>
