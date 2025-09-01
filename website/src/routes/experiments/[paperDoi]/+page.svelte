@@ -119,7 +119,7 @@
 	<div class="flex w-full items-center">
 		<span class="ml-4 mr-8 font-bold">Experiments:</span>
 
-		<div class="flex overflow-x-scroll">
+		<div class="flex overflow-y-clip overflow-x-scroll">
 			{#each data.experiments as experiment, idx (idx)}
 				<button
 					class="relative cursor-pointer rounded-t-xl px-6 py-2 font-medium"

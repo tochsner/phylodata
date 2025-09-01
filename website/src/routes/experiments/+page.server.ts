@@ -22,10 +22,23 @@ export const load: PageServerLoad = async () => ({
 		.select(
 			`
 			*,
-      experiments!experiments_paperDoi_fkey (
-        *,
-        trees (*)
-      )
+			experiments!experiments_paperDoi_fkey (
+				*,
+				files (*),
+				trees (*),
+				evolutionaryModels (*),
+				metadata (*),
+				samples (
+					*,
+					classification:classifications (*),
+					sampleData (
+						id,
+						type,
+						length,
+						sampleId
+					)
+				)
+			)
        `
 		)
 		.then(({ error, data }) => {
@@ -66,7 +79,12 @@ export const actions = {
 				samples!inner (
 					*,
 					classification:classifications!inner (*),
-					sampleData!inner (*)
+					sampleData!inner (
+						id,
+						type,
+						length,
+						sampleId
+					)
 				)
 			)`
 		);

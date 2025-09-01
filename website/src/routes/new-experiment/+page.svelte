@@ -59,7 +59,7 @@
 		<div class="mb-8 flex">
 			<div class="flex-1">
 				<div class="relative">
-					<div class="-mx-full absolute top-5 right-0 left-0 h-[2px] bg-gray-200">
+					<div class="-mx-full absolute left-0 right-0 top-5 h-[2px] bg-gray-200">
 						<div
 							class={`bg-accent h-full ${currentStep >= 1 ? 'w-full' : 'w-0'} transition-all duration-500`}
 						></div>
@@ -74,7 +74,7 @@
 			</div>
 			<div class="flex-1">
 				<div class="relative">
-					<div class="-mx-full absolute top-5 right-0 left-0 h-[2px] bg-gray-200">
+					<div class="-mx-full absolute left-0 right-0 top-5 h-[2px] bg-gray-200">
 						<div
 							class={`bg-accent h-full ${currentStep >= 2 ? 'w-full' : 'w-0'} transition-all duration-500`}
 						></div>
@@ -89,7 +89,7 @@
 			</div>
 			<div class="flex-1">
 				<div class="relative">
-					<div class="-mx-full absolute top-5 right-0 left-0 h-[2px] bg-gray-200">
+					<div class="-mx-full absolute left-0 right-0 top-5 h-[2px] bg-gray-200">
 						<div
 							class={`bg-accent h-full ${currentStep >= 3 ? 'w-full' : 'w-0'} transition-all duration-500`}
 						></div>
@@ -104,7 +104,7 @@
 			</div>
 			<div class="flex-1">
 				<div class="relative">
-					<div class="-mx-full absolute top-5 right-0 left-0 h-[2px] bg-gray-200">
+					<div class="-mx-full absolute left-0 right-0 top-5 h-[2px] bg-gray-200">
 						<div
 							class={`bg-accent h-full ${currentStep >= 4 ? 'w-full' : 'w-0'} transition-all duration-500`}
 						></div>
@@ -311,7 +311,7 @@
 						Back
 					</button>
 					<button
-						class="bg-accent flex cursor-pointer items-center gap-2 rounded-md px-6 py-3 font-medium text-white transition-opacity duration-100 hover:scale-[102%] hover:opacity-80"
+						class="bg-accent flex cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-medium text-white transition-opacity duration-100 hover:scale-[102%] hover:opacity-80"
 						type="submit"
 						disabled={isProcessing}
 					>
