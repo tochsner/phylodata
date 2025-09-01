@@ -1,6 +1,6 @@
 import type { PaperWithExperiments } from '$lib/types';
 
-const MAX_CHARACTERS = 10_000;
+const MAX_CHARACTERS = 2_000;
 
 /**
  * Trims all sample data to have a maximal data length for efficiency.
