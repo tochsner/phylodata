@@ -160,21 +160,25 @@
 			.filter((model) => {
 				if (selectedDataTypes.length === 0) return true;
 				return model.dataTypes.some((type) => selectedDataTypes.includes(type));
-			})
-			.map((model) => ({
-				model,
-				matchScore:
-					model.sampleTypes.filter((type) => querySampleTypes.includes(type)).length /
-						model.sampleTypes.length +
-					model.dataTypes.filter((type) => selectedDataTypes.includes(type)).length /
-						model.dataTypes.length
-			}))
-			.sort((a, b) => {
-				if (a.matchScore > b.matchScore) return -1;
-				if (a.matchScore < b.matchScore) return 1;
-				return 0;
-			})
-			.map(({ model }) => model);
+			});
+
+		if (!searchQuery) {
+			filteredModels = filteredModels
+				.map((model) => ({
+					model,
+					matchScore:
+						model.sampleTypes.filter((type) => querySampleTypes.includes(type)).length /
+							model.sampleTypes.length +
+						model.dataTypes.filter((type) => selectedDataTypes.includes(type)).length /
+							model.dataTypes.length
+				}))
+				.sort((a, b) => {
+					if (a.matchScore > b.matchScore) return -1;
+					if (a.matchScore < b.matchScore) return 1;
+					return 0;
+				})
+				.map(({ model }) => model);
+		}
 
 		return filteredModels;
 	});
@@ -274,6 +278,12 @@
 					class="h-24 w-full resize-none rounded-md border border-white bg-white py-2 pl-3 pr-10 placeholder:italic focus:bg-white"
 					bind:value={inputSearchQuery}
 					placeholder="I study bacterial evolution with a focus on horizontal gene transfer."
+					onkeydown={(e) => {
+						if (e.key === 'Enter' && !e.shiftKey) {
+							e.preventDefault();
+							updateUrl();
+						}
+					}}
 				></textarea>
 
 				<button
