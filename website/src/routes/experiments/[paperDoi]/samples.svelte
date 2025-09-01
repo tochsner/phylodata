@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Datatable, TableHandler, Th, ThSort } from '@vincjo/datatables';
-	import { type Sample } from '$lib/types';
+	import { type Sample, type SampleData } from '$lib/types';
 	import Tag from '$lib/components/tag.svelte';
 	import { formatNumber } from '$lib/utils/formatter';
 	import Pagination from '$lib/components/pagination.svelte';
@@ -20,6 +20,28 @@
 	);
 
 	const mainClassifications = $derived(getMainClassifications(samples));
+
+	const copySampleData = async (sampleData: SampleData) => {
+		let data: string;
+		if (sampleData.data) {
+			data = sampleData.data;
+		} else {
+			const apiResponse = await fetch(`/api/getSampleData/${sampleData.id}`);
+			data = await apiResponse.text();
+		}
+
+		if (data === '') {
+			toast.error('No sample data could be found.');
+		} else if (data.length === sampleData.length) {
+			navigator.clipboard.writeText(data);
+			toast.success('Copied data to clipboard');
+		} else {
+			navigator.clipboard.writeText(data);
+			toast.success(
+				`Copied the first ${formatNumber(data.length)} characters of the data to clipboard`
+			);
+		}
+	};
 </script>
 
 <div class="flex flex-col gap-5 p-5">
@@ -129,10 +151,7 @@
 										<button
 											aria-label="download"
 											class="cursor-pointer"
-											onclick={() => {
-												navigator.clipboard.writeText(data.data);
-												toast.success('Copied data to clipboard');
-											}}
+											onclick={() => copySampleData(data)}
 										>
 											<svg
 												width="20"

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { getMainClassifications } from '$lib/classifications';
 	import Checkbox from '$lib/components/checkbox.svelte';
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
@@ -63,6 +62,7 @@
 				(experimentsToDownload = filteredPapers
 					.flatMap((paper) => paper.experiments)
 					.map((exp) => [exp.experiment.humanReadableId, exp.experiment.version]))}
+			type="button"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -169,10 +169,6 @@
 {/snippet}
 
 {#snippet paperOverview(paper: PaperWithExperiments)}
-	<!-- {@const commonClassifications = getMainClassifications(
-		paper.experiments.flatMap((exp) => exp.samples)
-	)} -->
-
 	<a
 		class="flex cursor-pointer flex-col rounded-xl bg-white p-4 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[101%]"
 		href={`/experiments/${encodeURIComponent(paper.paper.doi)}`}
@@ -188,12 +184,6 @@
 			<Tag label="Number of Experiments">
 				{paper.experiments.length}
 			</Tag>
-
-			<!-- {#each commonClassifications as classification}
-				<Tag label="Contains">
-					{classification}
-				</Tag>
-			{/each} -->
 		</div>
 	</a>
 {/snippet}

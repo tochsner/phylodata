@@ -20,7 +20,12 @@ export async function getPaperWithExperiments(paperDoi: string): Promise<PaperWi
          samples (
            *,
            classification:classifications (*),
-           sampleData (*)
+           sampleData (
+              id,
+              sampleId,
+              type,
+              length
+           )
          )
        )
        `

@@ -39,6 +39,7 @@ export type File = {
 };
 
 export type SampleData = {
+	id?: string;
 	type: 'rna' | 'dna' | 'aminoAcids' | 'phasedDiploidDna' | 'traits' | 'unknown';
 	length: number;
 	data: string;

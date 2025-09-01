@@ -78,13 +78,7 @@ export const actions = {
 				metadata (*),
 				samples!inner (
 					*,
-					classification:classifications!inner (*),
-					sampleData!inner (
-						id,
-						type,
-						length,
-						sampleId
-					)
+					classification:classifications!inner (*)
 				)
 			)`
 		);
