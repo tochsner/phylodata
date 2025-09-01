@@ -3,6 +3,7 @@ from loguru import logger
 from phylodata.data_types import ClassificationEntry, DataType, Sample
 from phylodata.errors import BlastError
 from phylodata.process.samples.run_blast import extract_taxon_ids, run_blast
+from phylodata.process.samples.sequence_utils import contains_non_placeholder_characters
 from phylodata.process.samples.taxon_classification import look_up_taxon_classification
 
 MAX_SEQ_LENGTH_CONSIDERED = 2500
@@ -31,7 +32,10 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
                 continue
 
             data = sample.sample_data[i]
-            if data.type in [DataType.RNA, DataType.DNA]:
+            if data.type in [
+                DataType.RNA,
+                DataType.DNA,
+            ] and contains_non_placeholder_characters(data.data):
                 nucleotide_sequences.append(
                     "".join(c for c in data.data if c.isalpha())
                 )

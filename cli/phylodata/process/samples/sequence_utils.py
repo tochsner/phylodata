@@ -2,6 +2,10 @@ def contains_sequence(sequence: str):
     return any([ch for ch in sequence if ch.isalpha()])
 
 
+def contains_non_placeholder_characters(sequence: str):
+    return 0 < len(set(sequence) - PLACEHOLDER_CHARACTERS)
+
+
 def is_amino_acid_sequence(sequence: str):
     characters = {c.lower() for c in sequence}
     return characters.issubset(AA_CHARACTERS)
@@ -17,14 +21,16 @@ def is_rna_sequence(sequence: str):
     return characters.issubset(RNA_CHARACTERS)
 
 
+PLACEHOLDER_CHARACTERS = {
+    "*",
+    "?",
+    "-",
+}
 DNA_CHARACTERS = {
     "a",
     "t",
     "c",
     "g",
-    "*",
-    "?",
-    "-",
     "r",
     "y",
     "s",
@@ -36,7 +42,7 @@ DNA_CHARACTERS = {
     "h",
     "v",
     "n",
-}
+} | PLACEHOLDER_CHARACTERS
 RNA_CHARACTERS = (DNA_CHARACTERS - {"t"}) | {"u"}
 AA_CHARACTERS = {
     "a",
@@ -61,7 +67,4 @@ AA_CHARACTERS = {
     "v",
     "u",
     "o",
-    "?",
-    "*",
-    "-",
-}
+} | PLACEHOLDER_CHARACTERS
