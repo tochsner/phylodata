@@ -116,11 +116,15 @@
 {/snippet}
 
 {#snippet tabs()}
+	{@const sortedExperiments = data.experiments.sort((a, b) =>
+		(a.experiment.title || '').localeCompare(b.experiment.title || '')
+	)}
+
 	<div class="flex w-full items-center">
 		<span class="ml-4 mr-8 font-bold">Experiments:</span>
 
 		<div class="flex overflow-y-clip overflow-x-scroll">
-			{#each data.experiments as experiment, idx (idx)}
+			{#each sortedExperiments as experiment, idx}
 				<button
 					class="relative cursor-pointer rounded-t-xl px-6 py-2 font-medium"
 					class:bg-white={idx === currentExperimentIdx}
