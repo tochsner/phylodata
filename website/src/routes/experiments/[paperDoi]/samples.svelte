@@ -103,27 +103,27 @@
 						</td>
 
 						<td>
-							<div class="flex flex-col gap-2">
+							<div class="flex flex-1 flex-col gap-2">
 								{#each row.sampleData as data, idx (idx)}
 									{#if data.type === 'dna'}
-										<span>DNA ({formatNumber(data.length)}nt)</span>
+										<span class="py-2">DNA ({formatNumber(data.length)}nt)</span>
 									{:else if data.type === 'rna'}
-										<span>RNA ({formatNumber(data.length)}nt)</span>
+										<span class="py-2">RNA ({formatNumber(data.length)}nt)</span>
 									{:else if data.type === 'aminoAcids'}
-										<span>Amino Acids ({formatNumber(data.length)}aa)</span>
+										<span class="py-2">Amino Acids ({formatNumber(data.length)}aa)</span>
 									{:else if data.type === 'phasedDiploidDna'}
-										<span>Phased Diploid DNA ({formatNumber(data.length)}nt)</span>
+										<span class="py-2">Phased Diploid DNA ({formatNumber(data.length)}nt)</span>
 									{:else if data.type === 'traits'}
-										<span>Traits ({formatNumber(data.length)})</span>
+										<span class="py-2">Traits ({formatNumber(data.length)})</span>
 									{:else if data.type === 'unknown'}
-										<span>Traits ({formatNumber(data.length)})</span>
+										<span class="py-2">Traits ({formatNumber(data.length)})</span>
 									{/if}
 								{/each}
 							</div>
 						</td>
 
 						<td align="right">
-							<div class="flex flex-col gap-1">
+							<div class="flex flex-col gap-2">
 								{#each row.sampleData as data, idx (idx)}
 									<div class="flex justify-end gap-2">
 										{#if row.classification.at(0)?.idType === 'ncbiTaxonomyId' && row.classification.at(0)?.classificationId}
@@ -154,6 +154,7 @@
 											onclick={() => copySampleData(data)}
 										>
 											<svg
+												class="m-2"
 												width="20"
 												height="20"
 												viewBox="0 0 20 20"
