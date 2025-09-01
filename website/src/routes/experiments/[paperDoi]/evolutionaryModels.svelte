@@ -1,4 +1,5 @@
 <script lang="ts">
+	import NoContent from '$lib/components/noContent.svelte';
 	import type { EvolutionaryModelComponent } from '$lib/types';
 
 	let { evolutionaryModels }: { evolutionaryModels: EvolutionaryModelComponent[] } = $props();
@@ -52,4 +53,8 @@
 			</div>
 		{/each}
 	</div>
+
+	<NoContent items={evolutionaryModels}>
+		There are no evolutionary models for this experiment.
+	</NoContent>
 </div>
