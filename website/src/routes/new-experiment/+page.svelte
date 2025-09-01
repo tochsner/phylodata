@@ -13,6 +13,7 @@
 	import Paper from './paper.svelte';
 	import Code from '$lib/components/code.svelte';
 	import Experiment from './experiment.svelte';
+	import { prunePaperWithExperiments } from '$lib/db/prunePaperWithExperiment';
 
 	let currentStep = $state(1);
 	let files: File[] = $state([]);
@@ -276,6 +277,10 @@
 					class="flex space-x-4"
 					method="POST"
 					use:enhance={({ formData }) => {
+						if (!uploadedObject) return;
+
+						prunePaperWithExperiments(uploadedObject);
+
 						formData.append('paperData', JSON.stringify(uploadedObject));
 						formData.append('fileNames', JSON.stringify(files.map((file) => file.name)));
 						isProcessing = true;
