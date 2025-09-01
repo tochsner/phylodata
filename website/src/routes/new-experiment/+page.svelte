@@ -276,14 +276,14 @@
 				<form
 					class="flex space-x-4"
 					method="POST"
-					use:enhance={({ formData }) => {
-						if (!uploadedObject) return;
+					use:enhance={({ formData, cancel }) => {
+						if (!uploadedObject || isProcessing) return cancel();
+
+						isProcessing = true;
 
 						prunePaperWithExperiments(uploadedObject);
-
 						formData.append('paperData', JSON.stringify(uploadedObject));
 						formData.append('fileNames', JSON.stringify(files.map((file) => file.name)));
-						isProcessing = true;
 
 						return async ({ update, result }) => {
 							if (result.type !== 'success') {
