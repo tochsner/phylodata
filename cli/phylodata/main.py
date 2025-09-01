@@ -5,7 +5,11 @@ from typing import Optional
 import click
 
 import phylodata
-from phylodata.data_types import get_schema, validate_editable_json
+from phylodata.data_types import (
+    ClassificationEntryType,
+    get_schema,
+    validate_editable_json,
+)
 from phylodata.process.change_language import (
     change_language as change_language_handler,
 )
@@ -75,5 +79,14 @@ def change_ncbi(metadata_file: str, sample_id: str, ncbi_taxon_id: str):
 )
 @click.argument("metadata_file", type=click.Path(exists=True))
 @click.argument("sample_id", type=str, required=False)
-def remove_classification(metadata_file: str, sample_id: Optional[str] = None):
+@click.argument(
+    "classification_type",
+    type=click.Choice(ClassificationEntryType, case_sensitive=False),
+    required=False,
+)
+def remove_classification(
+    metadata_file: str,
+    sample_id: Optional[str] = None,
+    classification_type: Optional[ClassificationEntryType] = None,
+):
     remove_classification_handler(Path(metadata_file), sample_id)
