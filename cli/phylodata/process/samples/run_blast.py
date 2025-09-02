@@ -81,7 +81,7 @@ def wait_until_ready(request_id: str):
             logger.error(
                 f"BLAST submission failed with status {status}: {response.text}"
             )
-            raise Exception(f"BLAST submission failed: {status}")
+            raise BlastError(f"BLAST submission failed: {status}")
 
 
 def fetch_results(request_id: str) -> dict:
