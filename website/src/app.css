@@ -150,7 +150,7 @@ td {
 }
 
 .tip {
-	background: var(--color-light-gray);
+	background: var(--color-blue);
 	padding-left: 56px;
 }
 .tip::before {

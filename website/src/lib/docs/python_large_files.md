@@ -37,7 +37,7 @@ In this snippet, we load an experiment, retrieve the posterior trees file, and p
 
 The interesting part is `prefer_preview()`. This tells the library to always use the preview versions of files. This means that `load_experiment` only downloads the smaller preview files, and that `get_file_of_type` automatically returns the preview version of the file. The output of this program is `Number of lines: 358`, a small fraction of the actual number of trees in this experiment (4501).
 
-If you want to run the full analysis, simply remove the `prefer_preview()` call. **You don't have to touch any of the other code!**
+!> After the `prefer_preview()` call, all other PhyloData functions will magically work with preview files. There is no need to change anything else. If you want to run the full analysis, simply remove the `prefer_preview()` call.
 
 ## Using env variables
 
