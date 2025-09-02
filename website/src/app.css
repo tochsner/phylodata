@@ -1,5 +1,5 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');*/
 @import url('https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@400;500;600;700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=Mukta:wght@200;300;400;500;600;700;800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Sarala:wght@400;700&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+@import url(./lib/themes/prism-one-light.css);
 
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
@@ -10,6 +10,9 @@
 	--color-accent-light: #e5edc9;
 	--color-accent: #54763d;
 	--color-dark: #10100a;
+	
+	--color-blue: #b7ebf7;
+	--color-red: #fad2d2;
 
 	--color-substitution-model: #e5edc9;
 	--color-clock-model: #f2f279;
@@ -137,5 +140,47 @@ td {
 	stroke: #ccc;
 }
 
-.tree-widget {
+/* Markdown */
+
+.hint {
+	background: var(--color-accent-light);
+	border-radius: 8px;
+	padding: 16px;
+	position: relative;
+}
+
+.tip {
+	background: var(--color-blue);
+	padding-left: 56px;
+}
+.tip::before {
+	content: url("data:image/svg+xml,%3Csvg%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20width%3D%2228%22%20%20height%3D%2228%22%20%20viewBox%3D%220%200%2024%2024%22%20%20fill%3D%22none%22%20%20stroke%3D%22currentColor%22%20%20stroke-width%3D%222%22%20%20stroke-linecap%3D%22round%22%20%20stroke-linejoin%3D%22round%22%20%20class%3D%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-info-circle%22%3E%3Cpath%20stroke%3D%22none%22%20d%3D%22M0%200h24v24H0z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M3%2012a9%209%200%201%200%2018%200a9%209%200%200%200%20-18%200%22%20%2F%3E%3Cpath%20d%3D%22M12%209h.01%22%20%2F%3E%3Cpath%20d%3D%22M11%2012h1v4h1%22%20%2F%3E%3C%2Fsvg%3E");
+	height: 28px;
+	width: 28px;
+	position: absolute;
+	left: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.warn {
+	background: var(--color-red);
+	padding-left: 56px;
+}
+.warn::before {
+	content: url("data:image/svg+xml,%3Csvg%0A%09xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%09width%3D%2228%22%0A%09height%3D%2228%22%0A%09viewBox%3D%220%200%2024%2024%22%0A%09fill%3D%22none%22%0A%09stroke%3D%22currentColor%22%0A%09stroke-width%3D%222%22%0A%09stroke-linecap%3D%22round%22%0A%09stroke-linejoin%3D%22round%22%0A%09class%3D%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-alert-hexagon%22%0A%09%3E%3Cpath%20stroke%3D%22none%22%20d%3D%22M0%200h24v24H0z%22%20fill%3D%22none%22%20%2F%3E%3Cpath%0A%09%09d%3D%22M19.875%206.27c.7%20.398%201.13%201.143%201.125%201.948v7.284c0%20.809%20-.443%201.555%20-1.158%201.948l-6.75%204.27a2.269%202.269%200%200%201%20-2.184%200l-6.75%20-4.27a2.225%202.225%200%200%201%20-1.158%20-1.948v-7.285c0%20-.809%20.443%20-1.554%201.158%20-1.947l6.75%20-3.98a2.33%202.33%200%200%201%202.25%200l6.75%203.98h-.033z%22%0A%09%2F%3E%3Cpath%20d%3D%22M12%208v4%22%20%2F%3E%3Cpath%20d%3D%22M12%2016h.01%22%20%2F%3E%0A%3C%2Fsvg%3E");
+	height: 28px;
+	width: 28px;
+	position: absolute;
+	left: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+pre {
+	border-radius: 8px !important;
+}
+
+pre.language-python {
+	position: relative;
 }

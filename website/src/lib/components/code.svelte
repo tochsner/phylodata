@@ -18,6 +18,6 @@
 			<ClipboardIcon />
 		</button>
 
-		<code class="flex-1 font-mono text-sm whitespace-pre-wrap">{code}</code>
+		<code class="flex-1 whitespace-pre-wrap font-mono text-sm">{code}</code>
 	</div>
 </div>
