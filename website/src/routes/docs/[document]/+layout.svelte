@@ -29,6 +29,11 @@
 	] as NavigationItem[];
 </script>
 
+<svelte:head>
+	<title>{meta.title}</title>
+	<meta name="description" content={meta.description} />
+</svelte:head>
+
 <Header>
 	<h2 class="text-dark flex-1 text-2xl font-bold">Documentation</h2>
 </Header>
