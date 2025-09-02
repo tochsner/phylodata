@@ -86,3 +86,19 @@ experiment = load_experiment(
 ```
 
 You can choose from the following file types: `FileType.BEAST2_CONFIGURATION`, `FileType.BEAST2_POSTERIOR_LOGS`, `FileType.POSTERIOR_TREES`, `FileType.SUMMARY_TREE`, `FileType.UNKNOWN`.
+
+## Loading multiple experiments
+
+You can also load multiple experiments at once:
+
+```python
+from phylodata import load_experiments, ExperimentToLoad
+experiments = load_experiments(
+	[
+		ExperimentToLoad("nen-2019-postglacial-qh0e", version=1),
+		ExperimentToLoad("nen-2019-postglacial-n1bf", version=1)
+	],
+)
+```
+
+This will return a list of `PaperWithExperiment` objects. The `load_experiments` function supports the same options as `load_experiment`.

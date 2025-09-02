@@ -20,7 +20,7 @@ Every **posterior trees file (.trees)** and **logs file (.log)** on PhyloData ha
 Let's look at an example to see how this can be useful:
 
 ```python
-from phylodata import load_experiment, get_file_of_type, FileType
+from phylodata import load_experiment, get_file_of_type, FileType, prefer_preview
 
 prefer_preview()
 
