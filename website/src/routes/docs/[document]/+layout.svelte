@@ -48,6 +48,10 @@
 				{
 					label: 'Uploading experiments',
 					url: 'python_uploading_experiments'
+				},
+				{
+					label: 'Best practices',
+					url: 'python_best_practices'
 				}
 			]
 		},
