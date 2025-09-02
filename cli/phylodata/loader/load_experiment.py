@@ -12,8 +12,8 @@ from phylodata.data_types import (
     NonEditablePaperWithExperiment,
     PaperWithExperiment,
 )
-from phylodata.loader.consts import PREFER_PREVIEW_ENV
 from phylodata.loader.download_file import download_file
+from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
 
 EDITABLE_METADATA_FILE = "editable_phylodata_metadata.json"
 NON_EDITABLE_METADATA_FILE = "non_editable_phylodata_metadata"
@@ -73,8 +73,8 @@ def load_experiments(
 
 def load_experiment(
     experiment_id: str,
-    directory: Optional[str | Path] = None,
     version: Optional[int] = None,
+    directory: Optional[str | Path] = None,
     download_only_preview: Optional[bool] = None,
     files_to_download: Optional[list[str | FileType]] = None,
     force_download: bool = False,
@@ -84,10 +84,10 @@ def load_experiment(
     Args:
         experiment_id:
             The human-readable ID of the experiment to load (e.g. felsenstein-1992-estimating).
-        directory:
-            Path where the experiment files are stored.
         version:
             The version of the experiment to load. Defaults to latest.
+        directory:
+            Path where the experiment files are stored.
         download_only_preview:
             Whether to only download preview files. This is useful for testing environments.
             This can also be controlled by setting the environment variable

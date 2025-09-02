@@ -3,7 +3,7 @@ from collections import defaultdict
 from typing import Optional
 
 from phylodata.data_types import File, FileType, PaperWithExperiment
-from phylodata.loader.consts import PREFER_PREVIEW_ENV
+from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
 
 
 def get_files(
@@ -34,8 +34,6 @@ def get_files(
     downloaded_file_variants = defaultdict(list[File])
     for file in downloaded_files:
         downloaded_file_variants[_strip_preview_suffix(file)].append(file)
-
-    print(downloaded_file_variants)
 
     result = []
     for variants in downloaded_file_variants.values():

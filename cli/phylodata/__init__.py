@@ -11,3 +11,4 @@ from phylodata.loader.load_experiment import (  # noqa: F401
     load_experiment_from_local_dir,
     load_experiments,
 )
+from phylodata.loader.preview_env import prefer_full, prefer_preview  # noqa: F401

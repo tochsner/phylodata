@@ -15,7 +15,7 @@ from phylodata.data_types import (
     Paper,
     PaperWithExperiment,
 )
-from phylodata.loader.consts import PREFER_PREVIEW_ENV
+from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
 
 
 @fixture()
