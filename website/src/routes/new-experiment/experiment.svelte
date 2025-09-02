@@ -17,7 +17,7 @@
 
 		{#if experiment.description}
 			<div class="flex flex-col gap-1">
-				<h4 class="text-accent text-sm font-semibold">Description</h4>
+				<h4 class="text-accent whitespace-pre-wrap text-sm font-semibold">Description</h4>
 				<span>{experiment.description}</span>
 			</div>
 		{/if}

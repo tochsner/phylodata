@@ -24,7 +24,7 @@
 
 	<div class="flex flex-col gap-1">
 		<h4 class="text-accent text-sm font-semibold">Abstract</h4>
-		<span class="text-justify">{paper.abstract}</span>
+		<span class="whitespace-pre-wrap text-justify">{paper.abstract}</span>
 	</div>
 
 	<div class="flex flex-col gap-1">
