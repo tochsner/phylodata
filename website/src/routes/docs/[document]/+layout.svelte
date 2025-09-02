@@ -17,7 +17,7 @@
 			label: 'General',
 			items: [
 				{
-					label: 'Core Principles',
+					label: 'Core principles',
 					url: 'principles'
 				}
 			]
@@ -50,6 +50,10 @@
 					url: 'python_uploading_experiments'
 				}
 			]
+		},
+		{
+			label: 'Java Library',
+			items: []
 		}
 	] as NavigationItem[];
 </script>

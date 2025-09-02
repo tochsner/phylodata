@@ -3,7 +3,7 @@ title: Core Principles
 description: Learn more about the core principles behind PhyloData.
 ---
 
-# Core Principles
+# Core principles
 
 This document outlines PhyloData's vision and goals. It is a work in progress, a place to collect and organize my thoughts on the project.
 
@@ -25,7 +25,7 @@ PhyloData aims to solve these challenges.
 - It provides a standardized way to store and share data from these experiments.
 - For easy discovery, experiments are automatically decorated with metadata.
 
-## Core Principles
+## Core principles
 
 **The platform helps method developers validate and compare methods.**
 
