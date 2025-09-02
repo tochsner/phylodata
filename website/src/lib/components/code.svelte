@@ -18,6 +18,8 @@
 			<ClipboardIcon />
 		</button>
 
-		<code class="flex-1 whitespace-pre-wrap font-mono text-sm">{code}</code>
+		<code class="max-h-80 flex-1 overflow-scroll whitespace-pre-wrap font-mono text-sm">
+			{code}
+		</code>
 	</div>
 </div>

@@ -74,12 +74,12 @@
 	>
 		<dialog
 			open
-			class="relative flex max-h-4/5 max-w-4/5 overflow-y-scroll rounded-2xl bg-white shadow-xl"
+			class="max-h-4/5 max-w-4/5 relative flex overflow-y-scroll rounded-2xl bg-white shadow-xl"
 		>
 			<button
 				onclick={() => (experimentsToDownload = undefined)}
 				aria-label="Close dialog"
-				class="absolute top-0 right-0 cursor-pointer p-2 opacity-80 hover:opacity-40"
+				class="absolute right-0 top-0 cursor-pointer p-2 opacity-80 hover:opacity-40"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +137,7 @@
 				</div>
 			</div>
 
-			<div class="bg-accent-light flex flex-2 flex-col gap-8 overflow-x-scroll rounded-2xl p-8">
+			<div class="bg-accent-light flex-2 flex flex-col gap-8 overflow-x-scroll rounded-2xl p-8">
 				<div class="flex flex-col gap-2">
 					<h3 class="font-bold">1. Install the PhyloData library</h3>
 					<Code code="pip install phylodata --upgrade" />
@@ -150,11 +150,9 @@
 					<p class="text-sm opacity-70">
 						This will download the experiment if needed and gives you easy access to all the
 						information about it.
-						<a class="text-accent underline" href="/"> Learn more about the library... </a>
-					</p>
-					<p class="text-sm opacity-70">
-						You should put this script into a git repository for reproducability.
-						<a class="text-accent underline" href="/"> Learn more about reproducability... </a>
+						<a class="text-accent underline" href="/docs/python_first_steps">
+							Learn more about the library...
+						</a>
 					</p>
 				</div>
 			</div>
