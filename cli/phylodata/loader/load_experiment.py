@@ -12,6 +12,7 @@ from phylodata.data_types import (
     NonEditablePaperWithExperiment,
     PaperWithExperiment,
 )
+from phylodata.loader.consts import PREFER_PREVIEW_ENV
 from phylodata.loader.download_file import download_file
 
 EDITABLE_METADATA_FILE = "editable_phylodata_metadata.json"
@@ -42,7 +43,7 @@ def load_experiments(
         download_only_preview:
             Whether to only download preview files. This is useful for testing environments.
             This can also be controlled by setting the environment variable
-            PHYLODATA_DOWNLOAD_ONLY_PREVIEW to true or false. Defaults to False.
+            PHYLODATA_PREFER_PREVIEW to true or false. Defaults to False.
         files_to_download:
                 Optional list to restrict the FileTypes downloaded. Defaults to all.
         force_download:
@@ -90,7 +91,7 @@ def load_experiment(
         download_only_preview:
             Whether to only download preview files. This is useful for testing environments.
             This can also be controlled by setting the environment variable
-            PHYLODATA_DOWNLOAD_ONLY_PREVIEW to true or false. Defaults to False.
+            PHYLODATA_PREFER_PREVIEW to true or false. Defaults to False.
         files_to_download:
             Optional list to restrict the filenames or FileTypes downloaded. Defaults to all.
         force_download:
@@ -106,9 +107,7 @@ def load_experiment(
     directory.mkdir(parents=True, exist_ok=True)
 
     if download_only_preview is None:
-        download_only_preview = (
-            os.environ.get("PHYLODATA_DOWNLOAD_ONLY_PREVIEW") == "true"
-        )
+        download_only_preview = os.environ.get(PREFER_PREVIEW_ENV) == "true"
 
     paper_with_experiment = _download_experiment(
         experiment_id,
