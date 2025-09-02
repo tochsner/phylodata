@@ -1,9 +1,18 @@
 import os
 from collections import defaultdict
+from pathlib import Path
 from typing import Optional
 
 from phylodata.data_types import File, FileType, PaperWithExperiment
 from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
+
+
+def get_folder(experiment: PaperWithExperiment) -> Path:
+    """Returns the folder containing the local experiment files."""
+    return next(
+        (file.local_path.parent for file in experiment.files if file.local_path),
+        Path("data") / experiment.experiment.human_readable_id,
+    )
 
 
 def get_files(

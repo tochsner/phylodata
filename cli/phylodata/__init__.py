@@ -4,6 +4,7 @@ from phylodata.loader.get_files import (  # noqa: F401
     get_file_of_type,
     get_files,
     get_files_of_type,
+    get_folder,
 )
 from phylodata.loader.load_experiment import (  # noqa: F401
     ExperimentToLoad,
