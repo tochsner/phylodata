@@ -13,7 +13,7 @@ Bayesian phylogenetic analyses can produce very large files. While working with 
 
 - Large files take up a lot of space on your local hard drive.
 
-One exciting feature of PhyloData that deals with these two issue are **preview files**.
+One exciting feature of PhyloData that deals with these issues is **preview files**.
 
 Every **posterior trees file (.trees)** and **logs file (.log)** on PhyloData has a full and a preview version. The full version is the file produced by the phylogenetic experiment. The preview version is a smaller version of the file, containing only a subsample of the records.
 
