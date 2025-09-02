@@ -181,7 +181,9 @@ def _download_experiment(
         ):
             continue
 
-        download_file(directory, experiment_id, file.name, version, force_download)
+        file.local_path = download_file(
+            directory, experiment_id, file.name, version, force_download
+        )
 
     return metadata
 

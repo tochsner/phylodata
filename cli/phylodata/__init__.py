@@ -1,4 +1,5 @@
 from phylodata.data_types import FileType  # noqa: F401
+from phylodata.loader.experiment_utils import get_file  # noqa: F401
 from phylodata.loader.load_experiment import (  # noqa: F401
     ExperimentToLoad,
     load_experiment,

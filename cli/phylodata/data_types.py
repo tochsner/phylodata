@@ -14,6 +14,7 @@ from datetime import date
 from enum import Enum
 from hashlib import md5
 from io import BytesIO
+from pathlib import Path
 from typing import Any, Optional
 
 import msgspec
@@ -142,7 +143,7 @@ class File(
     size_bytes: int
     md5: str
     is_preview: bool = False
-    local_path: Optional[str] = None
+    local_path: Optional[Path] = None
     remote_path: Optional[str] = None
 
     def __post_init__(self):
