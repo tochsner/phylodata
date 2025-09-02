@@ -18,7 +18,7 @@
 	});
 
 	afterNavigate(() => {
-		for (const node of document.querySelectorAll('pre.language-python')) {
+		for (const node of document.querySelectorAll('.prose pre')) {
 			console.log(node);
 			mount(CopyButton, {
 				target: node,

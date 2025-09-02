@@ -17,12 +17,37 @@
 			label: 'General',
 			items: [
 				{
-					label: 'Introduction',
-					url: 'introduction'
-				},
-				{
 					label: 'Core Principles',
 					url: 'principles'
+				}
+			]
+		},
+		{
+			label: 'Python Library',
+			items: [
+				{
+					label: 'First steps',
+					url: 'python_first_steps'
+				},
+				{
+					label: 'Loading experiments',
+					url: 'python_downloading_experiments'
+				},
+				{
+					label: 'Accessing files',
+					url: 'python_files'
+				},
+				{
+					label: 'Dealing with large files',
+					url: 'python_large_files'
+				},
+				{
+					label: 'Accessing metadata',
+					url: 'python_metadata'
+				},
+				{
+					label: 'Uploading experiments',
+					url: 'python_uploading_experiments'
 				}
 			]
 		}
@@ -39,7 +64,7 @@
 </Header>
 
 <div class="flex p-8">
-	<div class="fixed flex flex-col gap-8">
+	<div class="flex flex-col gap-8">
 		{@render links(sidebar)}
 	</div>
 

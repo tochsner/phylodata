@@ -150,7 +150,7 @@ td {
 }
 
 .tip {
-	background: var(--color-blue);
+	background: var(--color-light-gray);
 	padding-left: 56px;
 }
 .tip::before {
@@ -181,6 +181,6 @@ pre {
 	border-radius: 8px !important;
 }
 
-pre.language-python {
+.prose pre {
 	position: relative;
 }
