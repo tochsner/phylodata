@@ -8,15 +8,6 @@
 
 	let { children } = $props();
 
-	onMount(() => {
-		toast(
-			'This website is in development. Not every feature will work. The datasets are non-complete and intended for testing purposes.',
-			{
-				duration: 5000
-			}
-		);
-	});
-
 	afterNavigate(() => {
 		for (const node of document.querySelectorAll('.prose pre')) {
 			console.log(node);
