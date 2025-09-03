@@ -50,7 +50,7 @@ In some cases, you might only be interested in a subset of the files. You can re
 ```java
 PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-).restrictFileName(
+).restrictFileNames(
     "Meta.subset1.trim1.ingroup.B.xml",
     "Meta.subset1.trim1.ingroup.B.10K.pruned.trees"
 ).load();
@@ -79,7 +79,7 @@ PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
 )
     .intoDirectory(Paths.get("some/other/folder"))
-    .restrictFileName("Meta.subset1.trim1.ingroup.B.10K.pruned.trees")
+    .restrictFileNames("Meta.subset1.trim1.ingroup.B.10K.pruned.trees")
     .restrictFileTypes(File.FileType.POSTERIOR_TREES)
     .preferPreview()
     .forceDownload()

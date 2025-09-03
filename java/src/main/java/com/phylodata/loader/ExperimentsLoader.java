@@ -26,7 +26,7 @@ public class ExperimentsLoader extends ExperimentLoaderBuilder<List<PaperWithExp
             PaperWithExperiment loaded = new ExperimentLoader(exp)
                     .intoDirectory(directory)
                     .preferPreview(downloadOnlyPreview)
-                    .restrictFileName(filesToDownload)
+                    .restrictFileNames(filesToDownload)
                     .restrictFileTypes(fileTypesToDownload)
                     .forceDownload(forceDownload)
                     .load();

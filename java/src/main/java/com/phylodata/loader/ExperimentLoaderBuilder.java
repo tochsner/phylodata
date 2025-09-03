@@ -3,7 +3,6 @@ package com.phylodata.loader;
 import com.phylodata.types.File;
 
 import java.nio.file.Path;
-import java.util.Set;
 
 /**
  * Builder-style loader for PhyloData experiments.
@@ -63,7 +62,7 @@ abstract public class ExperimentLoaderBuilder<T> {
      * @param filesToDownload set of filenames to download
      * @return this builder for chaining
      */
-    public ExperimentLoaderBuilder<T> restrictFileName(String... filesToDownload) {
+    public ExperimentLoaderBuilder<T> restrictFileNames(String... filesToDownload) {
         this.filesToDownload = filesToDownload;
         return this;
     }
