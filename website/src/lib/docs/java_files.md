@@ -35,10 +35,10 @@ The `local_path` is the path to the file on your local computer. The file type i
 Most experiments have at most one file of a given type. If you want to access a file of a specific type, you can use the `getFileOfType` function:
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
-File posterior_trees_file = Files.getFileOfType(experiment, File.FileType.POSTERIOR_TREES);
+).load();
+File posterior_trees_file = experiment.getFileOfType(File.FileType.POSTERIOR_TREES);
 System.out.println("Trees path: " + posterior_trees_file.getLocalPath());
 ```
 
@@ -51,11 +51,11 @@ This will return the first file of the given type. Note that you do not even hav
 If you want to access all files of a specific type, you can use the `get_file_of_types` function:
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
-List<File> summaryTreesFiles = Files.getFilesOfType(
-    experiment, File.FileType.SUMMARY_TREE
+).load();
+List<File> summaryTreesFiles = experiment.getFilesOfType(
+    File.FileType.SUMMARY_TREE
 );
 ```
 
@@ -64,11 +64,11 @@ List<File> summaryTreesFiles = Files.getFilesOfType(
 If you want to access all files of an experiment, you can use the `getFiles` function:
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
+).load();
 
-List<File> files = Files.getFiles(experiment);
+List<File> files = experiment.getFiles();
 
 for (File file : files) {
     System.out.println("File name: " + file.getName());
@@ -82,8 +82,8 @@ for (File file : files) {
 If you want to access a file of a specific name, you can use the `getFile` function:
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
-File posteriorTreesFile = Files.getFile(experiment, "Meta.subset1.trim1.ingroup.B.xml");
+).load();
+File posteriorTreesFile = experiment.getFile("Meta.subset1.trim1.ingroup.B.xml");
 ```

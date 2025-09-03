@@ -22,11 +22,11 @@ Let's look at an example to see how this can be useful:
 ```java
 PhyloDataConfig.preferPreview();
 
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
+).load();
 
-File treesFile = Files.getFileOfType(experiment, File.FileType.POSTERIOR_TREES);
+File treesFile = experiment.getFileOfType(File.FileType.POSTERIOR_TREES);
 Path treesFilePath = treesFile.getLocalPath();
 
 // count and output the number of lines

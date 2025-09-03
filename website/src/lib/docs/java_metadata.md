@@ -30,9 +30,9 @@ As you can see, the structure closesly matches the experiment pages on the websi
 ## Paper metadata
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
+).load();
 
 System.out.println(experiment.getPaper().getTitle());
 System.out.println(experiment.getPaper().getYear());
@@ -45,9 +45,9 @@ System.out.println(experiment.getPaper().getBibtex());
 ## Experiment metadata
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
+).load();
 
 System.out.println(experiment.getExperiment().getType());
 System.out.println(experiment.getExperiment().getHumanReadableId());
@@ -58,11 +58,11 @@ System.out.println(experiment.getExperiment().getVersion());
 ## File metadata
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
+).load();
 
-for (File file : experiment.getFiles()) {
+for (File file : experiment.getAllFiles()) {
     System.out.println(file.getName());
     System.out.println(file.getType());
     System.out.println(file.getLocalPath());
@@ -72,14 +72,14 @@ for (File file : experiment.getFiles()) {
 }
 ```
 
-?> Use the `get_file` functions to access specific files (see [Accessing files](/docs/python_files)).
+?> `getAllFiles` returns all files, including preview files and files that haven't been downloaded. `getFiles` and and alike only return the files that have been downloaded and respect the preview preferences.
 
 ## Sample metadata
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
+).load();
 
 for (Sample sample : experiment.getSamples()) {
     System.out.println(sample.getSampleId());
@@ -109,9 +109,9 @@ print(experiment.trees.average_root_age)
 ## Evolutionary model metadata
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
+).load();
 
 for (EvolutionaryModelComponent model : experiment.getEvolutionaryModel()) {
     System.out.println(model.getName());

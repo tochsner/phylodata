@@ -12,12 +12,10 @@ This page talks about some best practices when working with PhyloData.
 One of the advantages of using PhyloData is that you **download the data using code**. Don't run the `loadExperiments` function manually at the very beginning of your project. Instead, call it at the very beginning of your program:
 
 ```java
-List<PaperWithExperiment> experiments = ExperimentLoader.loadExperiments(
-    List.of(
-        new ExperimentLoader.ExperimentToLoad("nen-2019-postglacial-qh0e", 1),
-        new ExperimentLoader.ExperimentToLoad("nen-2019-postglacial-n1bf", 1)
-    )
-);
+List<PaperWithExperiment> experiments = new ExperimentsLoader(
+	new ExperimentToLoad("nen-2019-postglacial-qh0e", 1),
+	new ExperimentToLoad("nen-2019-postglacial-n1bf", 1)
+).load();
 
 // do the rest of your analysis
 ```
@@ -31,18 +29,16 @@ Quite often, your program will create further files during the analysis. For exa
 One pattern that works well is to use the folders already created by PhyloData to store experiment-related intermediate and output files:
 
 ```java
-List<PaperWithExperiment> experiments = ExperimentLoader.loadExperiments(
-		List.of(
-				new ExperimentLoader.ExperimentToLoad("nen-2019-postglacial-qh0e", 1),
-				new ExperimentLoader.ExperimentToLoad("nen-2019-postglacial-n1bf", 1)
-		)
-);
+List<PaperWithExperiment> experiments = new ExperimentsLoader(
+	new ExperimentToLoad("nen-2019-postglacial-qh0e", 1),
+	new ExperimentToLoad("nen-2019-postglacial-n1bf", 1)
+).load();
 
 for (PaperWithExperiment experiment : experiments) {
 	int numSamples = experiment.getSamples().size();
 
-	// getFolder returns the location of the experiment files
-	Path experimentFolder = Files.getFolder(experiment);
+	// getLocalFolder returns the location of the experiment files
+	Path experimentFolder = experiment.getLocalFolder();
 	// outputPath will be "data/nen-2019-postglacial-qh0e/num_samples.txt"
 	Path outputPath = experimentFolder.resolve("num_samples.txt");
 

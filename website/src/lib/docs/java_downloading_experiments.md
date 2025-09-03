@@ -24,59 +24,77 @@ There are multiple possibilities when it comes to loading an experiment, let's g
 The simplest way to load an experiment is to specify the ID and version:
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
+).load();
 ```
 
 !> You always have to specify the version of the experiment to load. This ensures that you get the same results even if the experiment is updated.
 
 ## Where are the files stored?
 
-By default, the experiment files are stored in a folder called `data` in the current working directory. If you want to specify a different directory, you can do so by passing an additional argument:
+By default, the experiment files are stored in a folder called `data` in the current working directory. If you want to specify a different directory, you can do so as follows:
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
-    "munro-2019-climate-6tvf", 1, Paths.get("some/other/folder")
-);
+PaperWithExperiment experiment = new ExperimentLoader(
+    "munro-2019-climate-6tvf", 1
+).intoDirectory(Paths.get("some/other/folder")).load();
 ```
 
 !> PhyloData will only download the files if they don't already exist. Simply put the `loadExperiment` method call at the beginning of your program, it won't download the files more than once.
 
 ## Only download some files
 
-In some cases, you might only be interested in a subset of the files.
+In some cases, you might only be interested in a subset of the files. You can restrict the downloaded files by specifying file names:
+
+```java
+PaperWithExperiment experiment = new ExperimentLoader(
+    "munro-2019-climate-6tvf", 1
+).restrictFileName(
+    "Meta.subset1.trim1.ingroup.B.xml",
+    "Meta.subset1.trim1.ingroup.B.10K.pruned.trees"
+).load();
+```
 
 Alternatively, you can only download files of a certain type:
 
 ```java
 // download only BEAST2 configuration files
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
-    "munro-2019-climate-6tvf", 1, Set.of(File.FileType.BEAST_2_CONFIGURATION)
-);
-
-// download tree files
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
-    "munro-2019-climate-6tvf", 1,
-    Set.of(File.FileType.POSTERIOR_TREES, File.FileType.SUMMARY_TREE)
-);
+PaperWithExperiment experiment = new ExperimentLoader(
+    "munro-2019-climate-6tvf", 1
+).restrictFileTypes(
+    File.FileType.POSTERIOR_TREES,
+    File.FileType.SUMMARY_TREE
+).load();
 ```
 
 You can choose from the following file types: `File.FileType.BEAST2_CONFIGURATION`, `File.FileType.BEAST2_POSTERIOR_LOGS`, `File.FileType.POSTERIOR_TREES`, `File.FileType.SUMMARY_TREE`, `File.FileType.UNKNOWN`.
 
-!> For full control, check out the most general `ExperimentLoader.loadExperiment` method. It allows you to combine all of the above options.
+## All possible options
+
+The most general `ExperimentLoader.loadExperiment` method allows you to combine all of the above options:
+
+```java
+PaperWithExperiment experiment = new ExperimentLoader(
+    "munro-2019-climate-6tvf", 1
+)
+    .intoDirectory(Paths.get("some/other/folder"))
+    .restrictFileName("Meta.subset1.trim1.ingroup.B.10K.pruned.trees")
+    .restrictFileTypes(File.FileType.POSTERIOR_TREES)
+    .preferPreview()
+    .forceDownload()
+    .load();
+```
 
 ## Loading multiple experiments
 
-You can also load multiple experiments at once:
+You can also load multiple experiments at once by using the `ExperimentsLoader` class. It behaves exactly to the `ExperimentLoader` class:
 
 ```java
-List<PaperWithExperiment> experiments = ExperimentLoader.loadExperiments(
-    List.of(
-        new ExperimentLoader.ExperimentToLoad("nen-2019-postglacial-qh0e", 1),
-        new ExperimentLoader.ExperimentToLoad("nen-2019-postglacial-n1bf", 1)
-    )
-);
+List<PaperWithExperiment> experiments = new ExperimentsLoader(
+	new ExperimentToLoad("nen-2019-postglacial-qh0e", 1),
+	new ExperimentToLoad("nen-2019-postglacial-n1bf", 1)
+).load();
 ```
 
-This will return a list of `PaperWithExperiment` objects. The `loadExperiments` method supports the same options as `loadExperiment`.
+This will return a list of `PaperWithExperiment` objects. The `ExperimentsLoader` class supports the same options as `ExperimentLoader`.

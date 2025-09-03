@@ -30,9 +30,9 @@ import com.phylodata.types.PaperWithExperiment;
 public class Tests {
 
     public static void main(String[] args) {
-        PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
-            "munro-2019-climate-6tvf", 1
-        );
+        PaperWithExperiment experiment = new ExperimentLoader(
+                "munro-2019-climate-6tvf", 1
+        ).load();
 
         System.out.println("Title: " + experiment.getPaper().getTitle());
     }
@@ -44,10 +44,10 @@ public class Tests {
 PhyloData downloads all relevant files into the `data/munro-2019-climate-6tvf` folder. However, you don't have to juggle with file paths to access the files:
 
 ```java
-PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
+PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
-);
-File treesFile = Files.getFileOfType(experiment, File.FileType.POSTERIOR_TREES);
+).load();
+File treesFile = experiment.getFileOfType(File.FileType.POSTERIOR_TREES);
 
 System.out.println("Trees file path: " + treesFile.getLocalPath());
 ```
