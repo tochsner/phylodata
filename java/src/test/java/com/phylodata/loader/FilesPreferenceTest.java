@@ -72,7 +72,7 @@ public class FilesPreferenceTest {
         files.add(previewLogs);
 
         PaperWithExperiment p = buildExperiment(files);
-        List<File> got = Files.getFiles(p, false);
+        List<File> got = p.getFiles(false);
         assertEquals(2, got.size());
         assertEquals("beast.xml", got.get(1).getName());
         assertEquals("beast2.logs", got.get(0).getName());
@@ -109,7 +109,7 @@ public class FilesPreferenceTest {
         files.add(previewTrees);
 
         PaperWithExperiment p = buildExperiment(files);
-        List<File> got = Files.getFiles(p, true);
+        List<File> got = p.getFiles(true);
         assertEquals(3, got.size());
         assertEquals("beast2 (preview).xml", got.get(1).getName());
         assertEquals("beast2 (preview).logs", got.get(0).getName());

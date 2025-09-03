@@ -66,15 +66,15 @@ public class FilesOfTypeTest {
 
         PaperWithExperiment p = buildExperiment(files);
 
-        File gotConfig = Files.getFileOfType(p, File.FileType.BEAST_2_CONFIGURATION);
+        File gotConfig = p.getFileOfType(File.FileType.BEAST_2_CONFIGURATION);
         assertNotNull(gotConfig);
         assertEquals("beast.xml", gotConfig.getName());
 
-        File gotPosterior = Files.getFileOfType(p, File.FileType.POSTERIOR_TREES);
+        File gotPosterior = p.getFileOfType(File.FileType.POSTERIOR_TREES);
         assertNotNull(gotPosterior);
         assertEquals("beast.trees", gotPosterior.getName());
 
-        File gotSummary = Files.getFileOfType(p, File.FileType.SUMMARY_TREE);
+        File gotSummary = p.getFileOfType(File.FileType.SUMMARY_TREE);
         assertNotNull(gotSummary);
         assertEquals("summary.trees", gotSummary.getName());
     }
@@ -89,7 +89,7 @@ public class FilesOfTypeTest {
         files.add(config);
 
         PaperWithExperiment p = buildExperiment(files);
-        assertThrows(FileNotFoundException.class, () -> Files.getFileOfType(p, File.FileType.SUMMARY_TREE));
+        assertThrows(FileNotFoundException.class, () -> p.getFileOfType(File.FileType.SUMMARY_TREE));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class FilesOfTypeTest {
         files.add(two);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = Files.getFileOfType(p, File.FileType.BEAST_2_CONFIGURATION);
+        File got = p.getFileOfType(File.FileType.BEAST_2_CONFIGURATION);
         assertNotNull(got);
         assertEquals("beast.xml", got.getName());
     }

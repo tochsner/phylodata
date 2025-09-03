@@ -53,7 +53,7 @@ public class GetFileTest {
         files.add(f);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = Files.getFile(p, "beast2.xml");
+        File got = p.getFile("beast2.xml");
         assertNotNull(got);
         assertEquals("beast2.xml", got.getName());
     }
@@ -61,7 +61,7 @@ public class GetFileTest {
     @Test
     public void testMissingFileThrows() throws FileNotFoundException {
         PaperWithExperiment p = buildExperiment(new ArrayList<>());
-        assertThrows(FileNotFoundException.class, () -> Files.getFile(p, "beast2.xml"));
+        assertThrows(FileNotFoundException.class, () -> p.getFile("beast2.xml"));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class GetFileTest {
         files.add(previewXml);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = Files.getFile(p, "beast2.xml");
+        File got = p.getFile("beast2.xml");
         assertNotNull(got);
         assertEquals("beast2.xml", got.getName());
     }
@@ -103,7 +103,7 @@ public class GetFileTest {
         files.add(previewXml);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = Files.getFile(p, "beast2.xml", false);
+        File got = p.getFile("beast2.xml", false);
         assertNotNull(got);
         assertEquals("beast2.xml", got.getName());
     }
@@ -125,7 +125,7 @@ public class GetFileTest {
         files.add(previewXml);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = Files.getFile(p, "beast2.xml", true);
+        File got = p.getFile("beast2.xml", true);
         assertNotNull(got);
         assertEquals("beast2 (preview).xml", got.getName());
     }

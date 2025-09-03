@@ -1,21 +1,40 @@
 package com.phylodata;
 
+import com.phylodata.config.PhyloDataConfig;
 import com.phylodata.loader.ExperimentLoader;
-import com.phylodata.loader.Files;
-import com.phylodata.types.File;
-import com.phylodata.types.PaperWithExperiment;
+import com.phylodata.loader.ExperimentToLoad;
+import com.phylodata.loader.ExperimentsLoader;
+import com.phylodata.types.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Set;
 
 public class Tests {
 
-    public static void main(String[] args) {
-        PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
-                "munro-2019-climate-6tvf", 1
-        );
-        List<File> summaryTreesFiles = Files.getFilesOfType(experiment, File.FileType.SUMMARY_TREE);
+    public static void main(String[] args) throws IOException {
+        List<PaperWithExperiment> experiments = new ExperimentsLoader(
+                new ExperimentToLoad("nen-2019-postglacial-qh0e", 1),
+                new ExperimentToLoad("nen-2019-postglacial-n1bf", 1)
+        ).load();
+
+        for (PaperWithExperiment experiment : experiments) {
+            int numSamples = experiment.getSamples().size();
+
+            // getLocalFolder returns the location of the experiment files
+            Path experimentFolder = experiment.getLocalFolder();
+            // outputPath will be "data/nen-2019-postglacial-qh0e/num_samples.txt"
+            Path outputPath = experimentFolder.resolve("num_samples.txt");
+
+            try(FileWriter writer = new FileWriter(outputPath.toString()) ){
+                writer.write("Num samples: ");
+                writer.write(numSamples);
+            }
+        }
     }
 
 }

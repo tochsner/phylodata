@@ -1,7 +1,11 @@
 package com.phylodata.types;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.phylodata.config.PhyloDataConfig;
+
+import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PaperWithExperiment {
 
@@ -12,8 +16,11 @@ public class PaperWithExperiment {
     private Object trees;
     private List<EvolutionaryModelComponent> evolutionaryModel = new ArrayList<EvolutionaryModelComponent>();
     private Metadata metadata;
+    private Path localFolder;
 
-    public static PaperWithExperiment fromPartial(EditablePaperWithExperiment editable, NonEditablePaperWithExperiment nonEditable) {
+    public static PaperWithExperiment fromPartial(
+            EditablePaperWithExperiment editable, NonEditablePaperWithExperiment nonEditable, Path localFolder
+    ) {
         PaperWithExperiment p = new PaperWithExperiment();
         p.setPaper(Paper.fromPartial(editable.getPaper(), nonEditable.getPaper()));
         p.setExperiment(Experiment.fromPartial(editable.getExperiment(), nonEditable.getExperiment()));
@@ -22,6 +29,7 @@ public class PaperWithExperiment {
         p.setTrees(nonEditable.getTrees());
         p.setEvolutionaryModel(nonEditable.getEvolutionaryModel());
         p.setMetadata(nonEditable.getMetadata());
+        p.localFolder = localFolder;
         return p;
     }
 
@@ -41,7 +49,7 @@ public class PaperWithExperiment {
         this.experiment = experiment;
     }
 
-    public List<File> getFiles() {
+    public List<File> getAllFiles() {
         return files;
     }
 
@@ -79,6 +87,203 @@ public class PaperWithExperiment {
 
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
+    }
+
+
+    /**
+     * Returns the folder containing the local experiment files.
+     *
+     * @return Path of the directory where files are stored
+     */
+    public Path getLocalFolder() {
+        return this.localFolder;
+    }
+
+    /* ----- getFiles methods -----
+     * The following methods allows to access downloaded files while adhering to the
+     * set preview preference.
+     *
+     * The getAllFiles method above simply returns all files of the experiment,
+     * regardless if they have been downloaded or not.
+     * */
+
+    /**
+     * Retrieves a file by its name (preview suffix ignored). Depending on your settings
+     * and preferPreview, either the full or preview variant is returned.
+     *
+     * @param name Logical file name to retrieve (without preview suffix)
+     * @param preferPreview Nullable preference override
+     * @return The first matching File or null if none exists
+     */
+    public File getFile(String name, Boolean preferPreview) throws FileNotFoundException {
+        List<File> matches = getFiles(preferPreview).stream()
+                .filter(f -> Objects.equals(stripPreviewSuffix(f), name))
+                .collect(Collectors.toList());
+        if (matches.isEmpty()) {
+            throw new FileNotFoundException();
+        } else {
+            return matches.get(0);
+        }
+    }
+
+    /**
+     * Retrieves a file by its name (preview suffix ignored). Depending on your settings,
+     * either the full or preview variant is returned.
+     *
+     * @param name Logical file name to retrieve (without preview suffix)
+     * @return The first matching File or null if none exists
+     */
+    public File getFile(String name) throws FileNotFoundException {
+        return getFile(name, null);
+    }
+
+    /**
+     * Retrieves all downloaded files of the experiment. For each logical file, either the
+     * full or preview variant is returned.
+     *
+     * - preferPreview == null: prefer full, fall back to preview
+     * - preferPreview == true: prefer preview, fall back to full
+     * - preferPreview == false: only return full files
+     *
+     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link PhyloDataConfig}.
+     *
+     * @param preferPreview Nullable preference override; see rules above
+     * @return List of selected File variants, at most one per logical file
+     */
+    public List<File> getFiles(Boolean preferPreview) {
+        Boolean effectivePrefer = preferPreview;
+        if (effectivePrefer == null) {
+            effectivePrefer = PhyloDataConfig.isPreviewPreferred();
+        }
+
+        List<File> downloaded = this.getAllFiles().stream()
+                .filter(f -> f.getLocalPath() != null)
+                .toList();
+
+        Map<String, List<File>> variantsByBaseName = new HashMap<>();
+        for (File f : downloaded) {
+            String baseName = stripPreviewSuffix(f);
+            variantsByBaseName.computeIfAbsent(baseName, k -> new ArrayList<>()).add(f);
+        }
+
+        List<File> result = new ArrayList<>();
+        for (List<File> variants : variantsByBaseName.values()) {
+            List<File> preview = variants.stream().filter(v -> Boolean.TRUE.equals(v.getIsPreview())).toList();
+            List<File> full = variants.stream().filter(v -> !Boolean.TRUE.equals(v.getIsPreview())).toList();
+
+            if (effectivePrefer == null) {
+                // Prefer full, fall back to preview
+                if (!full.isEmpty()) result.addAll(full);
+                else if (!preview.isEmpty()) result.addAll(preview);
+            } else if (effectivePrefer) {
+                // Prefer preview, fall back to full
+                if (!preview.isEmpty()) result.addAll(preview);
+                else if (!full.isEmpty()) result.addAll(full);
+            } else {
+                // Only full
+                if (!full.isEmpty()) result.addAll(full);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Retrieves the first file of a specified type. Depending on your settings
+     * and preferPreview, either the full or preview variant is returned.
+     *
+     * @param type File type to search for
+     * @param preferPreview Nullable preference override
+     * @return The first File of the given type or null if none exists
+     */
+    public File getFileOfType(File.FileType type, Boolean preferPreview) throws FileNotFoundException {
+        List<File> matches = getFilesOfType(type, preferPreview);
+        if (matches.isEmpty()) {
+            throw new FileNotFoundException();
+        } else {
+            return matches.get(0);
+        }
+    }
+
+    /**
+     * Retrieves the first file of a specified type.
+     * Depending on your settings, either the full or preview variant is returned.
+     *
+     * @param type File type to search for
+     * @return The first File of the given type or null if none exists
+     */
+    public File getFileOfType(File.FileType type) throws FileNotFoundException {
+        return getFileOfType(type, null);
+    }
+
+    /**
+     * Retrieves all downloaded files of the experiment. For each logical file, either the
+     * full or preview variant is returned.
+     *
+     * - preferPreview == null: prefer full, fall back to preview
+     * - preferPreview == true: prefer preview, fall back to full
+     * - preferPreview == false: only return full files
+     *
+     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link PhyloDataConfig}.
+     *
+     * @return List of selected File variants, at most one per logical file
+     */
+    public List<File> getFiles() {
+        return this.getFiles(null);
+    }
+
+    /**
+     * Retrieves all downloaded files of the experiment of a specific type.
+     * For each logical file, either the full or preview variant is returned.
+     *
+     * - preferPreview == null: prefer full, fall back to preview
+     * - preferPreview == true: prefer preview, fall back to full
+     * - preferPreview == false: only return full files
+     *
+     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link PhyloDataConfig}.
+     *
+     * @param type File type to filter
+     * @param preferPreview Nullable preference override
+     * @return List of files matching the type after variant selection
+     */
+    public List<File> getFilesOfType(File.FileType type, Boolean preferPreview) {
+        return getFiles(preferPreview).stream()
+                .filter(f -> f.getType() == type)
+                .collect(Collectors.toList());
+    }
+
+
+    /**
+     * Retrieves all downloaded files of the experiment of a specific type.
+     * For each logical file, either the full or preview variant is returned.
+     *
+     * - preferPreview == null: prefer full, fall back to preview
+     * - preferPreview == true: prefer preview, fall back to full
+     * - preferPreview == false: only return full files
+     *
+     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link PhyloDataConfig}.
+     *
+     * @param type File type to filter
+     * @return List of files matching the type after variant selection
+     */
+    public List<File> getFilesOfType(File.FileType type) {
+        return getFilesOfType(type, null);
+    }
+
+    /**
+     * Returns the logical name by removing the " (preview)" suffix if present.
+     * For example, "beast2 (preview).xml" -> "beast2.xml".
+     */
+    private static String stripPreviewSuffix(File file) {
+        String name = file.getName();
+        if (name == null) return null;
+        int lastDot = name.lastIndexOf('.');
+        if (lastDot < 0) return name;
+        String extension = name.substring(lastDot + 1);
+        String suffix = " (preview)." + extension;
+        if (name.endsWith(suffix)) {
+            return name.substring(0, name.length() - suffix.length()) + "." + extension;
+        }
+        return name;
     }
 }
 
