@@ -3,7 +3,7 @@
 </script>
 
 <div class="bg-accent-light flex flex-col items-stretch rounded-b-3xl">
-	<div class="flex w-full items-center justify-between px-8 py-6">
+	<div class="flex w-full items-center justify-between px-6 py-6 md:px-8">
 		<!-- Logo -->
 		<div class="flex flex-1 flex-col gap-2 space-x-8 sm:flex-row sm:items-center">
 			<h1 class="text-[2rem] font-bold text-gray-800">
@@ -50,7 +50,7 @@
 
 	<div class="bg-accent/10 h-[1px] w-full"></div>
 
-	<div class="px-8 py-6">
+	<div class="px-6 py-6 md:px-8">
 		{@render children()}
 	</div>
 </div>

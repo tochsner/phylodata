@@ -344,7 +344,9 @@
 
 <div class="flex flex-col items-stretch">
 	{#await filteredModels}
-		<div class="m-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:col-end-4">
+		<div
+			class="mx-4 my-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mx-8 md:grid-cols-3 xl:col-end-4"
+		>
 			{#each Array(6) as _}
 				<div
 					class="flex h-[220px] w-full animate-pulse cursor-pointer flex-col gap-4 rounded-xl bg-white p-5 opacity-60"
@@ -352,7 +354,9 @@
 			{/each}
 		</div>
 	{:then filteredModels}
-		<div class="m-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:col-end-4">
+		<div
+			class="mx-4 my-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mx-8 md:grid-cols-3 xl:col-end-4"
+		>
 			{#each filteredModels as model}
 				<a
 					class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[102%] hover:opacity-90"
