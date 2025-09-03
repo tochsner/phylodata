@@ -26,12 +26,17 @@ public class PhyloDataConfig {
     /**
      * Gets the current preference setting.
      *
-     * @return true if preview is preferred, false otherwise
+     * @return true if preview is preferred, false if not, null if not specified.
      */
-    public static boolean isPreviewPreferred() {
+    public static Boolean isPreviewPreferred() {
         String value = System.getProperty(PREFER_PREVIEW_ENV,
                 System.getenv(PREFER_PREVIEW_ENV));
-        return "true".equalsIgnoreCase(value);
+
+        if (value == null) {
+            return null;
+        } else {
+            return "true".equalsIgnoreCase(value);
+        }
     }
 
 }
