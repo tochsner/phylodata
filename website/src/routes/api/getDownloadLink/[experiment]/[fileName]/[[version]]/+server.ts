@@ -8,6 +8,8 @@ import { getWasabiDownloadUrl, getWasabiSubfolders } from '$lib/storage/wasabi';
 export const GET: RequestHandler = async ({ params }) => {
 	let { experiment, version, fileName } = params;
 
+	fileName = decodeURIComponent(fileName);
+
 	if (!version) {
 		version = await getMostRecentExperimentVersion(experiment);
 	}
