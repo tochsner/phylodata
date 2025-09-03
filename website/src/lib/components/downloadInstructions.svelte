@@ -148,8 +148,8 @@
 					<h3 class="font-bold">2. Run the following python commands</h3>
 					<Code {code} />
 					<p class="text-sm opacity-70">
-						This will download the experiment if needed and gives you easy access to all the
-						information about it.
+						This will download the experiment and gives you easy access to all the information about
+						it.
 						<a class="text-accent underline" href="/docs/python_first_steps">
 							Learn more about the library...
 						</a>

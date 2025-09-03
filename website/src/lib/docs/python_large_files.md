@@ -27,10 +27,12 @@ prefer_preview()
 experiment = load_experiment("munro-2019-climate-6tvf", version=1)
 trees_file_path = get_file_of_type(experiment, FileType.POSTERIOR_TREES).local_path
 
-# this is some heavy processing that takes a long time for large files
+# this might be some heavy processing that takes a long time for large files
+# process_trees(trees_file_path)
+
 with open(trees_file_path) as f:
-    data = f.readlines()
-    print("Number of lines:", len(data))
+    lines = f.readlines()
+    print("Number of lines:", len(lines))
 ```
 
 In this snippet, we load an experiment, retrieve the posterior trees file, and perform some operations.

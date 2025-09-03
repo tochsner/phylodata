@@ -32,6 +32,7 @@ As you can see, the structure closesly matches the experiment pages on the websi
 from phylodata import load_experiment
 
 experiment = load_experiment("munro-2019-climate-6tvf", version=1)
+
 print(experiment.paper.title)
 print(experiment.paper.year)
 print(experiment.paper.authors)
@@ -45,6 +46,7 @@ print(experiment.paper.bibtex)
 from phylodata import load_experiment
 
 experiment = load_experiment("munro-2019-climate-6tvf", version=1)
+
 print(experiment.experiment.type)
 print(experiment.experiment.human_readable_id)
 print(experiment.experiment.upload_date)
