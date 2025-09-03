@@ -1,4 +1,4 @@
-package com.phylodata.conig;
+package com.phylodata.config;
 
 /**
  * Configuration utility for PhyloData package preferences.
