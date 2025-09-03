@@ -36,11 +36,15 @@ from phylodata import load_experiment, get_file_of_type, FileType
 
 experiment = load_experiment("munro-2019-climate-6tvf", version=1)
 posterior_trees_file = get_file_of_type(experiment, FileType.POSTERIOR_TREES)
+
+print(posterior_trees_file.local_path) # prints the path to the file
 ```
 
 This will return the first file of the given type. Note that you do not even have to know the name of the file!
 
 ?> These functions return `None` if no matching file exists.
+
+!> `local_path` is a Python `Path` object, which allows things like `local_path.parent`, `local_path.stem`, or `local_path.name`. [Check it out!](https://docs.python.org/3/library/pathlib.html)
 
 ## Accessing all files of a given type
 

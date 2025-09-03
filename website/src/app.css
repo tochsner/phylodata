@@ -190,9 +190,13 @@ pre {
 }
 
 .prose pre {
-	position: relative;
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem;
+	align-items: center;
 }
 
 .prose pre code {
 	overflow-x: scroll;
+	flex: 1;
 }
