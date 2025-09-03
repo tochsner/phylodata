@@ -2,6 +2,7 @@ package com.phylodata.loader;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -80,14 +81,15 @@ public class FileDownloader {
      */
     private static String getDownloadLink(String experiment, String fileName, Integer version)
             throws IOException, InterruptedException {
+        String encodedFileName = encodeURLPathComponent(fileName);
 
         String apiUrl;
         if (version != null) {
             apiUrl = String.format("https://phylodata.com/api/getDownloadLink/%s/%s/%d",
-                    experiment, fileName, version);
+                    experiment, encodedFileName, version);
         } else {
             apiUrl = String.format("https://phylodata.com/api/getDownloadLink/%s/%s",
-                    experiment, fileName);
+                    experiment, encodedFileName);
         }
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -102,5 +104,13 @@ public class FileDownloader {
         }
 
         return response.body().trim();
+    }
+
+    private static String encodeURLPathComponent(String path) throws IOException {
+        try {
+            return new URI(null, null, path, null).toASCIIString();
+        } catch (URISyntaxException e) {
+            throw new IOException("URL encoding failed.");
+        }
     }
 }

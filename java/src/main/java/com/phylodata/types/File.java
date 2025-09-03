@@ -1,6 +1,8 @@
 
 package com.phylodata.types;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -67,7 +69,7 @@ public class File {
     @JsonProperty("isPreview")
     private Boolean isPreview = false;
     @JsonProperty("localPath")
-    private Object localPath = null;
+    private String localPath = null;
     @JsonProperty("remotePath")
     private Object remotePath = null;
     @JsonIgnore
@@ -168,13 +170,14 @@ public class File {
     }
 
     @JsonProperty("localPath")
-    public Object getLocalPath() {
-        return localPath;
+    public Path getLocalPath() {
+        return this.localPath == null ? null : Paths.get(this.localPath);
     }
 
     @JsonProperty("localPath")
-    public void setLocalPath(Object localPath) {
-        this.localPath = localPath;
+    public void setLocalPath(Path localPath) {
+        if (localPath != null)
+            this.localPath = localPath.toString();
     }
 
     @JsonProperty("remotePath")
