@@ -3,6 +3,7 @@ package com.phylodata.loader;
 import com.phylodata.types.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class GetFileTest {
     }
 
     @Test
-    public void testSingleFileIsFound() {
+    public void testSingleFileIsFound() throws FileNotFoundException {
         List<File> files = new ArrayList<>();
         File f = new File();
         f.setName("beast2.xml");
@@ -52,19 +53,19 @@ public class GetFileTest {
         files.add(f);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = GetFiles.getFile(p, "beast2.xml");
+        File got = Files.getFile(p, "beast2.xml");
         assertNotNull(got);
         assertEquals("beast2.xml", got.getName());
     }
 
     @Test
-    public void testMissingFileReturnsNull() {
+    public void testMissingFileThrows() throws FileNotFoundException {
         PaperWithExperiment p = buildExperiment(new ArrayList<>());
-        assertNull(GetFiles.getFile(p, "beast2.xml"));
+        assertThrows(FileNotFoundException.class, () -> Files.getFile(p, "beast2.xml"));
     }
 
     @Test
-    public void testFullFileIsPreferredIfNothingSpecified() {
+    public void testFullFileIsPreferredIfNothingSpecified() throws FileNotFoundException {
         List<File> files = new ArrayList<>();
         File fullXml = new File();
         fullXml.setName("beast2.xml");
@@ -80,13 +81,13 @@ public class GetFileTest {
         files.add(previewXml);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = GetFiles.getFile(p, "beast2.xml");
+        File got = Files.getFile(p, "beast2.xml");
         assertNotNull(got);
         assertEquals("beast2.xml", got.getName());
     }
 
     @Test
-    public void testFullFileIsPreferredIfPreviewIsFalse() {
+    public void testFullFileIsPreferredIfPreviewIsFalse() throws FileNotFoundException {
         List<File> files = new ArrayList<>();
         File fullXml = new File();
         fullXml.setName("beast2.xml");
@@ -102,13 +103,13 @@ public class GetFileTest {
         files.add(previewXml);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = GetFiles.getFile(p, "beast2.xml", false);
+        File got = Files.getFile(p, "beast2.xml", false);
         assertNotNull(got);
         assertEquals("beast2.xml", got.getName());
     }
 
     @Test
-    public void testPreviewFileIsPreferredIfPreviewIsTrue() {
+    public void testPreviewFileIsPreferredIfPreviewIsTrue() throws FileNotFoundException {
         List<File> files = new ArrayList<>();
         File fullXml = new File();
         fullXml.setName("beast2.xml");
@@ -124,7 +125,7 @@ public class GetFileTest {
         files.add(previewXml);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = GetFiles.getFile(p, "beast2.xml", true);
+        File got = Files.getFile(p, "beast2.xml", true);
         assertNotNull(got);
         assertEquals("beast2 (preview).xml", got.getName());
     }

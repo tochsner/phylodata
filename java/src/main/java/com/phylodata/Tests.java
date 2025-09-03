@@ -1,27 +1,21 @@
 package com.phylodata;
 
-import com.phylodata.config.PhyloDataConfig;
 import com.phylodata.loader.ExperimentLoader;
-import com.phylodata.loader.FileDownloader;
+import com.phylodata.loader.Files;
 import com.phylodata.types.File;
 import com.phylodata.types.PaperWithExperiment;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Set;
 
 public class Tests {
 
-    public static void main(String[] args) throws IOException {
-        PhyloDataConfig.preferFull();
-
+    public static void main(String[] args) {
         PaperWithExperiment experiment = ExperimentLoader.loadExperiment(
-            "munro-2019-climate-6tvf", 1, Paths.get("Hallo")
+                "munro-2019-climate-6tvf", 1
         );
-
-        System.out.println(experiment.getPaper().getTitle());
-        System.out.println(experiment.getSamples().get(0));
+        List<File> summaryTreesFiles = Files.getFilesOfType(experiment, File.FileType.SUMMARY_TREE);
     }
 
 }

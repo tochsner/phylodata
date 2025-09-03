@@ -4,6 +4,7 @@ import com.phylodata.config.PhyloDataConfig;
 import com.phylodata.types.File;
 import com.phylodata.types.PaperWithExperiment;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +16,9 @@ import java.util.stream.Collectors;
 /**
  * Utility methods to retrieve local files of an experiment.
  */
-public final class GetFiles {
+public final class Files {
 
-    private GetFiles() {}
+    private Files() {}
 
     /**
      * Returns the folder containing the local experiment files.
@@ -123,14 +124,18 @@ public final class GetFiles {
      * @param preferPreview Nullable preference override
      * @return The first matching File or null if none exists
      */
-    public static File getFile(PaperWithExperiment experiment, String name, Boolean preferPreview) {
+    public static File getFile(PaperWithExperiment experiment, String name, Boolean preferPreview) throws FileNotFoundException {
         List<File> matches = getFiles(experiment, preferPreview).stream()
                 .filter(f -> Objects.equals(stripPreviewSuffix(f), name))
                 .collect(Collectors.toList());
-        return matches.isEmpty() ? null : matches.get(0);
+        if (matches.isEmpty()) {
+            throw new FileNotFoundException();
+        } else {
+            return matches.get(0);
+        }
     }
 
-    public static File getFile(PaperWithExperiment experiment, String name) {
+    public static File getFile(PaperWithExperiment experiment, String name) throws FileNotFoundException {
         return getFile(experiment, name, null);
     }
 
@@ -143,9 +148,13 @@ public final class GetFiles {
      * @param preferPreview Nullable preference override
      * @return The first File of the given type or null if none exists
      */
-    public static File getFileOfType(PaperWithExperiment experiment, File.FileType type, Boolean preferPreview) {
+    public static File getFileOfType(PaperWithExperiment experiment, File.FileType type, Boolean preferPreview) throws FileNotFoundException {
         List<File> matches = getFilesOfType(experiment, type, preferPreview);
-        return matches.isEmpty() ? null : matches.get(0);
+        if (matches.isEmpty()) {
+            throw new FileNotFoundException();
+        } else {
+            return matches.get(0);
+        }
     }
 
     /**
@@ -156,7 +165,7 @@ public final class GetFiles {
      * @param type File type to search for
      * @return The first File of the given type or null if none exists
      */
-    public static File getFileOfType(PaperWithExperiment experiment, File.FileType type) {
+    public static File getFileOfType(PaperWithExperiment experiment, File.FileType type) throws FileNotFoundException {
         return getFileOfType(experiment, type, null);
     }
 

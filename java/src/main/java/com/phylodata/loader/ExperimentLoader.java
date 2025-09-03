@@ -49,7 +49,7 @@ public class ExperimentLoader {
             Path baseDir = (directory == null ? Path.of("data") : directory).resolve(experimentId);
             Files.createDirectories(baseDir);
 
-            boolean preferPreview;
+            Boolean preferPreview;
             if (downloadOnlyPreview == null) {
                 preferPreview = PhyloDataConfig.isPreviewPreferred();
             } else {
@@ -83,7 +83,7 @@ public class ExperimentLoader {
                     continue;
                 }
 
-                if (preferPreview
+                if (preferPreview != null && preferPreview
                         && (f.getType() == File.FileType.BEAST_2_POSTERIOR_LOGS
                         || f.getType() == File.FileType.POSTERIOR_TREES)
                         && !f.getIsPreview() ) {
@@ -123,6 +123,22 @@ public class ExperimentLoader {
      */
     public static PaperWithExperiment loadExperiment(String experimentId, Integer version, Path directory) {
         return loadExperiment(experimentId, version, directory, null, null, null, false);
+    }
+
+    /**
+     * Loads a PhyloData experiment. Only downloads file with the given type.
+     *
+     * @param experimentId The human-readable ID of the experiment to load (e.g. felsenstein-1992-estimating)
+     * @param version The version of the experiment to load. Defaults to latest if null
+     * @param fileTypesToDownload Optional set of file types to download. Downloads all if both filters null/empty
+     * @return A PaperWithExperiment object containing the experiment data
+     */
+    public static PaperWithExperiment loadExperiment(
+            String experimentId,
+            Integer version,
+            Set<File.FileType> fileTypesToDownload
+    ) {
+        return loadExperiment(experimentId, version, null, null, null, fileTypesToDownload, false);
     }
 
     /**

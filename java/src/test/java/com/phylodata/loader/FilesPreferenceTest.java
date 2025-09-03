@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GetFilesPreferenceTest {
+public class FilesPreferenceTest {
 
     private PaperWithExperiment buildExperiment(List<File> files) {
         PaperWithExperiment p = new PaperWithExperiment();
@@ -72,7 +72,7 @@ public class GetFilesPreferenceTest {
         files.add(previewLogs);
 
         PaperWithExperiment p = buildExperiment(files);
-        List<File> got = GetFiles.getFiles(p, false);
+        List<File> got = Files.getFiles(p, false);
         assertEquals(2, got.size());
         assertEquals("beast.xml", got.get(1).getName());
         assertEquals("beast2.logs", got.get(0).getName());
@@ -109,7 +109,7 @@ public class GetFilesPreferenceTest {
         files.add(previewTrees);
 
         PaperWithExperiment p = buildExperiment(files);
-        List<File> got = GetFiles.getFiles(p, true);
+        List<File> got = Files.getFiles(p, true);
         assertEquals(3, got.size());
         assertEquals("beast2 (preview).xml", got.get(1).getName());
         assertEquals("beast2 (preview).logs", got.get(0).getName());

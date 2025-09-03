@@ -3,6 +3,7 @@ package com.phylodata.loader;
 import com.phylodata.types.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GetFilesOfTypeTest {
+public class FilesOfTypeTest {
 
     private PaperWithExperiment buildExperiment(List<File> files) {
         PaperWithExperiment p = new PaperWithExperiment();
@@ -43,7 +44,7 @@ public class GetFilesOfTypeTest {
     }
 
     @Test
-    public void testSinglePossibleFileGetFound() {
+    public void testSinglePossibleFileGetFound() throws FileNotFoundException {
         List<File> files = new ArrayList<>();
         File config = new File();
         config.setName("beast.xml");
@@ -65,21 +66,21 @@ public class GetFilesOfTypeTest {
 
         PaperWithExperiment p = buildExperiment(files);
 
-        File gotConfig = GetFiles.getFileOfType(p, File.FileType.BEAST_2_CONFIGURATION);
+        File gotConfig = Files.getFileOfType(p, File.FileType.BEAST_2_CONFIGURATION);
         assertNotNull(gotConfig);
         assertEquals("beast.xml", gotConfig.getName());
 
-        File gotPosterior = GetFiles.getFileOfType(p, File.FileType.POSTERIOR_TREES);
+        File gotPosterior = Files.getFileOfType(p, File.FileType.POSTERIOR_TREES);
         assertNotNull(gotPosterior);
         assertEquals("beast.trees", gotPosterior.getName());
 
-        File gotSummary = GetFiles.getFileOfType(p, File.FileType.SUMMARY_TREE);
+        File gotSummary = Files.getFileOfType(p, File.FileType.SUMMARY_TREE);
         assertNotNull(gotSummary);
         assertEquals("summary.trees", gotSummary.getName());
     }
 
     @Test
-    public void testMissingFileTypeReturnsNull() {
+    public void testMissingFileTypeThrows() throws FileNotFoundException {
         List<File> files = new ArrayList<>();
         File config = new File();
         config.setName("beast.xml");
@@ -88,11 +89,11 @@ public class GetFilesOfTypeTest {
         files.add(config);
 
         PaperWithExperiment p = buildExperiment(files);
-        assertNull(GetFiles.getFileOfType(p, File.FileType.SUMMARY_TREE));
+        assertThrows(FileNotFoundException.class, () -> Files.getFileOfType(p, File.FileType.SUMMARY_TREE));
     }
 
     @Test
-    public void testMultiplePossibleFilesReturnsFirst() {
+    public void testMultiplePossibleFilesReturnsFirst() throws FileNotFoundException {
         List<File> files = new ArrayList<>();
         File one = new File();
         one.setName("beast.xml");
@@ -107,7 +108,7 @@ public class GetFilesOfTypeTest {
         files.add(two);
 
         PaperWithExperiment p = buildExperiment(files);
-        File got = GetFiles.getFileOfType(p, File.FileType.BEAST_2_CONFIGURATION);
+        File got = Files.getFileOfType(p, File.FileType.BEAST_2_CONFIGURATION);
         assertNotNull(got);
         assertEquals("beast.xml", got.getName());
     }
