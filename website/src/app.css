@@ -184,3 +184,7 @@ pre {
 .prose pre {
 	position: relative;
 }
+
+.prose pre code {
+	overflow-x: scroll;
+}
