@@ -38,6 +38,7 @@ print(experiment.paper.year)
 print(experiment.paper.authors)
 print(experiment.paper.abstract)
 print(experiment.paper.bibtex)
+print(experiment.paper.doi)
 ```
 
 ## Experiment metadata

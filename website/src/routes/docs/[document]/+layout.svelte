@@ -80,10 +80,6 @@
 					url: 'java_metadata'
 				},
 				{
-					label: 'Uploading experiments',
-					url: 'java_uploading_experiments'
-				},
-				{
 					label: 'Best practices',
 					url: 'java_best_practices'
 				}

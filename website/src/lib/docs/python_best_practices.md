@@ -28,13 +28,13 @@ This allows everyone to reproduce your analysis without having to figure out how
 
 If you're not using Python as your main programming language, you should create a `download_experiments.py` script that downloads the experiments. Store this script in your git repository and mention it in the README.
 
-!> A Java library is coming soon!
+!> Check out the [Java library](/docs/java_first_steps) if you're using Java.
 
 ## No manual handling of intermediate files
 
 Quite often, your program will create further files during the analysis. For example, you might create a summary tree from the posterior trees. Your scripts should not require the manual creation of the necessary folders and files.
 
-One pattern that works well is to store the files in the experiment folders that already contain the experiment data:
+One pattern that works well is to use the folders already created by PhyloData to store experiment-related intermediate and output files:
 
 ```python
 from phylodata import load_experiments, ExperimentToLoad, get_folder

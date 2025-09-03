@@ -43,7 +43,7 @@ The interesting part is `prefer_preview()`. This tells the library to always use
 
 ## Using env variables
 
-`prefer_preview()` still requires you to manually change the code whenever you want to switch between preview and full files. As an alternative, you can speciy the `PHYLODATA_PREFER_PREVIEW` environment variable when running the program:
+`prefer_preview()` still requires you to manually change the code whenever you want to switch between preview and full files. As an alternative, you can specify the `PHYLODATA_PREFER_PREVIEW` environment variable when running the program:
 
 ```bash
 PHYLODATA_PREFER_PREVIEW=true python my_program.py

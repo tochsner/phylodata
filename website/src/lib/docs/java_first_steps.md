@@ -62,4 +62,3 @@ Now that you've seen the basic way to download an experiment, you should explore
 - [Accessing the files of experiments](/docs/java_files)
 - [Dealing with large files](/docs/java_large_files)
 - [Accessing metadata of experiments](/docs/java_metadata)
-- [Uploading your own experiments](/docs/java_uploading_experiments)
