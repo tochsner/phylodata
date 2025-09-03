@@ -7,6 +7,11 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * <p>PaperWithExperiment class.</p>
+ *
+ * @author tobiaochsner
+ */
 public class PaperWithExperiment {
 
     private Paper paper;
@@ -18,6 +23,14 @@ public class PaperWithExperiment {
     private Metadata metadata;
     private Path localFolder;
 
+    /**
+     * <p>fromPartial.</p>
+     *
+     * @param editable a {@link com.phylodata.types.EditablePaperWithExperiment} object
+     * @param nonEditable a {@link com.phylodata.types.NonEditablePaperWithExperiment} object
+     * @param localFolder a {@link java.nio.file.Path} object
+     * @return a {@link com.phylodata.types.PaperWithExperiment} object
+     */
     public static PaperWithExperiment fromPartial(
             EditablePaperWithExperiment editable, NonEditablePaperWithExperiment nonEditable, Path localFolder
     ) {
@@ -33,58 +46,128 @@ public class PaperWithExperiment {
         return p;
     }
 
+    /**
+     * <p>Getter for the field <code>paper</code>.</p>
+     *
+     * @return a {@link com.phylodata.types.Paper} object
+     */
     public Paper getPaper() {
         return paper;
     }
 
+    /**
+     * <p>Setter for the field <code>paper</code>.</p>
+     *
+     * @param paper a {@link com.phylodata.types.Paper} object
+     */
     public void setPaper(Paper paper) {
         this.paper = paper;
     }
 
+    /**
+     * <p>Getter for the field <code>experiment</code>.</p>
+     *
+     * @return a {@link com.phylodata.types.Experiment} object
+     */
     public Experiment getExperiment() {
         return experiment;
     }
 
+    /**
+     * <p>Setter for the field <code>experiment</code>.</p>
+     *
+     * @param experiment a {@link com.phylodata.types.Experiment} object
+     */
     public void setExperiment(Experiment experiment) {
         this.experiment = experiment;
     }
 
+    /**
+     * <p>getAllFiles.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<File> getAllFiles() {
         return files;
     }
 
+    /**
+     * <p>Setter for the field <code>files</code>.</p>
+     *
+     * @param files a {@link java.util.List} object
+     */
     public void setFiles(List<File> files) {
         this.files = files;
     }
 
+    /**
+     * <p>Getter for the field <code>samples</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<Sample> getSamples() {
         return samples;
     }
 
+    /**
+     * <p>Setter for the field <code>samples</code>.</p>
+     *
+     * @param samples a {@link java.util.List} object
+     */
     public void setSamples(List<Sample> samples) {
         this.samples = samples;
     }
 
+    /**
+     * <p>Getter for the field <code>trees</code>.</p>
+     *
+     * @return a {@link java.lang.Object} object
+     */
     public Object getTrees() {
         return trees;
     }
 
+    /**
+     * <p>Setter for the field <code>trees</code>.</p>
+     *
+     * @param trees a {@link java.lang.Object} object
+     */
     public void setTrees(Object trees) {
         this.trees = trees;
     }
 
+    /**
+     * <p>Getter for the field <code>evolutionaryModel</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<EvolutionaryModelComponent> getEvolutionaryModel() {
         return evolutionaryModel;
     }
 
+    /**
+     * <p>Setter for the field <code>evolutionaryModel</code>.</p>
+     *
+     * @param evolutionaryModel a {@link java.util.List} object
+     */
     public void setEvolutionaryModel(List<EvolutionaryModelComponent> evolutionaryModel) {
         this.evolutionaryModel = evolutionaryModel;
     }
 
+    /**
+     * <p>Getter for the field <code>metadata</code>.</p>
+     *
+     * @return a {@link com.phylodata.types.Metadata} object
+     */
     public Metadata getMetadata() {
         return metadata;
     }
 
+    /**
+     * <p>Setter for the field <code>metadata</code>.</p>
+     *
+     * @param metadata a {@link com.phylodata.types.Metadata} object
+     */
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }
@@ -114,6 +197,7 @@ public class PaperWithExperiment {
      * @param name Logical file name to retrieve (without preview suffix)
      * @param preferPreview Nullable preference override
      * @return The first matching File or null if none exists
+     * @throws java.io.FileNotFoundException if any.
      */
     public File getFile(String name, Boolean preferPreview) throws FileNotFoundException {
         List<File> matches = getFiles(preferPreview).stream()
@@ -132,6 +216,7 @@ public class PaperWithExperiment {
      *
      * @param name Logical file name to retrieve (without preview suffix)
      * @return The first matching File or null if none exists
+     * @throws java.io.FileNotFoundException if any.
      */
     public File getFile(String name) throws FileNotFoundException {
         return getFile(name, null);
@@ -145,7 +230,7 @@ public class PaperWithExperiment {
      * - preferPreview == true: prefer preview, fall back to full
      * - preferPreview == false: only return full files
      *
-     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link PhyloDataConfig}.
+     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link com.phylodata.config.PhyloDataConfig}.
      *
      * @param preferPreview Nullable preference override; see rules above
      * @return List of selected File variants, at most one per logical file
@@ -194,6 +279,7 @@ public class PaperWithExperiment {
      * @param type File type to search for
      * @param preferPreview Nullable preference override
      * @return The first File of the given type or null if none exists
+     * @throws java.io.FileNotFoundException if any.
      */
     public File getFileOfType(File.FileType type, Boolean preferPreview) throws FileNotFoundException {
         List<File> matches = getFilesOfType(type, preferPreview);
@@ -210,6 +296,7 @@ public class PaperWithExperiment {
      *
      * @param type File type to search for
      * @return The first File of the given type or null if none exists
+     * @throws java.io.FileNotFoundException if any.
      */
     public File getFileOfType(File.FileType type) throws FileNotFoundException {
         return getFileOfType(type, null);
@@ -223,7 +310,7 @@ public class PaperWithExperiment {
      * - preferPreview == true: prefer preview, fall back to full
      * - preferPreview == false: only return full files
      *
-     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link PhyloDataConfig}.
+     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link com.phylodata.config.PhyloDataConfig}.
      *
      * @return List of selected File variants, at most one per logical file
      */
@@ -239,7 +326,7 @@ public class PaperWithExperiment {
      * - preferPreview == true: prefer preview, fall back to full
      * - preferPreview == false: only return full files
      *
-     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link PhyloDataConfig}.
+     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link com.phylodata.config.PhyloDataConfig}.
      *
      * @param type File type to filter
      * @param preferPreview Nullable preference override
@@ -260,7 +347,7 @@ public class PaperWithExperiment {
      * - preferPreview == true: prefer preview, fall back to full
      * - preferPreview == false: only return full files
      *
-     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link PhyloDataConfig}.
+     * preferPreview can also be controlled via PHYLODATA_PREFER_PREVIEW and {@link com.phylodata.config.PhyloDataConfig}.
      *
      * @param type File type to filter
      * @return List of files matching the type after variant selection

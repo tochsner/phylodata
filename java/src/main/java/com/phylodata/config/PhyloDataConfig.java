@@ -2,6 +2,8 @@ package com.phylodata.config;
 
 /**
  * Configuration utility for PhyloData package preferences.
+ *
+ * @author tobiaochsner
  */
 public class PhyloDataConfig {
 

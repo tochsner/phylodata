@@ -12,6 +12,8 @@ import java.time.Duration;
 
 /**
  * Utility class for downloading experiment files from phylodata.com
+ *
+ * @author tobiaochsner
  */
 public class FileDownloader {
 
@@ -27,8 +29,8 @@ public class FileDownloader {
      * @param version the specific version to download (null for latest)
      * @param forceDownload whether to download even if file already exists
      * @return the path to the downloaded file
-     * @throws IllegalArgumentException if the file could not be found
-     * @throws IOException if an I/O error occurs during download
+     * @throws java.lang.IllegalArgumentException if the file could not be found
+     * @throws java.io.IOException if an I/O error occurs during download
      */
     public static Path downloadFile(
             Path directory,

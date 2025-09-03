@@ -17,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * EditablePaper
  * <p>
- * 
- * 
+ *
+ * @author tobiaochsner
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -81,9 +81,10 @@ public class EditablePaper {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.String} object
      */
     @JsonProperty("title")
     public String getTitle() {
@@ -91,9 +92,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param title a {@link java.lang.String} object
      */
     @JsonProperty("title")
     public void setTitle(String title) {
@@ -101,9 +103,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.Integer} object
      */
     @JsonProperty("year")
     public Integer getYear() {
@@ -111,9 +114,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param year a {@link java.lang.Integer} object
      */
     @JsonProperty("year")
     public void setYear(Integer year) {
@@ -121,9 +125,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.util.List} object
      */
     @JsonProperty("authors")
     public List<String> getAuthors() {
@@ -131,9 +136,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param authors a {@link java.util.List} object
      */
     @JsonProperty("authors")
     public void setAuthors(List<String> authors) {
@@ -141,9 +147,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.String} object
      */
     @JsonProperty("email")
     public String getEmail() {
@@ -151,9 +158,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param email a {@link java.lang.String} object
      */
     @JsonProperty("email")
     public void setEmail(String email) {
@@ -161,9 +169,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.String} object
      */
     @JsonProperty("abstract")
     public String getAbstract() {
@@ -171,9 +180,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param _abstract a {@link java.lang.String} object
      */
     @JsonProperty("abstract")
     public void setAbstract(String _abstract) {
@@ -181,9 +191,10 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.String} object
      */
     @JsonProperty("bibtex")
     public String getBibtex() {
@@ -191,35 +202,58 @@ public class EditablePaper {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param bibtex a {@link java.lang.String} object
      */
     @JsonProperty("bibtex")
     public void setBibtex(String bibtex) {
         this.bibtex = bibtex;
     }
 
+    /**
+     * <p>Getter for the field <code>url</code>.</p>
+     *
+     * @return a {@link java.lang.Object} object
+     */
     @JsonProperty("url")
     public Object getUrl() {
         return url;
     }
 
+    /**
+     * <p>Setter for the field <code>url</code>.</p>
+     *
+     * @param url a {@link java.lang.Object} object
+     */
     @JsonProperty("url")
     public void setUrl(Object url) {
         this.url = url;
     }
 
+    /**
+     * <p>Getter for the field <code>additionalProperties</code>.</p>
+     *
+     * @return a {@link java.util.Map} object
+     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    /**
+     * <p>setAdditionalProperty.</p>
+     *
+     * @param name a {@link java.lang.String} object
+     * @param value a {@link java.lang.Object} object
+     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -264,6 +298,7 @@ public class EditablePaper {
         return sb.toString();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -278,6 +313,7 @@ public class EditablePaper {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

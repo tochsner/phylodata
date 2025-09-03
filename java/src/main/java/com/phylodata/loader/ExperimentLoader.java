@@ -12,6 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
 
+/**
+ * <p>ExperimentLoader class.</p>
+ *
+ * @author tobiaochsner
+ */
 public class ExperimentLoader extends ExperimentLoaderBuilder<PaperWithExperiment> {
 
     private static final String EDITABLE_METADATA_FILE = "editable_phylodata_metadata.json";
@@ -21,11 +26,22 @@ public class ExperimentLoader extends ExperimentLoaderBuilder<PaperWithExperimen
     private final Integer version; // null means latest
 
 
+    /**
+     * <p>Constructor for ExperimentLoader.</p>
+     *
+     * @param experimentId a {@link java.lang.String} object
+     * @param version a {@link java.lang.Integer} object
+     */
     public ExperimentLoader(String experimentId, Integer version) {
         this.experimentId = experimentId;
         this.version = version;
     }
 
+    /**
+     * <p>Constructor for ExperimentLoader.</p>
+     *
+     * @param toLoad a {@link com.phylodata.loader.ExperimentToLoad} object
+     */
     public ExperimentLoader(ExperimentToLoad toLoad) {
         this.experimentId = toLoad.id;
         this.version = toLoad.version;
@@ -33,11 +49,10 @@ public class ExperimentLoader extends ExperimentLoaderBuilder<PaperWithExperimen
 
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the download and loading flow using the configured options
      * and returns the assembled experiment metadata.
-     *
-     * @return loaded PaperWithExperiment instance
-     * @throws RuntimeException if any IO error occurs while downloading or reading files
      */
     @Override
     public PaperWithExperiment load() {

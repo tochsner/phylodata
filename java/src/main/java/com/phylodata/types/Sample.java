@@ -17,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * Sample
  * <p>
- * 
- * 
+ *
+ * @author tobiaochsner
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -65,9 +65,10 @@ public class Sample {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.String} object
      */
     @JsonProperty("sampleId")
     public String getSampleId() {
@@ -75,9 +76,10 @@ public class Sample {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param sampleId a {@link java.lang.String} object
      */
     @JsonProperty("sampleId")
     public void setSampleId(String sampleId) {
@@ -85,9 +87,10 @@ public class Sample {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.String} object
      */
     @JsonProperty("scientificName")
     public String getScientificName() {
@@ -95,9 +98,10 @@ public class Sample {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param scientificName a {@link java.lang.String} object
      */
     @JsonProperty("scientificName")
     public void setScientificName(String scientificName) {
@@ -105,9 +109,10 @@ public class Sample {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.util.List} object
      */
     @JsonProperty("classification")
     public List<ClassificationEntry> getClassification() {
@@ -115,9 +120,10 @@ public class Sample {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param classification a {@link java.util.List} object
      */
     @JsonProperty("classification")
     public void setClassification(List<ClassificationEntry> classification) {
@@ -125,9 +131,10 @@ public class Sample {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.util.List} object
      */
     @JsonProperty("sampleData")
     public List<SampleData> getSampleData() {
@@ -135,35 +142,58 @@ public class Sample {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param sampleData a {@link java.util.List} object
      */
     @JsonProperty("sampleData")
     public void setSampleData(List<SampleData> sampleData) {
         this.sampleData = sampleData;
     }
 
+    /**
+     * <p>Getter for the field <code>commonName</code>.</p>
+     *
+     * @return a {@link java.lang.Object} object
+     */
     @JsonProperty("commonName")
     public Object getCommonName() {
         return commonName;
     }
 
+    /**
+     * <p>Setter for the field <code>commonName</code>.</p>
+     *
+     * @param commonName a {@link java.lang.Object} object
+     */
     @JsonProperty("commonName")
     public void setCommonName(Object commonName) {
         this.commonName = commonName;
     }
 
+    /**
+     * <p>Getter for the field <code>additionalProperties</code>.</p>
+     *
+     * @return a {@link java.util.Map} object
+     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    /**
+     * <p>setAdditionalProperty.</p>
+     *
+     * @param name a {@link java.lang.String} object
+     * @param value a {@link java.lang.Object} object
+     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -200,6 +230,7 @@ public class Sample {
         return sb.toString();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -212,6 +243,7 @@ public class Sample {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

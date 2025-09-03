@@ -5,10 +5,20 @@ import com.phylodata.types.PaperWithExperiment;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>ExperimentsLoader class.</p>
+ *
+ * @author tobiaochsner
+ */
 public class ExperimentsLoader extends ExperimentLoaderBuilder<List<PaperWithExperiment>> {
 
     private final ExperimentToLoad[] experimentsToLoad;
 
+    /**
+     * <p>Constructor for ExperimentsLoader.</p>
+     *
+     * @param toLoad a {@link com.phylodata.loader.ExperimentToLoad} object
+     */
     public ExperimentsLoader(ExperimentToLoad... toLoad) {
         this.experimentsToLoad = toLoad;
     }
@@ -18,7 +28,7 @@ public class ExperimentsLoader extends ExperimentLoaderBuilder<List<PaperWithExp
      * and returns the assembled experiments metadata.
      *
      * @return loaded PaperWithExperiment instance
-     * @throws RuntimeException if any IO error occurs while downloading or reading files
+     * @throws java.lang.RuntimeException if any IO error occurs while downloading or reading files
      */
     public List<PaperWithExperiment> load() {
         List<PaperWithExperiment> experiments = new ArrayList<>();

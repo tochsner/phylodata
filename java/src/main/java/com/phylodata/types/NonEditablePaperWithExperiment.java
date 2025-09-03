@@ -19,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * <p>
  * This structure contains all experiment data which is
  *     computed by the pipeline and must not be changed manually.
- * 
+ *
+ * @author tobiaochsner
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -87,9 +88,10 @@ public class NonEditablePaperWithExperiment {
     /**
      * NonEditablePaper
      * <p>
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link com.phylodata.types.NonEditablePaper} object
      */
     @JsonProperty("paper")
     public NonEditablePaper getPaper() {
@@ -99,9 +101,10 @@ public class NonEditablePaperWithExperiment {
     /**
      * NonEditablePaper
      * <p>
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param paper a {@link com.phylodata.types.NonEditablePaper} object
      */
     @JsonProperty("paper")
     public void setPaper(NonEditablePaper paper) {
@@ -111,9 +114,10 @@ public class NonEditablePaperWithExperiment {
     /**
      * NonEditableExperiment
      * <p>
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link com.phylodata.types.NonEditableExperiment} object
      */
     @JsonProperty("experiment")
     public NonEditableExperiment getExperiment() {
@@ -123,9 +127,10 @@ public class NonEditablePaperWithExperiment {
     /**
      * NonEditableExperiment
      * <p>
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param experiment a {@link com.phylodata.types.NonEditableExperiment} object
      */
     @JsonProperty("experiment")
     public void setExperiment(NonEditableExperiment experiment) {
@@ -133,9 +138,10 @@ public class NonEditablePaperWithExperiment {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.util.List} object
      */
     @JsonProperty("files")
     public List<File> getFiles() {
@@ -143,9 +149,10 @@ public class NonEditablePaperWithExperiment {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param files a {@link java.util.List} object
      */
     @JsonProperty("files")
     public void setFiles(List<File> files) {
@@ -153,9 +160,10 @@ public class NonEditablePaperWithExperiment {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.Object} object
      */
     @JsonProperty("trees")
     public Object getTrees() {
@@ -163,9 +171,10 @@ public class NonEditablePaperWithExperiment {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param trees a {@link java.lang.Object} object
      */
     @JsonProperty("trees")
     public void setTrees(Object trees) {
@@ -173,9 +182,10 @@ public class NonEditablePaperWithExperiment {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.util.List} object
      */
     @JsonProperty("evolutionaryModel")
     public List<EvolutionaryModelComponent> getEvolutionaryModel() {
@@ -183,9 +193,10 @@ public class NonEditablePaperWithExperiment {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param evolutionaryModel a {@link java.util.List} object
      */
     @JsonProperty("evolutionaryModel")
     public void setEvolutionaryModel(List<EvolutionaryModelComponent> evolutionaryModel) {
@@ -195,9 +206,10 @@ public class NonEditablePaperWithExperiment {
     /**
      * Metadata
      * <p>
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link com.phylodata.types.Metadata} object
      */
     @JsonProperty("metadata")
     public Metadata getMetadata() {
@@ -207,25 +219,38 @@ public class NonEditablePaperWithExperiment {
     /**
      * Metadata
      * <p>
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param metadata a {@link com.phylodata.types.Metadata} object
      */
     @JsonProperty("metadata")
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }
 
+    /**
+     * <p>Getter for the field <code>additionalProperties</code>.</p>
+     *
+     * @return a {@link java.util.Map} object
+     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    /**
+     * <p>setAdditionalProperty.</p>
+     *
+     * @param name a {@link java.lang.String} object
+     * @param value a {@link java.lang.Object} object
+     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -266,6 +291,7 @@ public class NonEditablePaperWithExperiment {
         return sb.toString();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -279,6 +305,7 @@ public class NonEditablePaperWithExperiment {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

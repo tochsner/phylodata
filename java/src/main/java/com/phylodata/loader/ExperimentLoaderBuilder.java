@@ -6,6 +6,8 @@ import java.nio.file.Path;
 
 /**
  * Builder-style loader for PhyloData experiments.
+ *
+ * @author tobiaochsner
  */
 abstract public class ExperimentLoaderBuilder<T> {
 
@@ -29,6 +31,7 @@ abstract public class ExperimentLoaderBuilder<T> {
 
     /**
      * Prefers to download preview files.
+     *
      * @return this builder for chaining
      */
     public ExperimentLoaderBuilder<T> preferPreview() {
@@ -37,6 +40,7 @@ abstract public class ExperimentLoaderBuilder<T> {
 
     /**
      * Prefers to download preview files.
+     *
      * @return this builder for chaining
      */
     public ExperimentLoaderBuilder<T> preferFull() {
@@ -99,6 +103,11 @@ abstract public class ExperimentLoaderBuilder<T> {
         return this.forceDownload(true);
     }
 
+    /**
+     * <p>load.</p>
+     *
+     * @return a T object
+     */
     public abstract T load();
 
 }

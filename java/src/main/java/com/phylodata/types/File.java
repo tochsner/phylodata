@@ -18,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * File
  * <p>
- * 
- * 
+ *
+ * @author tobiaochsner
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -74,9 +74,10 @@ public class File {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.String} object
      */
     @JsonProperty("name")
     public String getName() {
@@ -84,9 +85,10 @@ public class File {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param name a {@link java.lang.String} object
      */
     @JsonProperty("name")
     public void setName(String name) {
@@ -96,9 +98,10 @@ public class File {
     /**
      * FileType
      * <p>
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link com.phylodata.types.File.FileType} object
      */
     @JsonProperty("type")
     public File.FileType getType() {
@@ -108,9 +111,10 @@ public class File {
     /**
      * FileType
      * <p>
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param type a {@link com.phylodata.types.File.FileType} object
      */
     @JsonProperty("type")
     public void setType(File.FileType type) {
@@ -118,9 +122,10 @@ public class File {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.Integer} object
      */
     @JsonProperty("sizeBytes")
     public Integer getSizeBytes() {
@@ -128,9 +133,10 @@ public class File {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param sizeBytes a {@link java.lang.Integer} object
      */
     @JsonProperty("sizeBytes")
     public void setSizeBytes(Integer sizeBytes) {
@@ -138,9 +144,10 @@ public class File {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @return a {@link java.lang.String} object
      */
     @JsonProperty("md5")
     public String getMd5() {
@@ -148,55 +155,98 @@ public class File {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
+     * @param md5 a {@link java.lang.String} object
      */
     @JsonProperty("md5")
     public void setMd5(String md5) {
         this.md5 = md5;
     }
 
+    /**
+     * <p>Getter for the field <code>isPreview</code>.</p>
+     *
+     * @return a {@link java.lang.Boolean} object
+     */
     @JsonProperty("isPreview")
     public Boolean getIsPreview() {
         return isPreview;
     }
 
+    /**
+     * <p>Setter for the field <code>isPreview</code>.</p>
+     *
+     * @param isPreview a {@link java.lang.Boolean} object
+     */
     @JsonProperty("isPreview")
     public void setIsPreview(Boolean isPreview) {
         this.isPreview = isPreview;
     }
 
+    /**
+     * <p>Getter for the field <code>localPath</code>.</p>
+     *
+     * @return a {@link java.lang.Object} object
+     */
     @JsonProperty("localPath")
     public Object getLocalPath() {
         return localPath;
     }
 
+    /**
+     * <p>Setter for the field <code>localPath</code>.</p>
+     *
+     * @param localPath a {@link java.lang.Object} object
+     */
     @JsonProperty("localPath")
     public void setLocalPath(Object localPath) {
         this.localPath = localPath;
     }
 
+    /**
+     * <p>Getter for the field <code>remotePath</code>.</p>
+     *
+     * @return a {@link java.lang.Object} object
+     */
     @JsonProperty("remotePath")
     public Object getRemotePath() {
         return remotePath;
     }
 
+    /**
+     * <p>Setter for the field <code>remotePath</code>.</p>
+     *
+     * @param remotePath a {@link java.lang.Object} object
+     */
     @JsonProperty("remotePath")
     public void setRemotePath(Object remotePath) {
         this.remotePath = remotePath;
     }
 
+    /**
+     * <p>Getter for the field <code>additionalProperties</code>.</p>
+     *
+     * @return a {@link java.util.Map} object
+     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    /**
+     * <p>setAdditionalProperty.</p>
+     *
+     * @param name a {@link java.lang.String} object
+     * @param value a {@link java.lang.Object} object
+     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -241,6 +291,7 @@ public class File {
         return sb.toString();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -255,6 +306,7 @@ public class File {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
