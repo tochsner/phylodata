@@ -28,7 +28,7 @@
 <Header><a class="text-dark cursor-pointer text-2xl font-bold" href="/models">Models</a></Header>
 
 <div
-	class="mx-4 my-4 flex flex-col items-stretch justify-center gap-8 md:m-8 md:flex-row md:items-start md:items-center"
+	class="mx-0 my-4 flex flex-col items-stretch justify-center gap-8 md:m-8 md:flex-row md:items-start"
 >
 	<div class="flex max-w-[800px] flex-1 flex-col items-stretch gap-8">
 		{@render content()}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
+	import MenuIcon from '$lib/icons/menuIcon.svelte';
 
 	let { children, data } = $props();
 	const { meta } = $derived(data);
@@ -71,15 +72,28 @@
 	<h2 class="text-dark flex-1 text-2xl font-bold">Documentation</h2>
 </Header>
 
-<div class="flex p-8">
-	<div class="flex flex-col gap-8">
-		{@render links(sidebar)}
-	</div>
+<div class="flex flex-col gap-4 px-0 py-8 md:flex-row md:px-8">
+	{@render navigation()}
 
-	<div class="flex flex-1 justify-center">
+	<div class="flex min-w-0 flex-1 justify-center">
 		{@render children()}
 	</div>
 </div>
+
+{#snippet navigation()}
+	<div class="hidden flex-col gap-8 md:flex">
+		{@render links(sidebar)}
+	</div>
+
+	<details class="flex flex-col gap-3 px-6 md:hidden">
+		<summary class="text-accent flex items-center gap-2 font-semibold">
+			<MenuIcon />
+			Navigation
+		</summary>
+
+		{@render links(sidebar)}
+	</details>
+{/snippet}
 
 {#snippet links(items: NavigationItem[])}
 	{#each items as item}
