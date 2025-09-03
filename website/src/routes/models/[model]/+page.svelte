@@ -27,13 +27,15 @@
 
 <Header><a class="text-dark cursor-pointer text-2xl font-bold" href="/models">Models</a></Header>
 
-<div class="m-8 flex items-start justify-center gap-8">
+<div
+	class="mx-4 my-4 flex flex-col items-stretch justify-center gap-8 md:m-8 md:flex-row md:items-start md:items-center"
+>
 	<div class="flex max-w-[800px] flex-1 flex-col items-stretch gap-8">
 		{@render content()}
 		{@render experiments()}
 	</div>
 
-	<div class="flex w-2/5 max-w-[350px] min-w-56 flex-col gap-8">
+	<div class="flex min-w-56 flex-col gap-8 md:w-2/5 md:max-w-[350px]">
 		{@render tags()}
 		{@render links()}
 		{@render authors()}

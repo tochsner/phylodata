@@ -192,7 +192,7 @@
 <Header>
 	<h2 class="text-dark text-2xl font-bold">Models</h2>
 
-	<div class="flex w-full justify-center gap-16">
+	<div class="mt-4 flex w-full flex-col justify-center lg:mt-0 lg:flex-row lg:gap-12">
 		<div>
 			<h3 class="text-dark text-center text-lg font-semibold">Discover models for your data:</h3>
 
