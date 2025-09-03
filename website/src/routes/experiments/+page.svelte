@@ -36,14 +36,14 @@
 	<h2 class="text-dark flex-1 text-2xl font-bold">Experiments</h2>
 </Header>
 
-<div class="flex items-stretch gap-8 p-8">
+<div class="flex items-stretch gap-8 p-4 md:p-8">
 	{@render filters()}
 	{@render content()}
 </div>
 
 {#snippet filters()}
 	<form
-		class="flex w-56 flex-col gap-8 text-sm"
+		class="hidden w-56 flex-col gap-8 text-sm md:flex"
 		method="POST"
 		action="?/filter"
 		use:enhance={() =>
