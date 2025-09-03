@@ -58,7 +58,36 @@
 		},
 		{
 			label: 'Java Library',
-			items: []
+			items: [
+				{
+					label: 'First steps',
+					url: 'java_first_steps'
+				},
+				{
+					label: 'Loading experiments',
+					url: 'java_downloading_experiments'
+				},
+				{
+					label: 'Accessing files',
+					url: 'java_files'
+				},
+				{
+					label: 'Dealing with large files',
+					url: 'java_large_files'
+				},
+				{
+					label: 'Accessing metadata',
+					url: 'java_metadata'
+				},
+				{
+					label: 'Uploading experiments',
+					url: 'java_uploading_experiments'
+				},
+				{
+					label: 'Best practices',
+					url: 'java_best_practices'
+				}
+			]
 		}
 	] as NavigationItem[];
 </script>

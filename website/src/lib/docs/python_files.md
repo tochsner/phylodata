@@ -7,7 +7,7 @@ description: Learn more about the PhyloData Python library.
 
 This page explains you everything there is to know about accessing files from PhyloData.
 
-!> Generally, you should use one of the function described on this page to access files, instead of manually constructing their paths. Working with file paths can easily lead to errors and inconsistencies.
+!> Generally, you should use one of the functions described on this page to access files, instead of manually constructing their paths. Working with file paths can easily lead to errors and inconsistencies.
 
 !> Using these functions also ensures that everything works nicely with **preview files**. See [Dealing with large files](/docs/python_large_files) for more information.
 
@@ -27,6 +27,8 @@ class File:
 
 The `local_path` is the path to the file on your local computer. The file type is one of `FileType.BEAST2_CONFIGURATION`, `FileType.BEAST2_POSTERIOR_LOGS`, `FileType.POSTERIOR_TREES`, `FileType.SUMMARY_TREE`, or `FileType.UNKNOWN`.
 
+!> `local_path` is a Python `Path` object, which allows things like `local_path.parent`, `local_path.stem`, or `local_path.name`. [Check it out!](https://docs.python.org/3/library/pathlib.html)
+
 ## Accessing a file of a given type
 
 Most experiments have at most one file of a given type. If you want to access a file of a specific type, you can use the `get_file_of_type` function:
@@ -43,8 +45,6 @@ print(posterior_trees_file.local_path) # prints the path to the file
 This will return the first file of the given type. Note that you do not even have to know the name of the file!
 
 ?> These functions return `None` if no matching file exists.
-
-!> `local_path` is a Python `Path` object, which allows things like `local_path.parent`, `local_path.stem`, or `local_path.name`. [Check it out!](https://docs.python.org/3/library/pathlib.html)
 
 ## Accessing all files of a given type
 

@@ -7,11 +7,11 @@ import hint from 'remark-hint';
 /** @type {import('@sveltejs/kit').Config}*/
 const config = {
 	preprocess: [
-		sequence([vitePreprocess(), preprocessMeltUI()]),
 		mdsvex({
 			extensions: ['.md'],
 			remarkPlugins: [hint]
-		})
+		}),
+		sequence([vitePreprocess(), preprocessMeltUI()])
 	],
 	kit: {
 		adapter: adapter()

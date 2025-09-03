@@ -29,7 +29,7 @@ experiment = load_experiment("munro-2019-climate-6tvf", version=1)
 print("Paper title:", experiment.paper.title)
 ```
 
-PhyloData downloads all relevant files into the `data/savelyev-2020-bayesian-88zc` folder. However, you don't have to juggle with file paths to access the files:
+PhyloData downloads all relevant files into the `data/munro-2019-climate-6tvf` folder. However, you don't have to juggle with file paths to access the files:
 
 ```python
 from phylodata import load_experiment, get_file_of_type, FileType
