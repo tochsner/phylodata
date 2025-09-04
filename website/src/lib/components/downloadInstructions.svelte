@@ -16,7 +16,9 @@
 
 	let downloadPreview = $state(false);
 
-	let code = $derived.by(() => {
+	let selectedLanguage = $state<'java' | 'python'>('java');
+
+	let pythonCode = $derived.by(() => {
 		const imports = [];
 		let functionName;
 		const attributes = [];
@@ -45,7 +47,7 @@
 			const fileTypes = [];
 
 			if (configurationFiles) fileTypes.push('FileType.BEAST2_CONFIGURATION');
-			if (posteriorTrees) fileTypes.push('FileType.BEAST2_POSTERIOR_TREES');
+			if (posteriorTrees) fileTypes.push('FileType.POSTERIOR_TREES');
 			if (logFiles) fileTypes.push('FileType.BEAST2_POSTERIOR_LOGS');
 			if (summaryTrees) fileTypes.push('FileType.SUMMARY_TREE');
 			if (others) fileTypes.push('FileType.UNKNOWN');
@@ -62,6 +64,49 @@
 		code += `\n${functionName}(\n\t`;
 		code += attributes.join(',\n\t') + ',';
 		code += '\n)';
+
+		return code;
+	});
+
+	let javaCode = $derived.by(() => {
+		let code = '';
+
+		if (experimentsToDownload?.length == 1) {
+			code += 'PaperWithExperiment experiment = new ExperimentLoader(\n';
+		} else {
+			code += 'List<PaperWithExperiment> experiments = new ExperimentsLoader(\n';
+		}
+
+		experimentsToDownload?.forEach(([id, version], idx) => {
+			code += `\tnew ExperimentToLoad("${id}", ${version})`;
+			if (idx + 1 == experimentsToDownload?.length) {
+				code += '\n';
+			} else {
+				code += ',\n';
+			}
+		});
+
+		code += ')';
+
+		if (downloadSpecificTypes) {
+			code += '.restrictFileTypes(\n\t';
+
+			const fileTypes = [];
+			if (configurationFiles) fileTypes.push('File.FileType.BEAST_2_CONFIGURATION');
+			if (posteriorTrees) fileTypes.push('File.FileType.POSTERIOR_TREES');
+			if (logFiles) fileTypes.push('File.FileType.BEAST_2_POSTERIOR_LOGS');
+			if (summaryTrees) fileTypes.push('File.FileType.SUMMARY_TREE');
+			if (others) fileTypes.push('File.FileType.UNKNOWN');
+
+			code += fileTypes.join(',\n\t') + '\n';
+			code += ')';
+		}
+
+		if (downloadPreview) {
+			code += '.preferPreview()';
+		}
+
+		code += '.load();';
 
 		return code;
 	});
@@ -133,28 +178,80 @@
 					<span class="ml-8 text-sm opacity-70">
 						Check this if you want to download subsampled versions of posterior tree and log files.
 						This is useful to test your code locally without having to deal with large datasets.
+
+						<a
+							class="text-accent underline"
+							href={selectedLanguage === 'java'
+								? '/docs/java_large_files'
+								: '/docs/python_large_files'}
+						>
+							Learn more about preview files...
+						</a>
 					</span>
 				</div>
 			</div>
 
 			<div class="bg-accent-light flex-2 flex flex-col gap-8 overflow-x-scroll rounded-2xl p-8">
-				<div class="flex flex-col gap-2">
-					<h3 class="font-bold">1. Install the PhyloData library</h3>
-					<Code code="pip install phylodata --upgrade" />
-					<p class="text-sm opacity-70">Make sure you have Python 3.10 or newer installed.</p>
+				<div class="shadow-xs flex self-start rounded-full bg-white text-sm font-semibold">
+					<button
+						class="cursor-pointer rounded-full px-4 py-2"
+						class:bg-accent={selectedLanguage === 'java'}
+						class:text-white={selectedLanguage === 'java'}
+						onclick={() => (selectedLanguage = 'java')}
+					>
+						Java
+					</button>
+					<button
+						class="cursor-pointer rounded-full px-4 py-2"
+						class:bg-accent={selectedLanguage === 'python'}
+						class:text-white={selectedLanguage === 'python'}
+						onclick={() => (selectedLanguage = 'python')}
+					>
+						Python
+					</button>
 				</div>
 
-				<div class="flex flex-col gap-2">
-					<h3 class="font-bold">2. Run the following python commands</h3>
-					<Code {code} />
-					<p class="text-sm opacity-70">
-						This will download the experiment and gives you easy access to all the information about
-						it.
-						<a class="text-accent underline" href="/docs/python_first_steps">
-							Learn more about the library...
-						</a>
-					</p>
-				</div>
+				{#if selectedLanguage === 'python'}
+					<div class="flex flex-col gap-2">
+						<h3 class="font-bold">1. Install the PhyloData library</h3>
+						<Code code="pip install phylodata --upgrade" />
+						<p class="text-sm opacity-70">Make sure you have Python 3.10 or newer installed.</p>
+					</div>
+
+					<div class="flex flex-col gap-2">
+						<h3 class="font-bold">2. Run the following python commands</h3>
+						<Code code={pythonCode} />
+						<p class="text-sm opacity-70">
+							This will download the experiment and gives you easy access to all the information
+							about it.
+							<a class="text-accent underline" href="/docs/python_first_steps">
+								Learn more about the library...
+							</a>
+						</p>
+					</div>
+				{:else if selectedLanguage === 'java'}
+					<div class="flex flex-col gap-2">
+						<h3 class="font-bold">1. Install the PhyloData library</h3>
+						<p class="text-sm opacity-70">
+							<a class="text-accent underline" href="/docs/java_first_steps">
+								Check out how to install the library...
+							</a>
+						</p>
+						<p class="text-sm opacity-70">Make sure you have Java 17 or newer installed.</p>
+					</div>
+
+					<div class="flex flex-col gap-2">
+						<h3 class="font-bold">2. Run the following Java commands</h3>
+						<Code code={javaCode} />
+						<p class="text-sm opacity-70">
+							This will download the experiment and gives you easy access to all the information
+							about it.
+							<a class="text-accent underline" href="/docs/java_first_steps">
+								Learn more about the library...
+							</a>
+						</p>
+					</div>
+				{/if}
 			</div>
 		</dialog>
 	</div>
