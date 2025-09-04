@@ -138,7 +138,7 @@
 							goto(subitem.url);
 						}}
 						class={[
-							'rounded-md px-2 py-1 text-left',
+							'cursor-pointer rounded-md px-2 py-1 text-left',
 							subitem.url === meta.slug && 'text-accent font-semibold',
 							subitem.url !== meta.slug && 'hover:text-accent'
 						]}
