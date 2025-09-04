@@ -185,6 +185,12 @@
 				bind:selectedValues={getSpecies, setSpecies}
 			/>
 		{/await}
+
+		<span class="text-sm italic text-gray-900/60">
+			Try <span class="font-bold">Birds</span>,
+			<span class="font-bold">Fungi</span>, or
+			<span class="font-bold">Aptenodytes</span>.
+		</span>
 	</div>
 {/snippet}
 
@@ -205,6 +211,11 @@
 				bind:selectedValues={getLanguages, setLanguages}
 			/>
 		{/await}
+
+		<span class="text-sm italic text-gray-900/60">
+			Try <span class="font-bold">Turkish</span> or
+			<span class="font-bold">North Azerbaijani</span>.
+		</span>
 	</div>
 {/snippet}
 
