@@ -37,7 +37,7 @@ Quite often, your program will create further files during the analysis. For exa
 One pattern that works well is to use the folders already created by PhyloData to store experiment-related intermediate and output files:
 
 ```python
-from phylodata import load_experiments, ExperimentToLoad, get_folder
+from phylodata import load_experiments, ExperimentToLoad
 
 experiments = load_experiments(
 	[
@@ -49,13 +49,13 @@ experiments = load_experiments(
 for experiment in experiments:
     num_samples = len(experiment.samples)
 
-    # get_folder returns the location of the experiment files
-    output_file = get_folder(experiment) / "num_samples.txt"
+    # local_path is the location of the folder with the experiment files
+    output_file = experiment.local_path / "num_samples.txt"
     with open(output_file, "w") as handle:
         handle.write(f"Num samples: {num_samples}")
 ```
 
-!> `get_folder` returns a Python `Path` object, which allows things like the `get_folder(experiment) / "num_samples.txt"` syntax. [Check it out!](https://docs.python.org/3/library/pathlib.html)
+!> `local_path` returns a Python `Path` object, which allows things like the `local_path / "num_samples.txt"` syntax. [Check it out!](https://docs.python.org/3/library/pathlib.html)
 
 ## Avoid version control for data files
 

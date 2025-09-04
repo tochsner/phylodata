@@ -72,7 +72,7 @@ for (File file : experiment.getAllFiles()) {
 }
 ```
 
-?> `getAllFiles` returns all files, including preview files and files that haven't been downloaded. `getFiles` and and alike only return the files that have been downloaded and respect the preview preferences.
+?> `getAllFiles` returns all files, including preview files and files that haven't been downloaded. `getFiles` and alike only return the files that have been downloaded and respect the preview preferences.
 
 ## Sample metadata
 

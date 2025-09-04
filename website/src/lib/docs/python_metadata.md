@@ -70,7 +70,7 @@ for file in experiment.files:
     print(file.local_path)
 ```
 
-?> Use the `get_file` functions to access specific files (see [Accessing files](/docs/python_files)).
+?> `files` returns all files, including preview files and files that haven't been downloaded. `get_files` and alike only return the files that have been downloaded and respect the preview preferences.
 
 ## Sample metadata
 

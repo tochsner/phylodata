@@ -20,12 +20,12 @@ Every **posterior trees file (.trees)** and **logs file (.log)** on PhyloData ha
 Let's look at an example to see how this can be useful:
 
 ```python
-from phylodata import load_experiment, get_file_of_type, FileType, prefer_preview
+from phylodata import load_experiment, FileType, prefer_preview
 
 prefer_preview()
 
 experiment = load_experiment("munro-2019-climate-6tvf", version=1)
-trees_file_path = get_file_of_type(experiment, FileType.POSTERIOR_TREES).local_path
+trees_file_path = experiment.get_file_of_type(FileType.POSTERIOR_TREES).local_path
 
 # this might be some heavy processing that takes a long time for large files
 # process_trees(trees_file_path)

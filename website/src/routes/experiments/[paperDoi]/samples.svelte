@@ -59,7 +59,8 @@
 	{#if hasNCBIClassifications}
 		<span class="text-sm italic text-gray-600">
 			Disclaimer: The NCBI Taxonomy ID classifications were automatically generated using BLAST.
-			They might not represent the most accurate classification for the samples.
+			They might not represent the most accurate classification for the samples and will be improved
+			in the future.
 		</span>
 	{/if}
 

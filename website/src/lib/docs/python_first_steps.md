@@ -32,10 +32,10 @@ print("Paper title:", experiment.paper.title)
 PhyloData downloads all relevant files into the `data/munro-2019-climate-6tvf` folder. However, you don't have to juggle with file paths to access the files:
 
 ```python
-from phylodata import load_experiment, get_file_of_type, FileType
+from phylodata import load_experiment, FileType
 
 experiment = load_experiment("munro-2019-climate-6tvf", version=1)
-trees_file = get_file_of_type(experiment, FileType.POSTERIOR_TREES)
+trees_file = experiment.get_file_of_type(FileType.POSTERIOR_TREES)
 
 print("Trees file path:", trees_file.local_path)
 ```
