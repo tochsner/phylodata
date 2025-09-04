@@ -149,8 +149,6 @@ class File(
             msgspec.Meta(
                 extra_json_schema={
                     "type": "string",
-                    "format": "path",
-                    "description": "File system path",
                 }
             ),
         ]
