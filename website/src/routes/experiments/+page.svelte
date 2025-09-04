@@ -176,7 +176,7 @@
 			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
 		{:then possibleSpecies}
 			<ComboBox
-				name="evolutionaryModel"
+				name="species"
 				possibleValues={possibleSpecies.map((species) => ({
 					label: titleCase(species),
 					value: species
@@ -196,7 +196,7 @@
 			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
 		{:then possibleLanguages}
 			<ComboBox
-				name="evolutionaryModel"
+				name="languages"
 				possibleValues={possibleLanguages.map((language) => ({
 					label: titleCase(language),
 					value: language
@@ -227,7 +227,7 @@
 
 {#snippet evolutionaryModelFilter()}
 	<div class="flex flex-col gap-2">
-		<span class="text-base font-semibold">Evolutionary Model</span>
+		<span class="text-base font-semibold">Models</span>
 
 		{#await possibleEvolutionaryModels}
 			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>

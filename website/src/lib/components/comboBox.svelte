@@ -96,7 +96,7 @@
 			{placeholder}
 			onfocus={openDropdown}
 			onkeydown={handleKeydown}
-			class="border-accent/80 w-full rounded-md border py-2 pl-3 pr-10 placeholder:italic"
+			class=" w-full rounded-md bg-white py-2 pl-3 pr-10 placeholder:italic"
 		/>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
