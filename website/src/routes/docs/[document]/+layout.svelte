@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Header from '$lib/components/header.svelte';
 	import MenuIcon from '$lib/icons/menuIcon.svelte';
 
@@ -13,6 +14,8 @@
 		}[];
 	};
 
+	let mobileNavigation = $state<HTMLDetailsElement>();
+
 	const sidebar = [
 		{
 			label: 'General',
@@ -20,6 +23,35 @@
 				{
 					label: 'Core principles',
 					url: 'principles'
+				}
+			]
+		},
+		{
+			label: 'Java Library',
+			items: [
+				{
+					label: 'First steps',
+					url: 'java_first_steps'
+				},
+				{
+					label: 'Loading experiments',
+					url: 'java_downloading_experiments'
+				},
+				{
+					label: 'Accessing files',
+					url: 'java_files'
+				},
+				{
+					label: 'Dealing with large files',
+					url: 'java_large_files'
+				},
+				{
+					label: 'Accessing metadata',
+					url: 'java_metadata'
+				},
+				{
+					label: 'Best practices',
+					url: 'java_best_practices'
 				}
 			]
 		},
@@ -55,35 +87,6 @@
 					url: 'python_best_practices'
 				}
 			]
-		},
-		{
-			label: 'Java Library',
-			items: [
-				{
-					label: 'First steps',
-					url: 'java_first_steps'
-				},
-				{
-					label: 'Loading experiments',
-					url: 'java_downloading_experiments'
-				},
-				{
-					label: 'Accessing files',
-					url: 'java_files'
-				},
-				{
-					label: 'Dealing with large files',
-					url: 'java_large_files'
-				},
-				{
-					label: 'Accessing metadata',
-					url: 'java_metadata'
-				},
-				{
-					label: 'Best practices',
-					url: 'java_best_practices'
-				}
-			]
 		}
 	] as NavigationItem[];
 </script>
@@ -106,17 +109,19 @@
 </div>
 
 {#snippet navigation()}
-	<div class="hidden flex-col gap-8 md:flex">
+	<div class="hidden min-w-[210px] flex-col gap-8 md:flex">
 		{@render links(sidebar)}
 	</div>
 
-	<details class="flex flex-col gap-3 px-6 md:hidden">
+	<details class="flex flex-col gap-3 px-6 md:hidden" bind:this={mobileNavigation}>
 		<summary class="text-accent flex items-center gap-2 font-semibold">
 			<MenuIcon />
 			Navigation
 		</summary>
 
-		{@render links(sidebar)}
+		<div class="flex flex-col gap-5">
+			{@render links(sidebar)}
+		</div>
 	</details>
 {/snippet}
 
@@ -127,16 +132,19 @@
 
 			<div class="border-light-gray flex flex-col border-l pl-2">
 				{#each item.items as subitem}
-					<a
-						href={subitem.url}
+					<button
+						onclick={() => {
+							mobileNavigation?.removeAttribute('open');
+							goto(subitem.url);
+						}}
 						class={[
-							'rounded-md px-2 py-1',
+							'rounded-md px-2 py-1 text-left',
 							subitem.url === meta.slug && 'text-accent font-semibold',
 							subitem.url !== meta.slug && 'hover:text-accent'
 						]}
 					>
 						{subitem.label}
-					</a>
+					</button>
 				{/each}
 			</div>
 		</div>

@@ -13,7 +13,7 @@
 
 <Header>
 	<div class="mx-auto w-full max-w-[600px] p-8">
-		<p class="text-dark text-center text-lg font-bold italic leading-relaxed md:text-3xl">
+		<p class="text-dark text-center text-2xl font-bold italic leading-relaxed md:text-3xl">
 			Discover <span class="text-accent">curated Bayesian phylogenetics experiments</span>
 			and use them in your research
 		</p>

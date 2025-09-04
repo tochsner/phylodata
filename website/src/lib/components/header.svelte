@@ -16,7 +16,7 @@
 			<nav class="flex flex-col gap-2 space-x-6 sm:flex-row">
 				<a href="/experiments" class="cursor-pointer font-semibold hover:opacity-70">Experiments</a>
 				<a href="/models" class="cursor-pointer font-semibold hover:opacity-70">Models</a>
-				<a href="/docs/python_first_steps" class="cursor-pointer font-semibold hover:opacity-70"
+				<a href="/docs/java_first_steps" class="cursor-pointer font-semibold hover:opacity-70"
 					>Documentation</a
 				>
 			</nav>
