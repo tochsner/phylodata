@@ -2,7 +2,8 @@
 
 Java library to download and work with PhyloData experiments.
 
-!> Check out the documentation at [https://phylodata.com/docs/java_first_steps](https://phylodata.com/docs/java_first_steps) to learn how to use the library.
+> [!TIP]
+> Check out the documentation at [https://phylodata.com/docs/java_first_steps](https://phylodata.com/docs/java_first_steps) to learn how to use the library.
 
 ## For Developers
 
