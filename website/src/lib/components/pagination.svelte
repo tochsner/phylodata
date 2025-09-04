@@ -2,9 +2,9 @@
 	let { table } = $props();
 </script>
 
-{#if 1 < table.pagesWithEllipsis.length}
+{#if 1 < table.pages.length}
 	<aside class="flex flex-wrap justify-center gap-2">
-		{#each table.pagesWithEllipsis as page (page)}
+		{#each table.pages as page (page)}
 			<button
 				class:active={page === table.currentPage}
 				class:cursor-pointer={page !== table.currentPage}

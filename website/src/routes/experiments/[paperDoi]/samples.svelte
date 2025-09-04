@@ -4,7 +4,7 @@
 	import Tag from '$lib/components/tag.svelte';
 	import { formatNumber } from '$lib/utils/formatter';
 	import Pagination from '$lib/components/pagination.svelte';
-	import { getMainClassifications } from '$lib/classifications';
+	import { getMainClassifications, hasNCBIClassification } from '$lib/classifications';
 	import toast from 'svelte-5-french-toast';
 	import GeneIcon from '$lib/icons/geneIcon.svelte';
 	import LanguageIcon from '$lib/icons/languageIcon.svelte';
@@ -20,6 +20,7 @@
 	);
 
 	const mainClassifications = $derived(getMainClassifications(samples));
+	const hasNCBIClassifications = $derived(hasNCBIClassification(samples));
 
 	const copySampleData = async (sampleData: SampleData) => {
 		let data: string;
@@ -54,6 +55,13 @@
 			<Tag label="Contains">{classification}</Tag>
 		{/each}
 	</div>
+
+	{#if hasNCBIClassifications}
+		<span class="text-sm italic text-gray-600">
+			Disclaimer: The NCBI Taxonomy ID classifications were automatically generated using BLAST.
+			They might not represent the most accurate classification for the samples.
+		</span>
+	{/if}
 
 	<Datatable {table}>
 		<table>

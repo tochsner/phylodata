@@ -2,6 +2,18 @@ import { titleCase } from './utils/titleCase';
 import type { ClassificationEntry, Sample } from './types';
 
 /**
+ * @returns whether the given samples contain a NCBI taxonomy ID classification.
+ */
+export function hasNCBIClassification(samples: Sample[]) {
+	for (const sample of samples) {
+		for (const classification of sample.classification) {
+			if (classification.idType === 'ncbiTaxonomyId') return true;
+		}
+	}
+	return false;
+}
+
+/**
  * @returns a list of the main classification strings for the given samples.
  * The main classifications are defined as the most specific classification entry
  * describing at most half of the samples. Returned are the most specific scientific and

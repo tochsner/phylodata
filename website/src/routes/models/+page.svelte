@@ -46,19 +46,19 @@
 			value: 'single-cells',
 			label: 'Single-cells',
 			color: '#2FA7AB',
-			description: 'This could be extinct or extant species.'
+			description: 'Single-cell sequencing data of a single organism.'
 		},
 		{
 			value: 'pathogens',
 			label: 'Pathogens',
 			color: '#AB2F54',
-			description: 'This could be extinct or extant species.'
+			description: 'Pathogens data including viruses, bacteria, and parasites.'
 		},
 		{
 			value: 'languages',
 			label: 'Languages',
 			color: '#AB2F54',
-			description: 'This could be extinct or extant species.'
+			description: 'Language data like cognate sets, word lists, and language families.'
 		}
 	];
 	const dataTypes: { value: Model['dataTypes'][number]; label: string }[] = [
