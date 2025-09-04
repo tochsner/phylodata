@@ -6,9 +6,9 @@
 	<div class="flex w-full items-center justify-between px-6 py-6 md:px-8">
 		<!-- Logo -->
 		<div class="flex flex-1 flex-col gap-2 space-x-8 sm:flex-row sm:items-center">
-			<h1 class="text-[2rem] font-bold text-gray-800">
+			<a class="text-[2rem] font-bold text-gray-800" href="/">
 				<span class="text-accent">Phylo</span><span>Data</span>
-			</h1>
+			</a>
 
 			<span class="text-accent/20 hidden text-4xl font-extralight sm:block">/</span>
 
