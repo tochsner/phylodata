@@ -48,7 +48,7 @@ This will return the first file of the given type. Note that you do not even hav
 
 ## Accessing all files of a given type
 
-If you want to access all files of a specific type, you can use the `get_file_of_types` function:
+If you want to access all files of a specific type, you can use the `getFilesOfType` function:
 
 ```java
 PaperWithExperiment experiment = new ExperimentLoader(

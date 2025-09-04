@@ -46,7 +46,7 @@ The interesting part is `PhyloDataConfig.preferPreview();`. This tells the libra
 
 ## Using env variables
 
-`preferPreview()` still requires you to manually change the code whenever you want to switch between preview and full files. As an alternative, you can specify the `PHYLODATA_PREFER_PREVIEW` environment variable when running the program:
+`preferPreview` still requires you to manually change the code whenever you want to switch between preview and full files. As an alternative, you can specify the `PHYLODATA_PREFER_PREVIEW` environment variable when running the program:
 
 ```bash
 PHYLODATA_PREFER_PREVIEW=true java -jar program.jar

@@ -11,13 +11,9 @@ The library allows you to access experiments on PhyloData using Java. It is desi
 
 ## Installation
 
-You can use Maven to install the library. Add the following to your `pom.xml` file:
+Check out the [Maven Central Repository](https://central.sonatype.com/artifact/com.phylodata/PhyloData).
 
-TODO
-
-Alternatively, you can download the jars directly from Maven Central.
-
-TODO
+If you're using Maven, simply add PhyloData as a dependency to the `pom.xml` file. Alternatively, you can [download the jars directly](https://central.sonatype.com/artifact/com.phylodata/PhyloData/versions) (click on **Browse** and then download the `PhyloData-x.x.x.jar` file).
 
 ## Download an experiment
 

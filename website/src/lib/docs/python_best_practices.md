@@ -59,4 +59,4 @@ for experiment in experiments:
 
 ## Avoid version control for data files
 
-If your data files are too big, platforms like GitHub might lead to problems. Add the `data` folder to your `.gitignore` file to avoid problems.
+Platforms like GitHub have size restrictions for files. Add the `data` folder to your `.gitignore` file to avoid problems.

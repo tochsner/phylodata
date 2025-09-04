@@ -59,7 +59,6 @@ PaperWithExperiment experiment = new ExperimentLoader(
 Alternatively, you can only download files of a certain type:
 
 ```java
-// download only BEAST2 configuration files
 PaperWithExperiment experiment = new ExperimentLoader(
     "munro-2019-climate-6tvf", 1
 ).restrictFileTypes(
