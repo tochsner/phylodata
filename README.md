@@ -2,9 +2,7 @@
 
 PhyloData is a repository for Bayesian Phylogenetic experiments.
 
-> [!NOTE]
-> [Check out](PRINCIPLES.md) the draft of the core pinciples and vision behind PhyloData.
-
+> [!NOTE] > [Check out](PRINCIPLES.md) the draft of the core pinciples and vision behind PhyloData.
 
 ## 📋 Overview
 
@@ -21,9 +19,13 @@ The project is divided into two main components:
 
 ## 🚀 Getting Started
 
-### CLI
+### Python Library
 
-See the [CLI README](./cli/README.md).
+See the [Python README](./python/README.md) and check out the [documentation](https://phylodata.com/docs/python_first_steps).
+
+### Java Library
+
+See the [Java README](./java/README.md) and check out the [documentation](https://phylodata.com/docs/java_first_steps).
 
 ### Website
 

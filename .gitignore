@@ -1,6 +1,7 @@
-cli/.venv
+python/.venv
 .ropeproject
-cli/.ipynb_checkpoints
+python/.ipynb_checkpoints
+python/*.ipynb
 
 .vscode
 
