@@ -117,7 +117,7 @@ def load_package_parsers_from_json() -> list[Beast2PackageParser]:
     with the models presented on the PhyloData website."""
 
     with open(
-        Path(phylodata.__path__[0]) / "process" / "evolutionary_model" / "models.json",
+        Path(phylodata.__path__[0]) / "process" / "evolutionary_model" / "models.json",  # type: ignore
         "r",
     ) as handle:  # type: ignore
         json_models = json.loads(handle.read())

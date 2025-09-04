@@ -15,7 +15,7 @@ from enum import Enum
 from hashlib import md5
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Optional
+from typing import Annotated, Any, Optional
 
 import msgspec
 
@@ -143,7 +143,18 @@ class File(
     size_bytes: int
     md5: str
     is_preview: bool = False
-    local_path: Optional[Path] = None
+    local_path: Optional[
+        Annotated[
+            Path,
+            msgspec.Meta(
+                extra_json_schema={
+                    "type": "string",
+                    "format": "path",
+                    "description": "File system path",
+                }
+            ),
+        ]
+    ] = None
     remote_path: Optional[str] = None
 
     def __post_init__(self):
@@ -235,34 +246,6 @@ class EditablePaperWithExperiment(msgspec.Struct, rename="camel"):
     paper: EditablePaper
     experiment: EditableExperiment
     samples: list[Sample]
-
-
-class PaperWithExperiment(msgspec.Struct, rename="camel"):
-    paper: Paper
-    experiment: Experiment
-    files: list[File]
-    samples: list[Sample]
-    trees: Optional[Trees]
-    evolutionary_model: list[EvolutionaryModelComponent]
-    metadata: Metadata
-
-    @classmethod
-    def from_partial(
-        cls,
-        editable: EditablePaperWithExperiment,
-        non_editable: NonEditablePaperWithExperiment,
-    ):
-        return cls(
-            paper=Paper.from_partial(editable.paper, non_editable.paper),
-            experiment=Experiment.from_partial(
-                editable.experiment, non_editable.experiment
-            ),
-            files=non_editable.files,
-            samples=editable.samples,
-            trees=non_editable.trees,
-            evolutionary_model=non_editable.evolutionary_model,
-            metadata=non_editable.metadata,
-        )
 
 
 def validate_editable_json(file_path: str):

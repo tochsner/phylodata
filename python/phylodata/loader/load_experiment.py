@@ -10,10 +10,10 @@ from phylodata.data_types import (
     EditablePaperWithExperiment,
     FileType,
     NonEditablePaperWithExperiment,
-    PaperWithExperiment,
 )
 from phylodata.loader.download_file import download_file
 from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
+from phylodata.paper_with_experiment import PaperWithExperiment
 
 EDITABLE_METADATA_FILE = "editable_phylodata_metadata.json"
 NON_EDITABLE_METADATA_FILE = "non_editable_phylodata_metadata"
@@ -157,7 +157,7 @@ def _download_experiment(
     # merge metadata
 
     metadata = PaperWithExperiment.from_partial(
-        editable_metadata, non_editable_metadata
+        editable_metadata, non_editable_metadata, directory
     )
 
     # download remaining files if needed
@@ -215,6 +215,6 @@ def load_experiment_from_local_dir(directory: str | Path) -> PaperWithExperiment
     # merge metadata
 
     experiment = PaperWithExperiment.from_partial(
-        editable_metadata, non_editable_metadata
+        editable_metadata, non_editable_metadata, directory
     )
     return experiment

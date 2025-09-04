@@ -5,7 +5,6 @@ from unittest import mock
 
 from pytest import fixture
 
-from phylodata import get_file
 from phylodata.data_types import (
     Experiment,
     ExperimentType,
@@ -13,9 +12,10 @@ from phylodata.data_types import (
     FileType,
     Metadata,
     Paper,
-    PaperWithExperiment,
 )
+import pytest
 from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
+from phylodata.paper_with_experiment import PaperWithExperiment
 
 
 @fixture()
@@ -65,6 +65,7 @@ def experiment() -> PaperWithExperiment:
         evolutionary_model=[],
         trees=None,
         metadata=Metadata(evo_data_pipeline_version=""),
+        local_path=Path(),
     )
 
 
@@ -79,16 +80,15 @@ def test_single_file_is_found(experiment: PaperWithExperiment):
         ),
     ]
 
-    config = get_file(experiment, "beast2.xml")
+    config = experiment.get_file("beast2.xml")
     assert config
     assert config.name == "beast2.xml"
 
 
-def test_missing_file_returns_none(experiment: PaperWithExperiment):
+def test_missing_file_raises_error(experiment: PaperWithExperiment):
     experiment.files = []
-
-    config = get_file(experiment, "beast2.xml")
-    assert not config
+    with pytest.raises(FileNotFoundError):
+        experiment.get_file("beast2.xml")
 
 
 def test_full_file_is_preferred_if_nothing_specified(experiment: PaperWithExperiment):
@@ -110,7 +110,7 @@ def test_full_file_is_preferred_if_nothing_specified(experiment: PaperWithExperi
         ),
     ]
 
-    config = get_file(experiment, "beast2.xml")
+    config = experiment.get_file("beast2.xml")
     assert config
     assert config.name == "beast2.xml"
 
@@ -136,7 +136,7 @@ def test_full_file_is_preferred_if_preview_is_false(
         ),
     ]
 
-    config = get_file(experiment, "beast2.xml", prefer_preview=False)
+    config = experiment.get_file("beast2.xml", prefer_preview=False)
     assert config
     assert config.name == "beast2.xml"
 
@@ -162,7 +162,7 @@ def test_preview_file_is_preferred_if_preview_is_true(
         ),
     ]
 
-    config = get_file(experiment, "beast2.xml", prefer_preview=True)
+    config = experiment.get_file("beast2.xml", prefer_preview=True)
     assert config
     assert config.name == "beast2 (preview).xml"
 
@@ -188,7 +188,7 @@ def test_full_file_is_preferred_if_preview_env_is_false(
         ),
     ]
 
-    config = get_file(experiment, "beast2.xml")
+    config = experiment.get_file("beast2.xml")
     assert config
     assert config.name == "beast2.xml"
 
@@ -214,6 +214,6 @@ def test_preview_file_is_preferred_if_preview_env_is_true(
         ),
     ]
 
-    config = get_file(experiment, "beast2.xml")
+    config = experiment.get_file("beast2.xml")
     assert config
     assert config.name == "beast2 (preview).xml"

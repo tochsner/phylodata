@@ -5,7 +5,6 @@ from unittest import mock
 
 from pytest import fixture
 
-from phylodata import get_file_of_type
 from phylodata.data_types import (
     Experiment,
     ExperimentType,
@@ -13,9 +12,10 @@ from phylodata.data_types import (
     FileType,
     Metadata,
     Paper,
-    PaperWithExperiment,
 )
+import pytest
 from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
+from phylodata.paper_with_experiment import PaperWithExperiment
 
 
 @fixture()
@@ -65,6 +65,7 @@ def experiment() -> PaperWithExperiment:
         evolutionary_model=[],
         trees=None,
         metadata=Metadata(evo_data_pipeline_version=""),
+        local_path=Path(),
     )
 
 
@@ -93,20 +94,20 @@ def test_single_possible_file_get_found(experiment: PaperWithExperiment):
         ),
     ]
 
-    config = get_file_of_type(experiment, FileType.BEAST2_CONFIGURATION)
+    config = experiment.get_file_of_type(FileType.BEAST2_CONFIGURATION)
     assert config
     assert config.name == "beast.xml"
 
-    posterior = get_file_of_type(experiment, FileType.POSTERIOR_TREES)
+    posterior = experiment.get_file_of_type(FileType.POSTERIOR_TREES)
     assert posterior
     assert posterior.name == "beast.trees"
 
-    summary = get_file_of_type(experiment, FileType.SUMMARY_TREE)
+    summary = experiment.get_file_of_type(FileType.SUMMARY_TREE)
     assert summary
     assert summary.name == "summary.trees"
 
 
-def test_missing_file_type_returns_none(experiment: PaperWithExperiment):
+def test_missing_file_type_raises_error(experiment: PaperWithExperiment):
     experiment.files = [
         File(
             name="beast.xml",
@@ -117,8 +118,8 @@ def test_missing_file_type_returns_none(experiment: PaperWithExperiment):
         ),
     ]
 
-    summary = get_file_of_type(experiment, FileType.SUMMARY_TREE)
-    assert not summary
+    with pytest.raises(FileNotFoundError):  # noqa: F821
+        experiment.get_file_of_type(FileType.SUMMARY_TREE)
 
 
 def test_multiple_possible_files_returns_first(experiment: PaperWithExperiment):
@@ -139,7 +140,7 @@ def test_multiple_possible_files_returns_first(experiment: PaperWithExperiment):
         ),
     ]
 
-    config = get_file_of_type(experiment, FileType.BEAST2_CONFIGURATION)
+    config = experiment.get_file_of_type(FileType.BEAST2_CONFIGURATION)
     assert config
     assert config.name == "beast.xml"
 
@@ -178,15 +179,15 @@ def test_full_files_are_preferred_if_nothing_specified(experiment: PaperWithExpe
         ),
     ]
 
-    config = get_file_of_type(experiment, FileType.BEAST2_CONFIGURATION)
+    config = experiment.get_file_of_type(FileType.BEAST2_CONFIGURATION)
     assert config
     assert config.name == "beast.xml"
 
-    posterior = get_file_of_type(experiment, FileType.POSTERIOR_TREES)
+    posterior = experiment.get_file_of_type(FileType.POSTERIOR_TREES)
     assert posterior
     assert posterior.name == "trees.xml"
 
-    logs = get_file_of_type(experiment, FileType.BEAST2_POSTERIOR_LOGS)
+    logs = experiment.get_file_of_type(FileType.BEAST2_POSTERIOR_LOGS)
     assert logs
     assert logs.name == "logs (preview).xml"
 
@@ -227,22 +228,22 @@ def test_only_full_files_are_returned_if_preview_is_false(
         ),
     ]
 
-    config = get_file_of_type(
-        experiment, FileType.BEAST2_CONFIGURATION, prefer_preview=False
+    config = experiment.get_file_of_type(
+        FileType.BEAST2_CONFIGURATION, prefer_preview=False
     )
     assert config
     assert config.name == "beast.xml"
 
-    posterior = get_file_of_type(
-        experiment, FileType.POSTERIOR_TREES, prefer_preview=False
+    posterior = experiment.get_file_of_type(
+        FileType.POSTERIOR_TREES, prefer_preview=False
     )
     assert posterior
     assert posterior.name == "trees.xml"
 
-    logs = get_file_of_type(
-        experiment, FileType.BEAST2_POSTERIOR_LOGS, prefer_preview=False
-    )
-    assert not logs
+    with pytest.raises(FileNotFoundError):
+        experiment.get_file_of_type(
+            FileType.BEAST2_POSTERIOR_LOGS, prefer_preview=False
+        )
 
 
 def test_previews_are_preferred_if_preview_is_true(
@@ -281,20 +282,20 @@ def test_previews_are_preferred_if_preview_is_true(
         ),
     ]
 
-    config = get_file_of_type(
-        experiment, FileType.BEAST2_CONFIGURATION, prefer_preview=True
+    config = experiment.get_file_of_type(
+        FileType.BEAST2_CONFIGURATION, prefer_preview=True
     )
     assert config
     assert config.name == "beast2 (preview).xml"
 
-    posterior = get_file_of_type(
-        experiment, FileType.POSTERIOR_TREES, prefer_preview=True
+    posterior = experiment.get_file_of_type(
+        FileType.POSTERIOR_TREES, prefer_preview=True
     )
     assert posterior
     assert posterior.name == "trees.xml"
 
-    logs = get_file_of_type(
-        experiment, FileType.BEAST2_POSTERIOR_LOGS, prefer_preview=True
+    logs = experiment.get_file_of_type(
+        FileType.BEAST2_POSTERIOR_LOGS, prefer_preview=True
     )
     assert logs
     assert logs.name == "logs (preview).xml"
@@ -321,7 +322,7 @@ def test_previews_are_preferred_if_preview_env_is_set_true(
         ),
     ]
 
-    config = get_file_of_type(experiment, FileType.BEAST2_CONFIGURATION)
+    config = experiment.get_file_of_type(FileType.BEAST2_CONFIGURATION)
     assert config
     assert config.name == "beast2 (preview).xml"
 
@@ -347,6 +348,6 @@ def test_previews_are_preferred_if_preview_env_is_set_false(
         ),
     ]
 
-    config = get_file_of_type(experiment, FileType.BEAST2_CONFIGURATION)
+    config = experiment.get_file_of_type(FileType.BEAST2_CONFIGURATION)
     assert config
     assert config.name == "beast2.xml"

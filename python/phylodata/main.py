@@ -36,7 +36,7 @@ def process(files):
             "--theme.primaryColor=#54763d",
             "--theme.backgroundColor=#f5f5ef",
             "--theme.secondaryBackgroundColor=white",
-            str(Path(phylodata.__path__[0]) / "process/ui.py"),
+            str(Path(phylodata.__path__[0]) / "process/ui.py"),  # type: ignore
             *files,
         ],
     )  # type: ignore

@@ -5,7 +5,6 @@ from unittest import mock
 
 from pytest import fixture
 
-from phylodata import get_files
 from phylodata.data_types import (
     Experiment,
     ExperimentType,
@@ -13,9 +12,9 @@ from phylodata.data_types import (
     FileType,
     Metadata,
     Paper,
-    PaperWithExperiment,
 )
 from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
+from phylodata.paper_with_experiment import PaperWithExperiment
 
 
 @fixture()
@@ -104,11 +103,12 @@ def experiment() -> PaperWithExperiment:
         evolutionary_model=[],
         trees=None,
         metadata=Metadata(evo_data_pipeline_version=""),
+        local_path=Path(),
     )
 
 
 def test_full_files_are_preferred_if_nothing_specified(experiment: PaperWithExperiment):
-    files = get_files(experiment)
+    files = experiment.get_files()
     assert len(files) == 3
     assert files[0].name == "beast2.xml"
     assert files[1].name == "beast2.logs"
@@ -118,7 +118,7 @@ def test_full_files_are_preferred_if_nothing_specified(experiment: PaperWithExpe
 def test_only_full_files_are_returned_if_preview_is_false(
     experiment: PaperWithExperiment,
 ):
-    files = get_files(experiment, prefer_preview=False)
+    files = experiment.get_files(prefer_preview=False)
     assert len(files) == 2
     assert files[0].name == "beast2.xml"
     assert files[1].name == "beast2.logs"
@@ -127,7 +127,7 @@ def test_only_full_files_are_returned_if_preview_is_false(
 def test_previews_are_preferred_if_preview_is_true(
     experiment: PaperWithExperiment,
 ):
-    files = get_files(experiment, prefer_preview=True)
+    files = experiment.get_files(prefer_preview=True)
     assert len(files) == 3
     assert files[0].name == "beast2 (preview).xml"
     assert files[1].name == "beast2 (preview).logs"

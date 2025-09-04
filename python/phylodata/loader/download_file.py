@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Optional
+from urllib.parse import quote
 
 import requests
 
@@ -20,13 +21,15 @@ def download_file(
     if not force_download and downloaded_file.exists():
         return downloaded_file
 
+    encoded_file_name = quote(file_name)
+
     if version:
         download_link = requests.get(
-            f"https://phylodata.com/api/getDownloadLink/{experiment}/{file_name}/{version}"
+            f"https://phylodata.com/api/getDownloadLink/{experiment}/{encoded_file_name}/{version}"
         ).text
     else:
         download_link = requests.get(
-            f"https://phylodata.com/api/getDownloadLink/{experiment}/{file_name}"
+            f"https://phylodata.com/api/getDownloadLink/{experiment}/{encoded_file_name}"
         ).text
 
     response = requests.get(

@@ -3,8 +3,9 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Optional
 
-from phylodata.data_types import File, FileType, PaperWithExperiment
+from phylodata.data_types import File, FileType
 from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
+from phylodata.paper_with_experiment import PaperWithExperiment
 
 
 def get_folder(experiment: PaperWithExperiment) -> Path:
