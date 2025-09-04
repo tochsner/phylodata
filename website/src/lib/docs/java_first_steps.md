@@ -13,7 +13,13 @@ The library allows you to access experiments on PhyloData using Java. It is desi
 
 Check out the [Maven Central Repository](https://central.sonatype.com/artifact/com.phylodata/PhyloData).
 
-If you're using Maven, simply add PhyloData as a dependency to the `pom.xml` file. Alternatively, you can [download the jars directly](https://central.sonatype.com/artifact/com.phylodata/PhyloData/versions) (click on **Browse** and then download the `PhyloData-x.x.x.jar` file).
+If you're using Maven, simply add PhyloData as a dependency to the `pom.xml` file.
+
+Alternatively, you can [download the jar file directly](https://central.sonatype.com/artifact/com.phylodata/PhyloData/versions) (click on **Browse** and then download the `PhyloData-x.x.x.jar` file). You will also need to download and add the following jar files to your project:
+
+- [jackson-core](https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.20.0/jackson-core-2.20.0.jar)
+- [jackson-databind](https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.20.0/jackson-databind-2.20.0.jar)
+- [jackson-annotations](https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/3.0-rc5/jackson-annotations-3.0-rc5.jar)
 
 ## Download an experiment
 
