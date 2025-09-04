@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * NonEditablePaper
  * <p>
- *
- * @author tobiaochsner
+ * 
+ * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -36,10 +36,9 @@ public class NonEditablePaper {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("doi")
     public String getDoi() {
@@ -47,38 +46,25 @@ public class NonEditablePaper {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param doi a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("doi")
     public void setDoi(String doi) {
         this.doi = doi;
     }
 
-    /**
-     * <p>Getter for the field <code>additionalProperties</code>.</p>
-     *
-     * @return a {@link java.util.Map} object
-     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
-    /**
-     * <p>setAdditionalProperty.</p>
-     *
-     * @param name a {@link java.lang.String} object
-     * @param value a {@link java.lang.Object} object
-     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -99,7 +85,6 @@ public class NonEditablePaper {
         return sb.toString();
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -108,7 +93,6 @@ public class NonEditablePaper {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

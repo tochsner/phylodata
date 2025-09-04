@@ -18,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * SampleData
  * <p>
- *
- * @author tobiaochsner
+ * 
+ * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -59,10 +59,9 @@ public class SampleData {
     /**
      * DataType
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link com.phylodata.types.SampleData.DataType} object
+     * 
      */
     @JsonProperty("type")
     public SampleData.DataType getType() {
@@ -72,10 +71,9 @@ public class SampleData {
     /**
      * DataType
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @param type a {@link com.phylodata.types.SampleData.DataType} object
+     * 
      */
     @JsonProperty("type")
     public void setType(SampleData.DataType type) {
@@ -83,10 +81,9 @@ public class SampleData {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.Integer} object
+     * 
      */
     @JsonProperty("length")
     public Integer getLength() {
@@ -94,10 +91,9 @@ public class SampleData {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param length a {@link java.lang.Integer} object
+     * 
      */
     @JsonProperty("length")
     public void setLength(Integer length) {
@@ -105,10 +101,9 @@ public class SampleData {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("data")
     public String getData() {
@@ -116,38 +111,25 @@ public class SampleData {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param data a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("data")
     public void setData(String data) {
         this.data = data;
     }
 
-    /**
-     * <p>Getter for the field <code>additionalProperties</code>.</p>
-     *
-     * @return a {@link java.util.Map} object
-     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
-    /**
-     * <p>setAdditionalProperty.</p>
-     *
-     * @param name a {@link java.lang.String} object
-     * @param value a {@link java.lang.Object} object
-     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -176,7 +158,6 @@ public class SampleData {
         return sb.toString();
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -187,7 +168,6 @@ public class SampleData {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

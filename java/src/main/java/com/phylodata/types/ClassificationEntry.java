@@ -18,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * ClassificationEntry
  * <p>
- *
- * @author tobiaochsner
+ * 
+ * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -60,10 +60,9 @@ public class ClassificationEntry {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("classificationId")
     public String getClassificationId() {
@@ -71,10 +70,9 @@ public class ClassificationEntry {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param classificationId a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("classificationId")
     public void setClassificationId(String classificationId) {
@@ -82,10 +80,9 @@ public class ClassificationEntry {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("scientificName")
     public String getScientificName() {
@@ -93,10 +90,9 @@ public class ClassificationEntry {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param scientificName a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("scientificName")
     public void setScientificName(String scientificName) {
@@ -106,10 +102,9 @@ public class ClassificationEntry {
     /**
      * ClassificationEntryType
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link com.phylodata.types.ClassificationEntry.ClassificationEntryType} object
+     * 
      */
     @JsonProperty("idType")
     public ClassificationEntry.ClassificationEntryType getIdType() {
@@ -119,58 +114,35 @@ public class ClassificationEntry {
     /**
      * ClassificationEntryType
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @param idType a {@link com.phylodata.types.ClassificationEntry.ClassificationEntryType} object
+     * 
      */
     @JsonProperty("idType")
     public void setIdType(ClassificationEntry.ClassificationEntryType idType) {
         this.idType = idType;
     }
 
-    /**
-     * <p>Getter for the field <code>commonName</code>.</p>
-     *
-     * @return a {@link java.lang.Object} object
-     */
     @JsonProperty("commonName")
     public Object getCommonName() {
         return commonName;
     }
 
-    /**
-     * <p>Setter for the field <code>commonName</code>.</p>
-     *
-     * @param commonName a {@link java.lang.Object} object
-     */
     @JsonProperty("commonName")
     public void setCommonName(Object commonName) {
         this.commonName = commonName;
     }
 
-    /**
-     * <p>Getter for the field <code>additionalProperties</code>.</p>
-     *
-     * @return a {@link java.util.Map} object
-     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
-    /**
-     * <p>setAdditionalProperty.</p>
-     *
-     * @param name a {@link java.lang.String} object
-     * @param value a {@link java.lang.Object} object
-     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -203,7 +175,6 @@ public class ClassificationEntry {
         return sb.toString();
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -215,7 +186,6 @@ public class ClassificationEntry {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

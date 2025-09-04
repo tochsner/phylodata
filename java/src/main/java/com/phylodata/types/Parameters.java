@@ -10,11 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-/**
- * <p>Parameters class.</p>
- *
- * @author tobiaochsner
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
 
@@ -25,28 +20,16 @@ public class Parameters {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
-    /**
-     * <p>Getter for the field <code>additionalProperties</code>.</p>
-     *
-     * @return a {@link java.util.Map} object
-     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
-    /**
-     * <p>setAdditionalProperty.</p>
-     *
-     * @param name a {@link java.lang.String} object
-     * @param value a {@link java.lang.Object} object
-     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -63,7 +46,6 @@ public class Parameters {
         return sb.toString();
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -71,7 +53,6 @@ public class Parameters {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

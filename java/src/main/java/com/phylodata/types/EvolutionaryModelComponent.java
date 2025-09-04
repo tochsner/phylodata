@@ -18,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * EvolutionaryModelComponent
  * <p>
- *
- * @author tobiaochsner
+ * 
+ * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -57,10 +57,9 @@ public class EvolutionaryModelComponent {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("name")
     public String getName() {
@@ -68,10 +67,9 @@ public class EvolutionaryModelComponent {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param name a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("name")
     public void setName(String name) {
@@ -81,10 +79,9 @@ public class EvolutionaryModelComponent {
     /**
      * ModelType
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link com.phylodata.types.EvolutionaryModelComponent.ModelType} object
+     * 
      */
     @JsonProperty("type")
     public EvolutionaryModelComponent.ModelType getType() {
@@ -94,10 +91,9 @@ public class EvolutionaryModelComponent {
     /**
      * ModelType
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @param type a {@link com.phylodata.types.EvolutionaryModelComponent.ModelType} object
+     * 
      */
     @JsonProperty("type")
     public void setType(EvolutionaryModelComponent.ModelType type) {
@@ -105,10 +101,9 @@ public class EvolutionaryModelComponent {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link com.phylodata.types.Parameters} object
+     * 
      */
     @JsonProperty("parameters")
     public Parameters getParameters() {
@@ -116,38 +111,25 @@ public class EvolutionaryModelComponent {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param parameters a {@link com.phylodata.types.Parameters} object
+     * 
      */
     @JsonProperty("parameters")
     public void setParameters(Parameters parameters) {
         this.parameters = parameters;
     }
 
-    /**
-     * <p>Getter for the field <code>additionalProperties</code>.</p>
-     *
-     * @return a {@link java.util.Map} object
-     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
-    /**
-     * <p>setAdditionalProperty.</p>
-     *
-     * @param name a {@link java.lang.String} object
-     * @param value a {@link java.lang.Object} object
-     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -176,7 +158,6 @@ public class EvolutionaryModelComponent {
         return sb.toString();
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -187,7 +168,6 @@ public class EvolutionaryModelComponent {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

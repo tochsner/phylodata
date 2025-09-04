@@ -19,7 +19,7 @@ abstract public class ExperimentLoaderBuilder<T> {
 
     /**
      * Sets the base directory where the experiment files will be stored.
-     * If not set, defaults to data/<experimentId>.
+     * If not set, defaults to "data/experimentId".
      *
      * @param directory Path to the directory
      * @return this builder for chaining

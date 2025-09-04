@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * NonEditableExperiment
  * <p>
- *
- * @author tobiaochsner
+ * 
+ * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -66,10 +66,9 @@ public class NonEditableExperiment {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("humanReadableId")
     public String getHumanReadableId() {
@@ -77,10 +76,9 @@ public class NonEditableExperiment {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param humanReadableId a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("humanReadableId")
     public void setHumanReadableId(String humanReadableId) {
@@ -88,10 +86,9 @@ public class NonEditableExperiment {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("origin")
     public String getOrigin() {
@@ -99,10 +96,9 @@ public class NonEditableExperiment {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param origin a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("origin")
     public void setOrigin(String origin) {
@@ -110,10 +106,9 @@ public class NonEditableExperiment {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("uploadDate")
     public String getUploadDate() {
@@ -121,10 +116,9 @@ public class NonEditableExperiment {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param uploadDate a {@link java.lang.String} object
+     * 
      */
     @JsonProperty("uploadDate")
     public void setUploadDate(String uploadDate) {
@@ -132,10 +126,9 @@ public class NonEditableExperiment {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.lang.Integer} object
+     * 
      */
     @JsonProperty("version")
     public Integer getVersion() {
@@ -143,78 +136,45 @@ public class NonEditableExperiment {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param version a {@link java.lang.Integer} object
+     * 
      */
     @JsonProperty("version")
     public void setVersion(Integer version) {
         this.version = version;
     }
 
-    /**
-     * <p>Getter for the field <code>license</code>.</p>
-     *
-     * @return a {@link java.lang.String} object
-     */
     @JsonProperty("license")
     public String getLicense() {
         return license;
     }
 
-    /**
-     * <p>Setter for the field <code>license</code>.</p>
-     *
-     * @param license a {@link java.lang.String} object
-     */
     @JsonProperty("license")
     public void setLicense(String license) {
         this.license = license;
     }
 
-    /**
-     * <p>Getter for the field <code>id</code>.</p>
-     *
-     * @return a {@link java.lang.Object} object
-     */
     @JsonProperty("id")
     public Object getId() {
         return id;
     }
 
-    /**
-     * <p>Setter for the field <code>id</code>.</p>
-     *
-     * @param id a {@link java.lang.Object} object
-     */
     @JsonProperty("id")
     public void setId(Object id) {
         this.id = id;
     }
 
-    /**
-     * <p>Getter for the field <code>additionalProperties</code>.</p>
-     *
-     * @return a {@link java.util.Map} object
-     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
-    /**
-     * <p>setAdditionalProperty.</p>
-     *
-     * @param name a {@link java.lang.String} object
-     * @param value a {@link java.lang.Object} object
-     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -255,7 +215,6 @@ public class NonEditableExperiment {
         return sb.toString();
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -269,7 +228,6 @@ public class NonEditableExperiment {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

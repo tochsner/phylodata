@@ -18,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * EditableExperiment
  * <p>
- *
- * @author tobiaochsner
+ * 
+ * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -49,10 +49,9 @@ public class EditableExperiment {
     /**
      * ExperimentType
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link com.phylodata.types.EditableExperiment.ExperimentType} object
+     * 
      */
     @JsonProperty("type")
     public EditableExperiment.ExperimentType getType() {
@@ -62,78 +61,45 @@ public class EditableExperiment {
     /**
      * ExperimentType
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @param type a {@link com.phylodata.types.EditableExperiment.ExperimentType} object
+     * 
      */
     @JsonProperty("type")
     public void setType(EditableExperiment.ExperimentType type) {
         this.type = type;
     }
 
-    /**
-     * <p>Getter for the field <code>title</code>.</p>
-     *
-     * @return a {@link java.lang.Object} object
-     */
     @JsonProperty("title")
     public Object getTitle() {
         return title;
     }
 
-    /**
-     * <p>Setter for the field <code>title</code>.</p>
-     *
-     * @param title a {@link java.lang.Object} object
-     */
     @JsonProperty("title")
     public void setTitle(Object title) {
         this.title = title;
     }
 
-    /**
-     * <p>Getter for the field <code>description</code>.</p>
-     *
-     * @return a {@link java.lang.Object} object
-     */
     @JsonProperty("description")
     public Object getDescription() {
         return description;
     }
 
-    /**
-     * <p>Setter for the field <code>description</code>.</p>
-     *
-     * @param description a {@link java.lang.Object} object
-     */
     @JsonProperty("description")
     public void setDescription(Object description) {
         this.description = description;
     }
 
-    /**
-     * <p>Getter for the field <code>additionalProperties</code>.</p>
-     *
-     * @return a {@link java.util.Map} object
-     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
-    /**
-     * <p>setAdditionalProperty.</p>
-     *
-     * @param name a {@link java.lang.String} object
-     * @param value a {@link java.lang.Object} object
-     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -162,7 +128,6 @@ public class EditableExperiment {
         return sb.toString();
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -173,7 +138,6 @@ public class EditableExperiment {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

@@ -19,8 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * <p>
  * This structure contains all experiment data computed by the pipeline
  *     and may be changed manually.
- *
- * @author tobiaochsner
+ * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -62,10 +61,9 @@ public class EditablePaperWithExperiment {
     /**
      * EditablePaper
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link com.phylodata.types.EditablePaper} object
+     * 
      */
     @JsonProperty("paper")
     public EditablePaper getPaper() {
@@ -75,10 +73,9 @@ public class EditablePaperWithExperiment {
     /**
      * EditablePaper
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @param paper a {@link com.phylodata.types.EditablePaper} object
+     * 
      */
     @JsonProperty("paper")
     public void setPaper(EditablePaper paper) {
@@ -88,10 +85,9 @@ public class EditablePaperWithExperiment {
     /**
      * EditableExperiment
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link com.phylodata.types.EditableExperiment} object
+     * 
      */
     @JsonProperty("experiment")
     public EditableExperiment getExperiment() {
@@ -101,10 +97,9 @@ public class EditablePaperWithExperiment {
     /**
      * EditableExperiment
      * <p>
-     *
+     * 
      * (Required)
-     *
-     * @param experiment a {@link com.phylodata.types.EditableExperiment} object
+     * 
      */
     @JsonProperty("experiment")
     public void setExperiment(EditableExperiment experiment) {
@@ -112,10 +107,9 @@ public class EditablePaperWithExperiment {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @return a {@link java.util.List} object
+     * 
      */
     @JsonProperty("samples")
     public List<Sample> getSamples() {
@@ -123,38 +117,25 @@ public class EditablePaperWithExperiment {
     }
 
     /**
-     *
+     * 
      * (Required)
-     *
-     * @param samples a {@link java.util.List} object
+     * 
      */
     @JsonProperty("samples")
     public void setSamples(List<Sample> samples) {
         this.samples = samples;
     }
 
-    /**
-     * <p>Getter for the field <code>additionalProperties</code>.</p>
-     *
-     * @return a {@link java.util.Map} object
-     */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
-    /**
-     * <p>setAdditionalProperty.</p>
-     *
-     * @param name a {@link java.lang.String} object
-     * @param value a {@link java.lang.Object} object
-     */
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
-    /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -183,7 +164,6 @@ public class EditablePaperWithExperiment {
         return sb.toString();
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int result = 1;
@@ -194,7 +174,6 @@ public class EditablePaperWithExperiment {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
