@@ -1,25 +1,73 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/checkbox.svelte';
 	import Header from '$lib/components/header.svelte';
 	import Tag from '$lib/components/tag.svelte';
-	import { type PaperWithExperiments } from '$lib/types';
+	import { type PaperWithExperiments, type File } from '$lib/types';
 	import type { PageProps } from './$types';
 	import ComboBox from '$lib/components/comboBox.svelte';
 	import { titleCase } from '$lib/utils/titleCase';
 	import DownloadInstructions from '$lib/components/downloadInstructions.svelte';
 	import NoContent from '$lib/components/noContent.svelte';
+	import { goto } from '$app/navigation';
 
 	let { data }: PageProps = $props();
-	let { papers, possibleSamples, possibleEvolutionaryModels } = data;
+	let {
+		papers,
+		possibleLanguages,
+		possibleSpecies,
+		possibleEvolutionaryModels,
+		experimentsFilter
+	} = $derived(data);
 
-	let filteredPapers = $state<Awaited<typeof papers>>([]);
+	const updateUrl = async () => {
+		const params = new URLSearchParams(window.location.search);
+		params.set('filter', JSON.stringify(experimentsFilter));
+		goto(`?${params.toString()}`, { replaceState: true });
+	};
 
-	$effect.pre(() => {
-		papers.then((papers) => {
-			filteredPapers = papers;
-		});
-	});
+	const getFileType = (fileType: File['type']) => () =>
+		experimentsFilter.filesTypes?.includes(fileType) || false;
+	const setFileTypes = (fileType: File['type']) => (value: boolean) => {
+		if (value) {
+			experimentsFilter.filesTypes = experimentsFilter.filesTypes || [];
+			experimentsFilter.filesTypes.push(fileType);
+		} else {
+			experimentsFilter.filesTypes = experimentsFilter.filesTypes?.filter(
+				(type) => type !== fileType
+			);
+		}
+		updateUrl();
+	};
+
+	const getEvolutionaryModels = () =>
+		(experimentsFilter.evolutionaryModels || []).map((model) => ({
+			label: titleCase(model),
+			value: model
+		}));
+	const setEvolutionaryModels = (value: { label: string; value: string }[]) => {
+		experimentsFilter.evolutionaryModels = value.map((model) => model.value);
+		updateUrl();
+	};
+
+	const getLanguages = () =>
+		(experimentsFilter.languages || []).map((model) => ({
+			label: titleCase(model),
+			value: model
+		}));
+	const setLanguages = (value: { label: string; value: string }[]) => {
+		experimentsFilter.languages = value.map((model) => model.value);
+		updateUrl();
+	};
+
+	const getSpecies = () =>
+		(experimentsFilter.species || []).map((model) => ({
+			label: titleCase(model),
+			value: model
+		}));
+	const setSpecies = (value: { label: string; value: string }[]) => {
+		experimentsFilter.species = value.map((model) => model.value);
+		updateUrl();
+	};
 
 	let experimentsToDownload: [string, number][] | undefined = $state();
 </script>
@@ -37,31 +85,32 @@
 </Header>
 
 <div class="flex items-stretch gap-8 p-4 md:p-8">
-	{@render filters()}
+	{@render sidebar()}
 	{@render content()}
 </div>
 
-{#snippet filters()}
-	<form
-		class="hidden w-56 flex-col gap-8 text-sm md:flex"
-		method="POST"
-		action="?/filter"
-		use:enhance={() =>
-			async ({ update, result }) => {
-				if (result.type === 'success' && result.data) {
-					// @ts-ignore
-					filteredPapers = result.data;
-				}
+{#snippet sidebar()}
+	<div class="w-62 hidden flex-col gap-8 text-sm md:flex">
+		{@render useExperimentsButton()}
+		{@render speciesFilter()}
+		{@render languagesFilter()}
+		{@render evolutionaryModelFilter()}
+		{@render filesFilter()}
+		{@render treesFilter()}
+	</div>
+{/snippet}
 
-				return await update({ reset: false });
-			}}
-	>
+{#snippet useExperimentsButton()}
+	{#await papers}
+		<div class="h-[50px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
+	{:then papers}
 		<button
 			class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-full border px-4 py-3 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
-			onclick={() =>
-				(experimentsToDownload = filteredPapers
+			onclick={() => {
+				experimentsToDownload = papers
 					.flatMap((paper) => paper.experiments)
-					.map((exp) => [exp.experiment.humanReadableId, exp.experiment.version]))}
+					.map((exp) => [exp.experiment.humanReadableId, exp.experiment.version]);
+			}}
 			type="button"
 		>
 			<svg
@@ -79,43 +128,81 @@
 				/>
 			</svg>
 
-			<span class="text-base">Use experiments</span>
+			<span class="text-base">
+				Use {papers.flatMap((paper) => paper.experiments).length} experiments
+			</span>
 		</button>
-
-		{@render samplesFilter()}
-		{@render evolutionaryModelFilter()}
-		{@render filesFilter()}
-		{@render treesFilter()}
-	</form>
+	{/await}
 {/snippet}
 
 {#snippet filesFilter()}
 	<div class="flex flex-col gap-2">
 		<span class="text-base font-semibold">Files</span>
-		<Checkbox name="fileType" value="posteriorTrees" submitOnChange>MCMC posterior trees</Checkbox>
-		<Checkbox name="fileType" value="summaryTree" submitOnChange>Summary trees</Checkbox>
-		<Checkbox name="fileType" value="beast2Configuration" submitOnChange>BEAST2 XMLs</Checkbox>
-		<Checkbox name="fileType" value="beast2PosteriorLogs" submitOnChange>BEAST2 log files</Checkbox>
-		<Checkbox name="fileType" value="codephyModel" submitOnChange>CodePhy models</Checkbox>
-		<Checkbox name="fileType" value="unknown" submitOnChange>Others</Checkbox>
+		<Checkbox
+			onChange={updateUrl}
+			bind:checked={getFileType('posteriorTrees'), setFileTypes('posteriorTrees')}
+		>
+			MCMC posterior trees
+		</Checkbox>
+		<Checkbox
+			onChange={updateUrl}
+			bind:checked={getFileType('summaryTree'), setFileTypes('summaryTree')}
+		>
+			Summary trees
+		</Checkbox>
+		<Checkbox
+			onChange={updateUrl}
+			bind:checked={getFileType('beast2Configuration'), setFileTypes('beast2Configuration')}
+		>
+			BEAST2 XMLs
+		</Checkbox>
+		<Checkbox
+			onChange={updateUrl}
+			bind:checked={getFileType('beast2PosteriorLogs'), setFileTypes('beast2PosteriorLogs')}
+		>
+			BEAST2 log files
+		</Checkbox>
+		<Checkbox onChange={updateUrl} bind:checked={getFileType('unknown'), setFileTypes('unknown')}>
+			Others
+		</Checkbox>
 	</div>
 {/snippet}
 
-{#snippet samplesFilter()}
+{#snippet speciesFilter()}
 	<div class="flex flex-col gap-2">
-		<span class="text-base font-semibold">Samples</span>
+		<span class="text-base font-semibold">Species</span>
 
-		{#await possibleSamples}
+		{#await possibleSpecies}
 			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
-		{:then possibleSamples}
+		{:then possibleSpecies}
 			<ComboBox
-				name="samples"
-				possibleValues={possibleSamples.map((sample) => ({
-					label: titleCase(sample),
-					value: sample
+				name="evolutionaryModel"
+				possibleValues={possibleSpecies.map((species) => ({
+					label: titleCase(species),
+					value: species
 				}))}
-				submitOnChange
-				placeholder="Search for samples..."
+				placeholder="Search for species..."
+				bind:selectedValues={getSpecies, setSpecies}
+			/>
+		{/await}
+	</div>
+{/snippet}
+
+{#snippet languagesFilter()}
+	<div class="flex flex-col gap-2">
+		<span class="text-base font-semibold">Languages</span>
+
+		{#await possibleLanguages}
+			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
+		{:then possibleLanguages}
+			<ComboBox
+				name="evolutionaryModel"
+				possibleValues={possibleLanguages.map((language) => ({
+					label: titleCase(language),
+					value: language
+				}))}
+				placeholder="Search for languages..."
+				bind:selectedValues={getLanguages, setLanguages}
 			/>
 		{/await}
 	</div>
@@ -125,10 +212,16 @@
 	<div class="flex flex-col gap-2">
 		<span class="text-base font-semibold">Trees</span>
 
-		<Checkbox name="treesType" value="rooted" submitOnChange>Rooted</Checkbox>
-		<Checkbox name="treesType" value="unrooted" submitOnChange>Unrooted</Checkbox>
-		<Checkbox name="treesType" value="ultrametric" submitOnChange>Ultrametric</Checkbox>
-		<Checkbox name="treesType" value="nonUltrametric" submitOnChange>Not ultrametric</Checkbox>
+		<Checkbox onChange={updateUrl} bind:checked={experimentsFilter.rootedTrees}>Rooted</Checkbox>
+		<Checkbox onChange={updateUrl} bind:checked={experimentsFilter.unrootedTrees}>
+			Unrooted
+		</Checkbox>
+		<Checkbox onChange={updateUrl} bind:checked={experimentsFilter.ultrametricTrees}>
+			Ultrametric
+		</Checkbox>
+		<Checkbox onChange={updateUrl} bind:checked={experimentsFilter.nonUltrametricTrees}>
+			Not ultrametric
+		</Checkbox>
 	</div>
 {/snippet}
 
@@ -141,12 +234,12 @@
 		{:then possibleEvolutionaryModels}
 			<ComboBox
 				name="evolutionaryModel"
-				possibleValues={possibleEvolutionaryModels.map((sample) => ({
-					label: sample,
-					value: sample
+				possibleValues={possibleEvolutionaryModels.map((model) => ({
+					label: model,
+					value: model
 				}))}
-				submitOnChange
 				placeholder="Search for models..."
+				bind:selectedValues={getEvolutionaryModels, setEvolutionaryModels}
 			/>
 		{/await}
 	</div>
@@ -158,12 +251,12 @@
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
 			<div class="h-[148px] w-full animate-pulse rounded-xl bg-white opacity-60"></div>
-		{:then}
-			{#each filteredPapers as paper (paper.paper.doi)}
+		{:then papers}
+			{#each papers as paper (paper.paper.doi)}
 				{@render paperOverview(paper)}
 			{/each}
 
-			<NoContent items={filteredPapers}>There are no matching experiments.</NoContent>
+			<NoContent items={papers}>There are no matching experiments.</NoContent>
 		{/await}
 	</div>
 {/snippet}

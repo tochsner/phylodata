@@ -4,13 +4,15 @@
 		searchText = '',
 		name,
 		placeholder = 'Search...',
-		submitOnChange = false
+		submitOnChange = false,
+		selectedValues = $bindable()
 	}: {
 		possibleValues: { label: string; value: string }[];
 		name: string;
 		searchText?: string;
 		submitOnChange?: boolean;
 		placeholder?: string;
+		selectedValues: { label: string; value: string }[];
 	} = $props();
 
 	import { clickOutside } from '$lib/actions/clickOutside';
@@ -18,7 +20,6 @@
 
 	let input = $state<HTMLInputElement>();
 	let isOpen = $state(false);
-	let selectedValues: { label: string; value: string }[] = $state([]);
 	let filteredValues = $derived(
 		possibleValues.filter((item) => item.label.toLowerCase().includes(searchText.toLowerCase()))
 	);
@@ -95,7 +96,7 @@
 			{placeholder}
 			onfocus={openDropdown}
 			onkeydown={handleKeydown}
-			class="border-accent/80 w-full rounded-md border py-2 pr-10 pl-3 placeholder:italic"
+			class="border-accent/80 w-full rounded-md border py-2 pl-3 pr-10 placeholder:italic"
 		/>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +104,7 @@
 			viewBox="0 0 24 24"
 			stroke-width="1.5"
 			stroke="currentColor"
-			class="text-accent pointer-events-none absolute top-[9px] right-2 size-5"
+			class="text-accent pointer-events-none absolute right-2 top-[9px] size-5"
 		>
 			<path
 				stroke-linecap="round"

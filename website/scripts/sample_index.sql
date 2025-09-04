@@ -1,8 +1,8 @@
 CREATE VIEW "distinctSampleNames" AS
-SELECT DISTINCT "commonName" AS name FROM classifications
+SELECT DISTINCT "commonName" AS name, "idType" FROM classifications
 WHERE "commonName" IS NOT NULL
 
 UNION
 
-SELECT DISTINCT "scientificName" AS name FROM classifications
+SELECT DISTINCT "scientificName" AS name, "idType" FROM classifications
 WHERE "scientificName" IS NOT NULL;

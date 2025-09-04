@@ -10,7 +10,6 @@
 
 	afterNavigate(() => {
 		for (const node of document.querySelectorAll('.prose pre')) {
-			console.log(node);
 			mount(CopyButton, {
 				target: node,
 				props: {

@@ -1,10 +1,11 @@
 <script lang="ts">
 	let {
 		children,
-		name,
+		name = undefined,
 		value = undefined,
 		checked = $bindable(),
-		submitOnChange = false
+		submitOnChange = false,
+		onChange = (value: boolean) => {}
 	} = $props();
 	let key = $derived(`${name}_${value}_${checked}`);
 
@@ -14,6 +15,7 @@
 		if (submitOnChange) {
 			input?.form?.requestSubmit();
 		}
+		onChange(checked);
 	};
 </script>
 
@@ -24,7 +26,7 @@
 		bind:checked
 		{name}
 		value={value || name}
-		class="border-accent peer size-5 cursor-pointer appearance-none rounded-md border-1 bg-white"
+		class="border-accent border-1 peer size-5 cursor-pointer appearance-none rounded-md bg-white"
 		{onchange}
 		bind:this={input}
 	/>
