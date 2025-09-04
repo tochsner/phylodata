@@ -21,7 +21,7 @@
 </Header>
 
 <div class="flex flex-col items-center gap-8 p-4 md:p-8">
-	<div class="grid max-w-[800px] grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+	<div class="grid max-w-[800px] grid-cols-1 gap-6 md:grid-cols-2">
 		<a
 			href="/experiments"
 			class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[102%] hover:opacity-90"
