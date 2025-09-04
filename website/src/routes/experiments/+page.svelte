@@ -173,7 +173,7 @@
 		<span class="text-base font-semibold">Species</span>
 
 		{#await possibleSpecies}
-			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
+			<div class="h-[36px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
 		{:then possibleSpecies}
 			<ComboBox
 				name="species"
