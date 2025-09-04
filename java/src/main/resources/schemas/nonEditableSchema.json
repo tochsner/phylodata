@@ -122,9 +122,7 @@
         "localPath": {
           "anyOf": [
             {
-              "type": "string",
-              "format": "path",
-              "description": "File system path"
+              "type": "string"
             },
             {
               "type": "null"

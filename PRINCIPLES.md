@@ -17,7 +17,7 @@ PhyloData aims to solve these challenges.
 
 ## MVP
 
-- PhyloData is a data repository for *Bayesian Phylogenetics Experiments*.
+- PhyloData is a data repository for _Bayesian Phylogenetics Experiments_.
 - It provides a standardized way to store and share data from these experiments.
 - For easy discovery, experiments are automatically decorated with metadata.
 
