@@ -91,19 +91,16 @@ for (Sample sample : experiment.getSamples()) {
 
 ## Trees metadata
 
-TODO
+```java
+PaperWithExperiment experiment = new ExperimentLoader(
+        "munro-2019-climate-6tvf", 1
+).load();
 
-```python
-from phylodata import load_experiment
-
-experiment = load_experiment("munro-2019-climate-6tvf", version=1)
-
-print(experiment.trees.number_of_trees)
-print(experiment.trees.number_of_tips)
-print(experiment.trees.ultrametric)
-print(experiment.trees.time_tree)
-print(experiment.trees.rooted)
-print(experiment.trees.average_root_age)
+System.out.println(experiment.getTrees().getNumberOfTrees());
+System.out.println(experiment.getTrees().getNumberOfTips());
+System.out.println(experiment.getTrees().getRooted());
+System.out.println(experiment.getTrees().getUltrametric());
+System.out.println(experiment.getTrees().getAverageRootAge());
 ```
 
 ## Evolutionary model metadata

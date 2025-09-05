@@ -22,6 +22,6 @@ experiments = load_experiments(
         ExperimentToLoad("nen-2019-postglacial-qh0e", version=1),
         ExperimentToLoad("nen-2019-postglacial-n1bf", version=1),
     ],
-    citations_file=Path("some/folder/citations.bib"),  # noqa: F821
+    citations_file=Path("some/folder/citations.bib"),
 )
 ```
