@@ -2,8 +2,7 @@
 
 ## 📖 Usage
 
-> [!TIP]
-> Check out the [documentation](https://phylodata.com/docs/python_first_steps) for more information.
+Check out the [documentation](https://phylodata.com/docs/python_first_steps) for more information.
 
 ## For Developers
 
