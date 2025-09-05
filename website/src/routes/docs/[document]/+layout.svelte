@@ -50,6 +50,10 @@
 					url: 'java_metadata'
 				},
 				{
+					label: 'Citing experiments',
+					url: 'java_citations'
+				},
+				{
 					label: 'Best practices',
 					url: 'java_best_practices'
 				}
@@ -81,6 +85,10 @@
 				{
 					label: 'Uploading experiments',
 					url: 'python_uploading_experiments'
+				},
+				{
+					label: 'Citing experiments',
+					url: 'python_citations'
 				},
 				{
 					label: 'Best practices',

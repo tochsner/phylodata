@@ -199,7 +199,7 @@
 		<span class="text-base font-semibold">Languages</span>
 
 		{#await possibleLanguages}
-			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
+			<div class="h-[36px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
 		{:then possibleLanguages}
 			<ComboBox
 				name="languages"
@@ -241,7 +241,7 @@
 		<span class="text-base font-semibold">Models</span>
 
 		{#await possibleEvolutionaryModels}
-			<div class="h-[38px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
+			<div class="h-[36px] w-full animate-pulse rounded-lg bg-white opacity-60"></div>
 		{:then possibleEvolutionaryModels}
 			<ComboBox
 				name="evolutionaryModel"
