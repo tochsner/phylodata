@@ -22,7 +22,17 @@ with open("../java/src/main/resources/schemas/nonEditableSchema.json", "wb") as 
     # cause they can just be null in Java
     schema = msgspec.json.format(msgspec.json.encode(non_editable_schema))
     schema = schema.replace(
-        b"""t""",
-        """b""",
+        b""""trees": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/Trees"
+            }
+          ]""",
+        b""""trees": {
+          "$ref": "#/$defs/Trees"
+""",
     )
     f.write(schema)
