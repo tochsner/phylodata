@@ -25,20 +25,20 @@
 </svelte:head>
 
 <Header>
-	<div class="flex items-baseline gap-4">
+	<div class="flex flex-col items-baseline gap-4 md:flex-row">
 		<h2 class="text-dark text-nowrap text-2xl font-bold">Experiments for</h2>
 		<h2 class="text-accent text-3xl font-bold">{data.paper.title}</h2>
 	</div>
 </Header>
 
-<div class="flex gap-8 p-8">
+<div class="flex flex-col gap-8 py-8 md:flex-row md:p-8">
 	{@render sidebar()}
 	{@render content()}
 </div>
 
 {#snippet sidebar()}
-	<div class="flex w-2/5 min-w-56 max-w-[300px] flex-col gap-8">
-		<div class="flex flex-col gap-3">
+	<div class="flex w-full flex-col gap-8 md:w-2/5 md:min-w-56 md:max-w-[300px]">
+		<div class="hidden flex-col gap-3 p-4 md:flex md:p-0">
 			<button
 				class="border-accent bg-accent flex cursor-pointer items-center space-x-2 rounded-full border px-4 py-3 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
 				onclick={() =>
@@ -104,7 +104,7 @@
 {/snippet}
 
 {#snippet paperOverview()}
-	<div class="flex flex-wrap items-start gap-2">
+	<div class="flex flex-wrap items-start justify-center gap-2 p-4 md:justify-start md:p-0">
 		<Tag label="DOI"><a href={data.paper.doi} target="_blank">{data.paper.doi}</a></Tag>
 		{#if data.paper.url}
 			<Tag label="URL">
