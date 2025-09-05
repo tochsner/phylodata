@@ -1,3 +1,5 @@
+from datetime import datetime
+from math import exp
 import os
 from dataclasses import dataclass
 from pathlib import Path
@@ -25,52 +27,6 @@ class ExperimentToLoad:
     version: Optional[int] = None
 
 
-def load_experiments(
-    experiments_to_load: list[ExperimentToLoad | str],
-    directory: Optional[str | Path] = None,
-    download_only_preview: Optional[bool] = None,
-    files_to_download: Optional[list[FileType]] = None,
-    force_download: bool = False,
-) -> list[PaperWithExperiment]:
-    """Loads multiple PhyloData experiments.
-
-    Args:
-        experiments_to_load:
-            List of experiment IDs or ExperimentToLoad objects specifying which experiments
-            to load. If only the ID strings are given, the latest version will be downloaded.
-        directory:
-            Path where the experiment files should be stored.
-        download_only_preview:
-            Whether to only download preview files. This is useful for testing environments.
-            This can also be controlled by setting the environment variable
-            PHYLODATA_PREFER_PREVIEW to true or false. Defaults to False.
-        files_to_download:
-                Optional list to restrict the FileTypes downloaded. Defaults to all.
-        force_download:
-            Whether to re-download files even if they exist locally. Defaults to False.
-
-    Returns:
-        A list of PaperWithExperiment objects containing the loaded experiment data.
-    """
-    experiments = []
-
-    for experiment_to_load in tqdm(experiments_to_load):
-        if isinstance(experiment_to_load, str):
-            experiment_to_load = ExperimentToLoad(experiment_to_load)
-
-        experiment = load_experiment(
-            experiment_id=experiment_to_load.id,
-            directory=directory,
-            version=experiment_to_load.version,
-            download_only_preview=download_only_preview,
-            files_to_download=files_to_download,  # type: ignore
-            force_download=force_download,
-        )
-        experiments.append(experiment)
-
-    return experiments
-
-
 def load_experiment(
     experiment_id: str,
     version: Optional[int] = None,
@@ -78,6 +34,7 @@ def load_experiment(
     download_only_preview: Optional[bool] = None,
     files_to_download: Optional[list[str | FileType]] = None,
     force_download: bool = False,
+    citations_file: Optional[str | Path] = None,
 ) -> PaperWithExperiment:
     """Loads a PhyloData experiment.
 
@@ -87,7 +44,8 @@ def load_experiment(
         version:
             The version of the experiment to load. Defaults to latest.
         directory:
-            Path where the experiment files are stored.
+            Path where the experiment files should be stored. If not specified, the directory
+            data will be used.
         download_only_preview:
             Whether to only download preview files. This is useful for testing environments.
             This can also be controlled by setting the environment variable
@@ -96,28 +54,82 @@ def load_experiment(
             Optional list to restrict the filenames or FileTypes downloaded. Defaults to all.
         force_download:
             Whether to re-download files even if they exist locally. Defaults to False.
+        citations_file:
+            Path to a file where the citations of the experiments should be stored.
 
     Returns:
         A PaperWithExperiment object containing the experiment data.
     """
+    return load_experiments(
+        [ExperimentToLoad(experiment_id, version)],
+        directory,
+        download_only_preview,
+        files_to_download,
+        force_download,
+        citations_file,
+    )[0]
+
+
+def load_experiments(
+    experiments_to_load: list[ExperimentToLoad | str],
+    directory: Optional[str | Path] = None,
+    download_only_preview: Optional[bool] = None,
+    files_to_download: Optional[list[FileType]] = None,
+    force_download: bool = False,
+    citations_file: Optional[str | Path] = None,
+) -> list[PaperWithExperiment]:
+    """Loads multiple PhyloData experiments.
+
+    Args:
+        experiments_to_load:
+            List of experiment IDs or ExperimentToLoad objects specifying which experiments
+            to load. If only the ID strings are given, the latest version will be downloaded.
+        directory:
+            Path where the experiment files should be stored. If not specified, the directory
+            data will be used.
+        download_only_preview:
+            Whether to only download preview files. This is useful for testing environments.
+            This can also be controlled by setting the environment variable
+            PHYLODATA_PREFER_PREVIEW to true or false. Defaults to False.
+        files_to_download:
+                Optional list to restrict the FileTypes downloaded. Defaults to all.
+        force_download:
+            Whether to re-download files even if they exist locally. Defaults to False.
+        citations_file:
+            Path to a file where the citations of the experiments should be stored.
+
+    Returns:
+        A list of PaperWithExperiment objects containing the loaded experiment data.
+    """
     if not directory:
-        directory = Path("data") / experiment_id
+        directory = Path("data")
     if isinstance(directory, str):
-        directory = Path(directory) / experiment_id
-    directory.mkdir(parents=True, exist_ok=True)
+        directory = Path(directory)
 
     if download_only_preview is None:
         download_only_preview = os.environ.get(PREFER_PREVIEW_ENV) == "true"
 
-    paper_with_experiment = _download_experiment(
-        experiment_id,
-        directory,
-        version,
-        download_only_preview,
-        files_to_download,
-        force_download,
-    )
-    return paper_with_experiment
+    experiments = []
+
+    for experiment_to_load in tqdm(experiments_to_load):
+        if isinstance(experiment_to_load, str):
+            experiment_to_load = ExperimentToLoad(experiment_to_load)
+
+        experiment_directory = directory / experiment_to_load.id
+
+        experiment = _download_experiment(
+            experiment_to_load.id,
+            experiment_directory,
+            experiment_to_load.version,
+            download_only_preview,
+            files_to_download,
+            force_download,
+        )
+        experiments.append(experiment)
+
+    _create_citations_file(experiments, citations_file or directory / "citations.bib")
+
+    return experiments
 
 
 def _download_experiment(
@@ -128,6 +140,8 @@ def _download_experiment(
     files_to_download: Optional[list[str | FileType]] = None,
     force_download: bool = False,
 ):
+    directory.mkdir(parents=True, exist_ok=True)
+
     # download and load metadata files
 
     editable_metadata_file = download_file(
@@ -218,3 +232,24 @@ def load_experiment_from_local_dir(directory: str | Path) -> PaperWithExperiment
         editable_metadata, non_editable_metadata, directory
     )
     return experiment
+
+
+def _create_citations_file(
+    experiments: list[PaperWithExperiment], citations_file: Path
+):
+    year = datetime.now().year
+
+    with open(citations_file, "w") as handle:
+        handle.write(f"""@comment{{
+    Automatically generated by PhyloData.
+}}
+
+@online{{phylodata{year},
+    title     = {{PhyloData}},
+    author    = {{Tobia Simon Ochsner}},
+    year      = {year},
+    url       = {{https://phylodata.com}},
+}}""")
+
+        for experiment in experiments:
+            handle.write(f"\n\n{experiment.paper.bibtex}")
