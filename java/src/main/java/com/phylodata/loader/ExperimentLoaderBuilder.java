@@ -16,6 +16,7 @@ abstract public class ExperimentLoaderBuilder<T> {
     String[] filesToDownload;
     File.FileType[] fileTypesToDownload;
     boolean forceDownload;
+    Path citationsFile;
 
     /**
      * Sets the base directory where the experiment files will be stored.
@@ -100,6 +101,18 @@ abstract public class ExperimentLoaderBuilder<T> {
      * @return this builder for chaining
      */
     public ExperimentLoaderBuilder<T> forceDownload() {
+        return this.forceDownload(true);
+    }
+
+    /**
+     * Specifies the location of the citations file.
+     * 
+     * @param citationsFile location of the citations file
+     *
+     * @return this builder for chaining
+     */
+    public ExperimentLoaderBuilder<T> citationsInto(Path citationsFile) {
+        this.citationsFile = citationsFile;
         return this.forceDownload(true);
     }
 
