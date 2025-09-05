@@ -19,14 +19,8 @@
           }
         },
         "trees": {
-          "anyOf": [
-            {
-              "type": "null"
-            },
-            {
-              "$ref": "#/$defs/Trees"
-            }
-          ]
+          "$ref": "#/$defs/Trees"
+
         },
         "evolutionaryModel": {
           "type": "array",

@@ -18,7 +18,7 @@ public class PaperWithExperiment {
     private Experiment experiment;
     private List<File> files = new ArrayList<File>();
     private List<Sample> samples = new ArrayList<Sample>();
-    private Object trees;
+    private Trees trees;
     private List<EvolutionaryModelComponent> evolutionaryModel = new ArrayList<EvolutionaryModelComponent>();
     private Metadata metadata;
     private Path localFolder;
@@ -121,18 +121,18 @@ public class PaperWithExperiment {
     /**
      * <p>Getter for the field <code>trees</code>.</p>
      *
-     * @return a {@link java.lang.Object} object
+     * @return a {@link com.phylodata.types.Trees} object
      */
-    public Object getTrees() {
+    public Trees getTrees() {
         return trees;
     }
 
     /**
      * <p>Setter for the field <code>trees</code>.</p>
      *
-     * @param trees a {@link java.lang.Object} object
+     * @param trees a {@link com.phylodata.types.Trees} object
      */
-    public void setTrees(Object trees) {
+    public void setTrees(Trees trees) {
         this.trees = trees;
     }
 

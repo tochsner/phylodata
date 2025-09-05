@@ -59,12 +59,14 @@ public class NonEditablePaperWithExperiment {
     @JsonProperty("files")
     private List<File> files = new ArrayList<File>();
     /**
+     * Trees
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("trees")
-    private Object trees;
+    private Trees trees;
     /**
      * 
      * (Required)
@@ -153,22 +155,26 @@ public class NonEditablePaperWithExperiment {
     }
 
     /**
+     * Trees
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("trees")
-    public Object getTrees() {
+    public Trees getTrees() {
         return trees;
     }
 
     /**
+     * Trees
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("trees")
-    public void setTrees(Object trees) {
+    public void setTrees(Trees trees) {
         this.trees = trees;
     }
 
