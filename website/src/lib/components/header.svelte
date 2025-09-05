@@ -1,8 +1,11 @@
 <script>
-	let { children } = $props();
+	let { children, renderChildren = true } = $props();
 </script>
 
-<div class="bg-accent-light flex flex-col items-stretch rounded-b-3xl">
+<div
+	class="flex flex-col items-stretch rounded-b-3xl"
+	style="background: linear-gradient(45deg, hsl(73, 50%, 86%) 0%, hsl(73, 60%, 90%) 100%);"
+>
 	<div class="flex w-full items-center justify-between px-6 py-6 md:px-8">
 		<!-- Logo -->
 		<div class="flex flex-1 flex-col gap-2 space-x-8 sm:flex-row sm:items-center">
@@ -27,6 +30,7 @@
 			<a
 				href="/new-experiment"
 				class="bg-accent flex cursor-pointer items-center space-x-2 rounded-full px-5 py-3 font-semibold text-white duration-100 hover:scale-[102%] hover:opacity-80"
+				style="background: linear-gradient(45deg, hsl(96 25 45) 100%, hsl(96 30 55) 0%);"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -48,9 +52,11 @@
 		</div>
 	</div>
 
-	<div class="bg-accent/10 h-[1px] w-full"></div>
+	{#if renderChildren}
+		<div class="bg-accent/10 h-[1px] w-full"></div>
 
-	<div class="px-6 py-6 md:px-8">
-		{@render children()}
-	</div>
+		<div class="px-6 py-6 md:px-8">
+			{@render children()}
+		</div>
+	{/if}
 </div>

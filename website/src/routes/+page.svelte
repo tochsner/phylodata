@@ -11,21 +11,27 @@
 	<meta name="robots" content="index,follow" />
 </svelte:head>
 
-<Header>
-	<div class="mx-auto w-full max-w-[600px] p-8">
-		<p class="text-dark text-center text-2xl font-bold italic leading-relaxed md:text-3xl">
-			Discover <span class="text-accent">curated Bayesian phylogenetics experiments</span>
-			and use them in your research
-		</p>
-	</div>
+<Header renderChildren={false}>
+	<div></div>
 </Header>
 
-<div class="flex flex-col items-center gap-8 p-4 md:p-8">
+<div class="mx-auto w-full max-w-[900px] p-12">
+	<p class="text-dark text-center text-6xl font-extrabold leading-tight md:text-5xl">
+		Discover <span
+			class="bg-clip-text! text-transparent"
+			style="background: linear-gradient(45deg, hsl(96 25 45) 100%, hsl(96 30 55) 0%);"
+			>curated Bayesian phylogenetics experiments</span
+		>
+		and use them in your research
+	</p>
+</div>
+
+<div class="flex flex-col items-center gap-8 p-0 md:p-8">
 	<div class="grid max-w-[800px] grid-cols-1 gap-6 md:grid-cols-2">
 		<a
 			href="/experiments"
-			class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[102%] hover:opacity-90"
-			style="background: linear-gradient(45deg, hsl(96 25 45) 0%, hsl(96 30 55) 100%);"
+			class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-300 hover:scale-[104%]"
+			style="background: linear-gradient(45deg, hsl(96 25 50) 100%, hsl(96 35 65) 0%);"
 		>
 			<h3 class="flex items-center gap-2 text-xl font-bold text-white">
 				<svg
@@ -56,7 +62,7 @@
 
 		<a
 			href="/models"
-			class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[102%] hover:opacity-90"
+			class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-300 hover:scale-[104%]"
 			style="background: linear-gradient(45deg, hsl(96 25 45) 0%, hsl(96 30 55) 100%);"
 		>
 			<h3 class="flex items-center gap-2 text-xl font-bold text-white">
@@ -84,7 +90,7 @@
 
 		<a
 			href="/docs/java_first_steps"
-			class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[102%] hover:opacity-90"
+			class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-300 hover:scale-[104%]"
 			style="background: linear-gradient(45deg, hsl(96 25 45) 0%, hsl(96 30 55) 100%);"
 		>
 			<h3 class="flex items-center gap-2 text-xl font-bold text-white">
@@ -111,7 +117,7 @@
 
 		<a
 			href="/docs/python_first_steps"
-			class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[102%] hover:opacity-90"
+			class="flex w-full cursor-pointer flex-col gap-4 rounded-xl p-5 shadow-lg shadow-gray-400/10 duration-300 hover:scale-[104%]"
 			style="background: linear-gradient(45deg, hsl(96 25 45) 0%, hsl(96 30 55) 100%);"
 		>
 			<h3 class="flex items-center gap-2 text-xl font-bold text-white">
