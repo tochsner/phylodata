@@ -15,8 +15,10 @@
 	<div></div>
 </Header>
 
-<div class="mx-auto w-full max-w-[900px] p-12">
-	<p class="text-dark text-center text-6xl font-extrabold leading-tight md:text-5xl">
+<div class="mdp-12 mx-auto w-full max-w-[900px] px-6 py-12">
+	<p
+		class="text-dark text-center text-3xl font-extrabold leading-normal sm:text-4xl md:text-5xl md:leading-tight"
+	>
 		Discover <span
 			class="bg-clip-text! text-transparent"
 			style="background: linear-gradient(45deg, hsl(96 25 45) 100%, hsl(96 30 55) 0%);"
