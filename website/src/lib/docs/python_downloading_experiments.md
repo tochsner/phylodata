@@ -25,6 +25,7 @@ def load_experiment(
     download_only_preview: Optional[bool] = None,
     files_to_download: Optional[list[str | FileType]] = None,
     force_download: bool = False,
+    citations_file: Optional[str | Path] = None,
 ) -> PaperWithExperiment:
     ...
 ```

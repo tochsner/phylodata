@@ -82,6 +82,7 @@ PaperWithExperiment experiment = new ExperimentLoader(
     .restrictFileTypes(File.FileType.POSTERIOR_TREES)
     .preferPreview()
     .forceDownload()
+    .citationsInto(Paths.get("some/citations.bib"))
     .load();
 ```
 

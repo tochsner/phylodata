@@ -13,12 +13,15 @@ Additionally, you should cite all experiments you use. Calling `load_experiments
 
 Calling `load_experiments)` will overwrite any existing bibtex file. If you load experiments multiple times and want to get a bibex file for every call, you can use the `citations_file` argument to specify the location of the bibtex file:
 
-```java
+```python
+from pathlib import Path
+from phylodata import load_experiments, ExperimentToLoad
+
 experiments = load_experiments(
-	[
-		ExperimentToLoad("nen-2019-postglacial-qh0e", version=1),
-		ExperimentToLoad("nen-2019-postglacial-n1bf", version=1)
-	],
-	citations_file=Path("some/folder/citations.bib")
+    [
+        ExperimentToLoad("nen-2019-postglacial-qh0e", version=1),
+        ExperimentToLoad("nen-2019-postglacial-n1bf", version=1),
+    ],
+    citations_file=Path("some/folder/citations.bib"),  # noqa: F821
 )
 ```
