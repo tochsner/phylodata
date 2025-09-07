@@ -152,7 +152,7 @@
 		class="divide-background flex flex-col divide-y divide-solid rounded-xl bg-white text-sm shadow-lg shadow-gray-400/10"
 	>
 		{@render experimentOverview(experiment.experiment)}
-		<Files files={experiment.files} />
+		<Files files={experiment.files} experimentId={experiment.experiment.humanReadableId} />
 		<Samples samples={experiment.samples} />
 		<EvolutionaryModels evolutionaryModels={experiment.evolutionaryModel} />
 
