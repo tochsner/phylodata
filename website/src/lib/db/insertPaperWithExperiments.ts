@@ -50,11 +50,26 @@ export async function insertPaperWithExperiments(
 				.single();
 
 			if (experimentError) {
-				throw new Error(`Failed to insert experiment: ${experimentError.message}`);
+				if (experimentError.code == '23505') {
+					// this is a duplicate key error, meaning this experiment is already in the database
+					// we delete it to remove all existing data and continue to insert the new data
+					const { error: deleteError } = await supabase
+						.from('experiments')
+						.delete()
+						.eq('humanReadableId', experimentData.experiment.humanReadableId);
+
+					if (deleteError) {
+						throw new Error(`Failed to delete experiment: ${deleteError.message}`);
+					}
+
+					return await insertPaperWithExperiments(paperWithExperiments);
+				} else {
+					throw new Error(`Failed to insert experiment: ${experimentError.message}`);
+				}
 			}
 
-			const experimentId = insertedExperimentData.id;
-			experimentIds.push(experimentId);
+			const humanReadableId = insertedExperimentData.humanReadableId;
+			experimentIds.push(humanReadableId);
 
 			if (experimentData.files && experimentData.files.length > 0) {
 				const filesData = [];
@@ -63,7 +78,7 @@ export async function insertPaperWithExperiments(
 					delete file.remotePath;
 					filesData.push({
 						...file,
-						experimentId
+						humanReadableId
 					});
 				}
 
@@ -77,7 +92,7 @@ export async function insertPaperWithExperiments(
 			if (experimentData.trees) {
 				const { error: treesError } = await supabase.from('trees').insert({
 					...experimentData.trees,
-					experimentId
+					humanReadableId
 				});
 
 				if (treesError) {
@@ -88,7 +103,7 @@ export async function insertPaperWithExperiments(
 			for (const evolutionaryModel of experimentData.evolutionaryModel) {
 				const { error: componentsError } = await supabase.from('evolutionaryModels').insert({
 					...evolutionaryModel,
-					experimentId
+					humanReadableId
 				});
 
 				if (componentsError) {
@@ -101,7 +116,7 @@ export async function insertPaperWithExperiments(
 			if (experimentData.metadata) {
 				const { error: metadataError } = await supabase.from('metadata').insert({
 					...experimentData.metadata,
-					experimentId
+					humanReadableId
 				});
 
 				if (metadataError) {
@@ -116,7 +131,7 @@ export async function insertPaperWithExperiments(
 						.from('samples')
 						.insert({
 							...sampleProps,
-							experimentId: experimentId
+							humanReadableId
 						})
 						.select()
 						.single();

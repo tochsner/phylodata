@@ -295,12 +295,21 @@
 							const uploadUrls = result.data?.uploadUrls as string[];
 							if (uploadUrls) {
 								try {
-									Promise.all(
+									await Promise.all(
 										files.map(async (file, idx) => await uploadToWasabi(file, uploadUrls[idx]))
 									);
 								} catch {
 									toast.error('Upload failed. Try again.');
+									return await update();
 								}
+							}
+
+							const dbInsertResult = await fetch(
+								`/api/updateExperiment/${uploadedObject?.experiments[0].experiment.humanReadableId}`
+							);
+							if (!dbInsertResult.ok) {
+								toast.error('Upload failed. Try again.');
+								return await update();
 							}
 
 							isProcessing = false;
