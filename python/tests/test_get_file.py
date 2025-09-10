@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from unittest import mock
 
+import pytest
 from pytest import fixture
 
 from phylodata.data_types import (
@@ -13,7 +14,6 @@ from phylodata.data_types import (
     Metadata,
     Paper,
 )
-import pytest
 from phylodata.loader.preview_env import PREFER_PREVIEW_ENV
 from phylodata.paper_with_experiment import PaperWithExperiment
 
