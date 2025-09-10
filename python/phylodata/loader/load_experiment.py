@@ -73,7 +73,7 @@ def load_experiments(
     experiments_to_load: list[ExperimentToLoad | str],
     directory: Optional[str | Path] = None,
     download_only_preview: Optional[bool] = None,
-    files_to_download: Optional[list[FileType]] = None,
+    files_to_download: Optional[list[str | FileType]] = None,
     force_download: bool = False,
     citations_file: Optional[str | Path] = None,
 ) -> list[PaperWithExperiment]:
@@ -107,6 +107,9 @@ def load_experiments(
 
     if download_only_preview is None:
         download_only_preview = os.environ.get(PREFER_PREVIEW_ENV) == "true"
+
+    if isinstance(citations_file, str):
+        citations_file = Path(citations_file)
 
     experiments = []
 

@@ -98,6 +98,22 @@ class Experiment(msgspec.Struct, rename="camel"):
             id=non_editable.id,
         )
 
+    def to_partial(self) -> tuple[EditableExperiment, NonEditableExperiment]:
+        return (
+            EditableExperiment(
+                type=self.type,
+                title=self.title,
+                description=self.description,
+            ),
+            NonEditableExperiment(
+                human_readable_id=self.human_readable_id,
+                origin=self.origin,
+                upload_date=self.upload_date,
+                version=self.version,
+                license=self.license,
+            ),
+        )
+
 
 class EditablePaper(msgspec.Struct, rename="camel"):
     title: str
@@ -120,6 +136,7 @@ class Paper(msgspec.Struct, rename="camel"):
     authors: list[str]
     abstract: str
     bibtex: str
+    email: str
     url: Optional[str] = None
 
     @classmethod
@@ -132,6 +149,21 @@ class Paper(msgspec.Struct, rename="camel"):
             abstract=editable.abstract,
             bibtex=editable.bibtex,
             url=editable.url,
+            email=editable.email,
+        )
+
+    def to_partial(self) -> tuple[EditablePaper, NonEditablePaper]:
+        return (
+            EditablePaper(
+                title=self.title,
+                year=self.year,
+                authors=self.authors,
+                abstract=self.abstract,
+                bibtex=self.bibtex,
+                url=self.url,
+                email=self.email,
+            ),
+            NonEditablePaper(doi=self.doi),
         )
 
 

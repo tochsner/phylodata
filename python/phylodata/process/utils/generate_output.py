@@ -22,8 +22,6 @@ from phylodata.data_types import (
 )
 from phylodata.process.utils.file_utils import add_file_name_suffix
 
-WASABI_BUCKET_NAME = "phylodata-experiments"
-
 EDITABLE_METADATA_FILE = "editable_phylodata_metadata.json"
 NON_EDITABLE_METADATA_FILE = "non_editable_phylodata_metadata"
 

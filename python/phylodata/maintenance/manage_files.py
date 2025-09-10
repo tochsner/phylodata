@@ -52,11 +52,7 @@ def upload_file(file: bytes, experiment_id: str, file_name: str, version: int):
             f"Failed to get the upload URL for the file {file_name} for experiment {experiment_id}"
         )
 
-    response = requests.put(
-        upload_url.text,
-        files={"file": file},
-        headers={"content-type": "multipart/form-data"},
-    )
+    response = requests.put(upload_url.text, data=file)
 
     if response.status_code != 200:
         raise ValueError(

@@ -49,6 +49,27 @@ class PaperWithExperiment(msgspec.Struct, rename="camel"):
             local_path=local_path,
         )
 
+    def to_partial(
+        self,
+    ) -> tuple[EditablePaperWithExperiment, NonEditablePaperWithExperiment]:
+        editable_paper, non_editable_paper = self.paper.to_partial()
+        editable_experiment, non_editable_experiment = self.experiment.to_partial()
+        return (
+            EditablePaperWithExperiment(
+                paper=editable_paper,
+                experiment=editable_experiment,
+                samples=self.samples,
+            ),
+            NonEditablePaperWithExperiment(
+                paper=non_editable_paper,
+                experiment=non_editable_experiment,
+                files=self.files,
+                trees=self.trees,
+                evolutionary_model=self.evolutionary_model,
+                metadata=self.metadata,
+            ),
+        )
+
     def get_files(
         self,
         prefer_preview: Optional[bool] = None,

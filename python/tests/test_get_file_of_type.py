@@ -45,12 +45,7 @@ def experiment() -> PaperWithExperiment:
     return PaperWithExperiment(
         files=[],
         paper=Paper(
-            doi="",
-            title="",
-            year=2018,
-            authors=[],
-            abstract="",
-            bibtex="",
+            doi="", title="", year=2018, authors=[], abstract="", bibtex="", email=""
         ),
         experiment=Experiment(
             type=ExperimentType.BEAST2_Experiment,
