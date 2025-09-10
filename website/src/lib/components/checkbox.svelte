@@ -7,7 +7,9 @@
 		submitOnChange = false,
 		onChange = (value: boolean) => {}
 	} = $props();
-	let key = $derived(`${name}_${value}_${checked}`);
+
+	let random = $state(Math.random());
+	let key = $derived(`${name}_${value}_${checked}_${random}`);
 
 	let input = $state<HTMLInputElement>();
 
