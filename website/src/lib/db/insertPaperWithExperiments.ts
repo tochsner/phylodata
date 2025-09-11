@@ -23,7 +23,7 @@ export async function insertPaperWithExperiments(
 	try {
 		const { error: paperError } = await supabase
 			.from('papers')
-			.insert({
+			.upsert({
 				...paperWithExperiments.paper
 			})
 			.select();
