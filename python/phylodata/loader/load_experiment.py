@@ -180,7 +180,7 @@ def _download_experiment(
 
     for file in non_editable_metadata.files:
         if (
-            files_to_download
+            files_to_download is not None
             and file.name not in files_to_download
             and file.type not in files_to_download
         ):

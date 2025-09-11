@@ -37,7 +37,7 @@ def download_file(
     )
 
     if response.status_code == 404:
-        raise ValueError("Unknown experiment or file.")
+        raise ValueError(f"Unknown experiment or file: {experiment}/{file_name}")
 
     with open(downloaded_file, mode="wb") as file:
         file.write(response.content)
