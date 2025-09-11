@@ -22,6 +22,10 @@
 
 <Toaster />
 
+<svelte:head>
+	<meta name="theme-color" content="#e5edc9" />
+</svelte:head>
+
 <div class="bg-background font-display text-dark min-h-lvh w-lvw">
 	{@render children()}
 	<Footer />
