@@ -59,17 +59,17 @@ def fetch_protein_classifications(
     except BlastError:
         return [None] * len(sequences)
 
-    taxon_ids = extract_taxon_ids(blast_results)
+    batch_taxon_ids = extract_taxon_ids(blast_results)
 
     classifications: list[list[ClassificationEntry] | None] = []
 
-    for taxon_id in taxon_ids:
-        if taxon_id:
+    for taxon_ids in batch_taxon_ids:
+        if not taxon_ids or not (first_taxon_id := taxon_ids[0]):
+            classifications.append(None)
+        else:
             try:
-                classifications.append(look_up_taxon_classification(taxon_id))
+                classifications.append(look_up_taxon_classification(first_taxon_id))
             except Exception:
                 classifications.append(None)
-        else:
-            classifications.append(None)
 
     return classifications

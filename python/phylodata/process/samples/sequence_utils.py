@@ -21,6 +21,42 @@ def is_rna_sequence(sequence: str):
     return characters.issubset(RNA_CHARACTERS)
 
 
+def split_into_subsequences(
+    sequence: str, subsequence_length: int, max_num_subsequences: int
+):
+    """Splits the given sequence into subsequences of the given length.
+    The subsequences will be no longer than the given maximum number of subsequences
+    and spread evenly over the sequence."""
+    sequence_length = len(sequence)
+    num_subsquences = min(max_num_subsequences, sequence_length // subsequence_length)
+
+    match num_subsquences:
+        case 0:
+            # subsequence_length is greater than sequence_length
+            return [sequence]
+        case 1:
+            # there is only one subsequence possible
+            return [sequence[:subsequence_length]]
+
+    step_size = max(
+        1,
+        (sequence_length - subsequence_length) // (num_subsquences - 1),
+    )
+
+    subsequences = []
+    for i in range(num_subsquences):
+        start_idx = i * step_size
+        end_idx = min(start_idx + subsequence_length, sequence_length)
+
+        if start_idx >= sequence_length:
+            break
+
+        subsequence = sequence[start_idx:end_idx]
+        subsequences.append(subsequence)
+
+    return subsequences
+
+
 PLACEHOLDER_CHARACTERS = {
     "*",
     "?",

@@ -104,18 +104,20 @@ def fetch_results(request_id: str) -> dict:
     return result
 
 
-def extract_taxon_ids(blast_json: list) -> list[int | None]:
+def extract_taxon_ids(batch_blast_json: list) -> list[list[int | None]]:
     taxon_ids = []
 
-    for result in blast_json:
-        try:
-            taxon_id = result["report"]["results"]["search"]["hits"][0]["description"][
-                0
-            ]["taxid"]
-            taxon_id = int(taxon_id)
-        except (KeyError, IndexError):
-            taxon_id = None
+    for result in batch_blast_json:
+        current_taxon_ids = []
+        for hit in result["report"]["results"]["search"]["hits"]:
+            try:
+                taxon_id = hit["description"][0]["taxid"]
+                taxon_id = int(taxon_id)
+            except (KeyError, IndexError):
+                taxon_id = None
 
-        taxon_ids.append(taxon_id)
+            current_taxon_ids.append(taxon_id)
+
+        taxon_ids.append(current_taxon_ids)
 
     return taxon_ids
