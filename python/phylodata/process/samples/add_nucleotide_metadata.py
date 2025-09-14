@@ -4,7 +4,7 @@ from loguru import logger
 
 from phylodata.data_types import ClassificationEntry, DataType, Sample
 from phylodata.errors import BlastError
-from phylodata.process.samples.run_blast import extract_taxon_ids, run_blast
+from phylodata.process.samples.run_blast import BlastHit, extract_blast_hits, run_blast
 from phylodata.process.samples.sample_name_matching import match
 from phylodata.process.samples.sequence_utils import (
     contains_non_placeholder_characters,
@@ -25,7 +25,7 @@ def add_nucleotide_metadata(samples: list[Sample]) -> list[Sample]:
         return []
 
     sequences, sample_idx = _collect_nucleotide_sequences(samples)
-    batch_ranked_taxon_ids = _fetch_taxon_ids(sequences)
+    batch_ranked_taxon_ids = _fetch_blast_hits(sequences)
     taxon_id_classifications = _fetch_classifications(batch_ranked_taxon_ids)
     _add_classifications_by_voting(
         samples, sample_idx, batch_ranked_taxon_ids, taxon_id_classifications
@@ -65,9 +65,9 @@ def _collect_nucleotide_sequences(samples: list[Sample]) -> tuple[list[str], lis
     return nucleotide_sequences, nucleotide_sequence_idx
 
 
-def _fetch_taxon_ids(
+def _fetch_blast_hits(
     sequences: list[str],
-) -> list[list[int | None]]:
+) -> list[list[BlastHit | None]]:
     if not sequences:
         return []
 
@@ -84,17 +84,17 @@ def _fetch_taxon_ids(
     except BlastError:
         return [[None]] * len(sequences)
 
-    return extract_taxon_ids(blast_results)
+    return extract_blast_hits(blast_results)
 
 
 def _fetch_classifications(
-    batch_ranked_taxon_ids: list[list[int | None]],
+    batch_ranked_blast_hits: list[list[BlastHit | None]],
 ) -> dict[int, list[ClassificationEntry] | None]:
     unique_taxon_ids = {
-        taxon_id
-        for taxon_ids in batch_ranked_taxon_ids
-        for taxon_id in taxon_ids
-        if taxon_id
+        blast_hit.taxon_id
+        for ranked_blast_hits in batch_ranked_blast_hits
+        for blast_hit in ranked_blast_hits
+        if blast_hit
     }
 
     classifications = {}
@@ -111,23 +111,23 @@ def _fetch_classifications(
 def _add_classifications_by_voting(
     samples: list[Sample],
     batch_sample_idx: list[int],
-    batch_ranked_taxon_ids: list[list[int | None]],
+    batch_ranked_blast_hits: list[list[BlastHit | None]],
     taxon_id_classifications: dict[int, list[ClassificationEntry] | None],
 ):
-    ranked_taxon_ids_by_sample_idx: dict[int, list[list[int | None]]] = defaultdict(
-        list
+    ranked_blast_hits_by_sample_idx: dict[int, list[list[BlastHit | None]]] = (
+        defaultdict(list)
     )
 
-    for sample_idx, ranked_taxon_ids in zip(batch_sample_idx, batch_ranked_taxon_ids):
-        ranked_taxon_ids_by_sample_idx[sample_idx].append(ranked_taxon_ids)
+    for sample_idx, ranked_blast_hits in zip(batch_sample_idx, batch_ranked_blast_hits):
+        ranked_blast_hits_by_sample_idx[sample_idx].append(ranked_blast_hits)
 
     for i, sample in enumerate(samples):
-        ranked_taxon_ids = ranked_taxon_ids_by_sample_idx[i]
+        ranked_blast_hits = ranked_blast_hits_by_sample_idx[i]
 
         # we first check if there is a perfect match based on the sample_id
 
         if classification := _get_perfect_name_match(
-            ranked_taxon_ids, taxon_id_classifications, sample.sample_id
+            ranked_blast_hits, taxon_id_classifications, sample.sample_id
         ):
             sample.scientific_name = classification[0].scientific_name
             sample.common_name = classification[0].common_name
@@ -137,12 +137,28 @@ def _add_classifications_by_voting(
         # otherwise, we use the ranking of the top BLAST and perform a voting
 
         votes_per_taxon_id = defaultdict(int)
-        for ranked_taxon_ids in ranked_taxon_ids_by_sample_idx[i]:
+        for ranked_blast_hits in ranked_blast_hits_by_sample_idx[i]:
+            if not ranked_blast_hits:
+                continue
+
             taxon_ids_used = set()
-            for rank, taxon_id in enumerate(ranked_taxon_ids):
-                if taxon_id and taxon_id not in taxon_ids_used:
-                    votes_per_taxon_id[taxon_id] += len(ranked_taxon_ids) - rank
-                    taxon_ids_used.add(taxon_id)
+
+            num_votes = NUM_BLAST_HITS_CONSIDERED
+            last_bit_score = None
+
+            for blast_hit in ranked_blast_hits:
+                if not blast_hit or blast_hit.taxon_id in taxon_ids_used:
+                    continue
+
+                if not last_bit_score:
+                    last_bit_score = blast_hit.bit_score
+                elif last_bit_score > blast_hit.bit_score:
+                    last_bit_score = blast_hit.bit_score
+                    num_votes -= 1
+
+                if blast_hit and blast_hit.taxon_id not in taxon_ids_used:
+                    votes_per_taxon_id[blast_hit.taxon_id] += num_votes
+                    taxon_ids_used.add(blast_hit.taxon_id)
 
         if not votes_per_taxon_id:
             continue
@@ -155,15 +171,15 @@ def _add_classifications_by_voting(
 
 
 def _get_perfect_name_match(
-    taxon_ids: list[list[int | None]],
+    batch_blast_hites: list[list[BlastHit | None]],
     taxon_id_classifications: dict[int, list[ClassificationEntry] | None],
     sample_id: str,
 ) -> list[ClassificationEntry] | None:
     unique_taxon_ids = {
-        taxon_id
-        for taxon_id_ranking in taxon_ids
-        for taxon_id in taxon_id_ranking
-        if taxon_id
+        blast_hit.taxon_id
+        for ranked_blast_hits in batch_blast_hites
+        for blast_hit in ranked_blast_hits
+        if blast_hit
     }
 
     matches = []

@@ -1,5 +1,6 @@
 import concurrent
 import re
+from dataclasses import dataclass
 from random import random
 from time import sleep
 
@@ -11,6 +12,12 @@ from phylodata.errors import BlastError
 BLAST_URL = "https://blast.ncbi.nlm.nih.gov/blast/Blast.cgi"
 WAIT_TIME_S = 30
 MAX_BATCH_SIZE = 32
+
+
+@dataclass
+class BlastHit:
+    taxon_id: int
+    bit_score: float
 
 
 def run_blast(sequences: list[str], parameters: dict) -> list:
@@ -143,3 +150,29 @@ def extract_taxon_ids(batch_blast_json: list) -> list[list[int | None]]:
         taxon_ids.append(current_taxon_ids)
 
     return taxon_ids
+
+
+def extract_blast_hits(batch_blast_json: list) -> list[list[BlastHit | None]]:
+    batch_blast_hits = []
+
+    for result in batch_blast_json:
+        current_blast_hits = []
+
+        if len(result["report"]["results"]["search"]["hits"]) == 0:
+            logger.error("No hits found in BLAST result.")
+
+        for raw_hit in result["report"]["results"]["search"]["hits"]:
+            try:
+                blast_hit = BlastHit(
+                    taxon_id=int(raw_hit["description"][0]["taxid"]),
+                    bit_score=float(raw_hit["hsps"][0]["bit_score"]),
+                )
+            except (KeyError, IndexError):
+                logger.error(f"Failed to look up extract ID: {raw_hit}")
+                blast_hit = None
+
+            current_blast_hits.append(blast_hit)
+
+        batch_blast_hits.append(current_blast_hits)
+
+    return batch_blast_hits
