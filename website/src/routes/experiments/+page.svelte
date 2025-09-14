@@ -9,6 +9,7 @@
 	import DownloadInstructions from '$lib/components/downloadInstructions.svelte';
 	import NoContent from '$lib/components/noContent.svelte';
 	import { goto } from '$app/navigation';
+	import { formatFileSize } from '$lib/utils/fileSizeFormatter';
 
 	let { data }: PageProps = $props();
 	let {
@@ -273,6 +274,11 @@
 {/snippet}
 
 {#snippet paperOverview(paper: PaperWithExperiments)}
+	{@const totalSize = paper.experiments
+		.flatMap((exp) => exp.files)
+		.map((file) => file.sizeBytes)
+		.reduce((acc, val) => acc + val, 0)}
+
 	<a
 		class="flex cursor-pointer flex-col rounded-xl bg-white p-4 shadow-lg shadow-gray-400/10 duration-100 hover:scale-[101%]"
 		href={`/experiments/${encodeURIComponent(paper.paper.doi)}`}
@@ -287,6 +293,10 @@
 		<div class="flex flex-wrap gap-2">
 			<Tag label="Number of Experiments">
 				{paper.experiments.length}
+			</Tag>
+
+			<Tag label="Totsl size">
+				{formatFileSize(totalSize)}
 			</Tag>
 		</div>
 	</a>
