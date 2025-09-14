@@ -1,6 +1,7 @@
-- Look for attributes in data tag.
+- Migrate: Improve BLAST
+- Migrate: Look at summary trees as well
 
-- Set up proper migrations
+- Look for attributes in data tag.
 
 - Filter function python
 
