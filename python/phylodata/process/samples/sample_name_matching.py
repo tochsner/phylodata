@@ -4,7 +4,7 @@ import rapidfuzz.distance
 from rapidfuzz import process
 
 
-def is_match(query, reference, threshold=0.05):
+def match(query, reference):
     """Returns whether the query string matches the reference string."""
     tokenized_query = _tokenize(query)
     tokenized_reference = _tokenize(reference)
@@ -23,7 +23,7 @@ def is_match(query, reference, threshold=0.05):
         else:
             scores.append(match[1])
 
-    return threshold > sum(scores) / len(scores)
+    return sum(scores) / len(scores)
 
 
 def _tokenize(word):

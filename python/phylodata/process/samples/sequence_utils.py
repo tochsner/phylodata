@@ -6,6 +6,10 @@ def contains_non_placeholder_characters(sequence: str):
     return 0 < len(set(sequence) - PLACEHOLDER_CHARACTERS)
 
 
+def remove_placeholder_characters(sequence: str):
+    return "".join(c for c in sequence if c.isalpha())
+
+
 def is_amino_acid_sequence(sequence: str):
     characters = {c.lower() for c in sequence}
     return characters.issubset(AA_CHARACTERS)

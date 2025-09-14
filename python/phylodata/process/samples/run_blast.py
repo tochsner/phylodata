@@ -1,4 +1,6 @@
+import concurrent
 import re
+from random import random
 from time import sleep
 
 import requests
@@ -7,37 +9,52 @@ from loguru import logger
 from phylodata.errors import BlastError
 
 BLAST_URL = "https://blast.ncbi.nlm.nih.gov/blast/Blast.cgi"
-WAIT_TIME_S = 5
+WAIT_TIME_S = 30
 MAX_BATCH_SIZE = 32
 
 
-def run_blast(
-    sequences: list[str], parameters: dict, max_length_considered: int
-) -> list:
+def run_blast(sequences: list[str], parameters: dict) -> list:
     """Runs BLAST for the given sequences and parameters.
     Note that the QUERY parameter is added by this method.
     Returns the BLAST API results."""
-    results = []
+    parameters["tool"] = "phylodata.com"
+    parameters["email"] = "tobia.ochsner@inf.ethz.ch"
 
-    for i in range(0, len(sequences), MAX_BATCH_SIZE):
-        batch = sequences[i : i + MAX_BATCH_SIZE]
+    batches = [
+        sequences[i : i + MAX_BATCH_SIZE]
+        for i in range(0, len(sequences), MAX_BATCH_SIZE)
+    ]
 
-        fasta_data = build_fasta_data(batch, max_length_considered)
-        parameters["QUERY"] = fasta_data
+    def process_batch(batch: list[str], parameters: dict) -> list:
+        """Process a single batch of sequences through BLAST."""
+        sleep(
+            random() * WAIT_TIME_S
+        )  # we space the requests to avoid overloading the server
 
-        request_id, _ = initiate_blast_request(fasta_data, parameters)
+        fasta_data = build_fasta_data(batch)
+        batch_parameters = parameters.copy()
+        batch_parameters["QUERY"] = fasta_data
+
+        request_id, _ = initiate_blast_request(fasta_data, batch_parameters)
         wait_until_ready(request_id)
 
-        results += fetch_results(request_id)["BlastOutput2"]
+        return fetch_results(request_id)["BlastOutput2"]
 
-    return results
+    logger.info(f"Processing {len(batches)} batches of sequences...")
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:  # type: ignore
+        batch_results = list(
+            executor.map(lambda batch: process_batch(batch, parameters), batches)
+        )
+        flattened_results = [item for batch in batch_results for item in batch]
+        return flattened_results
 
 
-def build_fasta_data(sequences: list[str], max_length_considered: int) -> str:
+def build_fasta_data(sequences: list[str]) -> str:
     fasta_data = ""
 
     for i, seq in enumerate(sequences):
-        fasta_data += f">{i}\n{seq[:max_length_considered]}\n"
+        fasta_data += f">{i}\n{seq}\n"
 
     return fasta_data
 
@@ -67,21 +84,21 @@ def wait_until_ready(request_id: str):
         "RID": request_id,
     }
 
-    response = requests.get(BLAST_URL, params=result_params)
-    status = re.findall("Status=(.*)", response.text)[0]
+    while True:
+        response = requests.get(BLAST_URL, params=result_params)
+        status = re.findall("Status=(.*)", response.text)[0]
 
-    match status:
-        case "READY":
-            return
-        case "WAITING":
-            logger.info("Keep waiting for BLAST results...")
-            sleep(WAIT_TIME_S)
-            wait_until_ready(request_id)
-        case _:
-            logger.error(
-                f"BLAST submission failed with status {status}: {response.text}"
-            )
-            raise BlastError(f"BLAST submission failed: {status}")
+        match status:
+            case "READY":
+                return
+            case "WAITING":
+                logger.info(f"Keep waiting for BLAST results... ({request_id})")
+                sleep(WAIT_TIME_S)
+            case _:
+                logger.error(
+                    f"BLAST submission failed with status {status}: {response.text}"
+                )
+                raise BlastError(f"BLAST submission failed: {status}")
 
 
 def fetch_results(request_id: str) -> dict:
@@ -109,11 +126,16 @@ def extract_taxon_ids(batch_blast_json: list) -> list[list[int | None]]:
 
     for result in batch_blast_json:
         current_taxon_ids = []
+
+        if len(result["report"]["results"]["search"]["hits"]) == 0:
+            logger.error("No hits found in BLAST result.")
+
         for hit in result["report"]["results"]["search"]["hits"]:
             try:
                 taxon_id = hit["description"][0]["taxid"]
                 taxon_id = int(taxon_id)
             except (KeyError, IndexError):
+                logger.error(f"Failed to look up extract ID: {hit}")
                 taxon_id = None
 
             current_taxon_ids.append(taxon_id)

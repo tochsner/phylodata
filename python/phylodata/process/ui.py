@@ -17,6 +17,8 @@ from phylodata.process.trees.trees_module import TreesModule
 from phylodata.process.utils.generate_output import generate_output
 from phylodata.version import __version__
 
+st.set_page_config(page_title="Process PhyloData Experiment")
+
 
 class Stage(str, Enum):
     INPUT = "Input"

@@ -55,7 +55,7 @@ def fetch_protein_classifications(
     }
 
     try:
-        blast_results = run_blast(sequences, blast_params, MAX_SEQ_LENGTH_CONSIDERED)
+        blast_results = run_blast(sequences, blast_params)
     except BlastError:
         return [None] * len(sequences)
 
