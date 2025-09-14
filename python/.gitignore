@@ -5,3 +5,4 @@ data
 *.ipynb
 !scripts/*.ipynb
 scripts/*.ipynb_checkpoints
+.env
