@@ -4,6 +4,7 @@ from phylodata.data_types import FileType
 from phylodata.maintenance.manage_db import update_db_for_experiment
 from phylodata.maintenance.manage_files import copy_file_to_version, upload_file
 from phylodata.paper_with_experiment import PaperWithExperiment
+from phylodata.version import __version__
 
 EDITABLE_METADATA_FILE = "editable_phylodata_metadata.json"
 NON_EDITABLE_METADATA_FILE = "non_editable_phylodata_metadata"
@@ -24,6 +25,8 @@ def create_new_version(paper_with_experiments: PaperWithExperiment):
     experiment_id = paper_with_experiments.experiment.human_readable_id
     old_version = paper_with_experiments.experiment.version
     new_version = old_version + 1
+
+    paper_with_experiments.metadata.evo_data_pipeline_version = __version__
 
     _remove_local_file_paths(paper_with_experiments)
     paper_with_experiments.experiment.version = new_version
