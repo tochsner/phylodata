@@ -295,7 +295,7 @@
 				{paper.experiments.length}
 			</Tag>
 
-			<Tag label="Totsl size">
+			<Tag label="Total size">
 				{formatFileSize(totalSize)}
 			</Tag>
 		</div>
