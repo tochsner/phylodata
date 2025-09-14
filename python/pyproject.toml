@@ -1,6 +1,6 @@
 [project]
 name = "phylodata"
-version = "0.48.0"
+version = "0.49.0"
 description = "This library allows you to access experiments on PhyloData using Python."
 readme = "README.md"
 requires-python = ">=3.10"
