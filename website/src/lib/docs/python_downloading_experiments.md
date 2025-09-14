@@ -5,11 +5,11 @@ description: Learn more about the PhyloData Python library.
 
 # Loading experiments
 
-This page explains you everything there is to know about loading experiments from PhyloData.
+This page explains how to load experiments from PhyloData.
 
 ## What is an experiment?
 
-An experiment is a Bayesian phylogenetic analysis that has been conducted as part of a publication. It consists of a bunch of files (think BEAST2 XML files, BEAST2 log files, trees, etc.) and metadata (like the title of the paper, the authors, the species investigated, etc.). Check out [an example experiment](/experiments/https%3A%2F%2Fdoi.org%2F10.1098%2Frspb.2019.0234) to get an idea of what an experiment looks like.
+An experiment is a Bayesian phylogenetic analysis that has been conducted as part of a publication. It consists of a bunch of files (like BEAST2 XML files, BEAST2 log files, trees, etc.) and metadata (like the title of the paper, the authors, the species investigated, etc.). Check out [an example experiment](/experiments/https%3A%2F%2Fdoi.org%2F10.1098%2Frspb.2019.0234) to get an idea of what an experiment looks like.
 
 For now, it is important to know that each experiment has a unique ID (like `munro-2019-climate-6tvf`) and a version number (like `1`). The version number is incremented every time the experiment is updated.
 
@@ -87,6 +87,19 @@ experiment = load_experiment(
 ```
 
 You can choose from the following file types: `FileType.BEAST2_CONFIGURATION`, `FileType.BEAST2_POSTERIOR_LOGS`, `FileType.POSTERIOR_TREES`, `FileType.SUMMARY_TREE`, `FileType.UNKNOWN`.
+
+## Only fetch the metadata
+
+If you only want to fetch the metadata of an experiment, you can use an empty list for the `files_to_download` argument:
+
+```python
+from phylodata import load_experiment, FileType
+experiment = load_experiment(
+    "munro-2019-climate-6tvf",
+    version=1,
+    files_to_download=[],
+)
+```
 
 ## Loading multiple experiments
 

@@ -5,11 +5,11 @@ description: Learn more about the PhyloData Java library.
 
 # Loading experiments
 
-This page explains you everything there is to know about loading experiments from PhyloData.
+This page explains how to load experiments from PhyloData.
 
 ## What is an experiment?
 
-An experiment is a Bayesian phylogenetic analysis that has been conducted as part of a publication. It consists of a bunch of files (think BEAST2 XML files, BEAST2 log files, trees, etc.) and metadata (like the title of the paper, the authors, the species investigated, etc.). Check out [an example experiment](/experiments/https%3A%2F%2Fdoi.org%2F10.1098%2Frspb.2019.0234) to get an idea of what an experiment looks like.
+An experiment is a Bayesian phylogenetic analysis that has been conducted as part of a publication. It consists of a bunch of files (like BEAST2 XML files, BEAST2 log files, trees, etc.) and metadata (like the title of the paper, the authors, the species investigated, etc.). Check out [an example experiment](/experiments/https%3A%2F%2Fdoi.org%2F10.1098%2Frspb.2019.0234) to get an idea of what an experiment looks like.
 
 For now, it is important to know that each experiment has a unique ID (like `munro-2019-climate-6tvf`) and a version number (like `1`). The version number is incremented every time the experiment is updated.
 
@@ -69,6 +69,16 @@ PaperWithExperiment experiment = new ExperimentLoader(
 
 You can choose from the following file types: `File.FileType.BEAST2_CONFIGURATION`, `File.FileType.BEAST2_POSTERIOR_LOGS`, `File.FileType.POSTERIOR_TREES`, `File.FileType.SUMMARY_TREE`, `File.FileType.UNKNOWN`.
 
+## Only fetch the metadata
+
+If you only want to fetch the metadata of an experiment, you can use the `restrictFileNames` method without any arguments:
+
+```java
+PaperWithExperiment experiment = new ExperimentLoader(
+    "munro-2019-climate-6tvf", 1
+).restrictFileNames().load();
+```
+
 ## All possible options
 
 The most general `ExperimentLoader.loadExperiment` method allows you to combine all of the above options:
@@ -88,7 +98,7 @@ PaperWithExperiment experiment = new ExperimentLoader(
 
 ## Loading multiple experiments
 
-You can also load multiple experiments at once by using the `ExperimentsLoader` class. It behaves exactly to the `ExperimentLoader` class:
+You can also load multiple experiments at once with the `ExperimentsLoader` class. It behaves exactly like the `ExperimentLoader` class:
 
 ```java
 List<PaperWithExperiment> experiments = new ExperimentsLoader(

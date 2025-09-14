@@ -19,7 +19,7 @@ pip install phylodata --upgrade
 
 ## Download an experiment
 
-[Go find an interesting experiment](/) and click on _Use Experiment_, or simply try the following snippet:
+Simply try the following snippet, or [go find an interesting experiment](/experiments) and click on _Use Experiment_:
 
 ```python
 from phylodata import load_experiment
@@ -50,4 +50,5 @@ Now that you've seen the basic way to download an experiment, you should explore
 - [Accessing the files of experiments](/docs/python_files)
 - [Dealing with large files](/docs/python_large_files)
 - [Accessing metadata of experiments](/docs/python_metadata)
+- [Citing the experiments](/docs/python_citations)
 - [Uploading your own experiments](/docs/python_uploading_experiments)

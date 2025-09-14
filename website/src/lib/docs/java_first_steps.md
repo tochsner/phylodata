@@ -23,7 +23,7 @@ Alternatively, you can [download the jar file directly](https://central.sonatype
 
 ## Download an experiment
 
-[Go find an interesting experiment](/) and click on _Use Experiment_, or simply try the following snippet:
+Simply try the following snippet, or [go find an interesting experiment](/experiments) and click on _Use Experiment_:
 
 ```java
 import com.phylodata.loader.ExperimentLoader;
@@ -64,3 +64,4 @@ Now that you've seen the basic way to download an experiment, you should explore
 - [Accessing the files of experiments](/docs/java_files)
 - [Dealing with large files](/docs/java_large_files)
 - [Accessing metadata of experiments](/docs/java_metadata)
+- [Citing the experiments](/docs/java_citations)
