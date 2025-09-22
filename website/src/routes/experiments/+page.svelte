@@ -298,6 +298,12 @@
 			<Tag label="Total size">
 				{formatFileSize(totalSize)}
 			</Tag>
+
+			{#each paper.experiments as exp}
+				<Tag label="Experiment ID">
+					{exp.experiment.humanReadableId}
+				</Tag>
+			{/each}
 		</div>
 	</a>
 {/snippet}

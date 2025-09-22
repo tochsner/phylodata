@@ -68,22 +68,20 @@ const getPapers = async (filter: ExperimentFilter) => {
 		);
 	}
 
-	return await query.then(({ error, data }) => {
-		if (error) {
-			console.error(error);
-			throw new Error('No experiment found');
-		}
+	let startTime = performance.now();
 
-		if (data === undefined) {
-			throw new Error('No experiment found');
-		}
+	const data = await query;
 
-		const transformedData = data
-			.map(transformJoinedDataToPaperWithExperiment)
-			.filter((paper) => paper.experiments.length > 0);
+	console.log(`Query took ${(performance.now() - startTime).toFixed(2)}ms`);
+	let endTime = performance.now();
 
-		return transformedData as PaperWithExperiments[];
-	});
+	const transformedData = data.data
+		.map(transformJoinedDataToPaperWithExperiment)
+		.filter((paper) => paper.experiments.length > 0);
+
+	console.log(`Transformation took ${(performance.now() - endTime).toFixed(2)}ms`);
+
+	return transformedData as PaperWithExperiments[];
 };
 
 // we cache all possible samples to avoid making multiple requests to the database
