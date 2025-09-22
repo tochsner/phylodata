@@ -96,8 +96,6 @@ EXPERIMENT_IDS = [
     "j-2018-allegory-iwn6",
     "morin-2015-geographic-orf9",
     "piatkowski-2019-functional-7jsc",
-    "ng-2018-red-p9so",
-    "ng-2018-red-qlkn",
     "barrett-2024-mosaic-epo4",
     "slater-2017-independent-xt7u",
     "colombo-2015-diversity-4yr1",
@@ -256,7 +254,7 @@ for experiment in experiments_to_rerun:
     print(f"Processing experiment {experiment.experiment.human_readable_id}...")
 
     for sample in experiment.samples:
-        sample.classification = None
+        sample.classification = []
 
     add_nucleotide_metadata(experiment.samples)
     create_new_version(experiment)

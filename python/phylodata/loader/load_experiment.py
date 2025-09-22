@@ -113,7 +113,10 @@ def load_experiments(
 
     experiments = []
 
-    for experiment_to_load in tqdm(experiments_to_load):
+    if 1 < len(experiments_to_load):
+        experiments_to_load = tqdm(experiments_to_load)
+
+    for experiment_to_load in experiments_to_load:
         if isinstance(experiment_to_load, str):
             experiment_to_load = ExperimentToLoad(experiment_to_load)
 

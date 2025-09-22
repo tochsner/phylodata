@@ -77,7 +77,10 @@ if st.session_state[STAGE] == Stage.INPUT:
                     files_module.beast2_configuration  # type: ignore
                 )
                 parsed_samples = samples_module.parse(files_module.beast2_configuration)  # type: ignore
-                parsed_trees = trees_module.parse(files_module.beast2_trees)  # type: ignore
+                parsed_trees = trees_module.parse(
+                    files_module.beast2_trees,  # type: ignore
+                    files_module.other_files,  # type: ignore
+                )
             except ValidationError as error:
                 st.toast(error.message)
                 return
