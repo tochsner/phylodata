@@ -3,7 +3,7 @@ title: Best practices - PhyloData Python Library
 description: Learn more about the PhyloData Python library.
 ---
 
-# Best pratices
+# Best practices
 
 This page talks about some best practices when working with PhyloData.
 

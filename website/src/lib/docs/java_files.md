@@ -5,11 +5,11 @@ description: Learn more about the PhyloData Java library.
 
 # Accessing files
 
-This page explains you everything there is to know about accessing files from PhyloData.
+This page explains everything there is to know about accessing files from PhyloData.
 
 !> Generally, you should use one of the methods described on this page to access files, instead of manually constructing their paths. Working with file paths can easily lead to errors and inconsistencies.
 
-!> Using these methods also ensures that everything works nicely with **preview files**. See [Dealing with large files](/docs/python_large_files) for more information.
+!> Using these methods also ensures that everything works nicely with **preview files**. See [Dealing with large files](/docs/java_large_files) for more information.
 
 ## What is a file?
 

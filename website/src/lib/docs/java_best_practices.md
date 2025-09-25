@@ -3,7 +3,7 @@ title: Best practices - PhyloData Java Library
 description: Learn more about the PhyloData Java library.
 ---
 
-# Best pratices
+# Best practices
 
 This page talks about some best practices when working with PhyloData.
 

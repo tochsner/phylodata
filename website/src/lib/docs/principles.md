@@ -41,10 +41,10 @@ PhyloData aims to solve these challenges.
 - It should be easy to upload experiments.
 - There may be resources on how to select and use methods and models.
 
-**The platform documents and creates opinionated workflows and tooling related to the creation, organization, usage, and reproducability of data.**
+**The platform documents and creates opinionated workflows and tooling related to the creation, organization, usage, and reproducibility of data.**
 
 - There may be opinionated guides for method developers on how to organize data on disk, load it into memory, process it using reproducible pipelines, and store results.
-- There may be library recommendations and custom-made libraries to help adoption of the opinionated workflows. Examples are libraries to programatically load PhyloData experiments or correct and fast NEXUS parsers.
+- There may be library recommendations and custom-made libraries to help adoption of the opinionated workflows. Examples are libraries to programmatically load PhyloData experiments or correct and fast NEXUS parsers.
 - There may be guides for researchers to help conduct experiments and make them reproducible.
 
 **The platform is community driven.**

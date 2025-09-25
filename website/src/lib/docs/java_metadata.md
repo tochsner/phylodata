@@ -5,13 +5,13 @@ description: Learn more about the PhyloData Java library.
 
 # Accessing metadata
 
-This page explains you everything there is to know about accessing metadata from PhyloData.
+This page explains everything there is to know about accessing metadata from PhyloData.
 
 ## What is metadata?
 
 Every experiment has a bunch of metadata associated with it. You can explore almost everything about an experiment by looking at its page on this website. However, you can also access the metadata using the PhyloData Java library.
 
-Every `loadExperiment` methods return a `PaperWithExperiment` object. It has the following structure:
+Every `loadExperiment` method returns a `PaperWithExperiment` object. It has the following structure:
 
 ```java
 public class PaperWithExperiment {
@@ -25,7 +25,7 @@ public class PaperWithExperiment {
 }
 ```
 
-As you can see, the structure closesly matches the experiment pages on the website.
+As you can see, the structure closely matches the experiment pages on the website.
 
 ## Paper metadata
 

@@ -11,7 +11,7 @@ _Ochsner, T. S. (2025). PhyloData. https://phylodata.com_
 
 Additionally, you should cite all experiments you use. Calling `load_experiments` (or `load_experiment`) will automatically create a bibtex file with all relevant citations. By default, this file will be stored in the same folder as the experiments.
 
-Calling `load_experiments)` will overwrite any existing bibtex file. If you load experiments multiple times and want to get a bibex file for every call, you can use the `citations_file` argument to specify the location of the bibtex file:
+Calling `load_experiments)` will overwrite any existing bibtex file. If you load experiments multiple times and want to get a bibtex file for every call, you can use the `citations_file` argument to specify the location of the bibtex file:
 
 ```python
 from pathlib import Path

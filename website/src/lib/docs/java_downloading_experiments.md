@@ -41,7 +41,7 @@ PaperWithExperiment experiment = new ExperimentLoader(
 ).intoDirectory(Paths.get("some/other/folder")).load();
 ```
 
-!> PhyloData will only download the files if they don't already exist. Simply put the `loadExperiment` method call at the beginning of your program, it won't download the files more than once.
+!> PhyloData will only download the files if they don't already exist. Simply put the `loadExperiment` method call at the beginning of your program; it won't download the files more than once.
 
 ## Only download some files
 
@@ -81,7 +81,7 @@ PaperWithExperiment experiment = new ExperimentLoader(
 
 ## All possible options
 
-The most general `ExperimentLoader.loadExperiment` method allows you to combine all of the above options:
+The most general `ExperimentLoader.loadExperiment` method allows you to combine all the above options:
 
 ```java
 PaperWithExperiment experiment = new ExperimentLoader(

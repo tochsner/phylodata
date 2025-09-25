@@ -5,7 +5,7 @@ description: Learn more about the PhyloData Python library.
 
 # Accessing metadata
 
-This page explains you everything there is to know about accessing metadata from PhyloData.
+This page explains everything there is to know about accessing metadata from PhyloData.
 
 ## What is metadata?
 
@@ -24,7 +24,7 @@ class PaperWithExperiment:
     metadata: Metadata
 ```
 
-As you can see, the structure closesly matches the experiment pages on the website.
+As you can see, the structure closely matches the experiment pages on the website.
 
 ## Paper metadata
 
@@ -70,7 +70,7 @@ for file in experiment.files:
     print(file.local_path)
 ```
 
-?> `files` returns all files, including preview files and files that haven't been downloaded. `get_files` and alike only return the files that have been downloaded and respect the preview preferences.
+?> `files` returns all files, including preview files and files that haven't been downloaded. `get_files` and the like only return the files that have been downloaded and respect the preview preferences.
 
 ## Sample metadata
 

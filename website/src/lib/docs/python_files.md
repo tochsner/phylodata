@@ -5,7 +5,7 @@ description: Learn more about the PhyloData Python library.
 
 # Accessing files
 
-This page explains you everything there is to know about accessing files from PhyloData.
+This page explains everything there is to know about accessing files from PhyloData.
 
 !> Generally, you should use one of the functions described on this page to access files, instead of manually constructing their paths. Working with file paths can easily lead to errors and inconsistencies.
 
@@ -48,7 +48,7 @@ This will return the first file of the given type. Note that you do not even hav
 
 ## Accessing all files of a given type
 
-If you want to access all files of a specific type, you can use the `get_file_of_types` function:
+If you want to access all files of a specific type, you can use the `get_files_of_type` function:
 
 ```python
 from phylodata import load_experiment, FileType
