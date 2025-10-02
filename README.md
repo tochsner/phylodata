@@ -12,10 +12,11 @@ PhyloData helps you to:
 - Discover experiments performed by other researchers.
 - As a method developer, test your methods on a variety of real-world datasets.
 
-The project is divided into two main components:
+The project is divided into three main components:
 
 1. **Website**: A user-friendly web interface for visualization and sharing
-2. **CLI**: A command-line tool to prepare your experiment for upload
+2. **Python**: A python library to prepare your experiment for upload and to access the data
+3. **Java**: A java library to access the data
 
 ## 🚀 Getting Started
 
