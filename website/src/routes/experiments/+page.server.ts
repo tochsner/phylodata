@@ -2,7 +2,6 @@ import { supabase } from '$lib/db/supabase';
 import { transformJoinedDataToPaperWithExperiment } from '$lib/db/transform';
 import type { PaperWithExperiments } from '$lib/types';
 import type { PageServerLoad } from './$types';
-import type { Actions } from './$types';
 import { getEmptyFilter, type ExperimentFilter } from './experimentFilter';
 
 const getPapers = async (filter: ExperimentFilter) => {
@@ -10,7 +9,8 @@ const getPapers = async (filter: ExperimentFilter) => {
 		filter.rootedTrees ||
 		filter.unrootedTrees ||
 		filter.ultrametricTrees ||
-		filter.nonUltrametricTrees;
+		filter.nonUltrametricTrees ||
+		filter.searchString;
 
 	const filterEvolutionaryModels =
 		filter.evolutionaryModels && filter.evolutionaryModels.length > 0;
@@ -33,6 +33,9 @@ const getPapers = async (filter: ExperimentFilter) => {
    `
 	);
 
+	if (filter.searchString) {
+		query = query.textSearch('fullText', filter.searchString);
+	}
 	if (filter.rootedTrees) {
 		query = query.eq('experiments.trees.rooted', true);
 	}
@@ -68,18 +71,13 @@ const getPapers = async (filter: ExperimentFilter) => {
 		);
 	}
 
-	let startTime = performance.now();
-
 	const data = await query;
 
-	console.log(`Query took ${(performance.now() - startTime).toFixed(2)}ms`);
-	let endTime = performance.now();
+	if (!data.data || data.data.length === 0) return [];
 
 	const transformedData = data.data
 		.map(transformJoinedDataToPaperWithExperiment)
 		.filter((paper) => paper.experiments.length > 0);
-
-	console.log(`Transformation took ${(performance.now() - endTime).toFixed(2)}ms`);
 
 	return transformedData as PaperWithExperiments[];
 };
@@ -143,64 +141,3 @@ export const load: PageServerLoad = async ({ url }) => {
 		papers: getPapers(experimentsFilter)
 	};
 };
-
-export const actions = {
-	filter: async ({ request }) => {
-		const data = await request.formData();
-
-		const fileTypes = data.getAll('fileType') as string[];
-		const sampleTypes = data.getAll('sampleType') as string[];
-		const samples = data.getAll('samples') as string[];
-		const treesTypes = data.getAll('treesType') as string[];
-		const evolutionaryModels = data.getAll('evolutionaryModel') as string[];
-
-		let query = supabase.from('papers').select(
-			`
-			*,
-			experiments!experiments_paperDoi_fkey!inner (
-				*,
-				files!inner (*),
-				trees!inner (*),
-				evolutionaryModels (*),
-				metadata (*),
-				samples!inner (
-					*,
-					classification:classifications!inner (*)
-				)
-			)`
-		);
-
-		if (fileTypes.length > 0) {
-			query = query.in('experiments.files.type', fileTypes);
-		}
-		if (sampleTypes.length > 0) {
-			query = query.in('experiments.samples.type', sampleTypes);
-		}
-		if (samples.length > 0) {
-			query = query.or(
-				`scientificName.in.(${samples.join(',')}),commonName.in.(${samples.join(',')})`,
-				{ referencedTable: 'experiments.samples.classification' }
-			);
-		}
-		if (treesTypes.includes('rooted')) {
-			query = query.eq('experiments.trees.rooted', true);
-		}
-		if (treesTypes.includes('unrooted')) {
-			query = query.eq('experiments.trees.rooted', false);
-		}
-		if (treesTypes.includes('ultrametric')) {
-			query = query.eq('experiments.trees.ultrametric', true);
-		}
-		if (treesTypes.includes('nonUltrametric')) {
-			query = query.eq('experiments.trees.ultrametric', false);
-		}
-		if (evolutionaryModels.length > 0) {
-			query = query.in('experiments.evolutionaryModels.name', evolutionaryModels);
-		}
-
-		const papers = await query;
-		return (
-			papers?.data?.map(transformJoinedDataToPaperWithExperiment) || ([] as PaperWithExperiments[])
-		);
-	}
-} satisfies Actions;

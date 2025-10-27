@@ -10,6 +10,7 @@
 	import NoContent from '$lib/components/noContent.svelte';
 	import { goto } from '$app/navigation';
 	import { formatFileSize } from '$lib/utils/fileSizeFormatter';
+	import { fade } from 'svelte/transition';
 
 	let { data }: PageProps = $props();
 	let {
@@ -82,13 +83,85 @@
 </svelte:head>
 
 <Header>
-	<h2 class="text-dark flex-1 text-2xl font-bold">Experiments</h2>
+	<div class="class flex flex-1 justify-center gap-16">
+		<h2 class="text-dark flex-1 text-2xl font-bold">Experiments</h2>
+
+		{@render searchBar()}
+	</div>
 </Header>
 
 <div class="flex items-stretch gap-8 p-4 md:p-8">
 	{@render sidebar()}
 	{@render content()}
 </div>
+
+{#snippet searchBar()}
+	<div class="flex h-12 w-full max-w-96 justify-center gap-2">
+		<input
+			class="w-full flex-1 resize-none rounded-md border border-white bg-white py-2 pl-3 pr-10 placeholder:italic focus:bg-white"
+			bind:value={experimentsFilter.searchString}
+			placeholder="Search for experiments..."
+			onkeydown={(e) => {
+				if (e.key === 'Enter' && !e.shiftKey) {
+					e.preventDefault();
+					updateUrl();
+				}
+			}}
+		/>
+
+		<button
+			class="bg-accent cursor-pointer rounded-full px-3 py-0 text-white duration-100 hover:scale-[102%] hover:opacity-80"
+			aria-label="search-model"
+			onclick={() => {
+				updateUrl();
+			}}
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="icon icon-tabler icons-tabler-outline icon-tabler-search"
+				><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path
+					d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"
+				/><path d="M21 21l-6 -6" /></svg
+			>
+		</button>
+
+		{#if experimentsFilter.searchString != ''}
+			<button
+				class="text-accent cursor-pointer rounded-full bg-white px-3 duration-100 hover:scale-[102%] hover:opacity-80"
+				aria-label="search-model"
+				onclick={() => {
+					experimentsFilter.searchString = '';
+					updateUrl();
+				}}
+				transition:fade
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="icon icon-tabler icons-tabler-outline icon-tabler-x"
+					><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path
+						d="M6 6l12 12"
+					/></svg
+				>
+			</button>
+		{/if}
+	</div>
+{/snippet}
 
 {#snippet sidebar()}
 	<div class="w-62 hidden flex-col gap-8 text-sm md:flex">

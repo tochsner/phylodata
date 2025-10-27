@@ -1,6 +1,7 @@
 import { type File } from '$lib/types';
 
 export type ExperimentFilter = {
+	searchString?: string;
 	species?: string[];
 	languages?: string[];
 	evolutionaryModels?: string[];
