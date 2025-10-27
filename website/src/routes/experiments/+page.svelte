@@ -133,7 +133,7 @@
 			>
 		</button>
 
-		{#if experimentsFilter.searchString != ''}
+		{#if experimentsFilter.searchString && experimentsFilter.searchString != ''}
 			<button
 				class="text-accent cursor-pointer rounded-full bg-white px-3 duration-100 hover:scale-[102%] hover:opacity-80"
 				aria-label="search-model"
