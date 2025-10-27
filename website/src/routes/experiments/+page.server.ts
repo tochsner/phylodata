@@ -34,7 +34,7 @@ const getPapers = async (filter: ExperimentFilter) => {
 	);
 
 	if (filter.searchString) {
-		query = query.textSearch('fullText', filter.searchString);
+		query = query.textSearch('fullText', filter.searchString.replace(' ', '+'));
 	}
 	if (filter.rootedTrees) {
 		query = query.eq('experiments.trees.rooted', true);
