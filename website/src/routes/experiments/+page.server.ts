@@ -71,6 +71,8 @@ const getPapers = async (filter: ExperimentFilter) => {
 		);
 	}
 
+	query = query.order("year", { ascending: false });
+
 	const data = await query;
 
 	if (!data.data || data.data.length === 0) return [];
@@ -85,9 +87,9 @@ const getPapers = async (filter: ExperimentFilter) => {
 // we cache all possible samples to avoid making multiple requests to the database
 let allPossibleSamples:
 	| {
-			name: any;
-			idType: any;
-	  }[]
+		name: any;
+		idType: any;
+	}[]
 	| undefined;
 
 const getAllPossibleSamples = async () => {

@@ -372,6 +372,10 @@
 				{formatFileSize(totalSize)}
 			</Tag>
 
+			<Tag label="Year">
+				{paper.paper.year}
+			</Tag>
+
 			{#each paper.experiments as exp}
 				<Tag label="Experiment ID">
 					{exp.experiment.humanReadableId}
