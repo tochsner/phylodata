@@ -162,7 +162,7 @@
 			</button>
 		{/if}
 		<button
-			class="text-accent flex cursor-pointer items-center justify-center rounded-full bg-white px-3 duration-100 hover:scale-[102%] hover:opacity-80"
+			class="bg-accent cursor-pointer rounded-full px-3 py-0 text-white duration-100 hover:scale-[102%] hover:opacity-80"
 			aria-label="search-model"
 			onclick={() => {
 				goto(`/experiments/searchXml/${encodeURIComponent(experimentsFilter.searchString || '')}`);
