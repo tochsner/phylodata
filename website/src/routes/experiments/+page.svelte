@@ -96,7 +96,7 @@
 </div>
 
 {#snippet searchBar()}
-	<div class="flex h-12 w-full max-w-96 justify-center gap-2">
+	<div class="hidden h-12 w-full max-w-96 justify-center gap-2 md:flex">
 		<input
 			class="w-full flex-1 resize-none rounded-md border border-white bg-white py-2 pl-3 pr-10 placeholder:italic focus:bg-white"
 			bind:value={experimentsFilter.searchString}
