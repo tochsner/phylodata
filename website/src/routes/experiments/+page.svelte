@@ -83,7 +83,7 @@
 </svelte:head>
 
 <Header>
-	<div class="class flex flex-1 justify-center gap-16">
+	<div class="class flex flex-1 items-center gap-16">
 		<h2 class="text-dark flex-1 text-2xl font-bold">Experiments</h2>
 
 		{@render searchBar()}
@@ -96,7 +96,7 @@
 </div>
 
 {#snippet searchBar()}
-	<div class="hidden h-12 w-full max-w-96 justify-center gap-2 md:flex">
+	<div class="hidden h-12 w-full max-w-[28rem] justify-center gap-2 md:flex">
 		<input
 			class="w-full flex-1 resize-none rounded-md border border-white bg-white py-2 pl-3 pr-10 placeholder:italic focus:bg-white"
 			bind:value={experimentsFilter.searchString}
@@ -115,6 +115,7 @@
 			onclick={() => {
 				updateUrl();
 			}}
+			title="Search for experiments"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -160,6 +161,75 @@
 				>
 			</button>
 		{/if}
+		<button
+			class="text-accent flex cursor-pointer items-center justify-center rounded-full bg-white px-3 duration-100 hover:scale-[102%] hover:opacity-80"
+			aria-label="search-model"
+			onclick={() => {
+				goto(`/experiments/searchXml/${encodeURIComponent(experimentsFilter.searchString || '')}`);
+			}}
+			transition:fade
+			title="Search in BEAST2 XML files"
+		>
+			<svg
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				stroke="currentColor"
+			>
+				<g clip-path="url(#clip0_331_5)">
+					<path
+						d="M4 3L7.55532 8.33299"
+						stroke-width="1.77766"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path
+						d="M4 8.33299L7.55532 3"
+						stroke-width="1.77766"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path
+						d="M17.332 3V8.33299H19.9985"
+						stroke-width="1.77766"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path
+						d="M10.2188 8.33299V3L12.4408 5.66649L14.6629 3V8.33299"
+						stroke-width="1.77766"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path
+						d="M14 17.5C14 18.163 14.2634 18.7989 14.7322 19.2678C15.2011 19.7366 15.837 20 16.5 20C17.163 20 17.7989 19.7366 18.2678 19.2678C18.7366 18.7989 19 18.163 19 17.5C19 16.837 18.7366 16.2011 18.2678 15.7322C17.7989 15.2634 17.163 15 16.5 15C15.837 15 15.2011 15.2634 14.7322 15.7322C14.2634 16.2011 14 16.837 14 17.5Z"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path
+						d="M18.5 19.5L21 22"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path d="M19 11V13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+					<path
+						d="M12 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V11"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</g>
+				<defs>
+					<clipPath id="clip0_331_5">
+						<rect width="24" height="24" fill="white" />
+					</clipPath>
+				</defs>
+			</svg>
+		</button>
 	</div>
 {/snippet}
 
