@@ -58,13 +58,13 @@
 								file.matches.push({
 									lineNumberStart: 0,
 									lineNumberMatch: 0,
-									lines: lines.slice(0, 3)
+									lines: lines.slice(0, 5)
 								});
 							else
 								file.matches.push({
-									lineNumberStart: i - 2,
+									lineNumberStart: i - 3,
 									lineNumberMatch: i,
-									lines: lines.slice(i - 2, i + 3)
+									lines: lines.slice(i - 3, i + 4)
 								});
 						}
 					}
@@ -243,83 +243,85 @@
 {#snippet matchingPaper(match: PaperWithXml)}
 	{#each match.experiments as exp}
 		{#each exp.files as file}
-			<div
-				class="flex w-full flex-col gap-3 overflow-clip rounded-xl bg-white shadow-lg shadow-gray-400/10"
-				transition:fade={{ duration: 100 }}
-			>
-				<a
-					style="background: linear-gradient(45deg, hsl(96 25 45) 0%, hsl(96 30 55) 100%);"
-					class="flex cursor-pointer flex-col gap-1 p-4"
-					href={`/experiments/${encodeURIComponent(match.doi)}`}
+			{#if file.matches && 0 < file.matches?.length}
+				<div
+					class="flex w-full flex-col gap-4 overflow-clip rounded-xl bg-white shadow-lg shadow-gray-400/15"
+					transition:fade={{ duration: 100 }}
 				>
-					<span class="text-xl font-semibold text-white">{match.title}</span>
-					{#if exp.title}
-						<span class="text-white">{exp.title}</span>
-					{/if}
-				</a>
+					<a
+						style="background: linear-gradient(45deg, hsl(96 25 45) 0%, hsl(96 30 55) 100%);"
+						class="flex cursor-pointer flex-col gap-1 px-4 py-3"
+						href={`/experiments/${encodeURIComponent(match.doi)}`}
+					>
+						<span class="text-lg font-semibold text-white">{match.title}</span>
+						{#if exp.title}
+							<span class="text-sm text-white">{exp.title}</span>
+						{/if}
+					</a>
 
-				<div class="flex flex-col gap-4">
-					<div class="flex items-center gap-3 px-4">
-						<span class="flex-1 font-semibold">
-							{file.name}
+					<div class="flex flex-col gap-4">
+						<div class="flex items-center gap-3 px-4">
+							<span class="flex-1 font-semibold">
+								{file.name}
 
-							{#if file.matches?.length && file.matches?.length > 0}
-								({file.matches?.length} matches)
-							{:else}
-								(1 match)
-							{/if}
-						</span>
+								{#if file.matches?.length && file.matches?.length > 0}
+									({file.matches?.length} matches)
+								{:else}
+									(1 match)
+								{/if}
+							</span>
 
-						<button
-							aria-label="copy-md5-shash"
-							class="text-accent flex cursor-pointer gap-1 p-2 font-semibold hover:scale-[105%] hover:opacity-80"
-							onclick={() => {
-								window.open(file.presignedUrl, '_blank');
-							}}
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								class="icon icon-tabler icons-tabler-outline icon-tabler-eye-search"
-								><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path
-									d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"
-								/><path
-									d="M12 18c-.328 0 -.652 -.017 -.97 -.05c-3.172 -.332 -5.85 -2.315 -8.03 -5.95c2.4 -4 5.4 -6 9 -6c3.465 0 6.374 1.853 8.727 5.558"
-								/><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path
-									d="M20.2 20.2l1.8 1.8"
-								/>
-							</svg>
-						</button>
-					</div>
-
-					{#each file.matches as match}
-						<div
-							class="border-light-gray bg-background flex flex-col overflow-x-scroll border-b border-t"
-						>
-							{#each match.lines as line, idx}
-								<div
-									class={[
-										'flex gap-0 px-4',
-										match.lineNumberMatch === match.lineNumberStart + idx && 'bg-accent/15'
-									]}
-								>
-									<span class="text-dark/50 w-11 min-w-11 whitespace-nowrap font-mono text-sm">
-										{match.lineNumberStart + idx + 1}
-									</span>
-									<span class="text-dark whitespace-nowrap font-mono text-sm">{line}</span>
-								</div>
-							{/each}
+							<button
+								aria-label="copy-md5-shash"
+								class="text-accent flex cursor-pointer gap-1 p-2 font-semibold hover:scale-[105%] hover:opacity-80"
+								onclick={() => {
+									window.open(file.presignedUrl, '_blank');
+								}}
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="icon icon-tabler icons-tabler-outline icon-tabler-eye-search"
+									><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path
+										d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"
+									/><path
+										d="M12 18c-.328 0 -.652 -.017 -.97 -.05c-3.172 -.332 -5.85 -2.315 -8.03 -5.95c2.4 -4 5.4 -6 9 -6c3.465 0 6.374 1.853 8.727 5.558"
+									/><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path
+										d="M20.2 20.2l1.8 1.8"
+									/>
+								</svg>
+							</button>
 						</div>
-					{/each}
+
+						{#each file.matches as match}
+							<div
+								class="border-light-gray bg-background flex flex-col overflow-x-scroll border-b border-t"
+							>
+								{#each match.lines as line, idx}
+									<div
+										class={[
+											'flex gap-0 px-4',
+											match.lineNumberMatch === match.lineNumberStart + idx && 'bg-accent/20'
+										]}
+									>
+										<span class="text-dark/50 w-11 min-w-11 whitespace-nowrap font-mono text-sm">
+											{match.lineNumberStart + idx + 1}
+										</span>
+										<span class="text-dark whitespace-pre font-mono text-sm">{line}</span>
+									</div>
+								{/each}
+							</div>
+						{/each}
+					</div>
 				</div>
-			</div>
+			{/if}
 		{/each}
 	{/each}
 {/snippet}

@@ -1,5 +1,5 @@
 import { supabase } from '$lib/db/supabase';
-import type { PageServerLoad } from '../$types';
+import type { PageServerLoad } from './$types';
 
 export type PaperWithXml = {
 	title: string;
@@ -43,7 +43,8 @@ const getPapers = async () => {
 		)
    `
 		)
-		.eq('experiments.files.type', 'beast2Configuration');
+		.eq('experiments.files.type', 'beast2Configuration')
+		.order("year", { ascending: false });
 
 	if (!data.data || data.data.length === 0) return [];
 
