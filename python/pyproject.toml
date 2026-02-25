@@ -26,10 +26,10 @@ requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.sdist]
-artifacts = [".streamlit"]
+artifacts = [".streamlit", "phylodata/process/data"]
 
 [tool.hatch.build.targets.wheel]
-artifacts = [".streamlit"]
+artifacts = [".streamlit", "phylodata/process/data"]
 
 [project.scripts]
 phylodata = "phylodata.main:cli"
