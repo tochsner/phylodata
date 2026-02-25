@@ -14,7 +14,7 @@ class Beast2PackageParser(ABC):
 
     def is_used(self, beast2_xml: ElementTree) -> bool:
         """Returns true if the package is detected in the given BEAST2 xml.
-        Checks the top-level namespaces and the spec attribute of all elements."""
+        Checks the top-level namespaces, the required packages, and the spec attribute of all elements."""
         root = beast2_xml.getroot()
         if root is None:
             return False
@@ -27,9 +27,22 @@ class Beast2PackageParser(ABC):
         package_namespace = self.get_namespace()
 
         if namespaces and any(
-            namespace == package_namespace
-            or namespace.startswith(f"{package_namespace}.")
+            namespace.strip() == package_namespace
+            or namespace.strip().startswith(f"{package_namespace}.")
             for namespace in namespaces
+        ):
+            return True
+
+        # check required packages
+
+        package_name = self.get_name()
+
+        required_packages = get_attribute(root, "required", "")
+        required_packages = required_packages.split(":")
+
+        if required_packages and any(
+            package_version_str.strip().startswith(f"{package_name}" )
+            for package_version_str in required_packages
         ):
             return True
 

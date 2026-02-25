@@ -170,3 +170,31 @@ def test_detect_babel_in_map(babel_model):
     assert model
     assert len(model) == 1
     assert model[0].name == "Babel"
+
+def test_detect_babel_in_required(babel_model):
+    file = to_bytes_io("""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <beast namespace="beast.core" required="BEAST.base v2.7.7:Babel v1.1.7 : BDMM v1.0.0" version="2.7">
+        <data></data>
+        <run>
+            <distribution
+                    id="treeLikelihood.ringe"
+                    spec="ALSTreeLikelihood"
+                    tree="@Tree.t:ringe"
+                    useAmbiguities="true"
+                >
+                <observationprocess
+                        id="AnyTipObservationProcess.0"
+                        spec="AnyTipObservationProcess"
+                        integrateGainRate="true"
+                        mu="@deathRate.SDollo"
+                        tree="@Tree.t:ringe"
+                    >
+                </observationprocess>
+            </distribution>
+        </run>
+    </beast>""")
+    model = parse_evolutionary_model(file)
+
+    assert model
+    assert len(model) == 1
+    assert model[0].name == "Babel"
