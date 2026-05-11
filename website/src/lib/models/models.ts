@@ -398,7 +398,7 @@ export const MODELS: Model[] = [
 	},
 	{
 		software: 'beast2',
-		name: 'sampled-ancestors',
+		name: 'SA',
 		authors: ['Alexandra Gavryushkina', 'David Welch', 'Tanja Stadler', 'Alexei J. Drummond'],
 		shortDescription: 'Use the birth-death skyline model with sampled ancestors.',
 		tags: ['Sampled Ancestors'],
